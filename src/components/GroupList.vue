@@ -1,6 +1,5 @@
 <template>
     <section class="content">
-
         <h1>Group List</h1>
         <table class="table table-striped">
             <thead>
@@ -30,7 +29,9 @@
                 <td>{{group.throttle.remaining}} / {{ group.throttle.count }}</td>
                 <td>
                     <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                        <button type="button" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add</button>
+                        <button type="button" class="btn btn-primary">
+                            <i class="glyphicon glyphicon-plus"></i> Add
+                        </button>
                     </div>
                 </td>
             </tr>

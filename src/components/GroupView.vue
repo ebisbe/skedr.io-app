@@ -5,14 +5,12 @@
             <p v-html="group.description._content"></p>
         </div>
         <div class="row" v-if="relatedPhotos">
-            <div class="col-xs-6 col-md-3" v-for="photo in relatedPhotos.photo">
-                <a href="#" class="thumbnail">
-                    <photo :photo="photo" size="n"></photo>
-                    <div class="caption">
-                        <h3 v-html="photo.title"></h3>
-                    </div>
-                </a>
-            </div>
+            <photo
+                    v-for="photo in relatedPhotos.photo"
+                    :photo="photo"
+                    size="n"
+                    :key="photo.nsid"
+            ></photo>
         </div>
     </section>
 </template>

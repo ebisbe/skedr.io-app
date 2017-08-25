@@ -18,7 +18,7 @@
                 <td><img
                         :src="'http://farm'+group.iconfarm+'.staticflickr.com/'+group.iconserver+'/buddyicons/'+group.nsid+'.jpg'"
                         alt=""
-                        class="img-circle"
+                        class="rounded"
                 ></td>
                 <td>
                     <router-link :to="{ name: 'GroupView', params: { group_id: group.nsid }}" exact v-html="group.name">
@@ -29,9 +29,7 @@
                 <td>{{group.throttle.remaining}} / {{ group.throttle.count }}</td>
                 <td>
                     <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                        <button type="button" class="btn btn-primary">
-                            <i class="glyphicon glyphicon-plus"></i> Add
-                        </button>
+                        <button type="button" class="btn btn-primary">Add</button>
                     </div>
                 </td>
             </tr>

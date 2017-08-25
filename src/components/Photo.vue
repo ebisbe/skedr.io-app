@@ -1,16 +1,17 @@
 <template>
-    <!-- <a :href="urlPhoto" @click="trackEvent(photo.title)" :class="classAtt"
-        data-position="bottom">-->
-    <img :src="urlPhoto" :alt="photo.title" class="img-responsive"/>
-    <!--</a>-->
+    <b-card :title="photo.title"
+            :img-src="urlPhoto"
+            img-alt="photo.title"
+            img-top
+            tag="article"
+            style="max-width: 20rem;"
+            class="mb-2">
+    </b-card>
 </template>
 <script>
   export default {
     props: ['photo', 'size'],
     methods: {
-      trackEvent: function (name) {
-        // this.$ua.trackEvent('gallery-photo', 'click', name)
-      }
     },
     computed: {
       urlPhoto: function () {

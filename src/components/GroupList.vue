@@ -1,8 +1,8 @@
 <template>
-    <section class="content">
+    <div class="col">
         <h1>Group List</h1>
-        <table class="table table-striped">
-            <thead>
+        <table class="table table-responsive table-hover">
+            <thead class="thead-inverse">
             <tr>
                 <th>Logo</th>
                 <th>Name</th>
@@ -29,13 +29,14 @@
                 <td>{{group.throttle.remaining}} / {{ group.throttle.count }}</td>
                 <td>
                     <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                        <button type="button" class="btn btn-primary">Add</button>
                     </div>
                 </td>
             </tr>
             </tbody>
         </table>
-    </section>
+
+
+    </div>
 </template>
 <script>
   export default {

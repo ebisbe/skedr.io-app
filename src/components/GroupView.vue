@@ -4,22 +4,19 @@
             <h1 v-html="title"></h1>
             <p v-html="group.description._content"></p>
         </div>
-        <div class="row" v-if="relatedPhotos">
+        <b-card-group columns v-if="relatedPhotos">
             <photo
                     v-for="photo in relatedPhotos.photo"
                     :photo="photo"
                     size="n"
                     :key="photo.nsid"
             ></photo>
-        </div>
+        </b-card-group>
     </section>
 </template>
 <script>
-  import Photo from './Photo.vue'
-
   export default {
     name: 'GroupView',
-    components: {Photo},
     data () {
       return {
         group: null,

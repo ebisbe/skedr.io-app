@@ -15,6 +15,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.config.productionTip = false
 
+import Photo from './components/Photo.vue'
+
+Vue.component('photo', Photo)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

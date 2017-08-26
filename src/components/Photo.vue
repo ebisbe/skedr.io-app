@@ -1,24 +1,48 @@
 <template>
-    <b-card :title="photo.title"
-            :img-src="urlPhoto"
+    <b-card :footer="photo.title"
+            :img-src="urlPhoto(photo)"
             img-alt="photo.title"
+            no-body
             img-top
-            tag="article"
-            style="max-width: 20rem;"
+            :bg-variant="variant"
+            @click="choosePhoto()"
+            footer-tag="footer"
             class="mb-2">
     </b-card>
 </template>
 <script>
+  import { urlPhoto } from '../mixins/urlPhoto.js'
+
   export default {
-    props: ['photo', 'size'],
+    name: 'Photo',
+    mixins: [urlPhoto],
+    props: {
+      photo: Object,
+      size: String,
+      selectable: {
+        type: Boolean,
+        default: false
+      }
+    },
+    data () {
+      return {
+        selected: false
+      }
+    },
     methods: {
+      choosePhoto () {
+        if (this.selectable) {
+          this.selected = this.selected !== true
+          this.$emit('selected', this.photo, this.selected)
+        }
+      }
     },
     computed: {
-      urlPhoto: function () {
-        return 'https://farm' + this.photo.farm + '.staticflickr.com/' + this.photo.server + '/' + this.photo.id + '_' + this.photo.secret + '_' + this.size + '.jpg'
-      },
-      classAtt: function () {
+      classAtt () {
         return 'image filtered ' + this.classSpan
+      },
+      variant () {
+        return this.selected ? 'success' : ''
       }
     }
   }

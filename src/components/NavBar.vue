@@ -14,7 +14,6 @@
 
             <!-- Right aligned nav items -->
             <b-nav is-nav-bar class="ml-auto">
-                <b-btn v-b-modal.addToPool size="sm" variant="primary">Add photos to pool</b-btn>
 
                 <b-nav-item-dropdown :text="txtPool" v-if="pool.length" right>
                     <b-dropdown-item
@@ -23,6 +22,12 @@
                             v-html="thumbnail(photo)"
                             :key="photo.id"
                     ></b-dropdown-item>
+                    <b-dropdown-divider></b-dropdown-divider>
+                    <b-dropdown-item-button
+                            size="sm"
+                            variant="danger"
+                            @click="clearPool">Clear pool
+                    </b-dropdown-item-button>
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown :text="txtPool" right v-else>
                     <b-dropdown-item>Empty pool</b-dropdown-item>
@@ -37,7 +42,9 @@
                     <b-dropdown-item href="#">Signout</b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-nav>
-
+            <b-nav-form>
+                <b-btn v-b-modal.addToPool size="sm" variant="primary">Add photos to pool</b-btn>
+            </b-nav-form>
         </b-collapse>
 
         <b-modal id="addToPool"
@@ -89,7 +96,13 @@
         text: '',
         pool: [],
         photosResult: [],
-        size: 'm'
+        size: 's'
+      }
+    },
+    created () {
+      let photos = localStorage.getObject('pool.photos')
+      if (photos !== null) {
+        this.pool = photos
       }
     },
     methods: {
@@ -100,6 +113,11 @@
         } else {
           this.pool = _.filter(this.pool, function (o) { return o.id !== photo.id })
         }
+        localStorage.setObject('pool.photos', this.pool)
+      },
+      clearPool () {
+        this.pool = []
+        localStorage.setObject('pool.photos', [])
       },
       handleSubmit () {
         this.axios

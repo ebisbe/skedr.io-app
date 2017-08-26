@@ -19,6 +19,15 @@ import Photo from './components/Photo.vue'
 
 Vue.component('photo', Photo)
 
+Storage.prototype.setObject = function (key, value) {
+  this.setItem(key, JSON.stringify(value))
+}
+
+Storage.prototype.getObject = function (key) {
+  let value = this.getItem(key)
+  return value && JSON.parse(value)
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

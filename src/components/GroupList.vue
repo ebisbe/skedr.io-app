@@ -1,68 +1,85 @@
 <template>
     <div class="col">
         <h1>Group List</h1>
-        <table class="table table-responsive table-hover">
-            <thead class="thead-inverse">
-            <tr>
-                <th>Logo</th>
-                <th>Name</th>
-                <th>Members</th>
-                <th>Pool count</th>
-                <th>Mode</th>
-                <th>Remaining</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="group in groups">
-                <td><img
-                        :src="'http://farm'+group.iconfarm+'.staticflickr.com/'+group.iconserver+'/buddyicons/'+group.nsid+'.jpg'"
-                        alt=""
-                        class="rounded"
-                ></td>
-                <td>
-                    <router-link :to="{ name: 'GroupView', params: { group_id: group.nsid }}" exact v-html="group.name">
-                    </router-link>
-                <td>{{group.members}}</td>
-                <td>{{group.pool_count}}</td>
-                <td>{{group.throttle.mode}}</td>
-                <td>{{group.throttle.remaining}} / {{ group.throttle.count }}</td>
-                <td>
-                    <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-
+        <div class="my-1 row">
+            <div class="col-md-6">
+                <b-form-fieldset horizontal label="Filter" :label-cols="3">
+                    <b-form-input v-model="filter" placeholder="Type to Search"/>
+                </b-form-fieldset>
+            </div>
+        </div>
+        <b-table striped hover show-empty
+                 :items="myProvider"
+                 :fields="fields"
+                 :current-page="currentPage"
+                 :per-page="perPage"
+                 :filter="filter"
+                 :sort-by.sync="sortBy"
+                 :sort-desc.sync="sortDesc"
+                 no-provider-sorting
+                 no-provider-paging
+                 no-provider-filtering
+                 @filtered="onFiltered"
+        >
+            <template slot="logo" scope="row">
+                <img :src="urlGroup(row.item)" alt="" class="rounded">
+            </template>
+            <template slot="mode" scope="row">{{ row.item.throttle.mode }}</template>
+            <template slot="throttle" scope="row">{{row.value.remaining}} / {{ row.value.count }}</template>
+            <template slot="actions" scope="row">
+                <!-- We use click.stop here to prevent a 'row-clicked' event from also happening -->
+                <b-btn size="sm">Select</b-btn>
+            </template>
+        </b-table>
+        <div class="col-sm-8">
+            <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage"/>
+        </div>
     </div>
 </template>
 <script>
+  import { url } from '../mixins/urlPhoto.js'
+
   export default {
     name: 'Group',
+    mixins: [url],
     data () {
       return {
-        groups: []
+        currentPage: 1,
+        perPage: 10,
+        sortBy: null,
+        totalRows: 0,
+        sortDesc: false,
+        filter: '',
+        fields: {
+          logo: {label: 'Logo', sortable: false},
+          name: {label: 'Name', sortable: true},
+          members: {label: 'Members', sortable: true, class: 'text-center'},
+          pool_count: {label: 'Photos', sortable: true, class: 'text-center'},
+          throttle: {label: 'Remaining', sortable: false, class: 'text-center'},
+          mode: {label: 'Mode', sortable: false, class: 'text-center'},
+          actions: {label: 'Actions'}
+        }
       }
     },
     watch: {
       // call again the method if the route changes
       '$route': 'fetchData'
     },
-    created () {
-      this.fetchData()
-    },
     methods: {
-      fetchData: function () {
-        this.axios
-          .get('groups')
+      myProvider: function (ctx, callback) {
+        this.axios.get('groups')
           .then((response) => {
-            this.groups = response.data
+            this.totalRows = response.data.length
+            callback(response.data)
           })
           .catch(function (error) {
             console.log(error)
           })
+      },
+      onFiltered (filteredItems) {
+        // Trigger pagination to update the number of buttons/pages due to filtering
+        this.totalRows = filteredItems.length
+        this.currentPage = 1
       }
     }
   }

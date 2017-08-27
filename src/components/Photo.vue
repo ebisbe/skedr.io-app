@@ -11,11 +11,11 @@
     </b-card>
 </template>
 <script>
-  import { urlPhoto } from '../mixins/urlPhoto.js'
+  import { url } from '../mixins/urlPhoto.js'
 
   export default {
     name: 'Photo',
-    mixins: [urlPhoto],
+    mixins: [url],
     props: {
       photo: Object,
       size: String,

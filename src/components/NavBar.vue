@@ -86,11 +86,11 @@
 </template>
 <script>
   let _ = require('lodash')
-  import { urlPhoto } from '../mixins/urlPhoto.js'
+  import { url } from '../mixins/urlPhoto.js'
 
   export default {
     name: 'NavBar',
-    mixins: [urlPhoto],
+    mixins: [url],
     data () {
       return {
         text: '',

@@ -6,8 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    pool: [],
-    poolVisible: false
+    pool: []
   },
   mutations: {
     loadPool (state, payload) {
@@ -29,9 +28,6 @@ export default new Vuex.Store({
     clearPool (state) {
       state.pool = []
       localStorage.setObject('pool.photos', [])
-    },
-    togglePoolVisibility (state) {
-      state.poolVisible = !state.poolVisible
     }
   }
 })

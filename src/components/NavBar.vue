@@ -15,7 +15,7 @@
             <!-- Right aligned nav items -->
             <b-nav is-nav-bar class="ml-auto">
 
-                <b-nav-item @click="togglePoolVisibility">{{ txtPool }}</b-nav-item>
+                <b-nav-item v-b-toggle.pool >Pool <span class="badge badge-secondary">{{ poolLength }}</span></b-nav-item>
 
                 <b-nav-item-dropdown right>
                     <!-- Using button-content slot -->
@@ -78,15 +78,11 @@
       },
       addToPool (photo, selected) {
         this.$store.commit('addToPool', {photo: photo, add: selected})
-        this.poolVisible = true
-      },
-      togglePoolVisibility () {
-        this.$store.commit('togglePoolVisibility')
       }
     },
     computed: {
-      txtPool () {
-        return 'Pool (' + this.$store.state.pool.length + ')'
+      poolLength () {
+        return this.$store.state.pool.length
       }
     }
   }

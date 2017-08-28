@@ -1,14 +1,16 @@
 <template>
-    <div class="pool border"
-         v-if="visible">
-        <img
-                v-for="photo in $store.state.pool"
-                :key="photo.nsid"
-                class="img-thumbnail my-2 mx-1"
-                :src="urlPhoto(photo)"
-                @click="removeFromPool(photo)"
-        >
-    </div>
+    <b-collapse id="pool" class="pool">
+        <b-card>
+            <img
+                    v-for="photo in $store.state.pool"
+                    :key="photo.nsid"
+                    class="img-thumbnail mr-2"
+                    :src="urlPhoto(photo)"
+                    @click="removeFromPool(photo)"
+            >
+            <span v-if="!$store.state.pool.length">The pool is empty. Add some images.</span>
+        </b-card>
+    </b-collapse>
 </template>
 <script>
   import { url } from '../mixins/urlPhoto.js'
@@ -28,18 +30,12 @@
       thumbnail (photo) {
         return '<img src="' + this.urlPhoto(photo) + '" alt=' + photo.title + '">'
       }
-    },
-    computed: {
-      visible () {
-        return this.$store.state.poolVisible
-      }
     }
   }
 </script>
 <style>
-    .pool {
-        width: auto;
-        overflow-x: scroll;
+    .pool .card-body {
+        overflow-x: auto;
         overflow-y: hidden;
         white-space: nowrap;
     }

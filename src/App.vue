@@ -1,10 +1,8 @@
 <template>
-    <div>
+    <div class="container-fluid">
         <nav-bar></nav-bar>
         <pool></pool>
-        <div class="container">
-            <router-view></router-view>
-        </div>
+        <router-view></router-view>
     </div>
 </template>
 

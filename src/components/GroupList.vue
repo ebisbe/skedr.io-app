@@ -19,6 +19,7 @@
                  no-provider-sorting
                  no-provider-paging
                  no-provider-filtering
+                 responsive
                  @filtered="onFiltered"
         >
             <template slot="logo" scope="row">
@@ -50,10 +51,10 @@
         sortDesc: false,
         filter: '',
         fields: {
-          logo: {label: 'Logo', sortable: false},
+          logo: {label: 'Logo', sortable: false, class: 'd-md-table-cell d-none'},
           name: {label: 'Name', sortable: true},
-          members: {label: 'Members', sortable: true, class: 'text-center'},
-          pool_count: {label: 'Photos', sortable: true, class: 'text-center'},
+          members: {label: 'Members', sortable: true, class: 'text-center d-none d-md-table-cell'},
+          pool_count: {label: 'Photos', sortable: true, class: 'text-center d-none d-md-table-cell'},
           throttle: {label: 'Remaining', sortable: false, class: 'text-center'},
           mode: {label: 'Mode', sortable: false, class: 'text-center'},
           actions: {label: 'Actions'}

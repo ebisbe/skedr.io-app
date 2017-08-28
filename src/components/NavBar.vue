@@ -47,7 +47,7 @@
                             v-for="photo in photosResult.photo"
                             :photo="photo"
                             size="n"
-                            :key="photo.nsid"
+                            :key="photo.id"
                             selectable
                             @selected="addToPool"
                     ></photo>

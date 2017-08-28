@@ -53,18 +53,6 @@
                                 @selected="addToPool"
                         ></photo>
                     </b-card-group>
-                    <div v-if="pool.length">
-                        <hr>
-                        <h2>Selected photos</h2>
-                        <b-card-group columns>
-                            <photo
-                                    v-for="photo in pool"
-                                    :photo="photo"
-                                    size="n"
-                                    :key="photo.nsid"
-                            ></photo>
-                        </b-card-group>
-                    </div>
                 </form>
             </b-modal>
         </b-navbar>
@@ -72,17 +60,16 @@
         <div class="pool border"
              v-if="poolVisible">
             <img
-                    v-for="photo in pool"
+                    v-for="photo in $store.state.pool"
                     :key="photo.nsid"
                     class="img-thumbnail my-2 mx-1"
                     :src="urlPhoto(photo)"
-                    @dblclick="addToPool(photo,false)"
+                    @click="removeFromPool(photo)"
             >
         </div>
     </div>
 </template>
 <script>
-  let _ = require('lodash')
   import { url } from '../mixins/urlPhoto.js'
 
   export default {
@@ -91,33 +78,12 @@
     data () {
       return {
         text: '',
-        pool: [],
         photosResult: [],
         size: 's',
         poolVisible: false
       }
     },
-    created () {
-      let photos = localStorage.getObject('pool.photos')
-      if (photos !== null) {
-        this.pool = photos
-      }
-    },
     methods: {
-      addToPool (photo, add) {
-        if (add) {
-          this.pool.unshift(photo)
-          this.pool = _.uniq(this.pool)
-          this.poolVisible = true
-        } else {
-          this.pool = _.filter(this.pool, function (o) { return o.id !== photo.id })
-        }
-        localStorage.setObject('pool.photos', this.pool)
-      },
-      clearPool () {
-        this.pool = []
-        localStorage.setObject('pool.photos', [])
-      },
       handleSubmit () {
         this.axios
           .post('my-photos', {text: this.text})
@@ -130,11 +96,18 @@
       },
       thumbnail (photo) {
         return '<img src="' + this.urlPhoto(photo) + '" alt=' + photo.title + '">'
+      },
+      addToPool (photo, selected) {
+        this.$store.commit('addToPool', {photo: photo, add: selected})
+        this.poolVisible = true
+      },
+      removeFromPool (photo) {
+        this.$store.commit('removeFromPool', {photo: photo})
       }
     },
     computed: {
       txtPool () {
-        return 'Pool (' + this.pool.length + ')'
+        return 'Pool (' + this.$store.state.pool.length + ')'
       }
     }
   }

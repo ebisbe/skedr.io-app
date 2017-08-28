@@ -6,17 +6,15 @@ import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import Photo from './components/Photo.vue'
+import store from './store'
 
 axios.defaults.baseURL = 'http://localhost:3000/'
 Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-
 Vue.config.productionTip = false
-
-import Photo from './components/Photo.vue'
-
 Vue.component('photo', Photo)
 
 Storage.prototype.setObject = function (key, value) {
@@ -32,6 +30,15 @@ Storage.prototype.getObject = function (key) {
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
-  components: {App}
+  components: {App},
+  created () {
+    let photos = localStorage.getObject('pool.photos')
+    if (photos !== null) {
+      store.commit('loadPool', {
+        photos: photos
+      })
+    }
+  }
 })

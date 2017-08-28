@@ -27,8 +27,7 @@
             <template slot="mode" scope="row">{{ row.item.throttle.mode }}</template>
             <template slot="throttle" scope="row">{{row.value.remaining}} / {{ row.value.count }}</template>
             <template slot="actions" scope="row">
-                <!-- We use click.stop here to prevent a 'row-clicked' event from also happening -->
-                <b-btn size="sm">Select</b-btn>
+                <b-btn size="sm">Add Pool</b-btn>
             </template>
         </b-table>
         <div class="col-sm-8">

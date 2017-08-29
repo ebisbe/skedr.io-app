@@ -26,17 +26,17 @@ Storage.prototype.getObject = function (key) {
   return value && JSON.parse(value)
 }
 
-router
-  .beforeEach((to, from, next) => {
-    if (!store.state.token) {
-      store.state.token = localStorage.getItem('token')
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (localStorage.getItem('token') === '') {
+      next({
+        path: '/login',
+        query: {redirect: to.fullPath}
+      })
     }
-    if (store.state.token || to.path === '/login') {
-      next()
-    } else {
-      next('/login')
-    }
-  })
+  }
+  next()
+})
 
 /* eslint-disable no-new */
 new Vue({
@@ -52,5 +52,6 @@ new Vue({
         photos: photos
       })
     }
+    this.$store.state.token = localStorage.getItem('token')
   }
 })

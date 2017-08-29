@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <nav-bar></nav-bar>
         <router-view></router-view>
     </div>
@@ -15,6 +15,7 @@
 </script>
 <style>
     body {
-        padding-top: 5rem;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
     }
 </style>

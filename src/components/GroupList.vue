@@ -1,5 +1,5 @@
 <template>
-    <div class="col">
+    <div class="container">
         <pool></pool>
         <h1>Group List</h1>
         <div class="my-1 row">
@@ -25,6 +25,9 @@
         >
             <template slot="logo" scope="row">
                 <img :src="urlGroup(row.item)" alt="" class="rounded">
+            </template>
+            <template slot="name" scope="row">
+                <router-link :to="'/groups/'+ row.item.nsid">{{ row.value }}</router-link>
             </template>
             <template slot="mode" scope="row">{{ row.item.throttle.mode }}</template>
             <template slot="throttle" scope="row">{{row.value.remaining}} / {{ row.value.count }}</template>
@@ -99,3 +102,8 @@
     }
   }
 </script>
+<style>
+    .container {
+        margin-top: 2rem;
+    }
+</style>

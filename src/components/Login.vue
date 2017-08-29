@@ -39,9 +39,6 @@
         error: ''
       }
     },
-    destroyed () {
-      localStorage.setItem('token', this.$store.state.token)
-    },
     methods: {
       login () {
         const userPool = new CognitoUserPool({
@@ -66,6 +63,7 @@
       async handle () {
         try {
           this.$store.state.token = await this.login()
+          localStorage.setItem('token', this.$store.state.token)
           this.$router.push({name: 'Group'})
         } catch (e) {
           console.log(e)

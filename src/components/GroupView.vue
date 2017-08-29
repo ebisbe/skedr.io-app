@@ -1,5 +1,6 @@
 <template>
-    <section class="content">
+    <div class="container">
+
         <div class="row" v-if="group">
             <h1 v-html="title"></h1>
             <p v-html="group.description._content"></p>
@@ -12,7 +13,7 @@
                     :key="photo.nsid"
             ></photo>
         </b-card-group>
-    </section>
+    </div>
 </template>
 <script>
   export default {

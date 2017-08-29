@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import GroupList from '../components/GroupList.vue'
 import GroupView from '../components/GroupView.vue'
 import Login from '../components/Login.vue'
+import Home from '../components/Home.vue'
 
 Vue.use(Router)
 
@@ -11,13 +12,20 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'Home',
+      component: Home
+    },
+    {
+      path: '/groups',
       name: 'Group',
-      component: GroupList
+      component: GroupList,
+      meta: { requiresAuth: true }
     },
     {
       path: '/groups/:group_id',
       name: 'GroupView',
-      component: GroupView
+      component: GroupView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/login',

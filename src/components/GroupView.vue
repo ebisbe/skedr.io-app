@@ -5,14 +5,16 @@
             <h1 v-html="title"></h1>
             <p v-html="group.description._content"></p>
         </div>
-        <b-card-group columns v-if="relatedPhotos">
-            <photo
-                    v-for="photo in relatedPhotos.photo"
-                    :photo="photo"
-                    size="n"
-                    :key="photo.nsid"
-            ></photo>
-        </b-card-group>
+        <b-card>
+            <b-card-group columns v-if="relatedPhotos">
+                <photo
+                        v-for="photo in relatedPhotos.photo"
+                        :photo="photo"
+                        size="n"
+                        :key="photo.nsid"
+                ></photo>
+            </b-card-group>
+        </b-card>
     </div>
 </template>
 <script>

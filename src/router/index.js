@@ -4,6 +4,7 @@ import GroupList from '../components/GroupList.vue'
 import GroupView from '../components/GroupView.vue'
 import Login from '../components/Login.vue'
 import Home from '../components/Home.vue'
+import Signup from '../components/Signup.vue'
 
 Vue.use(Router)
 
@@ -31,6 +32,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/signup',
+      name: 'Signup',
+      component: Signup
     }
   ]
 })

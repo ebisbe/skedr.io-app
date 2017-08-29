@@ -3,14 +3,14 @@
     <form class="form-signin" @submit.prevent="handle">
         <h2 class="form-signin-heading">Please sign in</h2>
 
-        <label for="inputEmail" class="sr-only">Email address</label>
+        <label for="inputEmail" >Email address</label>
         <input type="email" v-model="username"
                id="inputEmail"
                class="form-control"
                placeholder="Email address"
                required autofocus>
 
-        <label for="inputPassword" class="sr-only">Password</label>
+        <label for="inputPassword" >Password</label>
         <input type="password" v-model="password"
                id="inputPassword" class="form-control" placeholder="Password" required>
 

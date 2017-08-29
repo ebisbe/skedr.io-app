@@ -5,26 +5,15 @@
 
         <b-navbar-brand href="/">PhotoPool</b-navbar-brand>
 
-        <b-collapse is-nav id="nav_collapse">
-
+        <b-collapse is-nav id="nav_collapse" v-if="isLogged">
             <b-nav is-nav-bar>
-                <b-nav-item href="/login">Login</b-nav-item>
-                <b-nav-item href="#" disabled>Disabled</b-nav-item>
+                <b-nav-item @click.stop.prevent="logout">Logout</b-nav-item>
             </b-nav>
 
             <!-- Right aligned nav items -->
             <b-nav is-nav-bar class="ml-auto">
-
-                <b-nav-item v-b-toggle.pool >Pool <span class="badge badge-secondary">{{ poolLength }}</span></b-nav-item>
-
-                <b-nav-item-dropdown right>
-                    <!-- Using button-content slot -->
-                    <template slot="button-content">
-                        <em>User</em>
-                    </template>
-                    <b-dropdown-item href="#">Profile</b-dropdown-item>
-                    <b-dropdown-item href="#">Signout</b-dropdown-item>
-                </b-nav-item-dropdown>
+                <b-nav-item v-b-toggle.pool>Pool <span class="badge badge-secondary">{{ poolLength }}</span>
+                </b-nav-item>
             </b-nav>
             <b-nav-form>
                 <b-btn v-b-modal.addToPool size="sm" variant="primary">Add photos to pool</b-btn>
@@ -76,6 +65,11 @@
             console.log(error)
           })
       },
+      logout () {
+        this.$store.state.token = ''
+        localStorage.setItem('token', '')
+        this.$router.push({name: 'Login'})
+      },
       addToPool (photo, selected) {
         this.$store.commit('addToPool', {photo: photo, add: selected})
       }
@@ -83,7 +77,11 @@
     computed: {
       poolLength () {
         return this.$store.state.pool.length
+      },
+      isLogged () {
+        return this.$store.state.token !== ''
       }
     }
   }
 </script>
+},

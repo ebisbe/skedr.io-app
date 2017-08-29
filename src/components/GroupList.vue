@@ -1,5 +1,6 @@
 <template>
     <div class="col">
+        <pool></pool>
         <h1>Group List</h1>
         <div class="my-1 row">
             <div class="col-md-6">
@@ -39,9 +40,11 @@
 <script>
   import { url } from '../mixins/urlPhoto.js'
   import _ from 'lodash'
+  import Pool from '../components/Pool.vue'
 
   export default {
     name: 'Group',
+    components: {Pool},
     mixins: [url],
     data () {
       return {

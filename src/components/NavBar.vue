@@ -3,12 +3,12 @@
 
         <b-nav-toggle target="nav_collapse"></b-nav-toggle>
 
-        <b-navbar-brand href="#">PhotoPool</b-navbar-brand>
+        <b-navbar-brand href="/">PhotoPool</b-navbar-brand>
 
         <b-collapse is-nav id="nav_collapse">
 
             <b-nav is-nav-bar>
-                <b-nav-item href="#">Link</b-nav-item>
+                <b-nav-item href="/login">Login</b-nav-item>
                 <b-nav-item href="#" disabled>Disabled</b-nav-item>
             </b-nav>
 

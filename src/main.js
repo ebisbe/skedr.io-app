@@ -26,6 +26,15 @@ Storage.prototype.getObject = function (key) {
   return value && JSON.parse(value)
 }
 
+router
+  .beforeEach((to, from, next) => {
+    if (store.state.token || to.path === '/login') {
+      next()
+    } else {
+      next('/login')
+    }
+  })
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

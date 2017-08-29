@@ -28,7 +28,7 @@
             <template slot="mode" scope="row">{{ row.item.throttle.mode }}</template>
             <template slot="throttle" scope="row">{{row.value.remaining}} / {{ row.value.count }}</template>
             <template slot="actions" scope="row">
-                <b-btn size="sm">Add Pool</b-btn>
+                <b-btn @click.stop="addToPool(row.item,row.index,$event.target)" size="sm">Add Pool</b-btn>
             </template>
         </b-table>
         <div class="col-sm-8">
@@ -38,6 +38,7 @@
 </template>
 <script>
   import { url } from '../mixins/urlPhoto.js'
+  import _ from 'lodash'
 
   export default {
     name: 'Group',
@@ -75,6 +76,17 @@
           .catch(function (error) {
             console.log(error)
           })
+      },
+      addToPool (item, index, button) {
+        let axios = this.axios
+        _.each(this.$store.state.pool, function (photo) {
+          axios.post('pool', {
+            groupId: item.nsid,
+            photoId: photo.id
+          }).then((response) => {
+            console.log(response)
+          })
+        })
       },
       onFiltered (filteredItems) {
         // Trigger pagination to update the number of buttons/pages due to filtering

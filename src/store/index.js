@@ -6,7 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    pool: []
+    pool: [],
+    token: ''
   },
   mutations: {
     loadPool (state, payload) {

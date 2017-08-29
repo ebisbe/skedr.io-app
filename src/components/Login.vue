@@ -39,6 +39,9 @@
         error: ''
       }
     },
+    destroyed () {
+      localStorage.setItem('token', this.$store.state.token)
+    },
     methods: {
       login () {
         const userPool = new CognitoUserPool({

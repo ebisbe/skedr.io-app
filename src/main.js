@@ -28,6 +28,9 @@ Storage.prototype.getObject = function (key) {
 
 router
   .beforeEach((to, from, next) => {
+    if (!store.state.token) {
+      store.state.token = localStorage.getItem('token')
+    }
     if (store.state.token || to.path === '/login') {
       next()
     } else {
@@ -42,7 +45,7 @@ new Vue({
   store,
   template: '<App/>',
   components: {App},
-  created () {
+  beforeCreate () {
     let photos = localStorage.getObject('pool.photos')
     if (photos !== null) {
       store.commit('loadPool', {

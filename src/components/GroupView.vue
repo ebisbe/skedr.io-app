@@ -18,6 +18,8 @@
     </div>
 </template>
 <script>
+  import { getSignedRequest } from '../libs/awsLib'
+
   export default {
     name: 'GroupView',
     data () {
@@ -35,16 +37,14 @@
     },
     methods: {
       fetchData: function () {
-        this.axios
-          .get('groups/' + this.$route.params.group_id)
+        this.axios(getSignedRequest('groups/' + this.$route.params.group_id))
           .then((response) => {
             this.group = response.data
           })
           .catch(function (error) {
             console.log(error)
           })
-        this.axios
-          .get('groups/pool/' + this.$route.params.group_id)
+        this.axios(getSignedRequest('groups/pool/' + this.$route.params.group_id))
           .then((response) => {
             this.relatedPhotos = response.data
           })

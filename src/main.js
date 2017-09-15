@@ -11,7 +11,6 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Photo from './components/Photo.vue'
 import store from './store'
 
-axios.defaults.baseURL = 'http://localhost:3000/'
 Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false

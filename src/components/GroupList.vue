@@ -44,6 +44,9 @@
   import { url } from '../mixins/urlPhoto.js'
   import _ from 'lodash'
   import Pool from '../components/Pool.vue'
+  import aws4 from 'aws41'
+  import AWS from 'aws-sdk'
+  import { authUser } from '../libs/awsLib'
 
   export default {
     name: 'Group',
@@ -70,11 +73,27 @@
     },
     watch: {
       // call again the method if the route changes
-      '$route': 'fetchData'
+      '$route': 'myProvider'
     },
     methods: {
       myProvider: function (ctx, callback) {
-        this.axios.get('groups')
+        authUser()
+
+        let request = {
+          host: 'wqd87xurte.execute-api.eu-west-1.amazonaws.com',
+          method: 'GET',
+          url: 'https://wqd87xurte.execute-api.eu-west-1.amazonaws.com/dev/groups',
+          path: '/dev/groups'
+        }
+        let signedRequest = aws4.sign(request,
+          {
+            secretAccessKey: AWS.config.credentials.secretAccessKey,
+            accessKeyId: AWS.config.credentials.accessKeyId,
+            sessionToken: AWS.config.credentials.sessionToken
+          })
+        delete signedRequest.headers['Host']
+
+        this.axios(signedRequest)
           .then((response) => {
             this.totalRows = response.data.length
             callback(response.data)

@@ -23,12 +23,7 @@
     </form>
 </template>
 <script>
-  import {
-    CognitoUserPool,
-    AuthenticationDetails,
-    CognitoUser
-  } from 'amazon-cognito-identity-js'
-  import config from '../config.js'
+  import { login } from '../libs/awsLib'
 
   export default {
     name: 'Login',
@@ -40,29 +35,9 @@
       }
     },
     methods: {
-      login () {
-        const userPool = new CognitoUserPool({
-          UserPoolId: config.cognito.USER_POOL_ID,
-          ClientId: config.cognito.APP_CLIENT_ID
-        })
-        const authenticationData = {
-          Username: this.username,
-          Password: this.password
-        }
-
-        const user = new CognitoUser({Username: this.username, Pool: userPool})
-        const authenticationDetails = new AuthenticationDetails(authenticationData)
-
-        return new Promise((resolve, reject) => (
-          user.authenticateUser(authenticationDetails, {
-            onSuccess: (result) => resolve(result.getIdToken().getJwtToken()),
-            onFailure: (err) => reject(err)
-          })
-        ))
-      },
       async handle () {
         try {
-          this.$store.state.token = await this.login()
+          this.$store.state.token = await login(this.username, this.password)
           localStorage.setItem('token', this.$store.state.token)
           this.$router.push({name: 'Group'})
         } catch (e) {

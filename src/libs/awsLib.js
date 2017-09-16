@@ -35,16 +35,39 @@ export async function getSignedRequest (path) {
         url: 'https://wqd87xurte.execute-api.eu-west-1.amazonaws.com/dev/' + path,
         path: '/dev/' + path
       }
-      let signedRequest = aws4.sign(request,
-        {
-          secretAccessKey: AWS.config.credentials.secretAccessKey,
-          accessKeyId: AWS.config.credentials.accessKeyId,
-          sessionToken: AWS.config.credentials.sessionToken
-        })
-      delete signedRequest.headers['Host']
-
-      return signedRequest
+      return signedRequest(request)
     })
+}
+
+export async function postSignedRequest (path, data) {
+  return await authUser()
+    .then(function () {
+      path = path.replace('@', '%40')
+      let request = {
+        host: 'wqd87xurte.execute-api.eu-west-1.amazonaws.com',
+        method: 'POST',
+        url: 'https://wqd87xurte.execute-api.eu-west-1.amazonaws.com/dev/' + path,
+        path: '/dev/' + path,
+        data: data,
+        body: JSON.stringify(data),
+        headers: {
+          'content-type': 'application/json'
+        }
+      }
+      return signedRequest(request)
+    })
+}
+
+function signedRequest (request) {
+  let signedRequest = aws4.sign(request,
+    {
+      secretAccessKey: AWS.config.credentials.secretAccessKey,
+      accessKeyId: AWS.config.credentials.accessKeyId,
+      sessionToken: AWS.config.credentials.sessionToken
+    })
+  delete signedRequest.headers['Host']
+
+  return signedRequest
 }
 
 export async function authUser () {

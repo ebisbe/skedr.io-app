@@ -54,6 +54,8 @@
     </b-navbar>
 </template>
 <script>
+  import { postSignedRequest } from '../libs/awsLib'
+
   export default {
     name: 'NavBar',
     data () {
@@ -63,9 +65,8 @@
       }
     },
     methods: {
-      handleSubmit () {
-        this.axios
-          .post('my-photos', {text: this.text})
+      async handleSubmit () {
+        this.axios(await postSignedRequest('my-photos', {text: this.text}))
           .then((response) => {
             this.photosResult = response.data
           })

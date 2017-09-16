@@ -36,15 +36,15 @@
       this.fetchData()
     },
     methods: {
-      fetchData: function () {
-        this.axios(getSignedRequest('groups/' + this.$route.params.group_id))
+      fetchData: async function () {
+        this.axios(await getSignedRequest('groups/' + this.$route.params.group_id))
           .then((response) => {
             this.group = response.data
           })
           .catch(function (error) {
             console.log(error)
           })
-        this.axios(getSignedRequest('groups/pool/' + this.$route.params.group_id))
+        this.axios(await getSignedRequest('groups/pool/' + this.$route.params.group_id))
           .then((response) => {
             this.relatedPhotos = response.data
           })

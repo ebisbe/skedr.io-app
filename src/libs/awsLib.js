@@ -25,24 +25,26 @@ export function login (username, password) {
   ))
 }
 
-export function getSignedRequest (path) {
-  authUser()
-  path = path.replace('@', '%40')
-  let request = {
-    host: 'wqd87xurte.execute-api.eu-west-1.amazonaws.com',
-    method: 'GET',
-    url: 'https://wqd87xurte.execute-api.eu-west-1.amazonaws.com/dev/' + path,
-    path: '/dev/' + path
-  }
-  let signedRequest = aws4.sign(request,
-    {
-      secretAccessKey: AWS.config.credentials.secretAccessKey,
-      accessKeyId: AWS.config.credentials.accessKeyId,
-      sessionToken: AWS.config.credentials.sessionToken
-    })
-  delete signedRequest.headers['Host']
+export async function getSignedRequest (path) {
+  return await authUser()
+    .then(function () {
+      path = path.replace('@', '%40')
+      let request = {
+        host: 'wqd87xurte.execute-api.eu-west-1.amazonaws.com',
+        method: 'GET',
+        url: 'https://wqd87xurte.execute-api.eu-west-1.amazonaws.com/dev/' + path,
+        path: '/dev/' + path
+      }
+      let signedRequest = aws4.sign(request,
+        {
+          secretAccessKey: AWS.config.credentials.secretAccessKey,
+          accessKeyId: AWS.config.credentials.accessKeyId,
+          sessionToken: AWS.config.credentials.sessionToken
+        })
+      delete signedRequest.headers['Host']
 
-  return signedRequest
+      return signedRequest
+    })
 }
 
 export async function authUser () {

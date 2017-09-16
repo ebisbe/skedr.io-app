@@ -74,8 +74,8 @@
       '$route': 'myProvider'
     },
     methods: {
-      myProvider: function (ctx, callback) {
-        this.axios(getSignedRequest('groups'))
+      myProvider: async function (ctx, callback) {
+        this.axios(await getSignedRequest('groups'))
           .then((response) => {
             this.totalRows = response.data.length
             callback(response.data)

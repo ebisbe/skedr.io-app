@@ -44,7 +44,7 @@
   import { url } from '../mixins/urlPhoto.js'
   import _ from 'lodash'
   import Pool from '../components/Pool.vue'
-  import { getSignedRequest } from '../libs/awsLib'
+  import { getSignedRequest, postSignedRequest } from '../libs/awsLib'
 
   export default {
     name: 'Group',
@@ -74,7 +74,7 @@
       '$route': 'myProvider'
     },
     methods: {
-      myProvider: async function (ctx, callback) {
+      async myProvider (ctx, callback) {
         this.axios(await getSignedRequest('groups'))
           .then((response) => {
             this.totalRows = response.data.length
@@ -86,11 +86,13 @@
       },
       addToPool (item, index, button) {
         let axios = this.axios
-        _.each(this.$store.state.pool, function (photo) {
-          axios.post('pool', {
-            groupId: item.nsid,
-            photoId: photo.id
-          }).then((response) => {
+        _.each(this.$store.state.pool, async function (photo) {
+          axios(
+            await postSignedRequest('pool', {
+              groupId: item.nsid,
+              photoId: photo.id
+            })
+          ).then((response) => {
             console.log(response)
           })
         })

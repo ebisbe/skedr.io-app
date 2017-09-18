@@ -76,8 +76,8 @@
           })
       },
       logout () {
-        this.$store.state.token = ''
-        localStorage.setItem('token', '')
+        this.$store.state.token = null
+        localStorage.setItem('token', null)
         this.$router.push({name: 'Login'})
         if (AWS.config.credentials) {
           AWS.config.credentials.clearCachedId()

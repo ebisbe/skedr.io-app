@@ -37,7 +37,8 @@
                    required autofocus>
 
             <div class="checkbox">
-               Once logged you will be redirected to Flickr page to grant permissions.
+                Once logged you will be redirected to Flickr page to grant WRITE permissions to let us post photos in
+                groups.
             </div>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Confirm Code</button>
         </form>
@@ -50,6 +51,7 @@
     CognitoUserAttribute
   } from 'amazon-cognito-identity-js'
   import config from '../config.js'
+  import { getSignedRequest } from '../libs/awsLib'
 
   export default {
     name: 'Signup',
@@ -84,7 +86,10 @@
 
           this.$store.state.token = userToken
           localStorage.setItem('token', userToken)
-          this.$router.push({name: 'Group'})
+          this.axios(await getSignedRequest('oauth'))
+            .then(function (response) {
+              window.location.replace(response.data.url)
+            })
         } catch (e) {
           alert(e)
         }

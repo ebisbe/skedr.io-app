@@ -55,6 +55,7 @@
 </template>
 <script>
   import { postSignedRequest } from '../libs/awsLib'
+  import AWS from 'aws-sdk'
 
   export default {
     name: 'NavBar',
@@ -78,6 +79,10 @@
         this.$store.state.token = ''
         localStorage.setItem('token', '')
         this.$router.push({name: 'Login'})
+        if (AWS.config.credentials) {
+          AWS.config.credentials.clearCachedId()
+          AWS.config.credentials = new AWS.CognitoIdentityCredentials({})
+        }
       },
       addToPool (photo, selected) {
         this.$store.commit('addToPool', {photo: photo, add: selected})

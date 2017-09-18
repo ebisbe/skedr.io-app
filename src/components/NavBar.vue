@@ -93,7 +93,7 @@
         return this.$store.state.pool.length
       },
       isLogged () {
-        return this.$store.state.token !== ''
+        return this.$store.state.token !== '' && this.$store.state.token !== null
       }
     }
   }

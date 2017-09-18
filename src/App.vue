@@ -2,6 +2,13 @@
     <div>
         <nav-bar></nav-bar>
         <router-view></router-view>
+        <notifications
+                group="notifications"
+                :max="3"
+                :duration="5000"
+                position="bottom right"
+                animation-type="velocity"
+                :speed="500"/>
     </div>
 </template>
 

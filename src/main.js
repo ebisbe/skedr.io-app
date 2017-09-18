@@ -10,7 +10,10 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Photo from './components/Photo.vue'
 import store from './store'
+import Notifications from 'vue-notification'
+import velocity from 'velocity-animate'
 
+Vue.use(Notifications, {velocity})
 Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false

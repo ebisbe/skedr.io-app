@@ -86,6 +86,8 @@
       },
       addToPool (item, index, button) {
         let axios = this.axios
+        let notify = this.$notify
+        let that = this
         _.each(this.$store.state.pool, async function (photo) {
           axios(
             await postSignedRequest('pool', {
@@ -94,6 +96,8 @@
             })
           ).then((response) => {
             console.log(response)
+            let message = that.processResponse(response)
+            notify(message)
           })
         })
       },
@@ -101,6 +105,25 @@
         // Trigger pagination to update the number of buttons/pages due to filtering
         this.totalRows = filteredItems.length
         this.currentPage = 1
+      },
+      processResponse (response) {
+        let message = {
+          group: 'notifications'
+        }
+        if (response.data.status) {
+          message.title = 'Success!'
+          message.text = 'Photo added to the group'
+          message.type = 'success'
+        } else if (response.data.code <= 4) {
+          message.title = 'Error!'
+          message.text = response.data.message
+          message.type = 'error'
+        } else {
+          message.title = 'Photo scheduled!'
+          message.text = response.data.message
+          message.type = 'warning'
+        }
+        return message
       }
     }
   }

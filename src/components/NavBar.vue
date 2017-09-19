@@ -67,7 +67,7 @@
     },
     methods: {
       async handleSubmit () {
-        this.axios(await postSignedRequest('my-photos', {text: this.text}))
+        this.axios(await postSignedRequest('search', {text: this.text}))
           .then((response) => {
             this.photosResult = response.data
           })

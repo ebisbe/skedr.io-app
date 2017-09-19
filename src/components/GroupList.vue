@@ -71,7 +71,13 @@
     },
     watch: {
       // call again the method if the route changes
-      '$route': 'myProvider'
+      '$route': 'myProvider',
+      filter: function (filter) {
+        localStorage.setItem('groupFilter', filter)
+      }
+    },
+    mounted () {
+      this.filter = localStorage.getItem('groupFilter')
     },
     methods: {
       async myProvider (ctx, callback) {

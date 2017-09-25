@@ -1,54 +1,61 @@
 <template>
     <div class="container">
         <pool></pool>
-        <h1>Group List</h1>
-        <div class="my-1 row">
-            <div class="col-md-6">
-                <b-form-fieldset horizontal label="Filter" :label-cols="3">
-                    <b-form-input v-model="filter" placeholder="Type to Search"/>
-                </b-form-fieldset>
+        <div class="row">
+            <div class="col-9"><h1>Group List</h1>
+                <div class="my-1 row">
+                    <div class="col-md-6">
+                        <b-form-fieldset horizontal label="Filter" :label-cols="3">
+                            <b-form-input v-model="filter" placeholder="Type to Search"/>
+                        </b-form-fieldset>
+                    </div>
+                </div>
+                <b-table striped hover show-empty
+                         :items="myProvider"
+                         :fields="fields"
+                         :current-page="currentPage"
+                         :per-page="perPage"
+                         :filter="filter"
+                         :sort-by.sync="sortBy"
+                         :sort-desc.sync="sortDesc"
+                         no-provider-sorting
+                         no-provider-paging
+                         no-provider-filtering
+                         responsive
+                         @filtered="onFiltered"
+                >
+                    <template slot="logo" scope="row">
+                        <img :src="urlGroup(row.item)" alt="" class="rounded">
+                    </template>
+                    <template slot="name" scope="row">
+                        <router-link :to="'/groups/'+ row.item.nsid">{{ row.value }}</router-link>
+                    </template>
+                    <template slot="mode" scope="row">{{ row.item.throttle.mode }}</template>
+                    <template slot="throttle" scope="row">{{row.value.remaining}} / {{ row.value.count }}</template>
+                    <template slot="actions" scope="row">
+                        <b-btn @click.stop="addToPool(row.item,row.index,$event.target)" size="sm">Add Pool</b-btn>
+                    </template>
+                </b-table>
+                <div class="col-sm-8">
+                    <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage"/>
+                </div>
             </div>
-        </div>
-        <b-table striped hover show-empty
-                 :items="myProvider"
-                 :fields="fields"
-                 :current-page="currentPage"
-                 :per-page="perPage"
-                 :filter="filter"
-                 :sort-by.sync="sortBy"
-                 :sort-desc.sync="sortDesc"
-                 no-provider-sorting
-                 no-provider-paging
-                 no-provider-filtering
-                 responsive
-                 @filtered="onFiltered"
-        >
-            <template slot="logo" scope="row">
-                <img :src="urlGroup(row.item)" alt="" class="rounded">
-            </template>
-            <template slot="name" scope="row">
-                <router-link :to="'/groups/'+ row.item.nsid">{{ row.value }}</router-link>
-            </template>
-            <template slot="mode" scope="row">{{ row.item.throttle.mode }}</template>
-            <template slot="throttle" scope="row">{{row.value.remaining}} / {{ row.value.count }}</template>
-            <template slot="actions" scope="row">
-                <b-btn @click.stop="addToPool(row.item,row.index,$event.target)" size="sm">Add Pool</b-btn>
-            </template>
-        </b-table>
-        <div class="col-sm-8">
-            <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage"/>
+            <div class="col">
+                <scheduled-list :scheduled="scheduled"></scheduled-list>
+            </div>
         </div>
     </div>
 </template>
 <script>
   import { url } from '../mixins/urlPhoto.js'
   import _ from 'lodash'
+  import ScheduledList from './ScheduledList.vue'
   import Pool from '../components/Pool.vue'
   import { getSignedRequest, postSignedRequest } from '../libs/awsLib'
 
   export default {
     name: 'Group',
-    components: {Pool},
+    components: {Pool, ScheduledList},
     mixins: [url],
     data () {
       return {
@@ -66,7 +73,8 @@
           throttle: {label: 'Remaining', sortable: false, class: 'text-center'},
           mode: {label: 'Mode', sortable: false, class: 'text-center'},
           actions: {label: 'Actions'}
-        }
+        },
+        scheduled: []
       }
     },
     watch: {
@@ -88,6 +96,11 @@
           })
           .catch(function (error) {
             console.log(error)
+          })
+
+        this.axios(await getSignedRequest('scheduled'))
+          .then((response) => {
+            this.scheduled = response.data
           })
       },
       addToPool (item, index, button) {

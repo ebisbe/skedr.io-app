@@ -98,7 +98,8 @@
           axios(
             await postSignedRequest('pool', {
               groupId: item.nsid,
-              photoId: photo.id
+              photoId: photo.id,
+              secret: photo.secret
             })
           ).then((response) => {
             console.log(response)

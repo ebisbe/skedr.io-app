@@ -40,8 +40,8 @@
                     <v-flex xs6 v-for="photo in $store.state.pool" :key="photo.id">
                         <v-card tile>
                             <v-card-media :src="photo.url_m" height="150px">
-                                <v-btn class="gray darken-2" small light
-                                       @click="$store.commit('addToPool', {photo: photo, add: false})">
+                                <v-btn class="gray darken-2" small light fab
+                                       @click.native.stop="$store.commit('addToPool', {photo: photo, add: false})">
                                     <v-icon>close</v-icon>
                                 </v-btn>
                             </v-card-media>

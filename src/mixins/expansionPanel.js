@@ -2,9 +2,7 @@ export const expansionPanel = {
   data () {
     return {
       preventHidden: false,
-      filter: '',
-      selectedGroups: 0,
-      groups: []
+      filter: ''
     }
   },
   watch: {
@@ -25,7 +23,7 @@ export const expansionPanel = {
             group.checked = false
             group.hidden = false
           })
-          this.groups = response.data
+          this.$store.state.groups = response.data
           this.filterGroups()
         })
     },
@@ -48,16 +46,16 @@ export const expansionPanel = {
     checkBoxClick (group) {
       group.checked = !group.checked
       if (group.checked) {
-        this.selectedGroups++
+        this.$store.state.selectedGroups++
         this.preventHidden = true
-        this.groups.forEach(function (group) {
+        this.$store.state.groups.forEach(function (group) {
           group.avatarHidden = true
         })
       } else {
-        this.selectedGroups--
-        if (this.selectedGroups === 0) {
+        this.$store.state.selectedGroups--
+        if (this.$store.state.selectedGroups === 0) {
           this.preventHidden = false
-          this.groups.forEach(function (group) {
+          this.$store.state.groups.forEach(function (group) {
             group.avatarHidden = false
           })
           group.avatarHidden = true
@@ -65,7 +63,7 @@ export const expansionPanel = {
       }
     },
     filterGroups () {
-      this.groups.forEach((group) => {
+      this.$store.state.groups.forEach((group) => {
         group.hidden = !(group.name.toLowerCase().search(this.filter.toLowerCase()) >= 0)
       })
     },
@@ -77,11 +75,6 @@ export const expansionPanel = {
         return '&mdash;'
       }
       return throttle.remaining + '/' + throttle.count
-    }
-  },
-  computed: {
-    addingPhotosToGroup () {
-      return this.selectedGroups > 0
     }
   }
 }

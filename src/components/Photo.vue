@@ -38,11 +38,7 @@
   export default {
     name: 'Photo',
     props: {
-      photo: Object,
-      addingPhotos: {
-        type: Boolean,
-        default: false
-      }
+      photo: Object
     },
     data () {
       return {
@@ -69,7 +65,7 @@
       },
       disabled () {
         let matches = _.find(this.$store.state.pool, {'id': this.photo.id})
-        return this.addingPhotos || (matches !== undefined)
+        return this.$store.state.selectedGroups > 0 || (matches !== undefined)
       }
     }
   }

@@ -7,6 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     pool: [],
+    groups: [],
+    selectedGroups: 0,
     token: ''
   },
   mutations: {

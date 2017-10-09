@@ -90,8 +90,8 @@
 <script>
   import { url } from '../mixins/urlPhoto'
   import { expansionPanel } from '../mixins/expansionPanel'
-  import photo from './Photo'
-  import photoList from './PhotoList'
+  import photo from '../components/Photo'
+  import photoList from '../components/PhotoList'
   import * as _ from 'lodash'
   import * as moment from 'moment'
 

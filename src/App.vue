@@ -7,7 +7,7 @@
             <v-spacer></v-spacer>
             <div v-show="addingPhotosToGroup" class="title">{{ $store.state.selectedGroups }} groups selected</div>
             <v-spacer></v-spacer>
-            <v-toolbar-items>
+            <v-toolbar-items v-show="logged">
                 <v-btn flat
                        @click.stop="rightDrawer = !rightDrawer"
 
@@ -53,6 +53,7 @@
 
         <v-fab-transition>
             <v-btn :class="[activeFab.class]" dark fab bottom right fixed
+                   v-show="logged"
                    :key="activeFab.icon"
                    @click.native.stop="dialog = true"
                    v-tooltip:left="buttonToolTip">
@@ -120,8 +121,17 @@
             </v-card>
         </v-dialog>
 
-        <v-footer>
-            <span>&copy; 2017</span>
+        <v-footer :class="[activeFab.class]">
+            <v-layout row wrap align-center>
+                <v-flex xs12>
+                    <div class="white--text ml-3">
+                        Made with
+                        <v-icon class="red--text">favorite</v-icon>
+                        by <a class="white--text" href="https://vuetifyjs.com" target="_blank">Vuetify</a>
+                        and <a class="white--text" href="https://github.com/vwxyzjn">Costa Huang</a>
+                    </div>
+                </v-flex>
+            </v-layout>
         </v-footer>
     </v-app>
 </template>
@@ -135,6 +145,7 @@
     data () {
       return {
         title: 'Layout',
+        logged: false,
         rightDrawer: false,
         dialog: false,
         photos: [],

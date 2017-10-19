@@ -84,6 +84,75 @@
                 </template>
             </v-list>
         </v-flex>
+        <v-fab-transition>
+            <v-btn :class="[activeFab.class]" dark fab bottom right fixed
+                   :key="activeFab.icon"
+                   @click.native.stop="dialog = true"
+                   v-tooltip:left="buttonToolTip">
+                <v-icon>{{ activeFab.icon }}</v-icon>
+            </v-btn>
+        </v-fab-transition>
+
+        <v-dialog v-model="dialog" :fullscreen="!addingPhotosToGroup" transition="dialog-bottom-transition"
+                  :overlay="false">
+            <v-card :class="{hidden: addingPhotosToGroup}">
+                <v-toolbar dark :class="[activeFab.class, 'lighten-1']">
+                    <v-btn icon @click.native="dialog = false" dark>
+                        <v-icon>close</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>Search photos</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                        <v-btn flat
+                               @click.stop="$store.commit('updateRightDrawer', true)"
+                               class="mr-4 deep-purple ligthen-2"
+                        >
+                            Photo &nbsp;&nbsp;
+                            <v-icon v-badge="{ value: pool.length , overlap:true}">
+                                filter
+                            </v-icon>
+                        </v-btn>
+                        <v-btn dark flat @click.native="dialog = false">Close</v-btn>
+                    </v-toolbar-items>
+                </v-toolbar>
+                <v-card-text>
+                    <v-container grid-list-md>
+                        <v-layout wrap>
+                            <v-flex xs12>
+                                <form @submit.stop.prevent="searchPhotos()">
+                                    <v-text-field label="Text" v-model="photosSearch"></v-text-field>
+                                </form>
+                            </v-flex>
+                            <v-flex v-show="searching" xs12>
+                                <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
+                            </v-flex>
+                            <transition-group name="list" tag="div" class="layout wrap">
+                                <v-flex v-show="!searching" md3 sm4 xs6 v-for="photo in photos" :key="photo.id">
+                                    <photo :photo="photo"></photo>
+                                </v-flex>
+                            </transition-group>
+                        </v-layout>
+                    </v-container>
+                </v-card-text>
+
+            </v-card>
+            <v-card :class="{hidden: !addingPhotosToGroup}">
+                <v-card-title class="headline">Add photos to selected groups?</v-card-title>
+                <v-card-text>
+                    <ul>
+                        <li v-for="group in this.$store.state.groups" v-if="group.checked" v-html="group.name"></li>
+                    </ul>
+                    Confirming will add all the photos to each group and schedule all the ones can not be
+                    added.
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Disagree</v-btn>
+                    <v-btn class="green--text darken-1" flat="flat" @click.native="pushPhotosToGroups()">Agree</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
     </v-layout>
 </template>
 
@@ -94,6 +163,7 @@
   import photoList from '../components/PhotoList'
   import * as _ from 'lodash'
   import * as moment from 'moment'
+  import { mapGetters, mapState } from 'vuex'
 
   export default {
     name: 'Group',
@@ -101,14 +171,28 @@
     components: {photo, photoList},
     data () {
       return {
+        dialog: false,
         confirm: false,
         hover: false,
+        photosSearch: '',
+        searching: false,
+        photos: [],
         scheduled: []
       }
     },
     created () {
       this.fetchGroupData()
       this.fetchScheduledPhotos()
+    },
+    computed: {
+      ...mapGetters([
+        'activeFab',
+        'addingPhotosToGroup',
+        'buttonToolTip'
+      ]),
+      ...mapState([
+        'pool'
+      ])
     },
     methods: {
       fetchScheduledPhotos () {
@@ -139,6 +223,14 @@
           nextWeek: 'dddd, Do',
           sameElse: 'DD-MM-YYYY'
         })
+      },
+      searchPhotos () {
+        this.searching = true
+        this.axios.post('search', {text: this.photosSearch})
+          .then((response) => {
+            this.photos = response.data.photo
+            this.searching = false
+          })
       }
     }
   }

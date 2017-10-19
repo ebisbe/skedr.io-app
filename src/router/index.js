@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from './Hello'
-import Group from './Group'
-import Login from './Login'
-import Home from './Home'
+import Group from './Group.vue'
+import Home from './Home.vue'
+import Toolbar from './Toolbar.vue'
+import RightBar from './RightBar.vue'
 
 Vue.use(Router)
 
@@ -11,24 +11,27 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/hello',
-      name: 'Hello',
-      component: Hello
-    },
-    {
       path: '/',
       name: 'Home',
-      component: Home
+      components: {
+        default: Home,
+        toolbar: Toolbar
+      },
+      meta: {
+        logged: false
+      }
     },
     {
       path: '/groups',
       name: 'Group',
-      component: Group
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
+      components: {
+        default: Group,
+        toolbar: Toolbar,
+        rightBar: RightBar
+      },
+      meta: {
+        logged: true
+      }
     }
   ]
 })

@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    rightDrawer: false,
     pool: [],
     groups: [],
     selectedGroups: 0,
@@ -31,6 +32,28 @@ export default new Vuex.Store({
     clearPool (state) {
       state.pool = []
       localStorage.setObject('pool.photos', [])
+    },
+    updateRightDrawer (state, message) {
+      state.rightDrawer = message
+    }
+  },
+  getters: {
+    activeFab (state, getter) {
+      if (getter.addingPhotosToGroup) {
+        return {'class': 'deep-orange', icon: 'add_to_photos'}
+      } else {
+        return {'class': 'deep-purple', icon: 'add_a_photo'}
+      }
+    },
+    buttonToolTip (state, getter) {
+      if (getter.addingPhotosToGroup) {
+        return {html: 'Add photos to group'}
+      } else {
+        return {html: 'Search photos'}
+      }
+    },
+    addingPhotosToGroup (state) {
+      return state.selectedGroups > 0
     }
   }
 })

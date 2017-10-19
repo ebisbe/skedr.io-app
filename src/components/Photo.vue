@@ -25,7 +25,7 @@
                 <v-icon>visibility</v-icon>
             </v-btn>
             <span>
-                {{ pool.length }}
+                {{ groups.length }}
                 <v-icon>{{ bookmark }}</v-icon>
             </span>
         </v-card-actions>
@@ -34,6 +34,7 @@
 <script>
   import Flickr from 'flickr-sdk'
   import _ from 'lodash'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'Photo',
@@ -42,7 +43,7 @@
     },
     data () {
       return {
-        pool: []
+        groups: []
       }
     },
     created () {
@@ -50,7 +51,7 @@
       flickr.photos.getAllContexts({photo_id: this.photo.id})
         .then((response) => {
           if (response.body.hasOwnProperty('pool')) {
-            this.pool = response.body.pool
+            this.groups = response.body.pool
           }
         })
     },
@@ -61,12 +62,16 @@
     },
     computed: {
       bookmark () {
-        return this.pool.length > 0 ? 'bookmark' : 'bookmark_border'
+        return this.groups.length > 0 ? 'bookmark' : 'bookmark_border'
       },
       disabled () {
-        let matches = _.find(this.$store.state.pool, {'id': this.photo.id})
-        return this.$store.state.selectedGroups > 0 || (matches !== undefined)
-      }
+        let matches = _.find(this.pool, {'id': this.photo.id})
+        return this.selectedGroups > 0 || (this.isDef(matches))
+      },
+      ...mapState([
+        'selectedGroups',
+        'pool'
+      ])
     }
   }
 </script>

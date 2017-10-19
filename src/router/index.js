@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Group from './Group.vue'
 import Home from './Home.vue'
 import Toolbar from './Toolbar.vue'
+import AppToolbar from './AppToolbar.vue'
 import RightBar from './RightBar.vue'
 
 Vue.use(Router)
@@ -16,9 +17,6 @@ export default new Router({
       components: {
         default: Home,
         toolbar: Toolbar
-      },
-      meta: {
-        logged: false
       }
     },
     {
@@ -26,11 +24,8 @@ export default new Router({
       name: 'Group',
       components: {
         default: Group,
-        toolbar: Toolbar,
+        toolbar: AppToolbar,
         rightBar: RightBar
-      },
-      meta: {
-        logged: true
       }
     }
   ]

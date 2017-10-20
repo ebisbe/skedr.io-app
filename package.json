@@ -18,11 +18,11 @@
     "flickr-sdk": "^3.4.0",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
-    "vue": "^2.4.4",
+    "vue": "^2.5.2",
     "vue-axios": "^2.0.2",
     "vue-router": "^2.3.1",
     "vuelidate": "^0.6.0",
-    "vuetify": "^0.15.7",
+    "vuetify": "^0.16.9",
     "vuex": "^2.4.1"
   },
   "devDependencies": {

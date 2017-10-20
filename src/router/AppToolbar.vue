@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar fixed :class="[activeFab.class]" dark>
+    <v-toolbar app fixed :class="[activeFab.class]" dark>
         <v-toolbar-side-icon></v-toolbar-side-icon>
 
         <v-toolbar-title>
@@ -8,14 +8,16 @@
         <v-spacer></v-spacer>
         <div v-show="addingPhotosToGroup" class="title">{{ selectedGroups }} groups selected</div>
         <v-spacer></v-spacer>
-            <v-btn flat
-                   @click.stop="$store.commit('updateRightDrawer', true)"
-                   class="deep-purple ligthen-2"
-            >
-                Photo pool&nbsp;&nbsp;
-                <v-icon v-badge="{ value: pool.length , overlap:true, class: 'red-lighten-3'}">filter
-                </v-icon>
-            </v-btn>
+        <v-btn flat
+               @click.stop="$store.commit('updateRightDrawer', true)"
+               class="deep-purple ligthen-2"
+        >
+            Photo pool&nbsp;&nbsp;
+            <v-badge overlap  color="red">
+                <span slot="badge">{{ pool.length }}</span>
+                <v-icon>filter</v-icon>
+            </v-badge>
+        </v-btn>
 
         <v-btn icon>
             <v-icon>settings</v-icon>

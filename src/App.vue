@@ -1,15 +1,13 @@
 <template>
-    <v-app light toolbar footer>
+    <v-app light>
 
         <router-view name="toolbar"></router-view>
         <main>
-            <v-container fluid grid-list-xs>
-                <router-view></router-view>
-            </v-container>
+            <router-view></router-view>
         </main>
         <router-view name="rightBar"></router-view>
 
-        <v-footer :class="[activeFab.class]">
+        <v-footer app :class="[activeFab.class]">
             <v-layout row wrap align-center>
                 <v-flex xs12>
                     <div class="white--text ml-3">

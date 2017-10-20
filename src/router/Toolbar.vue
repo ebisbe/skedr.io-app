@@ -1,5 +1,5 @@
 <template>
-    <v-toolbar fixed :class="[activeFab.class]" dark>
+    <v-toolbar app fixed :class="[activeFab.class]" dark>
         <v-toolbar-side-icon></v-toolbar-side-icon>
 
         <v-toolbar-title>

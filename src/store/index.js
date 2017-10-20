@@ -40,16 +40,9 @@ export default new Vuex.Store({
   getters: {
     activeFab (state, getter) {
       if (getter.addingPhotosToGroup) {
-        return {'class': 'deep-orange', icon: 'add_to_photos'}
+        return {'class': 'deep-orange', icon: 'add_to_photos', html: 'Add photos to group'}
       } else {
-        return {'class': 'deep-purple', icon: 'add_a_photo'}
-      }
-    },
-    buttonToolTip (state, getter) {
-      if (getter.addingPhotosToGroup) {
-        return {html: 'Add photos to group'}
-      } else {
-        return {html: 'Search photos'}
+        return {'class': 'deep-purple', icon: 'add_a_photo', html: 'Search photos'}
       }
     },
     addingPhotosToGroup (state) {

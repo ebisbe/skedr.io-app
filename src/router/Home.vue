@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <v-content>
         <section>
             <v-parallax src="/static/img/hero.jpeg" height="600">
                 <v-layout
@@ -44,7 +44,8 @@
                                     <v-card-title primary-title class="layout justify-center">
                                         <div class="headline text-xs-center">Create a pool</div>
                                     </v-card-title>
-                                    <v-card-text>Search photos that you want to add to the same groups. <br>Create a virtual
+                                    <v-card-text>Search photos that you want to add to the same groups. <br>Create a
+                                        virtual
                                         pool of images that you want to add.
                                     </v-card-text>
                                 </v-card>
@@ -58,7 +59,8 @@
                                         <div class="headline">Choose groups</div>
                                     </v-card-title>
                                     <v-card-text>
-                                        Filter through your groups. <br>Select one, two or all of them. <br> With <strong>one click</strong> add the pool to selected groups.
+                                        Filter through your groups. <br>Select one, two or all of them. <br> With
+                                        <strong>one click</strong> add the pool to selected groups.
                                     </v-card-text>
                                 </v-card>
                             </v-flex>
@@ -153,7 +155,7 @@
                 </v-layout>
             </v-container>
         </section>
-    </div>
+    </v-content>
 </template>
 <script>
   export default {

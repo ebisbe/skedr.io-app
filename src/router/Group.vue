@@ -112,7 +112,6 @@
                                 filter
                             </v-icon>
                         </v-btn>
-                        <v-btn dark flat @click.native="dialog = false">Close</v-btn>
                     </v-toolbar-items>
                 </v-toolbar>
                 <v-card-text>

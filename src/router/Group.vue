@@ -13,64 +13,63 @@
                             </v-flex>
                         </v-layout>
                     </v-container>
-                    <v-expansion-panel popout v-if="this.$store.state.groups.length > 0">
-                        <v-expansion-panel-content
-                                v-for="group in this.$store.state.groups"
-                                :key="group.name"
-                                v-show="!group.hidden">
-                            <div slot="header">
-                                <v-layout align-center row spacer @click="fetchGroupPhotos(group)">
-                                    <v-flex xs3 sm2 md1 @click.stop=""
-                                            @mouseover="mouseOver(group)"
-                                            @mouseleave="mouseLeave(group)"
-                                    >
-                                        <v-avatar size="40px" slot="activator"
-                                                  :class="{hidden: group.avatarHidden}">
-                                            <img :src="urlGroup(group)"
-                                                 :alt="group.name">
-                                        </v-avatar>
-                                        <v-checkbox
-                                                v-model="group.checked"
-                                                hide-details
-                                                @click="checkBoxClick(group)"
-                                                :class="{hidden: !group.avatarHidden, 'pa-1':true}"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex no-wrap ellipsis>
-                                        <strong>{{ group.name }}</strong>
-                                    </v-flex>
-                                    <v-flex md2 text-sm-right hidden-xs-only>
-                                        {{ group.pool_count }}
-                                        <v-icon>photo</v-icon>
-                                    </v-flex>
-                                    <v-flex md2 text-sm-right hidden-xs-only>
-                                        {{ group.members }}
-                                        <v-icon>face</v-icon>
-                                    </v-flex>
-                                    <v-flex xs4 sm2 class="grey--text" text-xs-right>
-                                        <span v-html="throttle(group.throttle)"></span>
-                                        <strong>{{ group.throttle.mode }}</strong>
-                                    </v-flex>
-                                </v-layout>
-                            </div>
-                            <v-card>
-                                <v-progress-linear :indeterminate="true"
-                                                   v-show="!group.hasOwnProperty('photos')"
-                                                   class="ma-0"></v-progress-linear>
-                                <v-card-text class="grey lighten-3">
-                                    <v-container grid-list-md>
-                                        <v-layout row wrap>
-                                            <v-flex md3 sm4 xs6 v-for="photo in group.photos" :key="photo.id">
-                                                <photo :photo="photo"></photo>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-container>
-                                </v-card-text>
-                            </v-card>
-                        </v-expansion-panel-content>
-                    </v-expansion-panel>
-                    <div class="text-xs-center" v-else>
-                        <v-progress-linear :indeterminate="true"></v-progress-linear>
-                    </div>
+                    <my-fetch url="http://localhost:3000/groups">
+                        <v-expansion-panel popout slot-scope="data">
+                            <v-expansion-panel-content
+                                    v-for="group in data"
+                                    :key="group.name"
+                                    v-show="!group.hidden">
+                                <div slot="header">
+                                    <v-layout align-center row spacer @click="fetchGroupPhotos(group)">
+                                        <v-flex xs3 sm2 md1 @click.stop=""
+                                                @mouseover="mouseOver(group)"
+                                                @mouseleave="mouseLeave(group)"
+                                        >
+                                            <v-avatar size="40px" slot="activator"
+                                                      :class="{hidden: group.avatarHidden}">
+                                                <img :src="urlGroup(group)"
+                                                     :alt="group.name">
+                                            </v-avatar>
+                                            <v-checkbox
+                                                    v-model="group.checked"
+                                                    hide-details
+                                                    @click="checkBoxClick(group)"
+                                                    :class="{hidden: !group.avatarHidden, 'pa-1':true}"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex no-wrap ellipsis>
+                                            <strong>{{ group.name }}</strong>
+                                        </v-flex>
+                                        <v-flex md2 text-sm-right hidden-xs-only>
+                                            {{ group.pool_count }}
+                                            <v-icon>photo</v-icon>
+                                        </v-flex>
+                                        <v-flex md2 text-sm-right hidden-xs-only>
+                                            {{ group.members }}
+                                            <v-icon>face</v-icon>
+                                        </v-flex>
+                                        <v-flex xs4 sm2 class="grey--text" text-xs-right>
+                                            <span v-html="throttle(group.throttle)"></span>
+                                            <strong>{{ group.throttle.mode }}</strong>
+                                        </v-flex>
+                                    </v-layout>
+                                </div>
+                                <v-card>
+                                    <v-progress-linear :indeterminate="true"
+                                                       v-show="!group.hasOwnProperty('photos')"
+                                                       class="ma-0"></v-progress-linear>
+                                    <v-card-text class="grey lighten-3">
+                                        <v-container grid-list-md>
+                                            <v-layout row wrap>
+                                                <v-flex md3 sm4 xs6 v-for="photo in group.photos" :key="photo.id">
+                                                    <photo :photo="photo"></photo>
+                                                </v-flex>
+                                            </v-layout>
+                                        </v-container>
+                                    </v-card-text>
+                                </v-card>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </my-fetch>
                 </v-flex>
                 <v-flex md3 xs12>
                     <h2 class="display-1 ma-3">Scheduled photos</h2>
@@ -165,8 +164,8 @@
 <script>
   import { url } from '../mixins/urlPhoto'
   import { expansionPanel } from '../mixins/expansionPanel'
-  import photo from '../components/Photo'
-  import photoList from '../components/PhotoList'
+  import photo from '../components/Photo.vue'
+  import photoList from '../components/PhotoList.vue'
   import * as _ from 'lodash'
   import * as moment from 'moment'
   import { mapGetters, mapState } from 'vuex'
@@ -183,11 +182,13 @@
         photosSearch: '',
         searching: false,
         photos: [],
-        scheduled: []
+        scheduled: [],
+        status: '',
+        data: [],
+        error: ''
       }
     },
     created () {
-      this.fetchGroupData()
       this.fetchScheduledPhotos()
     },
     computed: {

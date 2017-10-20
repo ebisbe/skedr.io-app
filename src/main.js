@@ -7,6 +7,7 @@ import Axios from 'vue-axios'
 import router from './router'
 import Vuetify from 'vuetify'
 import store from './store'
+import MyFetch from './components/MyFetch'
 
 import('../node_modules/vuetify/dist/vuetify.min.css')
 
@@ -25,6 +26,7 @@ Storage.prototype.getObject = function (key) {
   return value && JSON.parse(value)
 }
 
+Vue.component('MyFetch', MyFetch)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

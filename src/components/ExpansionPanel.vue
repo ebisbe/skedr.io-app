@@ -28,7 +28,6 @@
 </template>
 <script>
   import { url } from '../mixins/urlPhoto'
-  import { mapState } from 'vuex'
 
   export default {
     name: 'ExpansionPanel',
@@ -43,10 +42,6 @@
       }
     },
     computed: {
-      ...mapState([
-        'selectedGroups',
-        'groupFilter'
-      ]),
       throttleText () {
         if (this.group.throttle.remaining === undefined) {
           return '∞'
@@ -57,10 +52,10 @@
         return this.group.throttle.remaining + '/' + this.group.throttle.count
       },
       hide () {
-        return this.group.name.toLowerCase().search(this.groupFilter) >= 0
+        return this.group.name.toLowerCase().search(this.$store.state.groupFilter) >= 0
       },
       hideAvatar () {
-        return this.selectedGroups > 0 || this.mouseOverAvatar
+        return this.$store.state.selectedGroups > 0 || this.mouseOverAvatar
       }
     },
     methods: {
@@ -72,7 +67,7 @@
       },
       checkBoxClick () {
         this.checked = !this.checked
-        this.checked ? this.selectedGroups++ : this.selectedGroups--
+        this.checked ? this.$store.state.selectedGroups++ : this.$store.state.selectedGroups--
       },
       fetchGroupPhotos () {
         if (!this.group.hasOwnProperty('photos')) {

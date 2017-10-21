@@ -139,6 +139,12 @@
     },
     created () {
       this.groupFilter = localStorage.getItem('groupFilter')
+
+      document.addEventListener('keydown', event => {
+        if (event.keyCode === 27 || event.key === 'Escape') {
+          this.dialog = false
+        }
+      })
     },
     computed: {
       ...mapGetters([

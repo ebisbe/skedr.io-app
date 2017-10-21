@@ -2,11 +2,11 @@
     <div>
         <v-layout align-center row spacer @click="fetchGroupPhotos()" v-show="hide">
             <v-flex xs3 sm2 md1 @click.stop="" @mouseover="mouseOver()" @mouseleave="mouseLeave()">
-                <v-avatar size="40px" slot="activator" :class="{hidden: avatarHidden}">
+                <v-avatar size="40px" slot="activator" :class="{hidden: hideAvatar}">
                     <img :src="urlGroup(group)" :alt="group.name">
                 </v-avatar>
                 <v-checkbox v-model="checked" hide-details @click="checkBoxClick()"
-                            :class="{hidden: !avatarHidden, 'pa-1':true}"></v-checkbox>
+                            :class="{hidden: !hideAvatar, 'pa-1':true}"></v-checkbox>
             </v-flex>
             <v-flex no-wrap ellipsis>
                 <strong>{{ group.name }}</strong>
@@ -28,6 +28,7 @@
 </template>
 <script>
   import { url } from '../mixins/urlPhoto'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'ExpansionPanel',
@@ -37,12 +38,15 @@
     },
     data () {
       return {
-        preventHidden: false,
-        avatarHidden: false,
+        mouseOverAvatar: false,
         checked: false
       }
     },
     computed: {
+      ...mapState([
+        'selectedGroups',
+        'groupFilter'
+      ]),
       throttleText () {
         if (this.group.throttle.remaining === undefined) {
           return '∞'
@@ -53,36 +57,22 @@
         return this.group.throttle.remaining + '/' + this.group.throttle.count
       },
       hide () {
-        return this.group.name.toLowerCase().search(this.$store.state.groupFilter) >= 0
+        return this.group.name.toLowerCase().search(this.groupFilter) >= 0
+      },
+      hideAvatar () {
+        return this.selectedGroups > 0 || this.mouseOverAvatar
       }
     },
     methods: {
       mouseOver () {
-        this.avatarHidden = true
+        this.mouseOverAvatar = true
       },
       mouseLeave () {
-        if (!this.checked && !this.preventHidden) {
-          this.avatarHidden = false
-        }
+        this.mouseOverAvatar = false
       },
       checkBoxClick () {
         this.checked = !this.checked
-        if (this.checked) {
-          this.$store.state.selectedGroups++
-          this.preventHidden = true
-          this.$store.state.groups.forEach(function (group) {
-            group.avatarHidden = true
-          })
-        } else {
-          this.$store.state.selectedGroups--
-          if (this.$store.state.selectedGroups === 0) {
-            this.preventHidden = false
-            this.$store.state.groups.forEach(function (group) {
-              group.avatarHidden = false
-            })
-            this.avatarHidden = true
-          }
-        }
+        this.checked ? this.selectedGroups++ : this.selectedGroups--
       },
       fetchGroupPhotos () {
         if (!this.group.hasOwnProperty('photos')) {

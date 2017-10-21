@@ -54,7 +54,7 @@
                                     </v-layout>
                                 </div>
                                 <v-card>
-                                    <v-progress-linear :indeterminate="true"
+                                    <v-progress-linear :indeterminate="true" height="3"
                                                        v-show="!group.hasOwnProperty('photos')"
                                                        class="ma-0"></v-progress-linear>
                                     <v-card-text class="grey lighten-3">
@@ -116,8 +116,7 @@
                                     </v-flex>
                                     <my-fetch :url="searchImages" method="post" :data="{text: photosSearch}">
                                         <transition-group name="list" tag="div" class="layout wrap" slot-scope="data">
-                                            <v-flex md3 sm4 xs6 v-for="photo in data.photo"
-                                                    :key="photo.id">
+                                            <v-flex md3 sm4 xs6 v-for="photo in data.photo" :key="photo.id">
                                                 <photo :photo="photo"></photo>
                                             </v-flex>
                                         </transition-group>

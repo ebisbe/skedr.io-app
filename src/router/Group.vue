@@ -15,44 +15,8 @@
                     </v-container>
                     <my-fetch url="/groups">
                         <v-expansion-panel popout slot-scope="data">
-                            <v-expansion-panel-content
-                                    v-for="group in data"
-                                    :key="group.name"
-                                    v-show="hide(group)">
-                                <div slot="header">
-                                    <v-layout align-center row spacer @click="fetchGroupPhotos(group)">
-                                        <v-flex xs3 sm2 md1 @click.stop=""
-                                                @mouseover="mouseOver(group)"
-                                                @mouseleave="mouseLeave(group)"
-                                        >
-                                            <v-avatar size="40px" slot="activator"
-                                                      :class="{hidden: group.avatarHidden}">
-                                                <img :src="urlGroup(group)"
-                                                     :alt="group.name">
-                                            </v-avatar>
-                                            <v-checkbox
-                                                    v-model="group.checked"
-                                                    hide-details
-                                                    @click="checkBoxClick(group)"
-                                                    :class="{hidden: !group.avatarHidden, 'pa-1':true}"></v-checkbox>
-                                        </v-flex>
-                                        <v-flex no-wrap ellipsis>
-                                            <strong>{{ group.name }}</strong>
-                                        </v-flex>
-                                        <v-flex md2 text-sm-right hidden-xs-only>
-                                            {{ group.pool_count }}
-                                            <v-icon>photo</v-icon>
-                                        </v-flex>
-                                        <v-flex md2 text-sm-right hidden-xs-only>
-                                            {{ group.members }}
-                                            <v-icon>face</v-icon>
-                                        </v-flex>
-                                        <v-flex xs4 sm2 class="grey--text" text-xs-right>
-                                            <span v-html="throttle(group.throttle)"></span>
-                                            <strong>{{ group.throttle.mode }}</strong>
-                                        </v-flex>
-                                    </v-layout>
-                                </div>
+                            <v-expansion-panel-content v-for="group in data" :key="group.name">
+                                <expansion-panel slot="header" :group="group"></expansion-panel>
                                 <v-card>
                                     <v-progress-linear :indeterminate="true" height="3"
                                                        v-show="!group.hasOwnProperty('photos')"
@@ -151,17 +115,15 @@
 </template>
 
 <script>
-  import { url } from '../mixins/urlPhoto'
-  import { expansionPanel } from '../mixins/expansionPanel'
-  import photo from '../components/Photo.vue'
   import ScheduledList from '../components/ScheduledPhotos.vue'
+  import ExpansionPanel from '../components/ExpansionPanel.vue'
+  import Photo from '../components/Photo.vue'
   import * as _ from 'lodash'
   import { mapGetters, mapState } from 'vuex'
 
   export default {
     name: 'Group',
-    mixins: [url, expansionPanel],
-    components: {photo, ScheduledList},
+    components: {ExpansionPanel, ScheduledList, Photo},
     data () {
       return {
         dialog: false,
@@ -175,6 +137,9 @@
         error: ''
       }
     },
+    created () {
+      this.groupFilter = localStorage.getItem('groupFilter')
+    },
     computed: {
       ...mapGetters([
         'activeFab',
@@ -183,6 +148,12 @@
       ...mapState([
         'pool'
       ]),
+      searchImages () {
+        if (this.photosSearch === '') {
+          return ''
+        }
+        return '/search'
+      },
       groupFilter: {
         get () {
           return this.$store.state.groupFilter
@@ -190,12 +161,11 @@
         set (value) {
           this.$store.commit('updateGroupFilter', value)
         }
-      },
-      searchImages () {
-        if (this.photosSearch === '') {
-          return ''
-        }
-        return '/search'
+      }
+    },
+    watch: {
+      groupFilter: function (filter) {
+        localStorage.setItem('groupFilter', filter)
       }
     },
     methods: {

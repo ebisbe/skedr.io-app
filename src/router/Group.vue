@@ -9,7 +9,7 @@
                                 <h1 class="display-1">Groups</h1>
                             </v-flex>
                             <v-flex xs12 sm6>
-                                <v-text-field label="Filter groups" v-model="filter"></v-text-field>
+                                <v-text-field label="Filter groups" v-model="groupFilter"></v-text-field>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -198,7 +198,15 @@
       ]),
       ...mapState([
         'pool'
-      ])
+      ]),
+      groupFilter: {
+        get () {
+          return this.$store.state.groupFilter
+        },
+        set (value) {
+          this.$store.commit('updateGroupFilter', value)
+        }
+      }
     },
     methods: {
       fetchScheduledPhotos () {

@@ -1,18 +1,17 @@
 export const expansionPanel = {
   data () {
     return {
-      preventHidden: false,
-      filter: ''
+      preventHidden: false
     }
   },
   watch: {
-    filter: function (filter) {
+    groupFilter: function (filter) {
       localStorage.setItem('groupFilter', filter)
       this.filterGroups()
     }
   },
   created () {
-    this.filter = localStorage.getItem('groupFilter')
+    this.groupFilter = localStorage.getItem('groupFilter')
   },
   methods: {
     fetchGroupData () {

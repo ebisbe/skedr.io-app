@@ -10,7 +10,8 @@ export default new Vuex.Store({
     pool: [],
     groups: [],
     selectedGroups: 0,
-    token: ''
+    token: '',
+    groupFilter: ''
   },
   mutations: {
     loadPool (state, payload) {
@@ -35,6 +36,9 @@ export default new Vuex.Store({
     },
     updateRightDrawer (state, message) {
       state.rightDrawer = message
+    },
+    updateGroupFilter (state, value) {
+      state.groupFilter = value
     }
   },
   getters: {

@@ -38,7 +38,7 @@ export default new Vuex.Store({
       state.rightDrawer = message
     },
     updateGroupFilter (state, value) {
-      state.groupFilter = value
+      state.groupFilter = value.toLowerCase()
     }
   },
   getters: {

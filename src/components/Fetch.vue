@@ -7,6 +7,18 @@
       url: {
         type: String,
         required: true
+      },
+      params: {
+        type: Object,
+        default: () => {}
+      },
+      data: {
+        type: Object,
+        default: () => {}
+      },
+      method: {
+        type: String,
+        default: 'get'
       }
     },
     data () {
@@ -18,47 +30,64 @@
 
       let activePromise = null
 
-      const fetchData = _.debounce(url => {
+      const fetchData = _.debounce(({url, method, data, params}) => {
         if (!url) {
-          return
+          res.status = 'waiting'
+          return res
         }
 
-        const currentPromise = activePromise = fetch('http://localhost:3000' + url)
+        const currentPromise = activePromise = this.axios({
+          url: url,
+          method: method,
+          params: params,
+          data: data
+        })
         res.status = 'pending'
 
-        currentPromise.then(response => {
-          if (activePromise !== currentPromise) {
-            return
-          }
-          if (response.status >= 200 && response.status < 300) {
-            return response.json()
-          } else {
+        currentPromise
+          .then(response => {
+            if (activePromise !== currentPromise) {
+              return
+            }
+            if (response.status >= 200 && response.status < 300) {
+              return response.data
+            } else {
+              activePromise = null
+              res.status = 'error'
+              res.data = null
+              res.error = response.status
+            }
+          })
+          .then(data => {
+            if (activePromise !== currentPromise) {
+              return
+            }
+            activePromise = null
+            res.status = 'success'
+            res.data = data
+            res.error = null
+          })
+          .catch(error => {
+            if (activePromise !== currentPromise) {
+              return
+            }
             activePromise = null
             res.status = 'error'
             res.data = null
-            res.error = response.status
-          }
-        }).then(data => {
-          if (activePromise !== currentPromise) {
-            return
-          }
-          activePromise = null
-          res.status = 'success'
-          res.data = data
-          res.error = null
-        }).catch(error => {
-          if (activePromise !== currentPromise) {
-            return
-          }
-          activePromise = null
-          res.status = 'error'
-          res.data = null
-          res.error = error
-        })
+            res.error = error
+          })
       }, 300)
 
       setTimeout(() => {
-        this.$watch(() => this.url, fetchData, {immediate: true})
+        this.$watch(() => (
+          {
+            url: this.url,
+            method: this.method,
+            data: this.data,
+            params: this.params
+          }),
+          fetchData,
+          {immediate: true})
       }, 0)
 
       return {res}

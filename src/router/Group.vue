@@ -18,7 +18,7 @@
                             <v-expansion-panel-content
                                     v-for="group in data"
                                     :key="group.name"
-                                    v-show="!group.hidden">
+                                    v-show="hide(group)">
                                 <div slot="header">
                                     <v-layout align-center row spacer @click="fetchGroupPhotos(group)">
                                         <v-flex xs3 sm2 md1 @click.stop=""
@@ -73,7 +73,7 @@
                 </v-flex>
                 <v-flex md3 xs12>
                     <h2 class="display-1 ma-3">Scheduled photos</h2>
-                   <scheduledList></scheduledList>
+                    <scheduledList></scheduledList>
                 </v-flex>
                 <v-tooltip left>
                     <v-fab-transition slot="activator">
@@ -110,18 +110,18 @@
                             <v-container grid-list-md>
                                 <v-layout wrap>
                                     <v-flex xs12>
-                                        <form @submit.stop.prevent="searchPhotos()">
+                                        <form @submit.stop.prevent="">
                                             <v-text-field label="Text" v-model="photosSearch"></v-text-field>
                                         </form>
                                     </v-flex>
-                                    <v-flex v-show="searching" xs12>
-                                        <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
-                                    </v-flex>
-                                    <transition-group name="list" tag="div" class="layout wrap">
-                                        <v-flex v-show="!searching" md3 sm4 xs6 v-for="photo in photos" :key="photo.id">
-                                            <photo :photo="photo"></photo>
-                                        </v-flex>
-                                    </transition-group>
+                                    <my-fetch :url="searchImages" method="post" :data="{text: photosSearch}">
+                                        <transition-group name="list" tag="div" class="layout wrap" slot-scope="data">
+                                            <v-flex md3 sm4 xs6 v-for="photo in data.photo"
+                                                    :key="photo.id">
+                                                <photo :photo="photo"></photo>
+                                            </v-flex>
+                                        </transition-group>
+                                    </my-fetch>
                                 </v-layout>
                             </v-container>
                         </v-card-text>
@@ -169,7 +169,6 @@
         confirm: false,
         hover: false,
         photosSearch: '',
-        searching: false,
         photos: [],
         scheduled: [],
         status: '',
@@ -192,6 +191,12 @@
         set (value) {
           this.$store.commit('updateGroupFilter', value)
         }
+      },
+      searchImages () {
+        if (this.photosSearch === '') {
+          return ''
+        }
+        return '/search'
       }
     },
     methods: {
@@ -210,14 +215,6 @@
           })
         })
         this.dialog = false
-      },
-      searchPhotos () {
-        this.searching = true
-        this.axios.post('search', {text: this.photosSearch})
-          .then((response) => {
-            this.photos = response.data.photo
-            this.searching = false
-          })
       }
     }
   }

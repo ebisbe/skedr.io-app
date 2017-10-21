@@ -7,25 +7,12 @@ export const expansionPanel = {
   watch: {
     groupFilter: function (filter) {
       localStorage.setItem('groupFilter', filter)
-      this.filterGroups()
     }
   },
   created () {
     this.groupFilter = localStorage.getItem('groupFilter')
   },
   methods: {
-    fetchGroupData () {
-      this.axios.get('/groups')
-        .then((response) => {
-          response.data.forEach(function (group) {
-            group.avatarHidden = false
-            group.checked = false
-            group.hidden = false
-          })
-          this.$store.state.groups = response.data
-          this.filterGroups()
-        })
-    },
     fetchGroupPhotos (group) {
       if (!group.hasOwnProperty('photos')) {
         this.axios.get('/groups/pool/' + group.nsid)
@@ -61,10 +48,8 @@ export const expansionPanel = {
         }
       }
     },
-    filterGroups () {
-      this.$store.state.groups.forEach((group) => {
-        group.hidden = !(group.name.toLowerCase().search(this.filter.toLowerCase()) >= 0)
-      })
+    hide (group) {
+      return group.name.toLowerCase().search(this.groupFilter) >= 0
     },
     throttle (throttle) {
       if (throttle.remaining === undefined) {

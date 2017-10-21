@@ -12,7 +12,7 @@ export default {
           if (status === 'error') {
             return h('div', error)
           } else if (status === 'pending') {
-            return h('v-progress-linear', {props: {indeterminate: true}})
+            return h('v-progress-linear', {props: {indeterminate: true, height: 3}})
           } else {
             return ctx.data.scopedSlots.default(data)
           }

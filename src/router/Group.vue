@@ -1,6 +1,6 @@
 <template>
     <v-content>
-        <v-container fluid>
+        <v-container fluid grid-list-xl>
             <v-layout row wrap>
                 <v-flex md9 xs12>
                     <v-container grid-list-xl>

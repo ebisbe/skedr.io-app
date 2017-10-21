@@ -23,7 +23,7 @@
           return
         }
 
-        const currentPromise = activePromise = fetch(url)
+        const currentPromise = activePromise = fetch('http://localhost:3000' + url)
         res.status = 'pending'
 
         currentPromise.then(response => {

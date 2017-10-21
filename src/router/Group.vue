@@ -13,7 +13,7 @@
                             </v-flex>
                         </v-layout>
                     </v-container>
-                    <my-fetch url="http://localhost:3000/groups">
+                    <my-fetch url="/groups">
                         <v-expansion-panel popout slot-scope="data">
                             <v-expansion-panel-content
                                     v-for="group in data"
@@ -73,17 +73,7 @@
                 </v-flex>
                 <v-flex md3 xs12>
                     <h2 class="display-1 ma-3">Scheduled photos</h2>
-                    <v-progress-linear :indeterminate="true" v-if="scheduled.length === 0"
-                                       class="ma-0"></v-progress-linear>
-                    <v-list two-line v-else>
-                        <template v-for="(item, index) in scheduled">
-                            <v-subheader v-text="headerDate(index)"></v-subheader>
-                            <template v-for="(photo, iteration) in item">
-                                <v-divider v-show="iteration !== 0" inset></v-divider>
-                                <photo-list :photo="photo"></photo-list>
-                            </template>
-                        </template>
-                    </v-list>
+                   <scheduledList></scheduledList>
                 </v-flex>
                 <v-tooltip left>
                     <v-fab-transition slot="activator">
@@ -165,15 +155,14 @@
   import { url } from '../mixins/urlPhoto'
   import { expansionPanel } from '../mixins/expansionPanel'
   import photo from '../components/Photo.vue'
-  import photoList from '../components/PhotoList.vue'
+  import ScheduledList from '../components/ScheduledPhotos.vue'
   import * as _ from 'lodash'
-  import * as moment from 'moment'
   import { mapGetters, mapState } from 'vuex'
 
   export default {
     name: 'Group',
     mixins: [url, expansionPanel],
-    components: {photo, photoList},
+    components: {photo, ScheduledList},
     data () {
       return {
         dialog: false,
@@ -187,9 +176,6 @@
         data: [],
         error: ''
       }
-    },
-    created () {
-      this.fetchScheduledPhotos()
     },
     computed: {
       ...mapGetters([
@@ -209,12 +195,6 @@
       }
     },
     methods: {
-      fetchScheduledPhotos () {
-        this.axios.get('/scheduled')
-          .then((response) => {
-            this.scheduled = _.groupBy(response.data, 'scheduledAt')
-          })
-      },
       pushPhotosToGroups () {
         let matches = _.filter(this.$store.state.groups, {checked: true})
         _.forEach(matches, (group) => {
@@ -230,13 +210,6 @@
           })
         })
         this.dialog = false
-      },
-      headerDate (index) {
-        return moment(parseInt(index)).calendar(null, {
-          nextDay: '[Tomorrow]',
-          nextWeek: 'dddd, Do',
-          sameElse: 'DD-MM-YYYY'
-        })
       },
       searchPhotos () {
         this.searching = true

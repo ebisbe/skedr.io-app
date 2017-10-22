@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-layout align-center row spacer @click="fetchGroupPhotos()" v-show="hide">
+        <v-layout align-center row spacer @click="fetchGroupPhotos()" >
             <v-flex xs3 sm2 md1 @click.stop="" @mouseover="mouseOver()" @mouseleave="mouseLeave()">
                 <v-avatar size="40px" slot="activator" :class="{hidden: hideAvatar}">
                     <img :src="urlGroup(group)" :alt="group.name">
@@ -50,9 +50,6 @@
           return '&mdash;'
         }
         return this.group.throttle.remaining + '/' + this.group.throttle.count
-      },
-      hide () {
-        return this.group.name.toLowerCase().search(this.$store.state.groupFilter) >= 0
       },
       hideAvatar () {
         return this.$store.state.selectedGroups > 0 || this.mouseOverAvatar

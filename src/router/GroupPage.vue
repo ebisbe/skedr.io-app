@@ -15,7 +15,9 @@
                     </v-container>
                     <my-fetch url="/groups">
                         <v-expansion-panel popout slot-scope="data">
-                            <v-expansion-panel-content v-for="group in data" :key="group.name">
+                            <v-expansion-panel-content v-for="group in data" :key="group.name"
+                                                       v-show="hide(group)"
+                            >
                                 <expansion-panel slot="header" :group="group"></expansion-panel>
                                 <v-card>
                                     <v-progress-linear :indeterminate="true" height="3"
@@ -190,6 +192,9 @@
           })
         })
         this.dialog = false
+      },
+      hide (group) {
+        return group.name.toLowerCase().search(this.$store.state.groupFilter) >= 0
       }
     }
   }

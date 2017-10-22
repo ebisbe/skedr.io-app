@@ -66,7 +66,7 @@
       },
       disabled () {
         let matches = _.find(this.pool, {'id': this.photo.id})
-        return this.selectedGroups > 0 || (matches !== undefined)
+        return this.selectedGroups.length > 0 || (matches !== undefined)
       },
       ...mapState([
         'selectedGroups',

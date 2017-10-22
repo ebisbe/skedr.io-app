@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-layout align-center row spacer @click="fetchGroupPhotos()" >
+        <v-layout align-center row spacer @click="fetchGroupPhotos()">
             <v-flex xs3 sm2 md1 @click.stop="" @mouseover="mouseOver()" @mouseleave="mouseLeave()">
                 <v-avatar size="40px" slot="activator" :class="{hidden: hideAvatar}">
                     <img :src="urlGroup(group)" :alt="group.name">
@@ -28,6 +28,7 @@
 </template>
 <script>
   import { url } from '../mixins/urlPhoto'
+  import { mapState } from 'vuex'
 
   export default {
     name: 'ExpansionPanel',
@@ -42,6 +43,9 @@
       }
     },
     computed: {
+      ...mapState([
+        'selectedGroups'
+      ]),
       throttleText () {
         if (this.group.throttle.remaining === undefined) {
           return '∞'
@@ -52,7 +56,7 @@
         return this.group.throttle.remaining + '/' + this.group.throttle.count
       },
       hideAvatar () {
-        return this.$store.state.selectedGroups > 0 || this.mouseOverAvatar
+        return this.selectedGroups.length > 0 || this.mouseOverAvatar
       }
     },
     methods: {
@@ -64,7 +68,7 @@
       },
       checkBoxClick () {
         this.checked = !this.checked
-        this.checked ? this.$store.state.selectedGroups++ : this.$store.state.selectedGroups--
+        this.$store.commit('addToGroup', {group: this.group, add: this.checked})
       },
       fetchGroupPhotos () {
         if (!this.group.hasOwnProperty('photos')) {

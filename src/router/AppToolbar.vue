@@ -6,7 +6,7 @@
             <router-link v-text="title" to="/"></router-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <div v-show="addingPhotosToGroup" class="title">{{ selectedGroups }} groups selected</div>
+        <div v-show="addingPhotosToGroup" class="title">{{ selectedGroups.length }} groups selected</div>
         <v-spacer></v-spacer>
         <v-btn flat
                @click.stop="$store.commit('updateRightDrawer', true)"

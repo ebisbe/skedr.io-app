@@ -9,7 +9,7 @@ export default new Vuex.Store({
     rightDrawer: false,
     pool: [],
     groups: [],
-    selectedGroups: 0,
+    selectedGroups: [],
     token: '',
     groupFilter: ''
   },
@@ -26,9 +26,13 @@ export default new Vuex.Store({
       }
       localStorage.setObject('pool.photos', state.pool)
     },
-    removeFromPool (state, payload) {
-      state.pool = _.filter(state.pool, function (o) { return o.id !== payload.photo.id })
-      localStorage.setObject('pool.photos', state.pool)
+    addToGroup (state, payload) {
+      if (payload.add) {
+        state.selectedGroups.unshift(payload.group)
+        state.selectedGroups = _.uniqBy(state.selectedGroups, 'nsid')
+      } else {
+        state.selectedGroups = _.filter(state.selectedGroups, function (o) { return o.nsid !== payload.group.nsid })
+      }
     },
     clearPool (state) {
       state.pool = []
@@ -50,7 +54,7 @@ export default new Vuex.Store({
       }
     },
     addingPhotosToGroup (state) {
-      return state.selectedGroups > 0
+      return state.selectedGroups.length > 0
     }
   }
 })

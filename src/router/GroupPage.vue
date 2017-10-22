@@ -15,9 +15,10 @@
                     </v-container>
                     <my-fetch url="/groups">
                         <v-expansion-panel popout slot-scope="data">
-                            <v-expansion-panel-content v-for="group in data" :key="group.name"
-                                                       v-show="hide(group)"
-                            >
+                            <v-expansion-panel-content
+                                    v-for="group in data"
+                                    :key="group.name"
+                                    v-show="hide(group)">
                                 <expansion-panel slot="header" :group="group"></expansion-panel>
                                 <v-card>
                                     <v-progress-linear :indeterminate="true" height="3"
@@ -96,8 +97,7 @@
                         <v-card-title class="headline">Add photos to selected groups?</v-card-title>
                         <v-card-text>
                             <ul>
-                                <li v-for="group in this.$store.state.groups" v-if="group.checked"
-                                    v-html="group.name"></li>
+                                <li v-for="group in selectedGroups" v-html="group.name"></li>
                             </ul>
                             Confirming will add all the photos to each group and schedule all the ones can not be
                             added.
@@ -154,7 +154,9 @@
         'addingPhotosToGroup'
       ]),
       ...mapState([
-        'pool'
+        'pool',
+        'selectedGroups',
+        'groupFilter'
       ]),
       searchImages () {
         if (this.photosSearch === '') {
@@ -178,9 +180,9 @@
     },
     methods: {
       pushPhotosToGroups () {
-        let matches = _.filter(this.$store.state.groups, {checked: true})
-        _.forEach(matches, (group) => {
-          _.forEach(this.$store.state.pool, (photo) => {
+        console.log('Pushing photos')
+        _.forEach(this.selectedGroups, (group) => {
+          _.forEach(this.pool, (photo) => {
             this.axios.post('/pool', {
               photoId: photo.id,
               groupId: group.nsid,
@@ -194,7 +196,7 @@
         this.dialog = false
       },
       hide (group) {
-        return group.name.toLowerCase().search(this.$store.state.groupFilter) >= 0
+        return group.name.toLowerCase().search(this.groupFilter) >= 0
       }
     }
   }

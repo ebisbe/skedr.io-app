@@ -30,17 +30,17 @@
 
       let activePromise = null
 
-      const fetchData = _.debounce(({url, method, data, params}) => {
-        if (!url) {
+      const fetchData = _.debounce(() => {
+        if (!this.url) {
           res.status = 'waiting'
           return res
         }
 
         const currentPromise = activePromise = this.axios({
-          url: url,
-          method: method,
-          params: params,
-          data: data
+          url: this.url,
+          method: this.method,
+          params: this.params,
+          data: this.data
         })
         res.status = 'pending'
 
@@ -79,15 +79,7 @@
       }, 300)
 
       setTimeout(() => {
-        this.$watch(() => (
-          {
-            url: this.url,
-            method: this.method,
-            data: this.data,
-            params: this.params
-          }),
-          fetchData,
-          {immediate: true})
+        this.$watch(() => this.url, fetchData, {immediate: true})
       }, 0)
 
       return {res}

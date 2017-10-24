@@ -71,11 +71,8 @@
         this.$store.commit('addToGroup', {group: this.group, add: this.checked})
       },
       fetchGroupPhotos () {
-        if (!this.group.hasOwnProperty('photos')) {
-          this.axios.get('/groups/pool/' + this.group.nsid)
-            .then((response) => {
-              this.$set(this.group, 'photos', response.data.photo)
-            })
+        if (!this.group.hasOwnProperty('photosUrl')) {
+          this.$set(this.group, 'photosUrl', '/groups/pool/' + this.group.nsid)
         }
       }
     }

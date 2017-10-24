@@ -8,7 +8,7 @@
     props: {
       url: {
         type: String,
-        required: true
+        default: ''
       },
       params: {
         type: Object,

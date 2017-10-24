@@ -21,17 +21,16 @@
                                     v-show="hide(group)">
                                 <expansion-panel slot="header" :group="group"></expansion-panel>
                                 <v-card>
-                                    <v-progress-linear :indeterminate="true" height="3"
-                                                       v-show="!group.hasOwnProperty('photos')"
-                                                       class="ma-0"></v-progress-linear>
                                     <v-card-text class="grey lighten-3">
-                                        <v-container grid-list-md>
-                                            <v-layout row wrap>
-                                                <v-flex md3 sm4 xs6 v-for="photo in group.photos" :key="photo.id">
+                                        <my-fetch :url="group.photosUrl">
+                                            <v-layout row wrap slot-scope="data">
+                                                <v-flex md3 sm4 xs6
+                                                        v-for="photo in data.photo"
+                                                        :key="photo.id">
                                                     <photo :photo="photo"></photo>
                                                 </v-flex>
                                             </v-layout>
-                                        </v-container>
+                                        </my-fetch>
                                     </v-card-text>
                                 </v-card>
                             </v-expansion-panel-content>
@@ -140,7 +139,7 @@
       }
     },
     created () {
-      this.groupFilter = localStorage.getItem('groupFilter')
+      this.groupFilter = localStorage.getItemDef('groupFilter', '')
 
       document.addEventListener('keydown', event => {
         if (event.keyCode === 27 || event.key === 'Escape') {

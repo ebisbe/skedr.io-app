@@ -8,7 +8,9 @@ import router from './router'
 import Vuetify from 'vuetify'
 import store from './store'
 import MyFetch from './components/MyFetch'
-import { AwsCredentials } from './store/aws-lib'
+import { AwsCredentials } from './libs/aws-lib'
+
+require('./libs/storage')
 
 import('../node_modules/vuetify/dist/vuetify.min.css')
 
@@ -17,15 +19,6 @@ axios.defaults.baseURL = 'http://localhost:3000/'
 Vue.use(Vuetify)
 Vue.use(Axios, axios)
 Vue.config.productionTip = false
-
-Storage.prototype.setObject = function (key, value) {
-  this.setItem(key, JSON.stringify(value))
-}
-
-Storage.prototype.getObject = function (key) {
-  let value = this.getItem(key)
-  return value && JSON.parse(value)
-}
 
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {

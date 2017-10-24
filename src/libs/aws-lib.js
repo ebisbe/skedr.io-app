@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk'
-import cognitoConfig from './cognito'
+import cognitoConfig from '../store/cognito'
 
 export function AwsCredentials (userToken) {
   const authenticator = `cognito-idp.${cognitoConfig.Region}.amazonaws.com/${cognitoConfig.UserPoolId}`

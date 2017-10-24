@@ -65,17 +65,18 @@
         this.$store.dispatch('authenticateUser', {
           username: this.username,
           password: this.password
-        }).then(() => {
+        }).then(async () => {
           this.disableAllInputs = true
           this.password = this.errorMessage = ''
           this.successMessage = 'Successfuly signed in'
           this.waiting = false
 
-          return AwsCredentials(this.$store.state.cognito.user.tokens.IdToken)
+          await AwsCredentials(this.$store.state.cognito.user.tokens.IdToken)
+            .then(() => this.$router.push({name: 'Group'}))
         }).catch((err) => {
           this.errorMessage = err.message
           this.protectedUI = this.waiting = false
-        }).then(() => this.$router.push({name: 'Group'}))
+        })
       },
       clear () {
         this.successMessage = this.errorMessage = this.username = this.password = ''

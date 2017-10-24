@@ -5,6 +5,7 @@ import Home from './HomePage.vue'
 import Toolbar from './Toolbar.vue'
 import AppToolbar from './AppToolbar.vue'
 import RightBar from './RightBar.vue'
+import Login from './LoginPage.vue'
 
 Vue.use(Router)
 
@@ -26,6 +27,15 @@ export default new Router({
         default: Group,
         toolbar: AppToolbar,
         rightBar: RightBar
+      },
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      components: {
+        default: Login,
+        toolbar: Toolbar
       }
     }
   ]

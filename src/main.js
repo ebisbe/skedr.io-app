@@ -26,6 +26,18 @@ Storage.prototype.getObject = function (key) {
   return value && JSON.parse(value)
 }
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.state.cognito.user === null) {
+      next({
+        path: '/login',
+        query: {redirect: to.fullPath}
+      })
+    }
+  }
+  next()
+})
+
 Vue.component('MyFetch', MyFetch)
 /* eslint-disable no-new */
 new Vue({

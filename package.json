@@ -14,11 +14,14 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "aws-sdk": "^2.139.0",
+    "aws41": "^1.6.0",
     "axios": "^0.16.2",
     "flickr-sdk": "^3.4.0",
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
     "vue": "^2.5.2",
+    "vue-auth-cognito": "^0.1.5",
     "vue-axios": "^2.0.2",
     "vue-router": "^2.8.1",
     "vuelidate": "^0.6.1",

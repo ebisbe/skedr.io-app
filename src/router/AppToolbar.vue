@@ -13,12 +13,14 @@
                class="deep-purple ligthen-2"
         >
             Photo pool&nbsp;&nbsp;
-            <v-badge overlap  color="red">
+            <v-badge overlap color="red">
                 <span slot="badge">{{ pool.length }}</span>
                 <v-icon>filter</v-icon>
             </v-badge>
         </v-btn>
-
+        <v-btn flat class="mr-4 deep-purple" @click.stop="logout">
+            Logout
+        </v-btn>
         <v-btn icon>
             <v-icon>settings</v-icon>
         </v-btn>
@@ -43,6 +45,13 @@
         'activeFab',
         'addingPhotosToGroup'
       ])
+    },
+    methods: {
+      logout () {
+        this.$store.dispatch('signOut')
+          .then(() => { this.$router.push({name: 'Home'}) })
+          .catch((err) => console.log(err))
+      }
     }
   }
 </script>

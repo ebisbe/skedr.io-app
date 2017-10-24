@@ -8,6 +8,7 @@ import router from './router'
 import Vuetify from 'vuetify'
 import store from './store'
 import MyFetch from './components/MyFetch'
+import { AwsCredentials } from './store/aws-lib'
 
 import('../node_modules/vuetify/dist/vuetify.min.css')
 
@@ -26,8 +27,13 @@ Storage.prototype.getObject = function (key) {
   return value && JSON.parse(value)
 }
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
+    await store.dispatch('getCurrentUser')
+      .then(() => AwsCredentials(store.state.cognito.user.tokens.IdToken))
+      .catch(() => console.log('Not logged. Redirect to Login page'))
+      .then(() => { console.log('Get AWS credentials OK') })
+
     if (store.state.cognito.user === null) {
       next({
         path: '/login',
@@ -45,5 +51,11 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: {App}
+  components: {App},
+  beforeCreate () {
+    let photos = localStorage.getObject('pool.photos')
+    if (photos !== null) {
+      store.commit('loadPool', {photos: photos})
+    }
+  }
 })

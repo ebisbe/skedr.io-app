@@ -114,6 +114,7 @@
             sessionToken: AWS.config.credentials.sessionToken
           })
         delete signedRequest.headers['Host']
+        delete signedRequest.headers['Content-Length']
 
         return this.axios(signedRequest)
       }

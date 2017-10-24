@@ -43,8 +43,7 @@
 </template>
 
 <script>
-  import AWS from 'aws-sdk'
-  import cognitoConfig from '../store/cognito'
+  import { AwsCredentials } from '../store/aws-lib'
 
   export default {
     name: 'Login',
@@ -66,37 +65,20 @@
         this.$store.dispatch('authenticateUser', {
           username: this.username,
           password: this.password
-        }).then(async () => {
+        }).then(() => {
           this.disableAllInputs = true
-          this.password = ''
-          this.errorMessage = null
+          this.password = this.errorMessage = ''
           this.successMessage = 'Successfuly signed in'
           this.waiting = false
-          await this.getAwsCredentials()
-            .catch(err => {
-              console.log(err)
-            })
+
+          return AwsCredentials(this.$store.state.cognito.user.tokens.IdToken)
         }).catch((err) => {
           this.errorMessage = err.message
           this.protectedUI = this.waiting = false
-        })
+        }).then(() => this.$router.push({name: 'Group'}))
       },
       clear () {
         this.successMessage = this.errorMessage = this.username = this.password = ''
-      },
-      getAwsCredentials (userToken) {
-        const authenticator = `cognito-idp.${cognitoConfig.Region}.amazonaws.com/${cognitoConfig.UserPoolId}`
-
-        AWS.config.update({region: cognitoConfig.Region})
-
-        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-          IdentityPoolId: cognitoConfig.IdentityPoolId,
-          Logins: {
-            [authenticator]: this.$store.state.cognito.user.tokens.IdToken
-          }
-        })
-
-        return AWS.config.credentials.getPromise()
       }
     },
     computed: {

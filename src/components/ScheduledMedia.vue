@@ -1,9 +1,13 @@
 <template>
-    <b-media tag="li" class="my-4">
-        <b-img slot="aside" :src="url" width="64" alt="placeholder"/>
-        <h5 class="mt-0 mb-1" v-html="title"></h5>
-        {{ photo.message}}
-    </b-media>
+    <v-list-tile avatar @click="" download>
+        <v-list-tile-avatar tile>
+            <img :src="url" alt="People">
+        </v-list-tile-avatar>
+        <v-list-tile-content>
+            <v-list-tile-title v-html="title"></v-list-tile-title>
+            <v-list-tile-sub-title v-html="photo.message"></v-list-tile-sub-title>
+        </v-list-tile-content>
+    </v-list-tile>
 </template>
 <script>
   import Flickr from 'flickr-sdk/flickr-sdk'

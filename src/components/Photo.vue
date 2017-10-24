@@ -1,14 +1,8 @@
 <template>
-    <b-card :footer="photo.title"
-            :img-src="urlPhoto(photo)"
-            img-alt="photo.title"
-            no-body
-            img-top
-            :bg-variant="variant"
-            @click="choosePhoto()"
-            footer-tag="footer"
+    <v-card :footer="photo.title"
             class="mb-2">
-    </b-card>
+        <img :src="urlPhoto(photo)" alt="">
+    </v-card>
 </template>
 <script>
   import { url } from '../mixins/urlPhoto.js'

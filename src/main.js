@@ -5,17 +5,17 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import BootstrapVue from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Photo from './components/Photo.vue'
 import store from './store'
 import Notifications from 'vue-notification'
 import velocity from 'velocity-animate'
+import Vuetify from 'vuetify'
 
+import('../node_modules/vuetify/dist/vuetify.min.css')
+
+Vue.use(Vuetify)
 Vue.use(Notifications, {velocity})
 Vue.use(VueAxios, axios)
-Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 Vue.component('photo', Photo)
 

@@ -1,80 +1,77 @@
 <template>
-    <div class="container">
-        <pool></pool>
-        <div class="row">
-            <div class="col-9"><h1>Group List</h1>
-                <div class="my-1 row">
-                    <div class="col-md-6">
-                        <b-form-fieldset horizontal label="Filter" :label-cols="3">
-                            <b-form-input v-model="filter" placeholder="Type to Search"/>
-                        </b-form-fieldset>
-                    </div>
-                </div>
-                <b-table striped hover show-empty
-                         :items="myProvider"
-                         :fields="fields"
-                         :current-page="currentPage"
-                         :per-page="perPage"
-                         :filter="filter"
-                         :sort-by.sync="sortBy"
-                         :sort-desc.sync="sortDesc"
-                         no-provider-sorting
-                         no-provider-paging
-                         no-provider-filtering
-                         responsive
-                         @filtered="onFiltered"
-                >
-                    <template slot="logo" scope="row">
-                        <img :src="urlGroup(row.item)" alt="" class="rounded">
-                    </template>
-                    <template slot="name" scope="row">
-                        <router-link :to="'/groups/'+ row.item.nsid">{{ row.value }}</router-link>
-                    </template>
-                    <template slot="mode" scope="row">{{ row.item.throttle.mode }}</template>
-                    <template slot="throttle" scope="row">{{row.value.remaining}} / {{ row.value.count }}</template>
-                    <template slot="actions" scope="row">
-                        <b-btn @click.stop="addToPool(row.item,row.index,$event.target)" size="sm">Add Pool</b-btn>
-                    </template>
-                </b-table>
-                <div class="col-sm-8">
-                    <b-pagination :total-rows="totalRows" :per-page="perPage" v-model="currentPage"/>
-                </div>
-            </div>
-            <div class="col">
-                <scheduled-list :scheduled="scheduled"></scheduled-list>
-            </div>
-        </div>
+    <div>
+        <v-card-title>
+            Groups
+            <v-spacer></v-spacer>
+            <v-text-field
+                    append-icon="search"
+                    label="Search"
+                    single-line
+                    hide-details
+                    v-model="search"
+            ></v-text-field>
+        </v-card-title>
+
+        <v-data-table
+                v-bind:headers="headers"
+                v-bind:items="data"
+                v-bind:search="search"
+                v-model="selected"
+                selected-key="name"
+                select-all
+                :rows-per-page-items="[12]"
+                class="elevation-1"
+        >
+            <template slot="items" scope="props">
+                <td>
+                    <v-checkbox
+                            primary
+                            hide-details
+                            v-model="props.selected"
+                    ></v-checkbox>
+                </td>
+                <td>
+                    <v-avatar size="36px" slot="activator">
+                        <img :src="urlGroup(props.item)">
+                    </v-avatar>
+                </td>
+                <td>{{ props.item.name }}</td>
+                <td class="text-xs-right">{{ props.item.members}}</td>
+                <td class="text-xs-right">{{ props.item.pool_count}}</td>
+                <td class="text-xs-right">{{ props.item.throttle.remaining }} / {{ props.item.throttle.count
+                    }}
+                </td>
+                <td class="text-xs-right">{{ props.item.throttle.mode }}</td>
+            </template>
+        </v-data-table>
     </div>
 </template>
 <script>
   import { url } from '../mixins/urlPhoto.js'
   import _ from 'lodash'
-  import ScheduledList from './ScheduledList.vue'
-  import Pool from '../components/Pool.vue'
   import { getSignedRequest, postSignedRequest } from '../libs/awsLib'
 
   export default {
     name: 'Group',
-    components: {Pool, ScheduledList},
     mixins: [url],
     data () {
       return {
-        currentPage: 1,
-        perPage: 10,
-        sortBy: null,
-        totalRows: 0,
-        sortDesc: false,
         filter: '',
-        fields: {
-          logo: {label: 'Logo', sortable: false, class: 'd-md-table-cell d-none'},
-          name: {label: 'Name', sortable: true},
-          members: {label: 'Members', sortable: true, class: 'text-center d-none d-md-table-cell'},
-          pool_count: {label: 'Photos', sortable: true, class: 'text-center d-none d-md-table-cell'},
-          throttle: {label: 'Remaining', sortable: false, class: 'text-center'},
-          mode: {label: 'Mode', sortable: false, class: 'text-center'},
-          actions: {label: 'Actions'}
-        },
-        scheduled: []
+        data: [],
+        search: '',
+        selected: [],
+        headers: [
+          {text: 'Image', value: 'name', sortable: false},
+          {
+            text: 'Name',
+            align: 'left',
+            value: 'name'
+          },
+          {text: 'Members', value: 'members'},
+          {text: 'Photos', value: 'pool_count'},
+          {text: 'Remaining', value: 'throttle.remaining'},
+          {text: 'Mode', value: 'throttle.mode'}
+        ]
       }
     },
     watch: {
@@ -86,21 +83,16 @@
     },
     mounted () {
       this.filter = localStorage.getItem('groupFilter')
+      this.myProvider()
     },
     methods: {
       async myProvider (ctx, callback) {
         this.axios(await getSignedRequest('groups'))
           .then((response) => {
-            this.totalRows = response.data.length
-            callback(response.data)
+            this.data = response.data
           })
           .catch(function (error) {
             console.log(error)
-          })
-
-        this.axios(await getSignedRequest('scheduled'))
-          .then((response) => {
-            this.scheduled = response.data
           })
       },
       addToPool (item, index, button) {

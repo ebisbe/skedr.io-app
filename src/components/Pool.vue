@@ -1,16 +1,21 @@
 <template>
-    <b-collapse id="pool" class="pool">
-        <b-card>
-            <img
-                    v-for="photo in $store.state.pool"
-                    :key="photo.nsid"
-                    class="img-thumbnail mr-2"
-                    :src="urlPhoto(photo)"
-                    @click="removeFromPool(photo)"
-            >
-            <span v-if="!$store.state.pool.length">The pool is empty. Add some images.</span>
-        </b-card>
-    </b-collapse>
+    <v-card>
+        <v-subheader>Photo pool</v-subheader>
+        <span v-if="!$store.state.pool.length">The pool is empty. Add some images.</span>
+        <v-container v-else fluid grid-list-sm>
+            <v-layout row wrap>
+                <v-flex xs4 v-for="photo in $store.state.pool"
+                        :key="photo.nsid"
+                        @click="removeFromPool(photo)">
+                    <v-card>
+                        <img class="image"
+                             :src="urlPhoto(photo)"
+                             alt="lorem" width="100%" height="100%">
+                    </v-card>
+                </v-flex>
+            </v-layout>
+        </v-container>
+    </v-card>
 </template>
 <script>
   import { url } from '../mixins/urlPhoto.js'
@@ -33,14 +38,3 @@
     }
   }
 </script>
-<style>
-    .pool .card-body {
-        overflow-x: auto;
-        overflow-y: hidden;
-        white-space: nowrap;
-    }
-
-    .pool img:hover {
-        border-color: red;
-    }
-</style>

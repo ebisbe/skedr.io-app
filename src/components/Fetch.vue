@@ -1,7 +1,6 @@
 <script>
   import _ from 'lodash'
-  import aws41 from 'aws41'
-  import AWS from 'aws-sdk'
+  import { signReq } from '../libs/aws-lib'
 
   export default {
     name: 'fetch',
@@ -38,7 +37,7 @@
           return res
         }
 
-        const currentPromise = activePromise = this.signReq()
+        const currentPromise = activePromise = this.axios(signReq(this.url, this.params, this.data, this.method))
 
         res.status = 'pending'
 
@@ -86,38 +85,6 @@
     render () {
       const res = this.$scopedSlots.default(this.res)
       return Array.isArray(res) ? res[0] : res
-    },
-
-    methods: {
-      signReq () {
-        const path = this.url.replace('@', '%40')
-        let request = {
-          host: 'wqd87xurte.execute-api.eu-west-1.amazonaws.com',
-          method: this.method.toUpperCase(),
-          url: 'https://wqd87xurte.execute-api.eu-west-1.amazonaws.com/dev' + path,
-          path: '/dev' + path,
-          params: this.params,
-          data: this.data,
-          body: JSON.stringify(this.data)
-        }
-
-        if (this.method === 'post') {
-          request.headers = {
-            'content-type': 'application/json'
-          }
-        }
-
-        let signedRequest = aws41.sign(request,
-          {
-            secretAccessKey: AWS.config.credentials.secretAccessKey,
-            accessKeyId: AWS.config.credentials.accessKeyId,
-            sessionToken: AWS.config.credentials.sessionToken
-          })
-        delete signedRequest.headers['Host']
-        delete signedRequest.headers['Content-Length']
-
-        return this.axios(signedRequest)
-      }
     }
   }
 </script>

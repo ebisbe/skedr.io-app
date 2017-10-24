@@ -121,6 +121,7 @@
   import Photo from '../components/Photo.vue'
   import * as _ from 'lodash'
   import { mapGetters, mapState } from 'vuex'
+  import { signReq } from '../libs/aws-lib'
 
   export default {
     name: 'Group',
@@ -132,7 +133,6 @@
         hover: false,
         photosSearch: '',
         photos: [],
-        scheduled: [],
         status: '',
         data: [],
         error: ''
@@ -182,13 +182,13 @@
         console.log('Pushing photos')
         _.forEach(this.selectedGroups, (group) => {
           _.forEach(this.pool, (photo) => {
-            this.axios.post('/pool', {
-              photoId: photo.id,
-              groupId: group.nsid,
-              secret: photo.secret
-            }).then((response) => {
-              this.scheduled = []
-              this.fetchScheduledPhotos()
+            this.axios(
+              signReq('/pool', '', {
+                photoId: photo.id,
+                groupId: group.nsid,
+                secret: photo.secret
+              }, 'post')
+            ).then((response) => {
             })
           })
         })

@@ -4,6 +4,8 @@
   "description": "A Vue.js project",
   "author": "Enric Bisbe Gil <enricu@gmail.com>",
   "private": true,
+  "frontend": "flickr-photo-scheduler",
+  "distribution_id": "E2M4Q47YFFTHSO",
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
@@ -11,7 +13,10 @@
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
-    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
+    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
+    "predeploy": "npm run build",
+    "deploy": "aws s3 sync dist/ s3://$npm_package_frontend",
+    "postdeploy": "aws cloudfront create-invalidation --distribution-id $npm_package_distribution_id --paths '/*'"
   },
   "dependencies": {
     "aws-sdk": "^2.139.0",

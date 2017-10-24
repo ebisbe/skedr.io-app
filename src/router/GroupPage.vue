@@ -39,7 +39,7 @@
                 </v-flex>
                 <v-flex md3 xs12>
                     <h2 class="display-1 ma-3">Scheduled photos</h2>
-                    <scheduledList></scheduledList>
+                    <scheduled-photos></scheduled-photos>
                 </v-flex>
                 <v-tooltip left>
                     <v-fab-transition slot="activator">
@@ -116,7 +116,7 @@
 </template>
 
 <script>
-  import ScheduledList from '../components/ScheduledPhotos.vue'
+  import ScheduledPhotos from '../components/ScheduledPhotos.vue'
   import ExpansionPanel from '../components/ExpansionPanel.vue'
   import Photo from '../components/Photo.vue'
   import * as _ from 'lodash'
@@ -125,7 +125,7 @@
 
   export default {
     name: 'Group',
-    components: {ExpansionPanel, ScheduledList, Photo},
+    components: {ExpansionPanel, ScheduledPhotos, Photo},
     data () {
       return {
         dialog: false,

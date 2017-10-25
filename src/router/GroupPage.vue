@@ -18,6 +18,16 @@
                             </v-flex>
                         </v-layout>
                     </v-container>
+                    <div class="mx-4">
+                        <v-layout align-center row spacer>
+                            <v-flex xs3 sm2 md1></v-flex>
+                            <v-flex no-wrap ellipsis class="grey--text"><strong>Group name</strong></v-flex>
+                            <v-flex md1 text-xs-center hidden-xs-only class="grey--text"><strong>Last addition</strong></v-flex>
+                            <v-flex md2 text-xs-center hidden-xs-only class="grey--text"><strong>Pool count</strong></v-flex>
+                            <v-flex md2 text-xs-center hidden-xs-only class="grey--text"><strong>Members</strong></v-flex>
+                            <v-flex xs4 sm2 class="grey--text" text-xs-center><strong>Throttle</strong></v-flex>
+                        </v-layout>
+                    </div>
                     <my-fetch url="/groups">
                         <v-expansion-panel popout slot-scope="data">
                             <v-expansion-panel-content

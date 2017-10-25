@@ -26,6 +26,7 @@
             nextDay: '[Tomorrow]',
             nextWeek: 'dddd, Do',
             sameElse: 'DD-MM-YYYY',
+            lastDay: '[Yesterday]',
             sameDay: '[Today]'
           })
           return photo

@@ -82,7 +82,11 @@
                                 <v-layout wrap>
                                     <v-flex xs12>
                                         <form @submit.stop.prevent="">
-                                            <v-text-field label="Text" v-model="photosSearch"></v-text-field>
+                                            <v-text-field label="Text" v-model="photosSearch"
+                                                          @keyup.esc.prevent.stop="photosSearch=''"
+                                                          :append-icon="photosSearch === '' ? '' : 'clear'"
+                                                          :append-icon-cb="() => (photosSearch = '')">
+                                            </v-text-field>
                                         </form>
                                     </v-flex>
                                     <my-fetch :url="searchImages" method="post" :data="{text: photosSearch}">
@@ -146,7 +150,7 @@
     created () {
       this.groupFilter = localStorage.getItemDef('groupFilter', '')
 
-      document.addEventListener('keydown', event => {
+      document.addEventListener('keyup', event => {
         if (event.keyCode === 27 || event.key === 'Escape') {
           this.dialog = false
         }

@@ -26,6 +26,9 @@
                                           v-model="password"
                                           :disabled="disableAllInputs"
                                           pattern="[\S]+"
+                                          :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
+                                          :append-icon-cb="() => (passVisibility = !passVisibility)"
+                                          :type="passVisibility ? 'password' : 'text'"
                                           min="6"
                                           required></v-text-field>
                             <p>Your password must be at least 6 characters long, contain letters and numbers
@@ -54,7 +57,8 @@
       protectedUI: false,
       username: '',
       password: '',
-      waiting: false
+      waiting: false,
+      passVisibility: true
     }),
     methods: {
       handleSubmit () {

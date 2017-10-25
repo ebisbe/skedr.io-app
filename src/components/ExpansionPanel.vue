@@ -68,6 +68,7 @@
       },
       checkBoxClick () {
         this.checked = !this.checked
+        this.$set(this.group, 'checked', this.checked)
         this.$store.commit('addToGroup', {group: this.group, add: this.checked})
       },
       fetchGroupPhotos () {

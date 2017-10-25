@@ -21,9 +21,10 @@
                     <my-fetch url="/groups">
                         <v-expansion-panel popout slot-scope="data">
                             <v-expansion-panel-content
-                                    v-for="group in data"
+                                    v-for="group in sortAndFilter(data)"
                                     :key="group.name"
-                                    v-show="hide(group)">
+                                    v-show="hide(group)"
+                                    :class="{'grey lighten-4': group.checked}">
                                 <expansion-panel slot="header" :group="group"></expansion-panel>
                                 <v-card>
                                     <v-card-text class="grey lighten-3">
@@ -215,6 +216,9 @@
       },
       hide (group) {
         return group.name.toLowerCase().search(this.groupFilter) >= 0
+      },
+      sortAndFilter (group) {
+        return _.sortBy(group, ['name'])
       }
     }
   }

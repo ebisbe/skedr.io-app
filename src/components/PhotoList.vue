@@ -7,12 +7,7 @@
             <v-list-tile-title v-html="title"></v-list-tile-title>
             <v-list-tile-sub-title v-html="photo.message"></v-list-tile-sub-title>
         </v-list-tile-content>
-        <v-list-tile-action>
-            <v-btn icon ripple>
-                <v-icon class="grey--text text--lighten-1">format_line_spacing
-                </v-icon>
-            </v-btn>
-        </v-list-tile-action>
+        <slot name="action"></slot>
     </v-list-tile>
 </template>
 <script>

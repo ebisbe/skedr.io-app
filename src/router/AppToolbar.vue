@@ -2,9 +2,7 @@
     <v-toolbar app fixed :class="[activeFab.class]" dark>
         <v-toolbar-side-icon></v-toolbar-side-icon>
 
-        <v-toolbar-title>
-            <router-link v-text="title" to="/"></router-link>
-        </v-toolbar-title>
+        <v-toolbar-title v-text="title"></v-toolbar-title>
         <v-spacer></v-spacer>
         <div v-show="addingPhotosToGroup" class="title">{{ selectedGroups.length }} groups selected</div>
         <v-spacer></v-spacer>

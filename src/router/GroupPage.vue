@@ -104,9 +104,17 @@
                     <v-card v-else>
                         <v-card-title class="headline">Add photos to selected groups?</v-card-title>
                         <v-card-text>
-                            <ul>
-                                <li v-for="group in selectedGroups" v-html="group.name"></li>
-                            </ul>
+                            <v-list subheader>
+                                <v-subheader>Selected groups</v-subheader>
+                                <v-list-tile avatar v-for="group in selectedGroups" :key="group.title">
+                                    <v-list-tile-avatar>
+                                        <img :src="urlGroup(group)"/>
+                                    </v-list-tile-avatar>
+                                    <v-list-tile-content>
+                                        <v-list-tile-title v-html="group.name"></v-list-tile-title>
+                                    </v-list-tile-content>
+                                </v-list-tile>
+                            </v-list>
                             Confirming will add all the photos to each group and schedule all the ones can not be
                             added.
                         </v-card-text>
@@ -131,10 +139,12 @@
   import * as _ from 'lodash'
   import { mapGetters, mapState } from 'vuex'
   import { signReq } from '../libs/aws-lib'
+  import { url } from '../mixins/urlPhoto'
 
   export default {
     name: 'Group',
     components: {ExpansionPanel, ScheduledPhotos, Photo},
+    mixins: [url],
     data () {
       return {
         dialog: false,

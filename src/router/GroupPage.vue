@@ -6,9 +6,6 @@
                     <v-container grid-list-xl>
                         <v-layout row wrap>
                             <v-flex xs12 sm6>
-                                <h1 class="display-1">Groups</h1>
-                            </v-flex>
-                            <v-flex xs12 sm6>
                                 <v-text-field label="Filter groups"
                                               v-model="groupFilter"
                                               @keyup.esc="groupFilter=''"
@@ -22,9 +19,12 @@
                         <v-layout align-center row spacer>
                             <v-flex xs3 sm2 md1></v-flex>
                             <v-flex no-wrap ellipsis class="grey--text"><strong>Group name</strong></v-flex>
-                            <v-flex md1 text-xs-center hidden-xs-only class="grey--text"><strong>Last addition</strong></v-flex>
-                            <v-flex md2 text-xs-center hidden-xs-only class="grey--text"><strong>Pool count</strong></v-flex>
-                            <v-flex md2 text-xs-center hidden-xs-only class="grey--text"><strong>Members</strong></v-flex>
+                            <v-flex md1 text-xs-center hidden-xs-only class="grey--text"><strong>Last addition</strong>
+                            </v-flex>
+                            <v-flex md2 text-xs-center hidden-xs-only class="grey--text"><strong>Pool count</strong>
+                            </v-flex>
+                            <v-flex md2 text-xs-center hidden-xs-only class="grey--text"><strong>Members</strong>
+                            </v-flex>
                             <v-flex xs4 sm2 class="grey--text" text-xs-center><strong>Throttle</strong></v-flex>
                         </v-layout>
                     </div>
@@ -170,6 +170,7 @@
     },
     created () {
       this.groupFilter = localStorage.getItemDef('groupFilter', '')
+      this.$store.commit('setPageTitle', 'Group')
 
       document.addEventListener('keyup', event => {
         if (event.keyCode === 27 || event.key === 'Escape') {

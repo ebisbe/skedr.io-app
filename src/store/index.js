@@ -19,6 +19,7 @@ export default new Vuex.Store({
   plugins: devenv ? [createLogger()] : [],
   state: {
     rightDrawer: false,
+    pageTitle: '',
     pool: [],
     groups: [],
     selectedGroups: [],
@@ -55,6 +56,9 @@ export default new Vuex.Store({
     },
     updateGroupFilter (state, value) {
       state.groupFilter = value.toLowerCase()
+    },
+    setPageTitle (state, value) {
+      state.pageTitle = value
     }
   },
   getters: {

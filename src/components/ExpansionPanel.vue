@@ -67,8 +67,10 @@
         per_page: 1,
         group_id: this.group.nsid
       })
-        .then((response) => {
-          this.$set(this.group, 'dateadded', response.body.photos.photo[0].dateadded)
+        .then(({body}) => {
+          if (body.photos.length > 0) {
+            this.$set(this.group, 'dateadded', body.photos.photo[0].dateadded)
+          }
         })
     },
     data () {

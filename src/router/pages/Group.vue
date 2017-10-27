@@ -144,13 +144,13 @@
 </template>
 
 <script>
-  import ScheduledPhotos from '../components/ScheduledPhotos.vue'
-  import ExpansionPanel from '../components/ExpansionPanel.vue'
-  import Photo from '../components/Photo.vue'
+  import ScheduledPhotos from '../../components/ScheduledPhotos.vue'
+  import ExpansionPanel from '../../components/ExpansionPanel.vue'
+  import Photo from '../../components/Photo.vue'
   import * as _ from 'lodash'
   import { mapGetters, mapState } from 'vuex'
-  import { signReq } from '../libs/aws-lib'
-  import { url } from '../mixins/urlPhoto'
+  import { signReq } from '../../libs/aws-lib'
+  import { url } from '../../mixins/urlPhoto'
 
   export default {
     name: 'Group',

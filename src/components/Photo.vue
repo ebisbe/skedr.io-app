@@ -13,7 +13,7 @@
             </v-container>
         </v-card-media>
         <v-card-actions class="white">
-            <v-btn fab small class="deep-purple--text"
+            <v-btn flat icon small class="deep-purple--text"
                    :outline="!disabled" :disabled="disabled"
                    @click="addToPool()">
                 <v-icon>add</v-icon>

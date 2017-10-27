@@ -46,7 +46,7 @@
 </template>
 
 <script>
-  import { AwsCredentials } from '../libs/aws-lib'
+  import { AwsCredentials } from '../../libs/aws-lib'
 
   export default {
     name: 'Login',

@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Group from './GroupPage.vue'
-import Home from './HomePage.vue'
+import Group from './pages/Group.vue'
+import Home from './pages/Home.vue'
 import Toolbar from './Toolbar.vue'
 import AppToolbar from './AppToolbar.vue'
 import RightBar from './RightBar.vue'
-import Login from './LoginPage.vue'
+import Login from './pages/Login.vue'
+import Scheduled from './pages/Scheduled.vue'
+import Dashboard from './pages/Dashboard.vue'
 
 Vue.use(Router)
 
@@ -21,6 +23,16 @@ export default new Router({
       }
     },
     {
+      path: '/dashboard',
+      name: 'Dashboard',
+      components: {
+        default: Dashboard,
+        toolbar: AppToolbar,
+        rightbar: RightBar
+      },
+      meta: {requiresAuth: true}
+    },
+    {
       path: '/groups',
       name: 'Group',
       components: {
@@ -28,7 +40,17 @@ export default new Router({
         toolbar: AppToolbar,
         rightBar: RightBar
       },
-      meta: { requiresAuth: true }
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/scheduled',
+      name: 'Scheduled',
+      components: {
+        default: Scheduled,
+        toolbar: AppToolbar,
+        rightBar: RightBar
+      },
+      meta: {requiresAuth: true}
     },
     {
       path: '/login',

@@ -7,7 +7,7 @@
                 v-model="drawer"
         >
             <v-list>
-                <v-list-tile v-for="item in lists" :to="{name: item.name}" ripple>
+                <v-list-tile v-for="item in lists" :to="{name: item.name}" :key="item.name" ripple>
                     <v-list-tile-action>
                         <v-icon v-html="item.icon"></v-icon>
                     </v-list-tile-action>

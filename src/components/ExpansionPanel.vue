@@ -68,10 +68,9 @@
         group_id: this.group.nsid
       })
         .then(({body}) => {
-          if (body.photos.length > 0) {
-            this.$set(this.group, 'dateadded', body.photos.photo[0].dateadded)
-          }
+          this.$set(this.group, 'dateadded', body.photos.photo[0].dateadded)
         })
+        .catch(error => { console.log(error) })
     },
     data () {
       return {

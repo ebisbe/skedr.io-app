@@ -3,9 +3,12 @@
         <v-list two-line slot-scope="data">
             <template v-for="(item, index) in scheduled(data)">
                 <v-subheader v-text="index"></v-subheader>
-                <template v-for="(photo, iteration) in item">
-                    <v-divider v-show="iteration !== 0" inset></v-divider>
-                    <photo-list :photo="photo"></photo-list>
+                <template v-for="(group, groupId) in groups(item)">
+                    <v-subheader v-text="groupId"></v-subheader>
+                    <template v-for="(photo, iteration) in group">
+                        <v-divider v-show="iteration !== 0" inset></v-divider>
+                        <photo-list :photo="photo"></photo-list>
+                    </template>
                 </template>
             </template>
         </v-list>
@@ -33,6 +36,9 @@
           return photo
         })
         return _.groupBy(mappedData, 'headerDate')
+      },
+      groups (data) {
+        return _.groupBy(data, 'groupId')
       }
     }
   }

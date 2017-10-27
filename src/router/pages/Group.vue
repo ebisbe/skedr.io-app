@@ -2,7 +2,7 @@
     <v-content>
         <v-container fluid grid-list-xl>
             <v-layout row wrap>
-                <v-flex md9 xs12>
+                <v-flex xs12>
                     <v-container grid-list-xl>
                         <v-layout row wrap>
                             <v-flex xs12 sm6>
@@ -52,10 +52,6 @@
                             </v-expansion-panel-content>
                         </v-expansion-panel>
                     </my-fetch>
-                </v-flex>
-                <v-flex md3 xs12>
-                    <h2 class="display-1 ma-3">Scheduled photos</h2>
-                    <scheduled-photos></scheduled-photos>
                 </v-flex>
                 <v-tooltip left>
                     <v-fab-transition slot="activator">
@@ -144,7 +140,6 @@
 </template>
 
 <script>
-  import ScheduledPhotos from '../../components/ScheduledPhotos.vue'
   import ExpansionPanel from '../../components/ExpansionPanel.vue'
   import Photo from '../../components/Photo.vue'
   import * as _ from 'lodash'
@@ -154,7 +149,7 @@
 
   export default {
     name: 'Group',
-    components: {ExpansionPanel, ScheduledPhotos, Photo},
+    components: {ExpansionPanel, Photo},
     mixins: [url],
     data () {
       return {
@@ -212,8 +207,8 @@
       pushPhotosToGroups () {
         console.log('Pushing photos')
         _.forEach(this.selectedGroups, (group) => {
-          _.forEach(this.pool, (photo) => {
-            this.axios(
+          _.forEach(this.pool, async (photo) => {
+            await this.axios(
               signReq('/pool', '', {
                 photoId: photo.id,
                 groupId: group.nsid,

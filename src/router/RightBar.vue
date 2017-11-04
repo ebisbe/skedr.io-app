@@ -10,7 +10,7 @@
         </v-list>
 
         <v-container fluid grid-list-md>
-            <transition-group name="list" tag="div" class="layout wrap row">
+            <div class="layout wrap row">
                 <v-flex xs6 v-for="photo in pool" :key="photo.id">
                     <v-card tile>
                         <v-card-media :src="photo.url_m" height="150px">
@@ -21,7 +21,7 @@
                         </v-card-media>
                     </v-card>
                 </v-flex>
-            </transition-group>
+            </div>
         </v-container>
     </v-navigation-drawer>
 </template>

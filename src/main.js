@@ -2,6 +2,8 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import { ApolloClient, createBatchingNetworkInterface } from 'apollo-client'
+import VueApollo from 'vue-apollo'
 import axios from 'axios'
 import Axios from 'vue-axios'
 import router from './router'
@@ -37,12 +39,27 @@ router.beforeEach(async (to, from, next) => {
   next()
 })
 
+// Create the apollo client
+const apolloClient = new ApolloClient({
+  networkInterface: createBatchingNetworkInterface({
+    uri: 'http://localhost:1337/graphql'
+  }),
+  connectToDevTools: true
+})
+const apolloProvider = new VueApollo({
+  defaultClient: apolloClient
+})
+
+// Install the vue plugin
+Vue.use(VueApollo)
+
 Vue.component('MyFetch', MyFetch)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
+  apolloProvider,
   template: '<App/>',
   components: {App},
   beforeCreate () {

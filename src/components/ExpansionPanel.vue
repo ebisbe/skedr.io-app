@@ -1,21 +1,21 @@
 <template>
     <div>
-        <v-layout align-center row spacer @click="fetchGroupPhotos()">
+        <v-layout align-center row spacer>
             <v-flex xs3 sm2 md1 @click.stop="" @mouseover="mouseOver()" @mouseleave="mouseLeave()">
                 <v-avatar size="40px" slot="activator" :class="{hidden: hideAvatar}">
-                    <img :src="urlGroup(group)" :alt="group.name">
+                    <img :src="group.icon" :alt="group.title">
                 </v-avatar>
                 <v-checkbox v-model="checked" hide-details @click="checkBoxClick()"
                             :class="{hidden: !hideAvatar, 'pa-1':true}"></v-checkbox>
             </v-flex>
             <v-flex no-wrap ellipsis>
-                <strong>{{ group.name }}</strong>
+                <strong>{{ group.title }}</strong>
             </v-flex>
             <v-flex md1 text-sm-center>
                 {{ dateAddedFormated }}
             </v-flex>
             <v-flex md2 text-sm-right hidden-xs-only>
-                {{ group.pool_count }}
+                {{ group.poolCount }}
                 <v-icon>photo</v-icon>
             </v-flex>
             <v-flex md2 text-sm-right hidden-xs-only>
@@ -24,15 +24,13 @@
             </v-flex>
             <v-flex xs4 sm2 class="grey--text" text-xs-right>
                 <span v-html="throttleText"></span>
-                <strong>{{ group.throttle.mode }}</strong>
+                <strong>{{ group.throttleMode }}</strong>
             </v-flex>
         </v-layout>
     </div>
 </template>
 <script>
-  import { url } from '../mixins/urlPhoto'
   import { mapState } from 'vuex'
-  import Flickr from 'flickr-sdk'
   import Moment from 'moment'
 
   Moment.updateLocale('en', {
@@ -56,22 +54,10 @@
 
   export default {
     name: 'ExpansionPanel',
-    mixins: [url],
     props: {
       group: {required: true}
     },
-    created () {
-      let flickr = new Flickr('78ab8d949e94be81d67730224abbcdb1')
-      flickr.groups.pools.getPhotos({
-        page: 1,
-        per_page: 1,
-        group_id: this.group.nsid
-      })
-        .then(({body}) => {
-          this.$set(this.group, 'dateadded', body.photos.photo[0].dateadded)
-        })
-        .catch(error => { console.log(error) })
-    },
+    created () {},
     data () {
       return {
         mouseOverAvatar: false,
@@ -83,22 +69,22 @@
         'selectedGroups'
       ]),
       throttleText () {
-        if (this.group.throttle.remaining === undefined) {
+        if (this.group.throttleRemaining === undefined) {
           return '∞'
         }
-        if (this.group.throttle.count === 0) {
+        if (this.group.throttleCount === 0) {
           return '&mdash;'
         }
-        return this.group.throttle.remaining + '/' + this.group.throttle.count
+        return this.group.throttleRemaining + '/' + this.group.throttleCount
       },
       hideAvatar () {
         return this.selectedGroups.length > 0 || this.mouseOverAvatar
       },
       dateAddedFormated () {
-        if (this.group.dateadded === undefined) {
+        if (this.group.photos[0].rawDateAdded === undefined) {
           return '-'
         } else {
-          return Moment.unix(this.group.dateadded).fromNow(true)
+          return Moment(this.group.photos[0].rawDateAdded).fromNow(true)
         }
       }
     },
@@ -111,18 +97,7 @@
       },
       checkBoxClick () {
         this.checked = !this.checked
-        if (this.checked) {
-          this.$set(this.group, 'checked', this.checked)
-          this.$store.commit('addToGroup', {group: this.group, add: this.checked})
-        } else {
-          this.$store.commit('addToGroup', {group: this.group, add: this.checked})
-          this.$set(this.group, 'checked', this.checked)
-        }
-      },
-      fetchGroupPhotos () {
-        if (!this.group.hasOwnProperty('photosUrl')) {
-          this.$set(this.group, 'photosUrl', '/groups/pool/' + this.group.nsid)
-        }
+        this.$store.commit('addToGroup', {group: this.group, add: this.checked})
       }
     }
   }

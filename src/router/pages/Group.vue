@@ -28,30 +28,29 @@
                             <v-flex xs4 sm2 class="grey--text" text-xs-center><strong>Throttle</strong></v-flex>
                         </v-layout>
                     </div>
-                    <my-fetch url="/groups">
-                        <v-expansion-panel popout slot-scope="data">
-                            <v-expansion-panel-content
-                                    v-for="group in sortAndFilter(data)"
-                                    :key="group.name"
-                                    v-show="hide(group)"
-                                    :class="{'grey lighten-4': group.checked}">
-                                <expansion-panel slot="header" :group="group"></expansion-panel>
-                                <v-card>
-                                    <v-card-text class="grey lighten-3">
-                                        <my-fetch :url="group.photosUrl">
-                                            <v-layout row wrap slot-scope="data">
-                                                <v-flex md3 sm4 xs6
-                                                        v-for="photo in data.photo"
-                                                        :key="photo.id">
-                                                    <photo :photo="photo"></photo>
-                                                </v-flex>
-                                            </v-layout>
-                                        </my-fetch>
-                                    </v-card-text>
-                                </v-card>
-                            </v-expansion-panel-content>
-                        </v-expansion-panel>
-                    </my-fetch>
+                    <v-expansion-panel popout>
+                        <v-expansion-panel-content
+                                v-for="group in sortAndFilter(groups)"
+                                :key="group.title"
+                                v-show="hide(group)"
+                                v-model="expanded[group.groupId]"
+                                :class="{'grey lighten-4': group.checked}">
+                            <expansion-panel slot="header" :group="group"></expansion-panel>
+                            <v-card>
+                                <v-card-text class="grey lighten-3">
+                                    <my-fetch v-if="expanded[group.groupId]" :url="'/groups/pool/' + group.groupId">
+                                        <v-layout row wrap slot-scope="data">
+                                            <v-flex md3 sm4 xs6
+                                                    v-for="photo in data.photo"
+                                                    :key="photo.id">
+                                                <photo :photo="photo"></photo>
+                                            </v-flex>
+                                        </v-layout>
+                                    </my-fetch>
+                                </v-card-text>
+                            </v-card>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
                 </v-flex>
                 <v-tooltip left>
                     <v-fab-transition slot="activator">
@@ -118,7 +117,7 @@
                                         <img :src="urlGroup(group)"/>
                                     </v-list-tile-avatar>
                                     <v-list-tile-content>
-                                        <v-list-tile-title v-html="group.name"></v-list-tile-title>
+                                        <v-list-tile-title v-html="group.title"></v-list-tile-title>
                                     </v-list-tile-content>
                                 </v-list-tile>
                             </v-list>
@@ -146,6 +145,7 @@
   import { mapGetters, mapState } from 'vuex'
   import { signReq } from '../../libs/aws-lib'
   import { url } from '../../mixins/urlPhoto'
+  import gql from 'graphql-tag'
 
   export default {
     name: 'Group',
@@ -160,7 +160,8 @@
         photos: [],
         status: '',
         data: [],
-        error: ''
+        error: '',
+        expanded: []
       }
     },
     created () {
@@ -221,10 +222,37 @@
         this.dialog = false
       },
       hide (group) {
-        return group.name.toLowerCase().search(this.groupFilter) >= 0
+        return group.title.toLowerCase().search(this.groupFilter) >= 0
       },
       sortAndFilter (group) {
-        return _.sortBy(group, ['name'])
+        return _.sortBy(group, ['title'])
+      }
+    },
+    apollo: {
+      groups: {
+        // gql query
+        query: gql`query groups($userId: ID!){
+  userGroups(userId: $userId) {
+    title
+    groupId
+    icon
+    poolCount
+    members
+    throttleMode
+    throttleCount
+    throttleRemaining
+    photos(first: 1) {
+      rawDateAdded
+      dateAdded
+    }
+  }
+}`,
+        // Static parameters
+        variables: {
+          userId: '144521588@N08'
+        },
+        update: data => data.userGroups,
+        fetchPolicy: 'cache-and-network'
       }
     }
   }

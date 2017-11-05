@@ -42,9 +42,9 @@ export default new Vuex.Store({
     addToGroup (state, payload) {
       if (payload.add) {
         state.selectedGroups.unshift(payload.group)
-        state.selectedGroups = _.uniqBy(state.selectedGroups, 'nsid')
+        state.selectedGroups = _.uniqBy(state.selectedGroups, 'groupId')
       } else {
-        state.selectedGroups = _.filter(state.selectedGroups, function (o) { return o.nsid !== payload.group.nsid })
+        state.selectedGroups = _.filter(state.selectedGroups, function (o) { return o.groupId !== payload.group.groupId })
       }
     },
     clearPool (state) {

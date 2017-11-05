@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer temporary right v-model="rightDrawer">
+    <v-navigation-drawer clipped persisten app right v-model="rightDrawer">
         <v-list>
             <v-list-tile>
                 <v-list-tile-action>
@@ -10,18 +10,22 @@
         </v-list>
 
         <v-container fluid grid-list-md>
-            <div class="layout wrap row">
-                <v-flex xs6 v-for="photo in pool" :key="photo.id">
-                    <v-card tile>
-                        <v-card-media :src="photo.url_m" height="150px">
-                            <v-btn class="gray darken-2" small light fab
-                                   @click.native.stop="$store.commit('addToPool', {photo: photo, add: false})">
-                                <v-icon>close</v-icon>
-                            </v-btn>
-                        </v-card-media>
-                    </v-card>
-                </v-flex>
-            </div>
+            <v-list subheader>
+                <v-list-tile avatar v-for="photo in pool" :key="photo.title" @click="">
+                    <v-list-tile-avatar>
+                        <img :src="photo.url_m"/>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title v-html="photo.title"></v-list-tile-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn icon ripple
+                               @click.native.stop="$store.commit('addToPool', {photo: photo, add: false})">
+                            <v-icon>close</v-icon>
+                        </v-btn>
+                    </v-list-tile-action>
+                </v-list-tile>
+            </v-list>
         </v-container>
     </v-navigation-drawer>
 </template>

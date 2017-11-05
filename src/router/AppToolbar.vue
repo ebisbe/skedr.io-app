@@ -18,14 +18,21 @@
             </v-list>
         </v-navigation-drawer>
 
-        <v-toolbar app fixed :class="[activeFab.class]" dark clipped-left>
+        <v-toolbar app fixed :class="[activeFab.class]" dark clipped-left clipped-right>
             <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             <v-toolbar-title v-text="pageTitle"></v-toolbar-title>
             <v-spacer></v-spacer>
             <div v-show="addingPhotosToGroup" class="title">{{ selectedGroups.length }} groups selected</div>
             <v-spacer></v-spacer>
+
+            <v-btn flat class="mr-4 deep-purple" @click.stop="logout">
+                Logout
+            </v-btn>
+            <v-btn icon>
+                <v-icon>settings</v-icon>
+            </v-btn>
             <v-btn flat
-                   @click.stop="$store.commit('updateRightDrawer', true)"
+                   @click.stop="rightDrawer = !rightDrawer"
                    class="deep-purple ligthen-2"
             >
                 Photo pool&nbsp;&nbsp;
@@ -33,12 +40,6 @@
                     <span slot="badge">{{ pool.length }}</span>
                     <v-icon>filter</v-icon>
                 </v-badge>
-            </v-btn>
-            <v-btn flat class="mr-4 deep-purple" @click.stop="logout">
-                Logout
-            </v-btn>
-            <v-btn icon>
-                <v-icon>settings</v-icon>
             </v-btn>
         </v-toolbar>
     </div>
@@ -77,7 +78,15 @@
       ...mapGetters([
         'activeFab',
         'addingPhotosToGroup'
-      ])
+      ]),
+      rightDrawer: {
+        get () {
+          return this.$store.state.rightDrawer
+        },
+        set (value) {
+          this.$store.commit('updateRightDrawer', value)
+        }
+      }
     },
     methods: {
       logout () {

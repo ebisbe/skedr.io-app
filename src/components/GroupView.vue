@@ -9,7 +9,7 @@
 </template>
 <script>
   import { mapState } from 'vuex'
-  import Photo from './photo.vue'
+  import Photo from './Photo.vue'
   import gql from 'graphql-tag'
 
   export default {

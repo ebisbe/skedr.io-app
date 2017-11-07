@@ -32,6 +32,7 @@
 <script>
   import { mapState } from 'vuex'
   import Moment from 'moment'
+  import _ from 'lodash'
 
   Moment.updateLocale('en', {
     relativeTime: {
@@ -57,7 +58,9 @@
     props: {
       group: {required: true}
     },
-    created () {},
+    created () {
+      this.checked = _.find(this.selectedGroups, {'groupId': this.group.groupId}) !== undefined
+    },
     data () {
       return {
         mouseOverAvatar: false,

@@ -106,7 +106,7 @@
                                 <v-subheader>Selected groups</v-subheader>
                                 <v-list-tile avatar v-for="group in selectedGroups" :key="group.title">
                                     <v-list-tile-avatar>
-                                        <img :src="urlGroup(group)"/>
+                                        <img :src="group.icon"/>
                                     </v-list-tile-avatar>
                                     <v-list-tile-content>
                                         <v-list-tile-title v-html="group.title"></v-list-tile-title>

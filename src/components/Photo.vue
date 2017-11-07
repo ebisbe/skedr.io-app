@@ -2,23 +2,23 @@
     <v-card hover>
         <v-card-media
                 height="125px"
-                :src="imageUrl"
-        >
+                :src="this.photo.images[1].source">
             <v-container fill-height fluid>
                 <v-layout fill-height>
-                    <v-flex xs12 align-end flexbox>
+                    <v-flex xs12 align-end flexbox class="pt-0">
                         <span class="subheading white--text">{{ photo.title }}</span>
                     </v-flex>
                 </v-layout>
             </v-container>
         </v-card-media>
-        <v-card-actions class="white">
-            <v-btn flat icon small class="deep-purple--text"
-                   :outline="!disabled" :disabled="disabled"
-                   @click="addToPool()">
-                <v-icon>add</v-icon>
-            </v-btn>
-            <v-spacer></v-spacer>
+        <v-card-text style="position: relative" class="pa-0">
+            <v-fab-transition>
+                <v-btn dark small fab absolute top right class="deep-purple"
+                       v-show="!disabled"
+                       @click="addToPool()">
+                    <v-icon>add</v-icon>
+                </v-btn>
+            </v-fab-transition>
             <v-btn target="_blank" flat icon
                    :href="'https://www.flickr.com/photos/' + photo.owner +'/' + photo.id ">
                 {{ photo.views }}
@@ -28,7 +28,7 @@
                 {{ groups.length }}
                 <v-icon>{{ bookmark }}</v-icon>
             </span>
-        </v-card-actions>
+        </v-card-text>
     </v-card>
 </template>
 <script>
@@ -61,14 +61,6 @@
       }
     },
     computed: {
-      /** Backwards compaitiblity with view group images */
-      imageUrl () {
-        if (this.photo.url_m !== undefined) {
-          return this.photo.url_m
-        } else {
-          return this.photo.images[1].source
-        }
-      },
       bookmark () {
         return this.groups.length > 0 ? 'bookmark' : 'bookmark_border'
       },

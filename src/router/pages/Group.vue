@@ -36,11 +36,18 @@
                                 v-model="expanded[group.groupId]"
                                 :class="{'grey lighten-4': group.checked}">
                             <expansion-panel slot="header" :group="group"></expansion-panel>
-                            <v-card>
-                                <v-card-text class="grey lighten-3">
-                                    <group-view v-if="expanded[group.groupId]" :groupId="group.groupId"></group-view>
-                                </v-card-text>
-                            </v-card>
+                            <v-progress-linear indeterminate height="3"
+                                               v-show="expanded[group.groupId] && loading"
+                                               class="my-0"></v-progress-linear>
+                                <v-card>
+                                    <v-card-text class="grey lighten-3">
+                                        <group-view
+                                                v-if="expanded[group.groupId]"
+                                                :groupId="group.groupId"
+                                                @isLoading="isLoading"
+                                        ></group-view>
+                                    </v-card-text>
+                                </v-card>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-flex>
@@ -154,7 +161,8 @@
         status: '',
         data: [],
         error: '',
-        expanded: []
+        expanded: [],
+        loading: false
       }
     },
     created () {
@@ -199,6 +207,9 @@
       }
     },
     methods: {
+      isLoading (loading) {
+        this.loading = loading
+      },
       pushPhotosToGroups () {
         console.log('Pushing photos')
         _.forEach(this.selectedGroups, (group) => {

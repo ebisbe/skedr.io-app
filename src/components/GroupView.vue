@@ -1,5 +1,5 @@
 <template>
-    <v-layout row wrap slot-scope="data">
+    <v-layout row wrap>
         <v-flex md3 sm4 xs6
                 v-for="photo in photos"
                 :key="photo.id">
@@ -23,7 +23,8 @@
     },
     data () {
       return {
-        photos: []
+        photos: [],
+        loading: 0
       }
     },
     apollo: {
@@ -48,6 +49,7 @@
           }
         },
         update: data => data.groupPhotos,
+        loadingKey: 'loading',
         fetchPolicy: 'cache-and-network'
       }
     },
@@ -55,6 +57,11 @@
       ...mapState([
         'userId'
       ])
+    },
+    watch: {
+      loading (value) {
+        this.$emit('isLoading', value)
+      }
     }
   }
 </script>

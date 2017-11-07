@@ -18,6 +18,7 @@ export default new Vuex.Store({
   strict: debug,
   plugins: devenv ? [createLogger()] : [],
   state: {
+    userId: '144521588@N08',
     rightDrawer: false,
     pageTitle: '',
     pool: [],

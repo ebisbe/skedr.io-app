@@ -11,20 +11,23 @@
 
         <v-container fluid grid-list-md>
             <v-list subheader>
-                <v-list-tile avatar v-for="photo in pool" :key="photo.title" @click="">
-                    <v-list-tile-avatar>
-                        <img :src="photo.url_m"/>
-                    </v-list-tile-avatar>
-                    <v-list-tile-content>
-                        <v-list-tile-title v-html="photo.title"></v-list-tile-title>
-                    </v-list-tile-content>
-                    <v-list-tile-action>
-                        <v-btn icon ripple
-                               @click.native.stop="$store.commit('addToPool', {photo: photo, add: false})">
-                            <v-icon>close</v-icon>
-                        </v-btn>
-                    </v-list-tile-action>
-                </v-list-tile>
+                <template v-for="(photo, key) in pool" >
+                    <v-divider v-show="key !== 0" inset></v-divider>
+                    <v-list-tile avatar :key="photo.title" @click="">
+                        <v-list-tile-avatar>
+                            <img :src="photo.images[0].source"/>
+                        </v-list-tile-avatar>
+                        <v-list-tile-content>
+                            <v-list-tile-title v-html="photo.title"></v-list-tile-title>
+                        </v-list-tile-content>
+                        <v-list-tile-action>
+                            <v-btn icon ripple
+                                   @click.native.stop="$store.commit('addToPool', {photo: photo, add: false})">
+                                <v-icon>close</v-icon>
+                            </v-btn>
+                        </v-list-tile-action>
+                    </v-list-tile>
+                </template>
             </v-list>
         </v-container>
     </v-navigation-drawer>

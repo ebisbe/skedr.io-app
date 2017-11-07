@@ -66,6 +66,10 @@
           {
             icon: 'access_time',
             name: 'Scheduled'
+          },
+          {
+            icon: 'photo',
+            name: 'Photos'
           }
         ]
       }

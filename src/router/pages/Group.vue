@@ -38,15 +38,7 @@
                             <expansion-panel slot="header" :group="group"></expansion-panel>
                             <v-card>
                                 <v-card-text class="grey lighten-3">
-                                    <my-fetch v-if="expanded[group.groupId]" :url="'/groups/pool/' + group.groupId">
-                                        <v-layout row wrap slot-scope="data">
-                                            <v-flex md3 sm4 xs6
-                                                    v-for="photo in data.photo"
-                                                    :key="photo.id">
-                                                <photo :photo="photo"></photo>
-                                            </v-flex>
-                                        </v-layout>
-                                    </my-fetch>
+                                    <group-view v-if="expanded[group.groupId]" :groupId="group.groupId"></group-view>
                                 </v-card-text>
                             </v-card>
                         </v-expansion-panel-content>
@@ -141,6 +133,7 @@
 <script>
   import ExpansionPanel from '../../components/ExpansionPanel.vue'
   import Photo from '../../components/Photo.vue'
+  import GroupView from '../../components/GroupView.vue'
   import * as _ from 'lodash'
   import { mapGetters, mapState } from 'vuex'
   import { signReq } from '../../libs/aws-lib'
@@ -149,7 +142,7 @@
 
   export default {
     name: 'Group',
-    components: {ExpansionPanel, Photo},
+    components: {ExpansionPanel, Photo, GroupView},
     mixins: [url],
     data () {
       return {
@@ -180,6 +173,7 @@
         'addingPhotosToGroup'
       ]),
       ...mapState([
+        'userId',
         'pool',
         'selectedGroups',
         'groupFilter'
@@ -211,8 +205,8 @@
           _.forEach(this.pool, async (photo) => {
             await this.axios(
               signReq('/pool', '', {
-                photoId: photo.id,
-                groupId: group.nsid,
+                photoId: photo.photoId,
+                groupId: group.groupId,
                 secret: photo.secret
               }, 'post')
             ).then((response) => {
@@ -247,12 +241,14 @@
     }
   }
 }`,
-        // Static parameters
-        variables: {
-          userId: '144521588@N08'
+        variables () {
+          return {
+            userId: this.userId
+          }
         },
         update: data => data.userGroups,
-        fetchPolicy: 'cache-and-network'
+        fetchPolicy:
+          'cache-and-network'
       }
     }
   }

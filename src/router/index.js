@@ -8,6 +8,7 @@ import RightBar from './RightBar.vue'
 import Login from './pages/Login.vue'
 import Scheduled from './pages/Scheduled.vue'
 import Dashboard from './pages/Dashboard.vue'
+import Photos from './pages/Photos.vue'
 
 Vue.use(Router)
 
@@ -47,6 +48,16 @@ export default new Router({
       name: 'Scheduled',
       components: {
         default: Scheduled,
+        toolbar: AppToolbar,
+        rightBar: RightBar
+      },
+      meta: {requiresAuth: true}
+    },
+    {
+      path: '/photos',
+      name: 'Photos',
+      components: {
+        default: Photos,
         toolbar: AppToolbar,
         rightBar: RightBar
       },

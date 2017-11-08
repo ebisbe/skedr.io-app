@@ -2,7 +2,7 @@
     <v-card hover>
         <v-card-media
                 height="125px"
-                :src="imageUrl">
+                :src="photo.url_m">
             <v-container fill-height fluid>
                 <v-layout fill-height>
                     <v-flex xs12 align-end flexbox class="pt-0">
@@ -62,13 +62,6 @@
     },
     computed: {
       /** Backwards compaitiblity with view group images */
-      imageUrl () {
-        if (this.photo.url_m !== undefined) {
-          return this.photo.url_m
-        } else {
-          return this.photo.images[1].source
-        }
-      },
       photoId () {
         if (this.photo.photoId !== undefined) {
           return this.photo.photoId

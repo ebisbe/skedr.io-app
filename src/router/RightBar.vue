@@ -15,7 +15,7 @@
                     <v-divider v-show="key !== 0" inset></v-divider>
                     <v-list-tile avatar :key="photo.title" @click="">
                         <v-list-tile-avatar>
-                            <img :src="imageUrl(photo)"/>
+                            <img :src="photo.url_m"/>
                         </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title v-html="photo.title"></v-list-tile-title>
@@ -47,16 +47,6 @@
         },
         set (value) {
           this.$store.commit('updateRightDrawer', value)
-        }
-      }
-    },
-    methods: {
-      /** Backwards compaitiblity with view group images */
-      imageUrl (photo) {
-        if (photo.url_m !== undefined) {
-          return photo.url_m
-        } else {
-          return photo.images[1].source
         }
       }
     }

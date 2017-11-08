@@ -31,11 +31,8 @@
     photoId
     title
     views
-    images(filter: {size: [Square, Medium]}) {
-      id
-      source
-      size
-    }
+    url_m
+    url_s
   }
   }`,
         variables: {

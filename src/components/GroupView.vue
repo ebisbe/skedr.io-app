@@ -30,16 +30,13 @@
     apollo: {
       photos: {
         query: gql `query photos ($userId: ID!, $groupId: ID!){
-  groupPhotos(groupId: $groupId, userId: $userId, first: 20, extras: "views") {
+  groupPhotos(groupId: $groupId, userId: $userId, first: 20) {
     id
     photoId
     title
     views
-    images(filter: {size: [Square, Medium]}) {
-      id
-      source
-      size
-    }
+    url_m
+    url_s
   }
 }`,
         variables () {

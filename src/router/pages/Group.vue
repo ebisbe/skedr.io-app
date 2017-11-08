@@ -39,15 +39,15 @@
                             <v-progress-linear indeterminate height="3"
                                                v-show="expanded[group.groupId] && loading"
                                                class="my-0"></v-progress-linear>
-                                <v-card>
-                                    <v-card-text class="grey lighten-3">
-                                        <group-view
-                                                v-if="expanded[group.groupId]"
-                                                :groupId="group.groupId"
-                                                @isLoading="isLoading"
-                                        ></group-view>
-                                    </v-card-text>
-                                </v-card>
+                            <v-card>
+                                <v-card-text class="grey lighten-3">
+                                    <group-view
+                                            v-if="expanded[group.groupId]"
+                                            :groupId="group.groupId"
+                                            @isLoading="isLoading"
+                                    ></group-view>
+                                </v-card-text>
+                            </v-card>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
                 </v-flex>
@@ -216,7 +216,9 @@
           _.forEach(this.pool, async (photo) => {
             await this.axios(
               signReq('/pool', '', {
-                photoId: photo.photoId,
+                /** BACKWARDS COMPATIBILITY **/
+                photoId: photo.photoId !== undefined ? photo.photoId : photo.id,
+                /** END **/
                 groupId: group.groupId,
                 secret: photo.secret
               }, 'post')

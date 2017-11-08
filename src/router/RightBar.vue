@@ -11,11 +11,11 @@
 
         <v-container fluid grid-list-md>
             <v-list subheader>
-                <template v-for="(photo, key) in pool" >
+                <template v-for="(photo, key) in pool">
                     <v-divider v-show="key !== 0" inset></v-divider>
                     <v-list-tile avatar :key="photo.title" @click="">
                         <v-list-tile-avatar>
-                            <img :src="photo.images[0].source"/>
+                            <img :src="imageUrl(photo)"/>
                         </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title v-html="photo.title"></v-list-tile-title>
@@ -47,6 +47,16 @@
         },
         set (value) {
           this.$store.commit('updateRightDrawer', value)
+        }
+      }
+    },
+    methods: {
+      /** Backwards compaitiblity with view group images */
+      imageUrl (photo) {
+        if (photo.url_m !== undefined) {
+          return photo.url_m
+        } else {
+          return photo.images[1].source
         }
       }
     }

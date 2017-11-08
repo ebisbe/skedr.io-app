@@ -2,7 +2,7 @@
     <v-card hover>
         <v-card-media
                 height="125px"
-                :src="this.photo.images[1].source">
+                :src="imageUrl">
             <v-container fill-height fluid>
                 <v-layout fill-height>
                     <v-flex xs12 align-end flexbox class="pt-0">
@@ -48,7 +48,7 @@
     },
     created () {
       let flickr = new Flickr('78ab8d949e94be81d67730224abbcdb1')
-      flickr.photos.getAllContexts({photo_id: this.photo.photoId})
+      flickr.photos.getAllContexts({photo_id: this.photoId})
         .then((response) => {
           if (response.body.hasOwnProperty('pool')) {
             this.groups = response.body.pool
@@ -61,6 +61,22 @@
       }
     },
     computed: {
+      /** Backwards compaitiblity with view group images */
+      imageUrl () {
+        if (this.photo.url_m !== undefined) {
+          return this.photo.url_m
+        } else {
+          return this.photo.images[1].source
+        }
+      },
+      photoId () {
+        if (this.photo.photoId !== undefined) {
+          return this.photo.photoId
+        } else {
+          return this.photo.id
+        }
+      },
+      /** END - BACKWARDS compatibility */
       bookmark () {
         return this.groups.length > 0 ? 'bookmark' : 'bookmark_border'
       },

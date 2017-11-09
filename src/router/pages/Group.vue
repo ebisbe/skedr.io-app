@@ -61,7 +61,8 @@
                     </v-fab-transition>
                     <span>{{ activeFab.html }}</span>
                 </v-tooltip>
-                <v-dialog v-model="dialog" :fullscreen="!addingPhotosToGroup" transition="dialog-bottom-transition">
+                <v-dialog v-model="dialog" :fullscreen="!addingPhotosToGroup" :scrollable="addingPhotosToGroup"
+                          transition="dialog-bottom-transition">
                     <v-card v-if="!addingPhotosToGroup">
                         <v-toolbar dark :class="[activeFab.class, 'lighten-1']">
                             <v-btn icon @click.native="dialog = false" dark>
@@ -109,8 +110,9 @@
                     <v-card v-else>
                         <v-card-title class="headline">Add photos to selected groups?</v-card-title>
                         <v-card-text>
+                            Confirming will add all the photos to each group and schedule all the ones can not be
+                            added.
                             <v-list subheader>
-                                <v-subheader>Selected groups</v-subheader>
                                 <v-list-tile avatar v-for="group in selectedGroups" :key="group.title">
                                     <v-list-tile-avatar>
                                         <img :src="group.icon"/>
@@ -120,14 +122,12 @@
                                     </v-list-tile-content>
                                 </v-list-tile>
                             </v-list>
-                            Confirming will add all the photos to each group and schedule all the ones can not be
-                            added.
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Disagree
+                            <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Cancel
                             </v-btn>
-                            <v-btn class="green--text darken-1" flat="flat" @click.native="pushPhotosToGroups()">Agree
+                            <v-btn class="green--text darken-1" flat="flat" @click.native="pushPhotosToGroups()">OK
                             </v-btn>
                         </v-card-actions>
                     </v-card>

@@ -11,12 +11,8 @@
         </td>
         <td>{{ group.title }}</td>
         <td class="text-xs-right">{{ dateAddedFormated }}</td>
-        <td class="text-xs-right">{{ group.poolCount }}
-            <v-icon>photo</v-icon>
-        </td>
-        <td class="text-xs-right">{{ group.members }}
-            <v-icon>face</v-icon>
-        </td>
+        <td class="text-xs-right">{{ group.poolCount }}</td>
+        <td class="text-xs-right">{{ group.members }}</td>
         <td class="text-xs-right gray--text">
             <span v-html="throttleText"></span>
             <strong>{{ group.throttleMode }}</strong>

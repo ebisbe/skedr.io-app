@@ -8,23 +8,19 @@
                             <v-spacer></v-spacer>
                             <v-text-field
                                     append-icon="search"
-                                    label="Search"
+                                    label="Filter groups..."
                                     single-line
                                     hide-details
-                                    v-model="search"
+                                    v-model="groupFilter"
+                                    @keyup.esc="groupFilter=''"
+                                    :append-icon="groupFilter === '' ? 'search' : 'clear'"
+                                    :append-icon-cb="() => (groupFilter = '')"
                             ></v-text-field>
-                            <v-text-field label="Filter groups"
-                                          v-model="groupFilter"
-                                          @keyup.esc="groupFilter=''"
-                                          :append-icon="groupFilter === '' ? '' : 'clear'"
-                                          :append-icon-cb="() => (groupFilter = '')"
-                            ></v-text-field>
-
                         </v-card-title>
                         <v-data-table
                                 :headers="headers"
                                 :items="groups"
-                                :search="search"
+                                :search="groupFilter"
                                 :loading="isLoading()"
                                 v-model="selected"
                                 select-all
@@ -163,8 +159,8 @@
             value: 'title'
           },
           {text: 'Last addition', value: 'photos[0].rawDateAdded'},
-          {text: 'Pool count', value: 'poolCount'},
-          {text: 'Members', value: 'members'},
+          {text: 'Pool count <v-icon>photo</v-icon>', value: 'poolCount'},
+          {text: 'Members <v-icon>photo</v-icon>', value: 'members'},
           {text: 'Throttle', value: 'throttleRemaining'}
         ]
       }
@@ -187,8 +183,7 @@
       ...mapState([
         'userId',
         'pool',
-        'selectedGroups',
-        'groupFilter'
+        'selectedGroups'
       ]),
       searchImages () {
         if (this.photosSearch === '') {
@@ -201,6 +196,7 @@
           return this.$store.state.groupFilter
         },
         set (value) {
+          console.log(value)
           this.$store.commit('updateGroupFilter', value)
         }
       },

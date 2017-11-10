@@ -40,13 +40,8 @@ export default new Vuex.Store({
       }
       localStorage.setObject('pool.photos', state.pool)
     },
-    addToGroup (state, payload) {
-      if (payload.add) {
-        state.selectedGroups.unshift(payload.group)
-        state.selectedGroups = _.uniqBy(state.selectedGroups, 'groupId')
-      } else {
-        state.selectedGroups = _.filter(state.selectedGroups, function (o) { return o.groupId !== payload.group.groupId })
-      }
+    selectedGroups (state, payload) {
+      state.selectedGroups = payload.groups
     },
     clearPool (state) {
       state.pool = []

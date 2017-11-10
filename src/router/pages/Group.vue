@@ -3,53 +3,46 @@
         <v-container fluid grid-list-xl>
             <v-layout row wrap>
                 <v-flex xs12>
-                    <v-container grid-list-xl>
-                        <v-layout row wrap>
-                            <v-flex xs12 sm6>
-                                <v-text-field label="Filter groups"
-                                              v-model="groupFilter"
-                                              @keyup.esc="groupFilter=''"
-                                              :append-icon="groupFilter === '' ? '' : 'clear'"
-                                              :append-icon-cb="() => (groupFilter = '')"
-                                ></v-text-field>
-                            </v-flex>
-                        </v-layout>
-                    </v-container>
-                    <div class="mx-4">
-                        <v-layout align-center row spacer>
-                            <v-flex xs3 sm2 md1></v-flex>
-                            <v-flex no-wrap ellipsis class="grey--text"><strong>Group name</strong></v-flex>
-                            <v-flex md1 text-xs-center hidden-xs-only class="grey--text"><strong>Last addition</strong>
-                            </v-flex>
-                            <v-flex md2 text-xs-center hidden-xs-only class="grey--text"><strong>Pool count</strong>
-                            </v-flex>
-                            <v-flex md2 text-xs-center hidden-xs-only class="grey--text"><strong>Members</strong>
-                            </v-flex>
-                            <v-flex xs4 sm2 class="grey--text" text-xs-center><strong>Throttle</strong></v-flex>
-                        </v-layout>
-                    </div>
-                    <v-expansion-panel popout>
-                        <v-expansion-panel-content
-                                v-for="group in sortAndFilter(groups)"
-                                :key="group.title"
-                                v-show="hide(group)"
-                                v-model="expanded[group.groupId]"
-                                :class="{'grey lighten-4': group.checked}">
-                            <expansion-panel slot="header" :group="group"></expansion-panel>
-                            <v-progress-linear indeterminate height="3"
-                                               v-show="expanded[group.groupId] && loading"
-                                               class="my-0"></v-progress-linear>
-                            <v-card>
-                                <v-card-text class="grey lighten-3">
-                                    <group-view
-                                            v-if="expanded[group.groupId]"
-                                            :groupId="group.groupId"
-                                            @isLoading="isLoading"
-                                    ></group-view>
-                                </v-card-text>
-                            </v-card>
-                        </v-expansion-panel-content>
-                    </v-expansion-panel>
+                    <v-card>
+                        <v-card-title>
+                            <v-spacer></v-spacer>
+                            <v-text-field
+                                    append-icon="search"
+                                    label="Search"
+                                    single-line
+                                    hide-details
+                                    v-model="search"
+                            ></v-text-field>
+                            <v-text-field label="Filter groups"
+                                          v-model="groupFilter"
+                                          @keyup.esc="groupFilter=''"
+                                          :append-icon="groupFilter === '' ? '' : 'clear'"
+                                          :append-icon-cb="() => (groupFilter = '')"
+                            ></v-text-field>
+
+                        </v-card-title>
+                        <v-data-table
+                                :headers="headers"
+                                :items="groups"
+                                :search="search"
+                                :loading="isLoading()"
+                                v-model="selected"
+                                select-all
+                                item-key="title"
+                        >
+                            <template slot="items" scope="props">
+                                <row :data="props"></row>
+                            </template>
+                            <template slot="expand" scope="props">
+                                <v-card flat>
+                                    <v-card-text>Peek-a-boo!</v-card-text>
+                                </v-card>
+                            </template>
+                            <template slot="pageText" scope="{ pageStart, pageStop }">
+                                From {{ pageStart }} to {{ pageStop }}
+                            </template>
+                        </v-data-table>
+                    </v-card>
                 </v-flex>
                 <v-tooltip left>
                     <v-fab-transition slot="activator">
@@ -138,7 +131,7 @@
 </template>
 
 <script>
-  import ExpansionPanel from '../../components/ExpansionPanel.vue'
+  import Row from '../../components/Row.vue'
   import Photo from '../../components/Photo.vue'
   import GroupView from '../../components/GroupView.vue'
   import * as _ from 'lodash'
@@ -149,20 +142,29 @@
 
   export default {
     name: 'Group',
-    components: {ExpansionPanel, Photo, GroupView},
+    components: {Photo, GroupView, Row},
     mixins: [url],
     data () {
       return {
         dialog: false,
-        confirm: false,
-        hover: false,
         photosSearch: '',
-        photos: [],
-        status: '',
-        data: [],
+        groups: [],
         error: '',
-        expanded: [],
-        loading: false
+        loading: 0,
+        search: '',
+        pagination: {},
+        headers: [
+          {text: '', sortable: false},
+          {
+            text: 'Group name',
+            align: 'left',
+            value: 'title'
+          },
+          {text: 'Last addition', value: 'photos[0].rawDateAdded'},
+          {text: 'Pool count', value: 'poolCount'},
+          {text: 'Members', value: 'members'},
+          {text: 'Throttle', value: 'throttleRemaining'}
+        ]
       }
     },
     created () {
@@ -199,6 +201,14 @@
         set (value) {
           this.$store.commit('updateGroupFilter', value)
         }
+      },
+      selected: {
+        get () {
+          return this.$store.state.selectedGroups
+        },
+        set (value) {
+          this.$store.commit('selectedGroups', {groups: value})
+        }
       }
     },
     watch: {
@@ -207,8 +217,8 @@
       }
     },
     methods: {
-      isLoading (loading) {
-        this.loading = loading
+      isLoading () {
+        return this.loading === 1
       },
       pushPhotosToGroups () {
         console.log('Pushing photos')
@@ -260,8 +270,8 @@
           }
         },
         update: data => data.userGroups,
-        fetchPolicy:
-          'cache-and-network'
+        fetchPolicy: 'cache-and-network',
+        loadingKey: 'loading'
       }
     }
   }

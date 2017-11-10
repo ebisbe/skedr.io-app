@@ -159,8 +159,8 @@
             value: 'title'
           },
           {text: 'Last addition', value: 'photos[0].rawDateAdded'},
-          {text: 'Pool count <v-icon>photo</v-icon>', value: 'poolCount'},
-          {text: 'Members <v-icon>photo</v-icon>', value: 'members'},
+          {text: 'Pool count', value: 'poolCount'},
+          {text: 'Members', value: 'members'},
           {text: 'Throttle', value: 'throttleRemaining'}
         ]
       }
@@ -271,7 +271,7 @@
           }
         },
         update: data => data.userGroups,
-        fetchPolicy: 'cache-and-network',
+        fetchPolicy: 'cache',
         loadingKey: 'loading'
       }
     }

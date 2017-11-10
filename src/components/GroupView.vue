@@ -47,7 +47,7 @@
         },
         update: data => data.groupPhotos,
         loadingKey: 'loading',
-        fetchPolicy: 'cache-and-network'
+        fetchPolicy: 'cache'
       }
     },
     computed: {

@@ -2,9 +2,8 @@
     <div>
         <v-navigation-drawer
                 clipped
-                persistent
+                absolute
                 app
-                enable-resize-watcher
                 v-model="drawer"
         >
             <v-list>

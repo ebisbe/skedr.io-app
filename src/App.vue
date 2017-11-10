@@ -2,9 +2,7 @@
     <v-app light>
 
         <router-view name="toolbar"></router-view>
-        <main>
-            <router-view></router-view>
-        </main>
+        <router-view></router-view>
         <router-view name="rightBar"></router-view>
 
         <v-footer app :class="[activeFab.class]">

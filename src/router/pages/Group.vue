@@ -35,7 +35,9 @@
                             </template>
                             <template slot="expand" scope="props">
                                 <v-card flat>
-                                    <v-card-text>Peek-a-boo!</v-card-text>
+                                    <v-card-text>
+                                        <group-view :groupId="props.item.groupId" @isLoading="isLoading"></group-view>
+                                    </v-card-text>
                                 </v-card>
                             </template>
                             <template slot="pageText" scope="{ pageStart, pageStop }">
@@ -217,7 +219,10 @@
       }
     },
     methods: {
-      isLoading () {
+      isLoading (value) {
+        if (value !== undefined) {
+          this.loading = value
+        }
         return this.loading === 1
       },
       pushPhotosToGroups () {

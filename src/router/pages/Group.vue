@@ -98,9 +98,9 @@
                                 <v-layout wrap>
                                     <v-flex xs12>
                                         <form @submit.stop.prevent="">
-                                            <v-text-field label="Text" v-model="photosSearch"
+                                            <v-text-field placeholder="Search your photos..." v-model="photosSearch"
                                                           @keyup.esc.prevent.stop="photosSearch=''"
-                                                          :append-icon="photosSearch === '' ? '' : 'clear'"
+                                                          :append-icon="photosSearch === '' ? 'search' : 'clear'"
                                                           :append-icon-cb="() => (photosSearch = '')">
                                             </v-text-field>
                                         </form>

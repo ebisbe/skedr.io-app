@@ -1,27 +1,17 @@
 <template>
     <div>
         <v-layout align-center row spacer @mouseover="mouseOver()" @mouseleave="mouseLeave()">
-            <v-flex xs3 sm2 md1 @click.stop="" >
+            <v-flex xs2 sm1 md1 @click.stop="">
                 <v-avatar size="40px" slot="activator" :class="{hidden: hideAvatar}">
                     <img :src="group.icon" :alt="group.title">
                 </v-avatar>
-                <v-checkbox v-model="checked" hide-details @click="checkBoxClick()"
+                <v-checkbox v-model="group.selected" hide-details
                             :class="{hidden: !hideAvatar, 'pa-1':true}"></v-checkbox>
             </v-flex>
-            <v-flex no-wrap ellipsis>
-                <strong>{{ group.title }}</strong>
-            </v-flex>
-            <v-flex md1 text-sm-center>
-                {{ dateAddedFormated }}
-            </v-flex>
-            <v-flex md2 text-sm-right hidden-xs-only>
-                {{ group.poolCount }}
-                <v-icon>photo</v-icon>
-            </v-flex>
-            <v-flex md2 text-sm-right hidden-xs-only>
-                {{ group.members }}
-                <v-icon>face</v-icon>
-            </v-flex>
+            <v-flex no-wrap ellipsis><strong>{{ group.title }}</strong></v-flex>
+            <v-flex md1 text-sm-center>{{ dateAddedFormated }}</v-flex>
+            <v-flex md2 text-xs-right hidden-xs-only>{{ group.poolCount }}</v-flex>
+            <v-flex md2 text-xs-right hidden-xs-only>{{ group.members }}</v-flex>
             <v-flex xs4 sm2 class="grey--text" text-xs-right>
                 <span v-html="throttleText"></span>
                 <strong>{{ group.throttleMode }}</strong>
@@ -32,7 +22,6 @@
 <script>
   import { mapState } from 'vuex'
   import Moment from 'moment'
-  import _ from 'lodash'
 
   Moment.updateLocale('en', {
     relativeTime: {
@@ -58,13 +47,9 @@
     props: {
       group: {required: true}
     },
-    created () {
-      this.checked = _.find(this.selectedGroups, {'groupId': this.group.groupId}) !== undefined
-    },
     data () {
       return {
-        mouseOverAvatar: false,
-        checked: false
+        mouseOverAvatar: false
       }
     },
     computed: {
@@ -91,16 +76,17 @@
         }
       }
     },
+    watch: {
+      'group.selected': function () {
+        this.$emit('selected')
+      }
+    },
     methods: {
       mouseOver () {
         this.mouseOverAvatar = true
       },
       mouseLeave () {
         this.mouseOverAvatar = false
-      },
-      checkBoxClick () {
-        this.checked = !this.checked
-        this.$store.commit('addToGroup', {group: this.group, add: this.checked})
       }
     }
   }

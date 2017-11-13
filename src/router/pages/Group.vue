@@ -3,44 +3,63 @@
         <v-container fluid grid-list-xl>
             <v-layout row wrap>
                 <v-flex xs12>
-                    <v-card>
-                        <v-card-title>
+                    <v-container grid-list-xl>
+                        <v-layout row wrap>
                             <v-spacer></v-spacer>
-                            <v-text-field
-                                    append-icon="search"
-                                    label="Filter groups..."
-                                    single-line
-                                    hide-details
-                                    v-model="groupFilter"
-                                    @keyup.esc="groupFilter=''"
-                                    :append-icon="groupFilter === '' ? 'search' : 'clear'"
-                                    :append-icon-cb="() => (groupFilter = '')"
-                            ></v-text-field>
-                        </v-card-title>
-                        <v-data-table
-                                :headers="headers"
-                                :items="groups"
-                                :search="groupFilter"
-                                :loading="isLoading()"
-                                v-model="selected"
-                                select-all
-                                item-key="title"
-                        >
-                            <template slot="items" scope="props">
-                                <row :data="props"></row>
-                            </template>
-                            <template slot="expand" scope="props">
-                                <v-card flat>
-                                    <v-card-text>
-                                        <group-view :groupId="props.item.groupId" @isLoading="isLoading"></group-view>
-                                    </v-card-text>
-                                </v-card>
-                            </template>
-                            <template slot="pageText" scope="{ pageStart, pageStop }">
-                                From {{ pageStart }} to {{ pageStop }}
-                            </template>
-                        </v-data-table>
-                    </v-card>
+                            <v-flex xs12 sm6>
+                                <v-text-field
+                                        placeholder="Filter groups ..."
+                                        v-model="groupFilter"
+                                        @keyup.esc="groupFilter=''"
+                                        :append-icon="groupFilter === '' ? 'search' : 'clear'"
+                                        :append-icon-cb="() => (groupFilter = '')"
+                                ></v-text-field>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                    <div class="mx-4">
+                        <v-layout align-center row spacer>
+                            <v-flex xs3 sm2 md1></v-flex>
+                            <v-flex no-wrap ellipsis class="grey--text"><strong>Group name</strong></v-flex>
+                            <v-flex md2 text-xs-right hidden-xs-only class="grey--text">
+                                <strong>Last addition
+                                    <v-icon>alarm</v-icon>
+                                </strong>
+                            </v-flex>
+                            <v-flex md2 text-xs-right hidden-xs-only class="grey--text">
+                                <strong>Pool count
+                                    <v-icon>photo</v-icon>
+                                </strong>
+                            </v-flex>
+                            <v-flex md2 text-xs-right hidden-xs-only class="grey--text">
+                                <strong>Members
+                                    <v-icon>face</v-icon>
+                                </strong>
+                            </v-flex>
+                            <v-flex xs4 sm2 class="grey--text" text-xs-center><strong>Throttle</strong></v-flex>
+                        </v-layout>
+                    </div>
+                    <v-expansion-panel popout>
+                        <v-expansion-panel-content
+                                v-for="group in filteredGroups"
+                                :key="group.title"
+                                v-model="group.expanded"
+                                :class="{'grey lighten-4': group.checked}">
+                            <expansion-panel slot="header" :group="group" @selected="selected"></expansion-panel>
+                            <v-progress-linear indeterminate height="3"
+                                               v-show="group.expanded && loading"
+                                               class="my-0"></v-progress-linear>
+                            <v-card>
+                                <v-card-text class="grey lighten-3">
+                                    <group-view
+                                            v-if="group.expanded"
+                                            :groupId="group.groupId"
+                                            @isLoading="isLoading"
+                                    ></group-view>
+                                </v-card-text>
+                            </v-card>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
                 </v-flex>
                 <v-tooltip left>
                     <v-fab-transition slot="activator">
@@ -129,40 +148,25 @@
 </template>
 
 <script>
-  import Row from '../../components/Row.vue'
+  import ExpansionPanel from '../../components/ExpansionPanel.vue'
   import Photo from '../../components/Photo.vue'
   import GroupView from '../../components/GroupView.vue'
   import * as _ from 'lodash'
   import { mapGetters, mapState } from 'vuex'
   import { signReq } from '../../libs/aws-lib'
-  import { url } from '../../mixins/urlPhoto'
   import gql from 'graphql-tag'
 
   export default {
     name: 'Group',
-    components: {Photo, GroupView, Row},
-    mixins: [url],
+    components: {ExpansionPanel, Photo, GroupView},
     data () {
       return {
         dialog: false,
+        confirm: false,
         photosSearch: '',
-        groups: [],
+        status: '',
         error: '',
-        loading: 0,
-        search: '',
-        pagination: {},
-        headers: [
-          {text: '', sortable: false},
-          {
-            text: 'Group name',
-            align: 'left',
-            value: 'title'
-          },
-          {text: 'Last addition', value: 'photos[0].rawDateAdded'},
-          {text: 'Pool count', value: 'poolCount'},
-          {text: 'Members', value: 'members'},
-          {text: 'Throttle', value: 'throttleRemaining'}
-        ]
+        loading: false
       }
     },
     created () {
@@ -183,7 +187,8 @@
       ...mapState([
         'userId',
         'pool',
-        'selectedGroups'
+        'selectedGroups',
+        'groupFilter'
       ]),
       searchImages () {
         if (this.photosSearch === '') {
@@ -196,17 +201,14 @@
           return this.$store.state.groupFilter
         },
         set (value) {
-          console.log(value)
           this.$store.commit('updateGroupFilter', value)
         }
       },
-      selected: {
-        get () {
-          return this.$store.state.selectedGroups
-        },
-        set (value) {
-          this.$store.commit('selectedGroups', {groups: value})
-        }
+      filteredGroups () {
+        return _.sortBy(this.groups, ['title'])
+          .filter(group =>
+            group.title.toLowerCase().search(this.groupFilter) >= 0
+          )
       }
     },
     watch: {
@@ -215,11 +217,11 @@
       }
     },
     methods: {
-      isLoading (value) {
-        if (value !== undefined) {
-          this.loading = value
-        }
-        return this.loading === 1
+      selected: function () {
+        this.$store.commit('selectedGroups', {groups: this.groups.filter(group => group.selected)})
+      },
+      isLoading (loading) {
+        this.loading = loading
       },
       pushPhotosToGroups () {
         console.log('Pushing photos')
@@ -238,12 +240,6 @@
           })
         })
         this.dialog = false
-      },
-      hide (group) {
-        return group.title.toLowerCase().search(this.groupFilter) >= 0
-      },
-      sortAndFilter (group) {
-        return _.sortBy(group, ['title'])
       }
     },
     apollo: {
@@ -270,7 +266,7 @@
             userId: this.userId
           }
         },
-        update: data => data.userGroups,
+        update: data => data.userGroups.map(group => Object.assign({selected: false, expanded: false}, group)),
         fetchPolicy: 'cache',
         loadingKey: 'loading'
       }

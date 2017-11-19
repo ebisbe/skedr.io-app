@@ -20,9 +20,9 @@ export function AwsCredentials (userToken) {
 export function signReq (url, params, data, method) {
   const path = url.replace('@', '%40')
   let request = {
-    host: 'wqd87xurte.execute-api.eu-west-1.amazonaws.com',
+    host: 'vthrw887ch.execute-api.eu-west-1.amazonaws.com',
     method: method.toUpperCase(),
-    url: 'https://wqd87xurte.execute-api.eu-west-1.amazonaws.com/dev' + path,
+    url: 'https://vthrw887ch.execute-api.eu-west-1.amazonaws.com/dev' + path,
     path: '/dev' + path,
     params: params,
     data: data,

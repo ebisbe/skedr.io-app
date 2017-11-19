@@ -16,7 +16,7 @@ require('./libs/storage')
 
 import('../node_modules/vuetify/dist/vuetify.min.css')
 
-axios.defaults.baseURL = 'http://localhost:3000/'
+axios.defaults.baseURL = 'http://localhost:1337/'
 
 Vue.use(Vuetify)
 Vue.use(Axios, axios)

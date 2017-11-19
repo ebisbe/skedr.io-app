@@ -8,7 +8,7 @@
                 <v-checkbox v-model="group.selected" hide-details
                             :class="{hidden: !hideAvatar, 'pa-1':true}"></v-checkbox>
             </v-flex>
-            <v-flex no-wrap ellipsis><strong>{{ group.title }}</strong></v-flex>
+            <v-flex no-wrap ellipsis><strong v-html="group.title"></strong></v-flex>
             <v-flex md1 text-sm-center>{{ dateAddedFormated }}</v-flex>
             <v-flex md2 text-xs-right hidden-xs-only>{{ group.poolCount }}</v-flex>
             <v-flex md2 text-xs-right hidden-xs-only>{{ group.members }}</v-flex>

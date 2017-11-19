@@ -1,48 +1,50 @@
 <template>
-    <div class="container">
-        <v-layout>
-            <v-flex xs12 sm6 offset-sm3>
-                <v-progress-linear height="3" class="my-0" v-bind:indeterminate="true"
-                                   v-show="waiting"></v-progress-linear>
-                <v-card>
-                    <v-card-title primary-title>
-                        <v-form @submit.stop.prevent="handleSubmit">
-                            <h3 class="headline mb-0">Log in</h3>
-                            <v-alert color="success" v-show="successMessage" icon="check_circle" value="true">
-                                {{ successMessage }}
-                            </v-alert>
-                            <v-alert color="error" v-show="errorMessage" icon="warning" value="true">
-                                {{ errorMessage }}
-                            </v-alert>
-                            <v-text-field
-                                    label="Name"
-                                    v-model="username"
-                                    min="1"
-                                    :disabled="disableAllInputs"
-                                    required
-                            ></v-text-field>
+    <v-content>
+        <v-container fluid grid-list-xl>
+            <v-layout>
+                <v-flex xs12 sm6 offset-sm3>
+                    <v-progress-linear height="3" class="my-0" v-bind:indeterminate="true"
+                                       v-show="waiting"></v-progress-linear>
+                    <v-card>
+                        <v-card-title primary-title>
+                            <v-form @submit.stop.prevent="handleSubmit">
+                                <h3 class="headline mb-0">Log in</h3>
+                                <v-alert color="success" v-show="successMessage" icon="check_circle" value="true">
+                                    {{ successMessage }}
+                                </v-alert>
+                                <v-alert color="error" v-show="errorMessage" icon="warning" value="true">
+                                    {{ errorMessage }}
+                                </v-alert>
+                                <v-text-field
+                                        label="Name"
+                                        v-model="username"
+                                        min="1"
+                                        :disabled="disableAllInputs"
+                                        required
+                                ></v-text-field>
 
-                            <v-text-field label="Password" type="password"
-                                          v-model="password"
-                                          :disabled="disableAllInputs"
-                                          pattern="[\S]+"
-                                          :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
-                                          :append-icon-cb="() => (passVisibility = !passVisibility)"
-                                          :type="passVisibility ? 'password' : 'text'"
-                                          min="6"
-                                          required></v-text-field>
-                            <p>Your password must be at least 6 characters long, contain letters and numbers
-                                and special symbols, and must not contain spaces.</p>
-                            <v-btn type="submit" :disabled="protectedUI || !formIsValid || disableAllInputs">
-                                submit
-                            </v-btn>
-                            <v-btn @click="clear">clear</v-btn>
-                        </v-form>
-                    </v-card-title>
-                </v-card>
-            </v-flex>
-        </v-layout>
-    </div>
+                                <v-text-field label="Password" type="password"
+                                              v-model="password"
+                                              :disabled="disableAllInputs"
+                                              pattern="[\S]+"
+                                              :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
+                                              :append-icon-cb="() => (passVisibility = !passVisibility)"
+                                              :type="passVisibility ? 'password' : 'text'"
+                                              min="6"
+                                              required></v-text-field>
+                                <p>Your password must be at least 6 characters long, contain letters and numbers
+                                    and special symbols, and must not contain spaces.</p>
+                                <v-btn type="submit" :disabled="protectedUI || !formIsValid || disableAllInputs">
+                                    submit
+                                </v-btn>
+                                <v-btn @click="clear">clear</v-btn>
+                            </v-form>
+                        </v-card-title>
+                    </v-card>
+                </v-flex>
+            </v-layout>
+        </v-container>
+    </v-content>
 </template>
 
 <script>

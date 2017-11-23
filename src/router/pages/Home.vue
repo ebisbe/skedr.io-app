@@ -8,9 +8,9 @@
                         justify-center
                         class="white--text"
                 >
-                    <img src="/static/img/vuetify.png" alt="Vuetify.js" height="200">
-                    <h1 class="white--text mb-2 display-1 text-xs-center">Parallax Template</h1>
-                    <div class="subheading mb-3 text-xs-center">Powered by Vuetify</div>
+                    <img src="/static/img/hourglass.svg" alt="Vuetify.js" height="200">
+                    <h1 class="white--text mb-2 display-1 text-xs-center">Qronos</h1>
+                    <div class="subheading mb-3 text-xs-center">Warp your time</div>
                     <v-btn dark large class="blue lighten-2 mt-5" :to="{ path: 'groups' }">
                         Get Started
                     </v-btn>

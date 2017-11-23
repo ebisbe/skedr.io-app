@@ -19,7 +19,10 @@
     "postdeploy": "aws cloudfront create-invalidation --distribution-id $npm_package_distribution_id --paths '/*'"
   },
   "dependencies": {
-    "apollo-client": "^1.9.3",
+    "apollo-cache-inmemory": "^1.1.1",
+    "apollo-client": "^2.0.3",
+    "apollo-link": "^1.0.3",
+    "apollo-link-http": "^1.2.0",
     "aws-sdk": "^2.149.0",
     "aws41": "^1.6.0",
     "axios": "^0.16.2",
@@ -29,12 +32,12 @@
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
     "vue": "^2.5.3",
-    "vue-apollo": "^3.0.0-alpha.2",
+    "vue-apollo": "^3.0.0-alpha.1",
     "vue-auth-cognito": "^0.1.5",
     "vue-axios": "^2.0.2",
     "vue-router": "^2.8.1",
     "vuelidate": "^0.6.1",
-    "vuetify": "0.17.0-beta.3",
+    "vuetify": "^0.17.0",
     "vuex": "^2.5.0"
   },
   "devDependencies": {

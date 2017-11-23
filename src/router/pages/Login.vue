@@ -6,7 +6,7 @@
                     <v-progress-linear height="3" class="my-0" v-bind:indeterminate="true"
                                        v-show="waiting"></v-progress-linear>
                     <v-card>
-                        <v-card-title primary-title>
+                        <v-card-text>
                             <v-form @submit.stop.prevent="handleSubmit">
                                 <h3 class="headline mb-0">Log in</h3>
                                 <v-alert color="success" v-show="successMessage" icon="check_circle" value="true">
@@ -39,7 +39,7 @@
                                 </v-btn>
                                 <v-btn @click="clear">clear</v-btn>
                             </v-form>
-                        </v-card-title>
+                        </v-card-text>
                     </v-card>
                 </v-flex>
             </v-layout>
@@ -95,6 +95,3 @@
     }
   }
 </script>
-
-<style>
-</style>

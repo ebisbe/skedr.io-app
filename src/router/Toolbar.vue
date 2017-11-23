@@ -10,7 +10,7 @@
             <v-btn flat class="mr-4 deep-purple" to="/login">
                 Log in
             </v-btn>
-            <v-btn flat class="mr-4 deep-purple">
+            <v-btn flat class="mr-4 deep-purple" to="/signup">
                 Sign up
             </v-btn>
         </v-toolbar-items>

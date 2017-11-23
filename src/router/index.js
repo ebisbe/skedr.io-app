@@ -6,6 +6,7 @@ import Toolbar from './Toolbar.vue'
 import AppToolbar from './AppToolbar.vue'
 import RightBar from './RightBar.vue'
 import Login from './pages/Login.vue'
+import Signup from './pages/Signup.vue'
 import Scheduled from './pages/Scheduled.vue'
 import Dashboard from './pages/Dashboard.vue'
 import Photos from './pages/Photos.vue'
@@ -68,6 +69,14 @@ export default new Router({
       name: 'Login',
       components: {
         default: Login,
+        toolbar: Toolbar
+      }
+    },
+    {
+      path: '/signup',
+      name: 'Signup',
+      components: {
+        default: Signup,
         toolbar: Toolbar
       }
     }

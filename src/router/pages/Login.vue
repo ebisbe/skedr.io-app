@@ -3,18 +3,19 @@
         <v-container fluid grid-list-xl>
             <v-layout>
                 <v-flex xs12 sm6 offset-sm3>
-                    <v-progress-linear height="3" class="my-0" v-bind:indeterminate="true"
-                                       v-show="waiting"></v-progress-linear>
+
                     <v-card>
-                        <v-card-text>
+                      <v-progress-linear height="3" class="my-0" v-bind:indeterminate="true"
+                                       v-show="protectedUI"></v-progress-linear>
+                      <v-alert color="success" v-show="successMessage" icon="check_circle" value="true">
+                          {{ successMessage }}
+                      </v-alert>
+                      <v-alert color="error" v-show="errorMessage" icon="warning" value="true">
+                          {{ errorMessage }}
+                      </v-alert>  <v-card-text>
                             <v-form @submit.stop.prevent="handleSubmit">
                                 <h3 class="headline mb-0">Log in</h3>
-                                <v-alert color="success" v-show="successMessage" icon="check_circle" value="true">
-                                    {{ successMessage }}
-                                </v-alert>
-                                <v-alert color="error" v-show="errorMessage" icon="warning" value="true">
-                                    {{ errorMessage }}
-                                </v-alert>
+
                                 <v-text-field
                                         label="Name"
                                         v-model="username"
@@ -59,7 +60,6 @@
       protectedUI: false,
       username: '',
       password: '',
-      waiting: false,
       passVisibility: true
     }),
     methods: {
@@ -67,7 +67,7 @@
         this.successMessage = null
         this.errorMessage = null
 
-        this.protectedUI = this.waiting = true
+        this.protectedUI = true
         this.$store.dispatch('authenticateUser', {
           username: this.username,
           password: this.password
@@ -75,13 +75,13 @@
           this.disableAllInputs = true
           this.password = this.errorMessage = ''
           this.successMessage = 'Successfuly signed in'
-          this.waiting = false
+          this.protectedUI = false
 
           await AwsCredentials(this.$store.state.cognito.user.tokens.IdToken)
             .then(() => this.$router.push({name: 'Group'}))
         }).catch((err) => {
           this.errorMessage = err.message
-          this.protectedUI = this.waiting = false
+          this.protectedUI = false
         })
       },
       clear () {

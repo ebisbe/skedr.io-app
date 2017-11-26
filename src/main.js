@@ -18,7 +18,7 @@ require('./libs/storage')
 
 import('../node_modules/vuetify/dist/vuetify.min.css')
 
-axios.defaults.baseURL = 'http://localhost:1337/'
+axios.defaults.baseURL = 'https://vthrw887ch.execute-api.eu-west-1.amazonaws.com/dev/'
 
 Vue.use(Vuetify)
 Vue.use(Axios, axios)

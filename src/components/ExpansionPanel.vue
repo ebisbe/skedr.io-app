@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-layout align-center row spacer @mouseover="mouseOver()" @mouseleave="mouseLeave()">
+        <v-layout align-center row spacer @mouseover="mouseOver" @mouseleave="mouseLeave">
             <v-flex xs2 sm1 md1 @click.stop="">
                 <v-avatar size="40px" slot="activator" :class="{hidden: hideAvatar}">
                     <img :src="group.icon" :alt="group.title">
@@ -77,8 +77,8 @@
       }
     },
     watch: {
-      'group.selected': function () {
-        this.$emit('selected')
+      'group.selected' (isSelected) {
+        this.$emit('selected', isSelected)
       }
     },
     methods: {

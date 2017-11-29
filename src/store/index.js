@@ -22,10 +22,9 @@ export default new Vuex.Store({
     rightDrawer: false,
     pageTitle: '',
     pool: [],
-    groups: [],
-    selectedGroups: [],
+    selectedGroups: {},
     token: '',
-    groupFilter: ''
+    search: ''
   },
   mutations: {
     loadPool (state, payload) {
@@ -40,8 +39,8 @@ export default new Vuex.Store({
       }
       localStorage.setObject('pool.photos', state.pool)
     },
-    selectedGroups (state, payload) {
-      state.selectedGroups = payload.groups
+    updateSelectedGroups (state, groups) {
+      state.selectedGroups = groups
     },
     clearPool (state) {
       state.pool = []
@@ -50,8 +49,8 @@ export default new Vuex.Store({
     updateRightDrawer (state, message) {
       state.rightDrawer = message
     },
-    updateGroupFilter (state, value) {
-      state.groupFilter = value.toLowerCase()
+    updateSearch (state, value) {
+      state.search = value.toLowerCase()
     },
     setPageTitle (state, value) {
       state.pageTitle = value

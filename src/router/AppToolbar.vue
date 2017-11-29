@@ -20,20 +20,15 @@
         </v-navigation-drawer>
 
         <v-toolbar app fixed :class="[activeFab.class]" dark clipped-left clipped-right>
-            <v-toolbar-title :style="$vuetify.breakpoint.smAndUp ? 'width: 300px; min-width: 250px' : 'min-width: 72px'">
+            <v-toolbar-title
+                    :style="$vuetify.breakpoint.smAndUp ? 'width: 300px; min-width: 250px' : 'min-width: 72px'">
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
                 <span class="hidden-xs-only" v-text="pageTitle"></span>
             </v-toolbar-title>
-            <v-text-field
-                    light
-                    solo
-                    prepend-icon="search"
-                    placeholder="Search"
-                    style="max-width: 500px; min-width: 128px"
-            ></v-text-field>
-            <v-spacer></v-spacer>
-            <div v-show="addingPhotosToGroup" class="title">{{ selectedGroups.length }} groups selected</div>
-            <v-spacer></v-spacer>
+            <q-filter placeholder="Filter groups" @search="search"></q-filter>
+            <v-spacer v-if="addingPhotosToGroup"></v-spacer>
+            <div v-if="addingPhotosToGroup" class="title">{{ selectedGroups.length }} groups selected</div>
+            <v-spacer ></v-spacer>
 
             <v-btn flat class="mr-4 deep-purple" @click.stop="logout">
                 Logout
@@ -56,9 +51,11 @@
 </template>
 <script>
   import { mapGetters, mapState } from 'vuex'
+  import QFilter from './../components/QFilter.vue'
 
   export default {
     name: 'Toolbar',
+    components: {QFilter},
     data () {
       return {
         title: 'Layout',
@@ -107,6 +104,9 @@
         this.$store.dispatch('signOut')
           .then(() => { this.$router.push({name: 'Home'}) })
           .catch((err) => console.log(err))
+      },
+      search (value) {
+        this.$store.commit('updateSearch', value)
       }
     }
   }

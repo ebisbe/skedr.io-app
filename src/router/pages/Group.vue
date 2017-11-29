@@ -3,20 +3,6 @@
         <v-container fluid grid-list-xl>
             <v-layout row wrap>
                 <v-flex xs12>
-                    <v-container grid-list-xl>
-                        <v-layout row wrap>
-                            <v-spacer></v-spacer>
-                            <v-flex xs12 sm6>
-                                <v-text-field
-                                        placeholder="Filter groups ..."
-                                        v-model="groupFilter"
-                                        @keyup.esc="groupFilter=''"
-                                        :append-icon="groupFilter === '' ? 'search' : 'clear'"
-                                        :append-icon-cb="() => (groupFilter = '')"
-                                ></v-text-field>
-                            </v-flex>
-                        </v-layout>
-                    </v-container>
                     <div class="mx-4">
                         <v-layout align-center row spacer>
                             <v-flex xs3 sm2 md1></v-flex>
@@ -170,9 +156,8 @@
       }
     },
     created () {
-      this.groupFilter = localStorage.getItemDef('groupFilter', '')
       this.$store.commit('setPageTitle', 'Group')
-
+      this.groups = localStorage.getObject('groups')
       document.addEventListener('keyup', event => {
         if (event.keyCode === 27 || event.key === 'Escape') {
           this.dialog = false
@@ -188,7 +173,7 @@
         'userId',
         'pool',
         'selectedGroups',
-        'groupFilter'
+        'search'
       ]),
       searchImages () {
         if (this.photosSearch === '') {
@@ -196,29 +181,16 @@
         }
         return '/search'
       },
-      groupFilter: {
-        get () {
-          return this.$store.state.groupFilter
-        },
-        set (value) {
-          this.$store.commit('updateGroupFilter', value)
-        }
-      },
       filteredGroups () {
         return _.sortBy(this.groups, ['title'])
           .filter(group =>
-            group.title.toLowerCase().search(this.groupFilter) >= 0
+            group.title.toLowerCase().search(this.search) >= 0
           )
       }
     },
-    watch: {
-      groupFilter: function (filter) {
-        localStorage.setItem('groupFilter', filter)
-      }
-    },
     methods: {
-      selected: function () {
-        this.$store.commit('selectedGroups', {groups: this.groups.filter(group => group.selected)})
+      selected () {
+        this.$store.commit('updateSelectedGroups', this.groups.filter(group => group.selected))
       },
       isLoading (loading) {
         this.loading = loading
@@ -235,8 +207,9 @@
                 groupId: group.groupId,
                 secret: photo.secret
               }, 'post')
-            ).then((response) => {
-            })
+            )
+              .then((response) => console.log(response))
+              .catch(error => console.log(error))
           })
         })
         this.dialog = false
@@ -269,6 +242,11 @@
         update: data => data.userGroups.map(group => Object.assign({selected: false, expanded: false}, group)),
         fetchPolicy: 'cache',
         loadingKey: 'loading'
+      }
+    },
+    watch: {
+      groups (groups) {
+        localStorage.setObject('groups', groups)
       }
     }
   }

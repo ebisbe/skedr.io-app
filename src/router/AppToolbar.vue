@@ -3,6 +3,7 @@
         <v-navigation-drawer
                 clipped
                 absolute
+                fixed
                 app
                 v-model="drawer"
         >
@@ -19,8 +20,17 @@
         </v-navigation-drawer>
 
         <v-toolbar app fixed :class="[activeFab.class]" dark clipped-left clipped-right>
-            <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-            <v-toolbar-title v-text="pageTitle"></v-toolbar-title>
+            <v-toolbar-title :style="$vuetify.breakpoint.smAndUp ? 'width: 300px; min-width: 250px' : 'min-width: 72px'">
+                <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+                <span class="hidden-xs-only" v-text="pageTitle"></span>
+            </v-toolbar-title>
+            <v-text-field
+                    light
+                    solo
+                    prepend-icon="search"
+                    placeholder="Search"
+                    style="max-width: 500px; min-width: 128px"
+            ></v-text-field>
             <v-spacer></v-spacer>
             <div v-show="addingPhotosToGroup" class="title">{{ selectedGroups.length }} groups selected</div>
             <v-spacer></v-spacer>

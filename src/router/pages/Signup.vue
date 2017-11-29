@@ -68,6 +68,8 @@
 </template>
 
 <script>
+import { signReq, AwsCredentials } from '../../libs/aws-lib'
+
 export default {
   name: 'SignUp',
   data: () => ({
@@ -80,7 +82,7 @@ export default {
     alert: {
       color: '',
       icon: '',
-      messge: ''
+      message: ''
     },
     passVisibility: true,
     password: '',
@@ -168,7 +170,16 @@ export default {
           this.disableAllInputs = true
           this.success('Successfuly signed in')
           this.protectedUI = false
-          this.$router.push({name: 'Group'})
+
+          await AwsCredentials(this.$store.state.cognito.user.tokens.IdToken)
+            .catch(() => console.log('Not logged. Redirect to Login page'))
+            .then(() => {
+              this.axios(signReq('/oauth/user', {}, {
+                userId: this.userId
+              }, 'post')).then(response =>
+                this.$router.push({name: 'Group'})
+              )
+            })
         }).catch((err) => {
           this.error(err.message)
           this.protectedUI = false

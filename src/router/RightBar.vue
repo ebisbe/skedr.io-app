@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer clipped absolute app right v-model="rightDrawer">
+    <v-navigation-drawer clipped absolute fixed app right v-model="rightDrawer">
         <v-list>
             <v-list-tile>
                 <v-list-tile-action>

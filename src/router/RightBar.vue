@@ -1,15 +1,7 @@
 <template>
     <v-navigation-drawer clipped absolute fixed app right v-model="rightDrawer">
-        <v-list>
-            <v-list-tile>
-                <v-list-tile-action>
-                    <v-icon light>inbox</v-icon>
-                </v-list-tile-action>
-                <v-list-tile-title>Photo pool</v-list-tile-title>
-            </v-list-tile>
-        </v-list>
-
         <v-container fluid grid-list-md>
+            <v-btn block color="error" small outline @click="clearPool">Clear Pool</v-btn>
             <v-list subheader>
                 <template v-for="(photo, key) in pool">
                     <v-divider v-show="key !== 0" inset></v-divider>
@@ -37,6 +29,11 @@
 
   export default {
     name: 'RightBar',
+    methods: {
+      clearPool () {
+        this.$store.commit('clearPool')
+      }
+    },
     computed: {
       ...mapState([
         'pool'

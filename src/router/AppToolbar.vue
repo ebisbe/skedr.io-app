@@ -43,7 +43,7 @@
                 Photo pool&nbsp;&nbsp;
                 <v-badge overlap color="red">
                     <span slot="badge">{{ pool.length }}</span>
-                    <v-icon>filter</v-icon>
+                    <v-icon>inbox</v-icon>
                 </v-badge>
             </v-btn>
         </v-toolbar>

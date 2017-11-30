@@ -36,7 +36,7 @@
     title
     views
     url_m
-    url_s
+    url_sq
   }
 }`,
         variables () {

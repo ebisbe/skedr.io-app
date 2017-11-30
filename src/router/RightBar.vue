@@ -7,7 +7,7 @@
                     <v-divider v-show="key !== 0" inset></v-divider>
                     <v-list-tile avatar :key="photo.title" @click="">
                         <v-list-tile-avatar>
-                            <img :src="photo.url_m"/>
+                            <img :src="photo.url_sq"/>
                         </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title v-html="photo.title"></v-list-tile-title>

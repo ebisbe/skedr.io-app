@@ -40,6 +40,7 @@ router.beforeEach(async (to, from, next) => {
       })
     }
   }
+  store.commit('setPageTitle', to.name)
   next()
 })
 

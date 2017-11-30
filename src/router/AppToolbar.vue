@@ -36,15 +36,15 @@
             </v-list>
         </v-navigation-drawer>
         <v-toolbar app fixed :class="[activeFab.class]" dark clipped-left clipped-right>
-            <v-toolbar-title
-                    :style="$vuetify.breakpoint.smAndUp ? 'width: 300px; min-width: 250px' : 'min-width: 72px'">
+            <v-toolbar-title class="pr-3"
+                    :style="$vuetify.breakpoint.mdAndUp ? 'width: 300px; min-width: 250px' : 'min-width: 130px'">
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
                 <span class="hidden-xs-only" v-text="pageTitle"></span>
             </v-toolbar-title>
             <q-filter placeholder="Filter groups" @search="search"></q-filter>
             <v-spacer v-if="addingPhotosToGroup"></v-spacer>
             <div v-if="addingPhotosToGroup" class="title">{{ selectedGroups.length }} groups selected</div>
-            <v-spacer></v-spacer>
+            <v-spacer v-if="$vuetify.breakpoint.mdAndUp"></v-spacer>
 
             <v-btn flat
                    @click.stop="rightDrawer = !rightDrawer"

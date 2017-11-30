@@ -157,7 +157,6 @@
       }
     },
     created () {
-      this.$store.commit('setPageTitle', 'Group')
       this.groups = localStorage.getObject('groups')
       document.addEventListener('keyup', event => {
         if (event.keyCode === 27 || event.key === 'Escape') {

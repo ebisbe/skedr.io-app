@@ -13,6 +13,9 @@
 <script>
   import Flickr from 'flickr-sdk'
   import { url } from '../mixins/urlPhoto'
+  const CacheModule = require('cache-service-cache-module')
+  const cache = new CacheModule({storage: 'session', defaultExpiration: 900})
+  const superagentCache = require('superagent-cache-plugin')(cache)
 
   export default {
     name: 'photoList',
@@ -29,6 +32,7 @@
     created () {
       let flickr = new Flickr('78ab8d949e94be81d67730224abbcdb1')
       flickr.photos.getInfo({photo_id: this.photo.photoId, secret: this.photo.secret})
+        .use(superagentCache)
         .then((response) => {
           this.fPhoto = response.body.photo
         })

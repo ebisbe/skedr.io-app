@@ -1192,6 +1192,10 @@ bytes@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.0.0.tgz#d32815404d689699f85a4ea4fa8755dd13a96048"
 
+cache-service-cache-module@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/cache-service-cache-module/-/cache-service-cache-module-1.2.5.tgz#2d829c12a25cb6b26ace1878f7bf1a90e6571a6b"
+
 caller-path@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/caller-path/-/caller-path-0.1.0.tgz#94085ef63581ecd3daa92444a8fe94e82577751f"
@@ -5968,6 +5972,10 @@ strip-indent@^1.0.1:
 strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
+
+superagent-cache-plugin@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/superagent-cache-plugin/-/superagent-cache-plugin-2.0.0.tgz#28dead1cd6fbe952612987a506ddaa3ae651ca4a"
 
 superagent@^3.5.3-beta.2:
   version "3.8.1"

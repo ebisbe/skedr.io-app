@@ -35,8 +35,11 @@
   import Flickr from 'flickr-sdk'
   import _ from 'lodash'
   import { mapState } from 'vuex'
+  const CacheModule = require('cache-service-cache-module')
+  const cache = new CacheModule({storage: 'session', defaultExpiration: 900})
+  const superagentCache = require('superagent-cache-plugin')(cache)
 
-  export default {
+export default {
     name: 'Photo',
     props: {
       photo: Object
@@ -49,6 +52,7 @@
     created () {
       let flickr = new Flickr('78ab8d949e94be81d67730224abbcdb1')
       flickr.photos.getAllContexts({photo_id: this.photoId})
+        .use(superagentCache)
         .then((response) => {
           if (response.body.hasOwnProperty('pool')) {
             this.groups = response.body.pool
@@ -84,3 +88,8 @@
     }
   }
 </script>
+<style media="screen">
+  .btn--floating.btn--absolute, .btn--floating.btn--fixed{
+    z-index: 2 !important;
+  }
+</style>

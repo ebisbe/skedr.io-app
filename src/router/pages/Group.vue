@@ -3,28 +3,29 @@
         <v-container fluid grid-list-xl>
             <v-layout row wrap>
                 <v-flex xs12>
-                    <div class="mx-4">
-                        <v-layout align-center row spacer>
-                            <v-flex xs3 sm2 md1></v-flex>
-                            <v-flex no-wrap ellipsis class="grey--text"><strong>Group name</strong></v-flex>
-                            <v-flex md2 text-xs-right hidden-xs-only class="grey--text">
-                                <strong>Last addition
-                                    <v-icon>alarm</v-icon>
-                                </strong>
-                            </v-flex>
-                            <v-flex md2 text-xs-right hidden-xs-only class="grey--text">
-                                <strong>Pool count
-                                    <v-icon>photo</v-icon>
-                                </strong>
-                            </v-flex>
-                            <v-flex md2 text-xs-right hidden-xs-only class="grey--text">
-                                <strong>Members
-                                    <v-icon>face</v-icon>
-                                </strong>
-                            </v-flex>
-                            <v-flex xs4 sm2 class="grey--text" text-xs-center><strong>Throttle</strong></v-flex>
-                        </v-layout>
-                    </div>
+                    <v-layout align-center row spacer mx-3>
+                        <v-flex xs3 sm2 md1>&nbsp;</v-flex>
+                        <v-flex md5 ellipsis class="grey--text"><strong>Group name</strong></v-flex>
+                        <v-flex md2 text-xs-center hidden-xs-only class="grey--text">
+                          <v-tooltip bottom>
+                              <v-icon slot="activator">alarm</v-icon>
+                              <span>Last addition</span>
+                          </v-tooltip>
+                        </v-flex>
+                        <v-flex md2 text-xs-center hidden-xs-only class="grey--text">
+                              <v-tooltip bottom>
+                                  <v-icon slot="activator">photo</v-icon>
+                                  <span>Pool count</span>
+                              </v-tooltip>
+                        </v-flex>
+                        <v-flex md2 text-xs-center hidden-xs-only class="grey--text">
+                          <v-tooltip bottom>
+                              <v-icon slot="activator">face</v-icon>
+                              <span>Members</span>
+                          </v-tooltip>
+                        </v-flex>
+                        <v-flex xs4 sm2 class="grey--text" text-xs-center><strong>Throttle</strong></v-flex>
+                    </v-layout>
                     <v-expansion-panel popout>
                         <v-expansion-panel-content
                                 v-for="group in filteredGroups"

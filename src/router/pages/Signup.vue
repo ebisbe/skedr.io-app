@@ -5,19 +5,28 @@
                 <v-flex xs12 sm6 offset-sm3>
                     <v-progress-linear height="3" class="my-0" v-bind:indeterminate="true"
                                        v-show="protectedUI"></v-progress-linear>
-                    <v-card>
-                        <v-alert :color="alert.color" v-show="alert.message" :icon="alert.icon" value="true">
+                    <v-stepper v-model="step" vertical>
+                        <v-alert :color="alert.color" class="mt-0" v-show="alert.message" :icon="alert.icon" value="true">
                             {{ alert.message }}
                         </v-alert>
-                        <v-card-text v-if="step == 1">
-                            <v-form @submit.stop.prevent="handleSubmit">
-                                <h3 class="headline mb-0">Connect your flickr account</h3>
-                                <p>First we need to connect to you flickr account. Upon pressing Connect button you will
-                                    be redirected to your flickr account to grant us access.</p>
-                                <v-btn type="submit" :disabled="protectedUI">{{ button }}</v-btn>
-                            </v-form>
-                        </v-card-text>
-                        <v-card-text v-if="step == 2">
+                        <v-stepper-step step="1" v-bind:complete="step > 1">
+                            Sign up with Flickr
+
+                        </v-stepper-step>
+                        <v-stepper-content step="1">
+                            <small>First we need to connect to you flickr account. Upon pressing Connect button you will
+                                be redirected to your flickr account to grant us access.
+                            </small>
+                            <br>
+                            <v-btn
+                                    color="primary"
+                                    @click="handleSubmit"
+                                    :disabled="protectedUI">{{ button }}
+                            </v-btn>
+                        </v-stepper-content>
+                        <v-stepper-step step="2" v-bind:complete="step > 2">Create your account
+                        </v-stepper-step>
+                        <v-stepper-content step="2">
                             <v-form @submit.stop.prevent="signupUser">
                                 <v-text-field
                                         label="Email"
@@ -34,14 +43,17 @@
                                         :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
                                         :append-icon-cb="() => (passVisibility = !passVisibility)"
                                         :type="passVisibility ? 'password' : 'text'"
-                                        :rules="[rules.required, rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
+                                        :rules="[rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
                                 ></v-text-field>
-                                <v-btn type="submit" :disabled="protectedUI || disableAllInputs">
+                                <v-btn type="submit" color="primary" :disabled="protectedUI || disableAllInputs">
                                     Signup
                                 </v-btn>
+                                <v-btn flat>Cancel</v-btn>
                             </v-form>
-                        </v-card-text>
-                        <v-card-text v-if="step == 3">
+                        </v-stepper-content>
+                        <v-stepper-step step="3" v-bind:complete="step > 3">Validate your email
+                        </v-stepper-step>
+                        <v-stepper-content step="3">
                             <v-form @submit.stop.prevent="validateCode">
                                 <v-text-field
                                         label="Code"
@@ -55,12 +67,13 @@
                                         confirmation code
                                     </button>
                                 </div>
-                                <v-btn type="submit"  :disabled="protectedUI || disableAllInputs">
-                                  Confirm code
+                                <v-btn type="submit" color="primary" :disabled="protectedUI || disableAllInputs">
+                                    Confirm code
                                 </v-btn>
+                                <v-btn flat>Cancel</v-btn>
                             </v-form>
-                        </v-card-text>
-                    </v-card>
+                        </v-stepper-content>
+                    </v-stepper>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -68,60 +81,65 @@
 </template>
 
 <script>
-import { signReq, AwsCredentials } from '../../libs/aws-lib'
+  import { signReq, AwsCredentials } from '../../libs/aws-lib'
 
-export default {
-  name: 'SignUp',
-  data: () => ({
-    step: 1,
-    userId: '',
-    email: '',
-    firstName: '',
-    lastName: '',
-    code: '',
-    alert: {
-      color: '',
-      icon: '',
-      message: ''
-    },
-    passVisibility: true,
-    password: '',
-    protectedUI: false,
-    queryString: {},
-    button: 'Connect',
-    disableAllInputs: false,
-    showResendButton: false,
-    rules: {
-      required: (value) => !!value || 'Required.',
-      email: (value) => {
-        const pattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/
-        return pattern.test(value.toUpperCase()) || 'Invalid e-mail.'
-      },
-      lowerCaseLetters: (value) => {
-        return /[a-z]+/.test(value) || 'Lower case letters required.'
-      },
-      upperCaseLetters: (value) => {
-        return /[A-Z]+/.test(value) || 'Upper case letters required.'
-      },
-      numbers: (value) => {
-        return /[0-9]+/.test(value) || 'Numbers required.'
-      },
-      specialCharacters: (value) => {
-        return /[!@#$%^&*()_+={}[\]\\;:.,|]+/.test(value) || 'Special characters required.'
-      },
-      length: (value) => {
-        return value.length >= 8 || 'Minimum length of 8 characters'
+  export default {
+    name: 'SignUp',
+    data: () => {
+      const message = 'Use at least 8 characters. Include both lower and upper case letters, a number and a special character.'
+
+      return {
+        step: 1,
+        userId: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        code: '',
+        alert: {
+          color: '',
+          icon: '',
+          message: ''
+        },
+        passVisibility: true,
+        password: '',
+        protectedUI: false,
+        queryString: {},
+        button: 'Connect',
+        disableAllInputs: false,
+        showResendButton: false,
+        rules: {
+          required: (value) => !!value || 'Required.',
+          email: (value) => {
+            const pattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/
+            return pattern.test(value.toUpperCase()) || 'Invalid e-mail.'
+          },
+          lowerCaseLetters: (value) => {
+            return /[a-z]+/.test(value) || message
+          },
+          upperCaseLetters: (value) => {
+            return /[A-Z]+/.test(value) || message
+          },
+          numbers: (value) => {
+            return /[0-9]+/.test(value) || message
+          },
+          specialCharacters: (value) => {
+            return /[!@#$%^&*()_+={}[\]\\;:.,|]+/.test(value) || message
+          },
+          length: (value) => {
+            return value.length >= 8 || message
+          }
+        }
       }
-    }
-  }),
-  created () {
-    this.queryString = this.$route.query
-    this.userId = localStorage.getItemDef('userId', '')
-  },
-  methods: {
-    handleSubmit () {
-      this.protectedUI = true
-      this.axios.get('/oauth')
+    },
+    created () {
+      this.queryString = this.$route.query
+      this.userId = localStorage.getItemDef('userId', '')
+    },
+    methods: {
+      handleSubmit () {
+        this.protectedUI = true
+        this.reset()
+        this.axios.get('/oauth')
           .then(({data}) => {
             this.userId = data.userId
             localStorage.setItem('userId', this.userId)
@@ -131,132 +149,134 @@ export default {
             this.protectedUI = false
             this.error(err.message)
           })
-    },
-    signupUser () {
-      this.reset()
-      this.protectedUI = true
-      this.$store.dispatch('signUp', {
-        username: this.user,
-        password: this.password,
-        attributes: {
-          email: this.email,
-          name: this.firstName,
-          family_name: this.lastName
-        }
-      }).then(() => {
-        this.disableAllInputs = false
-        this.protectedUI = false
-        this.step = 3
-        this.success('Successfuly signed up')
-      }).catch((err) => {
-        this.error(err.message)
-        this.protectedUI = false
-      })
-    },
-    validateCode () {
-        // Remove alert boxes and resend confirmation parts first
-      this.reset()
-      this.showResendButton = false
-        // Protect UI from being used
-      this.protectedUI = true
-      this.$store.dispatch('confirmRegistration', {
-        username: this.user,
-        code: this.code
-      }).then(() => {
-        this.$store.dispatch('authenticateUser', {
-          username: this.email,
-          password: this.password
-        }).then(async () => {
-          this.disableAllInputs = true
-          this.success('Successfuly signed in')
+      },
+      signupUser () {
+        this.reset()
+        this.protectedUI = true
+        this.$store.dispatch('signUp', {
+          username: this.user,
+          password: this.password,
+          attributes: {
+            email: this.email,
+            name: this.firstName,
+            family_name: this.lastName
+          }
+        }).then(() => {
+          this.disableAllInputs = false
           this.protectedUI = false
-
-          await AwsCredentials(this.$store.state.cognito.user.tokens.IdToken)
-            .catch(() => console.log('Not logged. Redirect to Login page'))
-            .then(() => {
-              this.axios(signReq('/oauth/user', {}, {
-                userId: this.userId
-              }, 'post')).then(response =>
-                this.$router.push({name: 'Group'})
-              )
-            })
+          this.step = 3
+          this.success('Successfuly signed up')
         }).catch((err) => {
           this.error(err.message)
           this.protectedUI = false
         })
-      }).catch((err) => {
-        this.error(err.message)
-        this.protectedUI = false
-          // TODO: should it be checked for `CodeMismatchException`?
-        if (err.code === 'ExpiredCodeException') {
-          this.showResendButton = true
-        }
-      })
-    },
-    resendCode () {
-        // Remove alert boxes first
-      this.reset()
-      this.$store.dispatch('resendConfirmationCode', {
-        username: this.user
-      }).then(() => {
+      },
+      validateCode () {
+        // Remove alert boxes and resend confirmation parts first
+        this.reset()
         this.showResendButton = false
-        this.success('Confirmation code has been successfuly sent')
+        // Protect UI from being used
+        this.protectedUI = true
+        this.$store.dispatch('confirmRegistration', {
+          username: this.user,
+          code: this.code
+        }).then(() => {
+          this.$store.dispatch('authenticateUser', {
+            username: this.email,
+            password: this.password
+          }).then(async () => {
+            this.disableAllInputs = true
+            this.success('Successfuly signed in')
+            this.protectedUI = false
+
+            await AwsCredentials(this.$store.state.cognito.user.tokens.IdToken)
+              .catch(() => console.log('Not logged. Redirect to Login page'))
+              .then(() => {
+                this.axios(signReq('/oauth/user', {}, {
+                  userId: this.userId
+                }, 'post')).then(response =>
+                  this.$router.push({name: 'Group'})
+                )
+              })
+          }).catch((err) => {
+            this.error(err.message)
+            this.protectedUI = false
+          })
+        }).catch((err) => {
+          this.error(err.message)
+          this.protectedUI = false
+          // TODO: should it be checked for `CodeMismatchException`?
+          if (err.code === 'ExpiredCodeException') {
+            this.showResendButton = true
+          }
+        })
+      },
+      resendCode () {
+        // Remove alert boxes first
+        this.reset()
+        this.$store.dispatch('resendConfirmationCode', {
+          username: this.user
+        }).then(() => {
+          this.showResendButton = false
+          this.success('Confirmation code has been successfuly sent')
           // Hide success message after 5 seconds
-        setTimeout(() => {
-          this.reset()
-        }, 5000)
-      }).catch((err) => {
-        this.error(err.message)
-      })
+          setTimeout(() => {
+            this.reset()
+          }, 5000)
+        }).catch((err) => {
+          this.error(err.message)
+        })
+      },
+      success (text) {
+        this.alert.icon = 'check_circle'
+        this.alert.message = text
+        this.alert.color = 'success'
+      },
+      error (text) {
+        this.alert.icon = 'warning'
+        this.alert.message = text
+        this.alert.color = 'error'
+      },
+      reset () {
+        this.alert.message = null
+      }
     },
-    success (text) {
-      this.alert.icon = 'check_circle'
-      this.alert.message = text
-      this.alert.color = 'success'
-    },
-    error (text) {
-      this.alert.icon = 'warning'
-      this.alert.message = text
-      this.alert.color = 'error'
-    },
-    reset () {
-      this.alert.message = null
-    }
-  },
-  watch: {
-    queryString (queryString) {
-      if (queryString.oauth_verifier === undefined &&
+    watch: {
+      queryString (queryString) {
+        if (queryString.oauth_verifier === undefined &&
           queryString.oauth_token === undefined
         ) {
-        return
-      }
+          return
+        }
 
-      this.protectedUI = true
-      this.button = 'Validating account'
-      this.axios.post('/oauth/callback', {
-        userId: this.userId,
-        oauthToken: queryString.oauth_token,
-        oauthVerifier: queryString.oauth_verifier
-      })
-            .then(({data}) => {
-              this.protectedUI = false
-              this.userId = data.userId
-              this.firstName = data.firstName
-              this.lastName = data.lastName
-              this.email = data.email
-              localStorage.setItem('userId', '')
-              this.step = 2
-            })
-            .catch(err => {
-              this.error(err.message)
-              this.protectedUI = false
-            })
-    }
-  },
-  computed: {
-    user () {
-      return encodeURIComponent(this.userId)
+        this.protectedUI = true
+        this.button = 'Validating account'
+        this.axios.post('/oauth/callback', {
+          userId: this.userId,
+          oauthToken: queryString.oauth_token,
+          oauthVerifier: queryString.oauth_verifier
+        })
+          .then(({data}) => {
+            this.protectedUI = false
+            this.userId = data.userId
+            this.firstName = data.firstName
+            this.lastName = data.lastName
+            this.email = data.email
+            localStorage.setItem('userId', '')
+            this.step = 2
+          })
+          .catch(err => {
+            this.error(err.message)
+            this.protectedUI = false
+            this.step = 1
+            this.button = 'Connect'
+          })
+      }
+    },
+    computed: {
+      user () {
+        return encodeURIComponent(this.userId)
+      }
     }
   }
-}
 </script>

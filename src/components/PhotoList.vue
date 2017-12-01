@@ -14,7 +14,7 @@
   import Flickr from 'flickr-sdk'
   import { url } from '../mixins/urlPhoto'
   const CacheModule = require('cache-service-cache-module')
-  const cache = new CacheModule({storage: 'session', defaultExpiration: 900})
+  const cache = new CacheModule({storage: 'session', defaultExpiration: 60 * 60 * 24})
   const superagentCache = require('superagent-cache-plugin')(cache)
 
   export default {

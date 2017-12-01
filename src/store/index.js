@@ -22,7 +22,7 @@ export default new Vuex.Store({
     rightDrawer: false,
     pageTitle: '',
     pool: [],
-    selectedGroups: {},
+    selectedGroups: [],
     token: '',
     search: ''
   },
@@ -39,8 +39,12 @@ export default new Vuex.Store({
       }
       localStorage.setObject('pool.photos', state.pool)
     },
-    updateSelectedGroups (state, groups) {
-      state.selectedGroups = groups
+    updateSelectedGroups (state, payload) {
+      if (payload.isSelected) {
+        state.selectedGroups.unshift(payload.group)
+      } else {
+        state.selectedGroups = _.filter(state.selectedGroups, function (o) { return o.groupId !== payload.group.groupId })
+      }
     },
     clearPool (state) {
       state.pool = []
@@ -58,7 +62,7 @@ export default new Vuex.Store({
   },
   getters: {
     activeFab (state, getter) {
-      if (getter.addingPhotosToGroup) {
+      if (state.selectedGroups.length) {
         return {'class': 'deep-purple lighten-2', icon: 'add_to_photos', html: 'Add photos to group'}
       } else {
         return {'class': 'deep-purple', icon: 'add_a_photo', html: 'Search photos'}

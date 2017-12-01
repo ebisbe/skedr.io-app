@@ -5,7 +5,7 @@
                 <v-avatar size="40px" slot="activator" :class="{hidden: hideAvatar}">
                     <img :src="group.icon" :alt="group.title">
                 </v-avatar>
-                <v-checkbox v-model="group.selected" hide-details
+                <v-checkbox v-model="selected" hide-details
                             :class="{hidden: !hideAvatar, 'pa-1':true}"></v-checkbox>
             </v-flex>
             <v-flex md6 ellipsis><strong v-html="group.title"></strong></v-flex>
@@ -49,7 +49,8 @@
     },
     data () {
       return {
-        mouseOverAvatar: false
+        mouseOverAvatar: false,
+        selected: false
       }
     },
     computed: {
@@ -77,8 +78,8 @@
       }
     },
     watch: {
-      'group.selected' (isSelected) {
-        this.$emit('selected', isSelected)
+      'selected' (isSelected) {
+        this.$store.commit('updateSelectedGroups', {group: this.group, isSelected})
       }
     },
     methods: {

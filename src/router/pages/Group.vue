@@ -32,7 +32,7 @@
                                 :key="group.title"
                                 v-model="group.expanded"
                                 :class="{'grey lighten-4': group.checked}">
-                            <expansion-panel slot="header" :group="group" @selected="selected"></expansion-panel>
+                            <expansion-panel slot="header" :group="group"></expansion-panel>
                             <v-progress-linear indeterminate height="3"
                                                v-show="group.expanded && loading"
                                                class="my-0"></v-progress-linear>
@@ -189,9 +189,6 @@
       }
     },
     methods: {
-      selected () {
-        this.$store.commit('updateSelectedGroups', this.groups.filter(group => group.selected))
-      },
       isLoading (loading) {
         this.loading = loading
       },

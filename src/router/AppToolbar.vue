@@ -41,7 +41,7 @@
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
                 <span class="hidden-xs-only" v-text="pageTitle"></span>
             </v-toolbar-title>
-            <q-filter placeholder="Filter groups" @search="search"></q-filter>
+            <q-filter placeholder="Filter groups" @search="search" v-if="this.$router.currentRoute.name === 'Group'"></q-filter>
             <v-spacer v-if="addingPhotosToGroup"></v-spacer>
             <div v-if="addingPhotosToGroup" class="title">{{ selectedGroups.length }} groups selected</div>
             <v-spacer v-if="$vuetify.breakpoint.mdAndUp"></v-spacer>

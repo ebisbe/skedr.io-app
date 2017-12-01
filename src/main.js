@@ -28,16 +28,13 @@ Vue.config.productionTip = false
 
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    await store.dispatch('getCurrentUser')
-      .then(() => AwsCredentials(store.state.cognito.user.tokens.IdToken))
-      .catch(() => console.log('Not logged. Redirect to Login page'))
-      .then(() => { console.log('Get AWS credentials OK') })
-
     if (store.state.cognito.user === null) {
-      next({
-        path: '/login',
-        query: {redirect: to.fullPath}
-      })
+      await store.dispatch('getCurrentUser')
+        .then(() => AwsCredentials(store.state.cognito.user.tokens.IdToken).then(() => console.log('User logged.')))
+        .catch(() => next({
+          path: '/login',
+          query: {redirect: to.fullPath}
+        }))
     }
   }
   store.commit('setPageTitle', to.name)

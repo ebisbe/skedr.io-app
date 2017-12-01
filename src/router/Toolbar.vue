@@ -1,10 +1,6 @@
 <template>
     <v-toolbar app fixed :class="[activeFab.class]" dark>
-        <v-toolbar-side-icon></v-toolbar-side-icon>
-
-        <v-toolbar-title>
-            <router-link v-text="title" to="/"></router-link>
-        </v-toolbar-title>
+        <h1>{{ title }}</h1>
         <v-spacer></v-spacer>
         <v-toolbar-items>
             <v-btn flat class="mr-4 deep-purple" to="/login">
@@ -17,24 +13,17 @@
     </v-toolbar>
 </template>
 <script>
-  import { mapGetters, mapState } from 'vuex'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'Toolbar',
     data () {
       return {
-        title: 'Layout'
+        title: 'Qronos'
       }
     },
     computed: {
-      ...mapState([
-        'pool',
-        'selectedGroups'
-      ]),
-      ...mapGetters([
-        'activeFab',
-        'addingPhotosToGroup'
-      ])
+      ...mapGetters(['activeFab'])
     }
   }
 </script>

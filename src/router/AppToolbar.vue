@@ -39,12 +39,11 @@
             <div v-if="addingPhotosToGroup" class="title">{{ selectedGroups.length }} groups selected</div>
             <v-spacer v-if="$vuetify.breakpoint.mdAndUp"></v-spacer>
 
-            <v-btn flat
+            <v-btn flat icon
                    @click.stop="rightDrawer = !rightDrawer"
                    class="deep-purple ligthen-2"
             >
-                <span class="hidden-xs-only">Photo pool&nbsp;&nbsp;</span>
-                <v-icon>{{ poolIcon }}</v-icon>
+                <v-icon v-text="poolIcon"></v-icon>
             </v-btn>
         </v-toolbar>
     </div>

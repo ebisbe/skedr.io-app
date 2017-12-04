@@ -32,6 +32,7 @@
     methods: {
       clearPool () {
         this.$store.commit('clearPool')
+        this.rightDrawer = false
       }
     },
     computed: {

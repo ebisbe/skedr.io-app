@@ -39,7 +39,7 @@
     "vue-axios": "^2.0.2",
     "vue-router": "^2.8.1",
     "vuelidate": "^0.6.1",
-    "vuetify": "^0.17.0",
+    "vuetify": "^1.0.0-alpha.1",
     "vuex": "^2.5.0"
   },
   "devDependencies": {

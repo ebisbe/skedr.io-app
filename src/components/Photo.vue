@@ -11,14 +11,7 @@
                 </v-layout>
             </v-container>
         </v-card-media>
-        <v-card-text style="position: relative" class="pa-0">
-            <v-fab-transition>
-                <v-btn dark small fab absolute top right class="deep-purple"
-                       v-show="!disabled"
-                       @click="addToPool()">
-                    <v-icon>add</v-icon>
-                </v-btn>
-            </v-fab-transition>
+        <v-card-text style="position: relative" class="pa-0" v-show="false">
             <v-btn target="_blank" flat icon
                    :href="'https://www.flickr.com/photos/' + photo.owner +'/' + photo.id ">
                 {{ photo.views }}
@@ -29,6 +22,9 @@
                 <v-icon>{{ bookmark }}</v-icon>
             </span>
         </v-card-text>
+        <v-card-actions>
+            <v-btn color="primary" flat @click="addToPool()" :disabled="disabled"> <v-icon>add_to_photos</v-icon>&nbsp;add</v-btn>
+        </v-card-actions>
     </v-card>
 </template>
 <script>
@@ -88,8 +84,4 @@ export default {
     }
   }
 </script>
-<style media="screen">
-  .btn--floating.btn--absolute, .btn--floating.btn--fixed{
-    z-index: 2 !important;
-  }
-</style>
+

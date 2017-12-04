@@ -17,14 +17,6 @@
                     </v-list-tile-content>
                 </v-list-tile>
                 <v-divider></v-divider>
-                <!-- <v-list-tile ripple>
-                    <v-list-tile-action>
-                        <v-icon>settings</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Settings</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile> -->
                 <v-list-tile @click.stop="logout" ripple>
                     <v-list-tile-action>
                         <v-icon>input</v-icon>
@@ -37,11 +29,12 @@
         </v-navigation-drawer>
         <v-toolbar app fixed :class="[activeFab.class]" dark clipped-left clipped-right>
             <v-toolbar-title class="pr-3"
-                    :style="$vuetify.breakpoint.mdAndUp ? 'width: 300px; min-width: 250px' : 'min-width: 130px'">
+                             :style="$vuetify.breakpoint.mdAndUp ? 'width: 300px; min-width: 250px' : 'min-width: 130px'">
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
                 <span class="hidden-xs-only" v-text="pageTitle"></span>
             </v-toolbar-title>
-            <q-filter placeholder="Filter groups" @search="search" v-if="this.$router.currentRoute.name === 'Group'"></q-filter>
+            <q-filter placeholder="Filter groups" @search="search"
+                      v-if="this.$router.currentRoute.name === 'Group'"></q-filter>
             <v-spacer v-if="addingPhotosToGroup"></v-spacer>
             <div v-if="addingPhotosToGroup" class="title">{{ selectedGroups.length }} groups selected</div>
             <v-spacer v-if="$vuetify.breakpoint.mdAndUp"></v-spacer>
@@ -50,11 +43,8 @@
                    @click.stop="rightDrawer = !rightDrawer"
                    class="deep-purple ligthen-2"
             >
-                Photo pool&nbsp;&nbsp;
-                <v-badge overlap color="red">
-                    <span slot="badge">{{ pool.length }}</span>
-                    <v-icon>inbox</v-icon>
-                </v-badge>
+                <span class="hidden-xs-only">Photo pool&nbsp;&nbsp;</span>
+                <v-icon>{{ poolIcon }}</v-icon>
             </v-btn>
         </v-toolbar>
     </div>
@@ -106,6 +96,24 @@
         },
         set (value) {
           this.$store.commit('updateRightDrawer', value)
+        }
+      },
+      poolIcon () {
+        switch (this.pool.length) {
+          case 0:
+            return 'filter'
+          case 1:
+          case 2:
+          case 3:
+          case 4:
+          case 5:
+          case 6:
+          case 7:
+          case 8:
+          case 9:
+            return `filter_${this.pool.length}`
+          default:
+            return 'filter_9_plus'
         }
       }
     },

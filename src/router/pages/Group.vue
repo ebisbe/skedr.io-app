@@ -4,7 +4,7 @@
             <v-layout row wrap>
                 <v-flex xs12>
                     <v-layout align-center row spacer mx-3>
-                        <v-flex xs2 sm1 md1>&nbsp;a</v-flex>
+                        <v-flex xs2 sm1 md1>&nbsp;</v-flex>
                         <v-flex d-flex xs10 sm11>
                             <v-layout row wrap>
                                 <v-flex d-flex xs12 sm6 lg6><strong>Group name</strong></v-flex>

@@ -2,7 +2,7 @@
     <div>
         <v-layout align-center row wrap spacer @mouseover="mouseOver" @mouseleave="mouseLeave">
             <v-flex xs2 sm1 md1 @click.stop="">
-                <v-avatar size="40px" slot="activator" :class="{hidden: hideAvatar}">
+                <v-avatar size="40px" v-show="!hideAvatar">
                     <img :src="group.icon" :alt="group.title">
                 </v-avatar>
                 <v-checkbox v-model="selected" hide-details
@@ -12,15 +12,16 @@
                 <v-layout row wrap>
                     <v-flex d-flex xs12 sm6 lg6><strong v-html="group.title" class="break"></strong></v-flex>
                     <v-flex d-flex sm6 lg6>
-                        <v-layout row>
-                            <v-flex xs1 sm3 text-sm-center>{{ dateAddedFormated }}</v-flex>
-                            <v-flex xs3 sm3 md2 text-xs-right>{{ group.poolCount }}</v-flex>
-                            <v-flex xs3 sm3 md2 text-xs-right>{{ group.members }}</v-flex>
-                            <v-flex xs4 sm3 class="grey--text" text-xs-right>
+                        <span>{{ dateAddedFormated }}</span>
+                        <v-spacer></v-spacer>
+                        <span>{{ group.poolCount }}</span>
+                        <v-spacer></v-spacer>
+                        <span>{{ group.members }}</span>
+                        <v-spacer></v-spacer>
+                        <span class="grey--text" text-xs-right>
                                 <span v-html="throttleText"></span>
                                 <strong>{{ group.throttleMode }}</strong>
-                            </v-flex>
-                        </v-layout>
+                            </span>
                     </v-flex>
                 </v-layout>
             </v-flex>

@@ -3,34 +3,37 @@
         <v-container fluid grid-list-sm>
             <v-layout row wrap>
                 <v-flex xs12>
-                    <v-layout align-center row spacer mx-3>
+                    <v-layout align-center row spacer ml-3 mr-5>
                         <v-flex xs2 sm1 md1>&nbsp;</v-flex>
                         <v-flex d-flex xs10 sm11>
                             <v-layout row wrap>
                                 <v-flex d-flex xs12 sm6 lg6><strong>Group name</strong></v-flex>
-                                <v-flex d-flex sm6 lg6>
+                                <v-flex d-flex sm6 lg6 >
                                     <v-layout row>
-                                        <v-flex xs1 sm3 text-sm-center>
+                                        <span>
                                             <v-tooltip bottom>
                                                 <v-icon slot="activator">alarm</v-icon>
                                                 <span>Last addition</span>
                                             </v-tooltip>
-                                        </v-flex>
-                                        <v-flex xs3 sm3 md2 text-xs-right>
+                                        </span>
+                                        <v-spacer></v-spacer>
+                                        <span>
                                             <v-tooltip bottom>
                                                 <v-icon slot="activator">photo</v-icon>
                                                 <span>Pool count</span>
                                             </v-tooltip>
-                                        </v-flex>
-                                        <v-flex xs3 sm3 md2 text-xs-right>
+                                        </span>
+                                        <v-spacer></v-spacer>
+                                        <span>
                                             <v-tooltip bottom>
                                                 <v-icon slot="activator">face</v-icon>
                                                 <span>Members</span>
                                             </v-tooltip>
-                                        </v-flex>
-                                        <v-flex xs4 sm3 class="grey--text" text-xs-right>
+                                        </span>
+                                        <v-spacer></v-spacer>
+                                        <span class="grey--text">
                                             <strong>Throttle</strong>
-                                        </v-flex>
+                                        </span>
                                     </v-layout>
                                 </v-flex>
                             </v-layout>

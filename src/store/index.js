@@ -2,11 +2,10 @@ let _ = require('lodash')
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createLogger from 'vuex/dist/logger'
-
-Vue.use(Vuex)
-
 import cognitoConfig from './cognito'
 import CognitoAuth from 'vue-auth-cognito'
+
+Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 const devenv = process.env.NODE_ENV === 'dev'
@@ -18,7 +17,6 @@ export default new Vuex.Store({
   strict: debug,
   plugins: devenv ? [createLogger()] : [],
   state: {
-    userId: '144521588@N08',
     rightDrawer: false,
     pageTitle: '',
     pool: [],
@@ -70,6 +68,9 @@ export default new Vuex.Store({
     },
     addingPhotosToGroup (state) {
       return state.selectedGroups.length > 0
+    },
+    userId (state) {
+      return decodeURIComponent(state.cognito.user.username)
     }
   }
 })

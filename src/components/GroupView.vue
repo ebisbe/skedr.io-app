@@ -8,7 +8,7 @@
     </v-layout>
 </template>
 <script>
-  import { mapState } from 'vuex'
+  import { mapGetters } from 'vuex'
   import Photo from './Photo.vue'
   import gql from 'graphql-tag'
 
@@ -51,7 +51,7 @@
       }
     },
     computed: {
-      ...mapState([
+      ...mapGetters([
         'userId'
       ])
     },

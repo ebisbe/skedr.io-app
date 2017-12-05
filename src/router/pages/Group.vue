@@ -1,5 +1,6 @@
 <template>
     <v-content>
+        <v-progress-linear height="3" class="my-0" v-bind:indeterminate="true" v-if="loading"></v-progress-linear>
         <v-container fluid grid-list-sm>
             <v-layout row wrap>
                 <v-flex xs12>
@@ -83,16 +84,7 @@
                             <v-toolbar-title>Search photos</v-toolbar-title>
                             <v-spacer></v-spacer>
                             <v-toolbar-items>
-                                <v-btn flat
-                                       @click.stop="$store.commit('updateRightDrawer', true)"
-                                       class="deep-purple ligthen-2"
-                                >
-                                    Photo pool&nbsp;&nbsp;
-                                    <v-badge overlap color="red">
-                                        <span slot="badge">{{ pool.length }}</span>
-                                        <v-icon>filter</v-icon>
-                                    </v-badge>
-                                </v-btn>
+                                <q-pool-btn></q-pool-btn>
                             </v-toolbar-items>
                         </v-toolbar>
                         <v-card-text>
@@ -157,10 +149,11 @@
   import { mapGetters, mapState } from 'vuex'
   import { signReq } from '../../libs/aws-lib'
   import gql from 'graphql-tag'
+  import QPoolBtn from '../../components/QPoolBtn.vue'
 
   export default {
     name: 'Group',
-    components: {ExpansionPanel, Photo, GroupView},
+    components: {ExpansionPanel, Photo, GroupView, QPoolBtn},
     data () {
       return {
         dialog: false,
@@ -182,10 +175,10 @@
     computed: {
       ...mapGetters([
         'activeFab',
-        'addingPhotosToGroup'
+        'addingPhotosToGroup',
+        'userId'
       ]),
       ...mapState([
-        'userId',
         'pool',
         'selectedGroups',
         'search'

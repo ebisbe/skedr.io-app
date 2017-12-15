@@ -245,7 +245,7 @@
           }
         },
         update: data => data.userGroups.map(group => Object.assign({selected: false, expanded: false}, group)),
-        fetchPolicy: 'cache',
+        fetchPolicy: 'cache-and-network',
         loadingKey: 'loading'
       }
     },

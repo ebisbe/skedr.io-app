@@ -6493,9 +6493,9 @@ vuelidate@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.6.1.tgz#c52c9fd2b48f974613485e2cf51c182e84bcf747"
 
-vuetify@^1.0.0-alpha.1:
-  version "1.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.0.0-alpha.1.tgz#14d78be8066ba1c82ad5299355a26122b63e5c48"
+vuetify@^1.0.0-alpha.3:
+  version "1.0.0-alpha.3"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.0.0-alpha.3.tgz#60f1cb294ccf02d7daf59fe5240fa60fa25a549c"
 
 vuex@^2.3.1, vuex@^2.5.0:
   version "2.5.0"

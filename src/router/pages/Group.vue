@@ -47,8 +47,8 @@
                             v-for="group in filteredGroups"
                             :key="group.title"
                             v-model="group.expanded"
-                            :class="{'grey lighten-4': group.checked}">
-                        <expansion-panel slot="header" :group="group"></expansion-panel>
+                            :class="{'grey lighten-3': group.selected}">
+                        <expansion-panel slot="header" :group="group" ></expansion-panel>
                         <v-progress-linear indeterminate height="3"
                                            v-show="group.expanded && loading"
                                            class="my-0"></v-progress-linear>

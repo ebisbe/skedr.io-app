@@ -27,7 +27,7 @@
                 </v-list-tile>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar app fixed :class="[activeFab.class]" dark clipped-left clipped-right prominent :extended="addingPhotosToGroup">
+        <v-toolbar app fixed :class="[activeFab.class]" dark clipped-left clipped-right prominent>
             <v-toolbar-title class="pr-3">
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
                 <span v-text="pageTitle"></span>
@@ -35,9 +35,7 @@
             <q-filter  placeholder="Filter groups" @search="search"
                       v-if="this.$router.currentRoute.name === 'Group'"></q-filter>
             <v-spacer v-else></v-spacer>
-            <v-flex v-if="addingPhotosToGroup" slot="extension" class="title">
-               <div class="text-xs-center"> {{ selectedGroups.length }} groups selected</div>
-            </v-flex>
+
 
             <q-pool-btn></q-pool-btn>
         </v-toolbar>
@@ -77,12 +75,10 @@
     },
     computed: {
       ...mapState([
-        'selectedGroups',
         'pageTitle'
       ]),
       ...mapGetters([
-        'activeFab',
-        'addingPhotosToGroup'
+        'activeFab'
       ])
     },
     methods: {

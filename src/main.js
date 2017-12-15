@@ -22,7 +22,18 @@ const api = 'https://v6ztnk31r9.execute-api.eu-west-1.amazonaws.com/dev/'
 // const api = 'http://localhost:1337/'
 axios.defaults.baseURL = api
 
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  theme: {
+    'primary': '#673AB7',
+    'secondary': '#7E57C2',
+    'accent': '#311B92',
+    'error': '#F44336',
+    'warning': '#ffeb3b',
+    'info': '#2196F3',
+    'success': '#4CAF50'
+  }
+})
+
 Vue.use(Axios, axios)
 Vue.config.productionTip = false
 

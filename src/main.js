@@ -12,7 +12,7 @@ import router from './router'
 import Vuetify from 'vuetify'
 import store from './store'
 import MyFetch from './components/MyFetch'
-import { AwsCredentials } from './libs/aws-lib'
+import { authUser } from './libs/aws-lib'
 
 require('./libs/storage')
 
@@ -30,11 +30,13 @@ router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.state.cognito.user === null) {
       await store.dispatch('getCurrentUser')
-        .then(() => AwsCredentials(store.state.cognito.user.tokens.IdToken).then(() => console.log('User logged.')))
+        .then(() => authUser(store.state.cognito.user.tokens.IdToken))
         .catch(() => next({
           path: '/login',
           query: {redirect: to.fullPath}
         }))
+    } else {
+      authUser(store.state.cognito.user.tokens.IdToken)
     }
   }
   store.commit('setPageTitle', to.name)

@@ -2,7 +2,6 @@
     <v-content>
         <v-progress-linear height="3" class="my-0" v-bind:indeterminate="true" v-if="loading"></v-progress-linear>
         <v-container fluid grid-list-xl>
-            <h4>Photostream</h4>
             <v-layout row wrap>
                 <v-flex md3 sm4 xs6 v-for="photo in userPhotos" :key="photo.id">
                     <photo :photo="photo"></photo>
@@ -36,13 +35,20 @@
     url_sq
   }
   }`,
-        variables: {
-          userId: '144521588@N08'
+        variables () {
+          return {
+            userId: this.userId
+          }
         },
         update: data => data.userPhotos,
         fetchPolicy: 'cache-and-network',
         loadingKey: 'loading'
       }
+    },
+    computed: {
+      ...mapGetters([
+        'userId'
+      ]),
     }
   }
 </script>

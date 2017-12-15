@@ -2,6 +2,19 @@ import AWS from 'aws-sdk'
 import cognitoConfig from '../store/cognito'
 import aws41 from 'aws41'
 
+export async function authUser (userToken) {
+  if (
+    AWS.config.credentials &&
+    Date.now() < AWS.config.credentials.expireTime - 60000
+  ) {
+    return true
+  }
+
+  await AwsCredentials(userToken)
+
+  return true
+}
+
 export function AwsCredentials (userToken) {
   const authenticator = `cognito-idp.${cognitoConfig.Region}.amazonaws.com/${cognitoConfig.UserPoolId}`
 
@@ -35,6 +48,7 @@ export function signReq (url, params, data, method) {
     }
   }
 
+  console.log(AWS.config.credentials)
   let signedRequest = aws41.sign(request,
     {
       secretAccessKey: AWS.config.credentials.secretAccessKey,

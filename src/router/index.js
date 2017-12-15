@@ -9,7 +9,7 @@ import Login from './pages/Login.vue'
 import Signup from './pages/Signup.vue'
 import Scheduled from './pages/Scheduled.vue'
 import Dashboard from './pages/Dashboard.vue'
-import Photos from './pages/Photos.vue'
+import Photostream from './pages/Photostream.vue'
 
 Vue.use(Router)
 
@@ -46,7 +46,7 @@ export default new Router({
     },
     {
       path: '/scheduled',
-      name: 'Scheduled',
+      name: 'Scheduled photos',
       components: {
         default: Scheduled,
         toolbar: AppToolbar,
@@ -55,10 +55,10 @@ export default new Router({
       meta: {requiresAuth: true}
     },
     {
-      path: '/photos',
-      name: 'Photos',
+      path: '/photostream',
+      name: 'Photostream',
       components: {
-        default: Photos,
+        default: Photostream,
         toolbar: AppToolbar,
         rightBar: RightBar
       },

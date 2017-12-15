@@ -27,94 +27,63 @@
                 </v-list-tile>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar app fixed :class="[activeFab.class]" dark clipped-left clipped-right>
-            <v-toolbar-title class="pr-3"
-                             :style="$vuetify.breakpoint.mdAndUp ? 'width: 300px; min-width: 250px' : 'min-width: 130px'">
+        <v-toolbar app fixed :class="[activeFab.class]" dark clipped-left clipped-right prominent :extended="addingPhotosToGroup">
+            <v-toolbar-title class="pr-3">
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-                <span class="hidden-xs-only" v-text="pageTitle"></span>
+                <span v-text="pageTitle"></span>
             </v-toolbar-title>
-            <q-filter placeholder="Filter groups" @search="search"
+            <q-filter  placeholder="Filter groups" @search="search"
                       v-if="this.$router.currentRoute.name === 'Group'"></q-filter>
-            <v-spacer v-if="addingPhotosToGroup"></v-spacer>
-            <div v-if="addingPhotosToGroup" class="title">{{ selectedGroups.length }} groups selected</div>
-            <v-spacer v-if="$vuetify.breakpoint.mdAndUp"></v-spacer>
+            <v-spacer v-else></v-spacer>
+            <v-flex v-if="addingPhotosToGroup" slot="extension" class="title">
+               <div class="text-xs-center"> {{ selectedGroups.length }} groups selected</div>
+            </v-flex>
 
-            <v-btn flat icon
-                   @click.stop="rightDrawer = !rightDrawer"
-                   class="deep-purple ligthen-2"
-            >
-                <v-icon v-text="poolIcon"></v-icon>
-            </v-btn>
+            <q-pool-btn></q-pool-btn>
         </v-toolbar>
     </div>
 </template>
 <script>
   import { mapGetters, mapState } from 'vuex'
   import QFilter from './../components/QFilter.vue'
+  import QPoolBtn from './../components/QPoolBtn.vue'
 
   export default {
     name: 'Toolbar',
-    components: {QFilter},
+    components: {QFilter, QPoolBtn},
     data () {
       return {
         title: 'Layout',
         drawer: false,
         lists: [
-          {
-            icon: 'dashboard',
-            name: 'Dashboard'
-          },
+          /*  {
+              icon: 'dashboard',
+              name: 'Dashboard'
+            }, */
           {
             icon: 'view_day',
             name: 'Group'
           },
           {
             icon: 'access_time',
-            name: 'Scheduled'
+            name: 'Scheduled photos'
           },
           {
             icon: 'photo',
-            name: 'Photos'
+            name: 'Photostream'
           }
         ]
       }
     },
     computed: {
       ...mapState([
-        'pool',
         'selectedGroups',
         'pageTitle'
       ]),
       ...mapGetters([
         'activeFab',
         'addingPhotosToGroup'
-      ]),
-      rightDrawer: {
-        get () {
-          return this.$store.state.rightDrawer
-        },
-        set (value) {
-          this.$store.commit('updateRightDrawer', value)
-        }
-      },
-      poolIcon () {
-        switch (this.pool.length) {
-          case 0:
-            return 'filter'
-          case 1:
-          case 2:
-          case 3:
-          case 4:
-          case 5:
-          case 6:
-          case 7:
-          case 8:
-          case 9:
-            return `filter_${this.pool.length}`
-          default:
-            return 'filter_9_plus'
-        }
-      }
+      ])
     },
     methods: {
       logout () {

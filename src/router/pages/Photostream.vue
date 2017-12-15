@@ -13,10 +13,11 @@
 <script>
   import gql from 'graphql-tag'
   import Photo from '../../components/Photo.vue'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'Photos',
-    components: { Photo },
+    components: {Photo},
     data () {
       return {
         userPhotos: [],
@@ -48,7 +49,7 @@
     computed: {
       ...mapGetters([
         'userId'
-      ]),
+      ])
     }
   }
 </script>

@@ -237,9 +237,6 @@
       rawDateAdded
       dateAdded
     }
-    groups {
-      description
-    }
   }
 }`,
         variables () {

@@ -18,10 +18,6 @@ require('./libs/storage')
 
 import('../node_modules/vuetify/dist/vuetify.min.css')
 
-const api = 'https://v6ztnk31r9.execute-api.eu-west-1.amazonaws.com/dev/'
-// const api = 'http://localhost:1337/'
-axios.defaults.baseURL = api
-
 Vue.use(Vuetify, {
   theme: {
     'primary': '#673AB7',
@@ -56,7 +52,7 @@ router.beforeEach(async (to, from, next) => {
 
 const httpLink = new HttpLink({
   // You should use an absolute URL here
-  uri: api + 'graphql'
+  uri: process.env.API_URL + 'graphql'
 })
 
 // Create the apollo client

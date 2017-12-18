@@ -33,10 +33,10 @@ export function AwsCredentials (userToken) {
 export function signReq (url, params, data, method) {
   const path = url.replace('@', '%40')
   let request = {
-    host: 'v6ztnk31r9.execute-api.eu-west-1.amazonaws.com',
+    host: process.env.API_HOST,
     method: method.toUpperCase(),
-    url: 'https://v6ztnk31r9.execute-api.eu-west-1.amazonaws.com/dev' + path,
-    path: '/dev' + path,
+    url: process.env.API_URL + path,
+    path: process.env.BASE_URL + path,
     params: params,
     data: data,
     body: JSON.stringify(data)
@@ -48,7 +48,6 @@ export function signReq (url, params, data, method) {
     }
   }
 
-  console.log(AWS.config.credentials)
   let signedRequest = aws41.sign(request,
     {
       secretAccessKey: AWS.config.credentials.secretAccessKey,

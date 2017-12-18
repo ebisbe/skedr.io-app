@@ -46,7 +46,7 @@ export default {
       }
     },
     created () {
-      let flickr = new Flickr('78ab8d949e94be81d67730224abbcdb1')
+      let flickr = new Flickr(process.env.FLICKR_KEY)
       flickr.photos.getAllContexts({photo_id: this.photoId})
         .use(superagentCache)
         .then((response) => {

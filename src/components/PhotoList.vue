@@ -30,7 +30,7 @@
       }
     },
     created () {
-      let flickr = new Flickr('78ab8d949e94be81d67730224abbcdb1')
+      let flickr = new Flickr(process.env.FLICKR_KEY)
       flickr.photos.getInfo({photo_id: this.photo.photoId, secret: this.photo.secret})
         .use(superagentCache)
         .then((response) => {

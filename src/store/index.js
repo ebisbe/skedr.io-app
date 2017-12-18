@@ -61,9 +61,9 @@ export default new Vuex.Store({
   getters: {
     activeFab (state, getter) {
       if (state.selectedGroups.length) {
-        return {'class': 'deep-purple lighten-2', icon: 'add_to_photos', html: 'Add photos to group'}
+        return {'class': 'secondary', icon: 'add_to_photos', html: 'Add photos to group'}
       } else {
-        return {'class': 'deep-purple', icon: 'add_a_photo', html: 'Search photos'}
+        return {'class': 'primary', icon: 'add_a_photo', html: 'Search photos'}
       }
     },
     addingPhotosToGroup (state) {

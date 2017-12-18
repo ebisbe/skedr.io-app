@@ -187,7 +187,7 @@
         if (this.photosSearch === '') {
           return ''
         }
-        return '/search'
+        return 'search'
       },
       filteredGroups () {
         return _.sortBy(this.groups, ['title'])
@@ -205,7 +205,7 @@
         _.forEach(this.selectedGroups, (group) => {
           _.forEach(this.pool, async (photo) => {
             await this.axios(
-              signReq('/pool', '', {
+              signReq('pool', '', {
                 /** BACKWARDS COMPATIBILITY **/
                 photoId: photo.photoId !== undefined ? photo.photoId : photo.id,
                 /** END **/
@@ -236,6 +236,9 @@
     photos(first: 1) {
       rawDateAdded
       dateAdded
+    }
+    groups {
+      description
     }
   }
 }`,

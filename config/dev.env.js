@@ -9,4 +9,5 @@ module.exports = merge(prodEnv, {
   API_HOST: `"${API_HOST}"`,
   API_DOMAIN: `"${API_DOMAIN}"`,
   API_URL: `"${API_DOMAIN}${API_BASE_URL}"`,
+  API_BASE_URL: `"${API_BASE_URL}"`
 })

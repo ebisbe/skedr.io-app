@@ -36,7 +36,7 @@ export function signReq (url, params, data, method) {
     host: process.env.API_HOST,
     method: method.toUpperCase(),
     url: process.env.API_URL + path,
-    path: process.env.BASE_URL + path,
+    path: process.env.API_BASE_URL + path,
     params: params,
     data: data,
     body: JSON.stringify(data)

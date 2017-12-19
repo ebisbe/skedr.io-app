@@ -93,7 +93,7 @@
     },
     methods: {
       mouseOver () {
-        this.mouseOverAvatar = true
+        this.mouseOverAvatar = this.group.throttleMode !== 'disabled'
       },
       mouseLeave () {
         this.mouseOverAvatar = false

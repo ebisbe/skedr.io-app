@@ -168,7 +168,8 @@
       filteredGroups () {
         return _.sortBy(this.groups, ['title'])
           .filter(group =>
-            group.title.toLowerCase().search(this.search) >= 0
+            group.title.toLowerCase().search(this.search) >= 0 ||
+            group.groupId.toLowerCase().search(this.search) >= 0
           )
       }
     },

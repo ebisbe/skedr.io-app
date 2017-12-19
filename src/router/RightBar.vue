@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer clipped absolute fixed app right v-model="rightDrawer">
+    <v-navigation-drawer clipped fixed app right v-model="rightDrawer">
         <v-container fluid grid-list-md>
             <v-btn block color="error" small outline @click="clearPool"><v-icon>delete</v-icon>&nbsp;Clear Pool</v-btn>
             <v-list subheader>

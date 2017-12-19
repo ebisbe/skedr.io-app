@@ -2,7 +2,6 @@
     <div>
         <v-navigation-drawer
                 clipped
-                absolute
                 fixed
                 app
                 v-model="drawer"

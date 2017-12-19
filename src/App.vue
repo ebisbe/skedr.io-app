@@ -5,7 +5,7 @@
         <router-view></router-view>
         <router-view name="rightBar"></router-view>
 
-        <v-footer app :class="[activeFab.class]" fixed>
+        <v-footer app :class="[activeFab.class]">
             <v-layout row wrap align-center class="white--text">
                 <v-flex xs3>
                     <div class="ml-3">

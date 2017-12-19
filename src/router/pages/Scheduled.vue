@@ -3,7 +3,7 @@
         <v-container fluid grid-list-xl>
             <v-layout row wrap>
                 <v-flex xs12>
-                    <my-fetch url="/scheduled">
+                    <my-fetch url="scheduled">
                         <div slot-scope="data">
                             <template v-for="(item, index) in scheduled(data)">
                                 <h4 class="text-xs-center mt-3" v-text="index"></h4>

@@ -9,7 +9,7 @@
                         <v-flex d-flex xs10 sm11>
                             <v-layout row wrap>
                                 <v-flex d-flex xs12 sm6 lg6><strong>Group name</strong></v-flex>
-                                <v-flex d-flex sm6 lg6 >
+                                <v-flex d-flex sm6 lg6>
                                     <v-layout row>
                                         <span>
                                             <v-tooltip bottom>
@@ -48,10 +48,7 @@
                             :key="group.title"
                             v-model="group.expanded"
                             :class="{'grey lighten-3': group.selected}">
-                        <expansion-panel slot="header" :group="group" ></expansion-panel>
-                        <v-progress-linear indeterminate height="3"
-                                           v-show="group.expanded && loading"
-                                           class="my-0"></v-progress-linear>
+                        <expansion-panel slot="header" :group="group"></expansion-panel>
                         <v-card>
                             <v-card-text class="grey lighten-3">
                                 <group-view
@@ -111,30 +108,11 @@
                         </v-card-text>
 
                     </v-card>
-                    <v-card v-else>
-                        <v-card-title class="headline">Add photos to selected groups?</v-card-title>
-                        <v-card-text>
-                            Confirming will add all the photos to each group and schedule all the ones can not be
-                            added.
-                            <v-list subheader>
-                                <v-list-tile avatar v-for="group in selectedGroups" :key="group.title">
-                                    <v-list-tile-avatar>
-                                        <img :src="group.icon"/>
-                                    </v-list-tile-avatar>
-                                    <v-list-tile-content>
-                                        <v-list-tile-title v-html="group.title"></v-list-tile-title>
-                                    </v-list-tile-content>
-                                </v-list-tile>
-                            </v-list>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Cancel
-                            </v-btn>
-                            <v-btn class="green--text darken-1" flat="flat" @click.native="pushPhotosToGroups()">OK
-                            </v-btn>
-                        </v-card-actions>
-                    </v-card>
+                    <q-push-photos
+                            v-else
+                            @photosPushed="dialog=false"
+                            @cancel="dialog=false"
+                    ></q-push-photos>
                 </v-dialog>
             </v-layout>
         </v-container>
@@ -147,13 +125,13 @@
   import GroupView from '../../components/GroupView.vue'
   import * as _ from 'lodash'
   import { mapGetters, mapState } from 'vuex'
-  import { signReq } from '../../libs/aws-lib'
   import gql from 'graphql-tag'
   import QPoolBtn from '../../components/QPoolBtn.vue'
+  import QPushPhotos from '../../components/QPushPhotos'
 
   export default {
     name: 'Group',
-    components: {ExpansionPanel, Photo, GroupView, QPoolBtn},
+    components: {ExpansionPanel, Photo, GroupView, QPoolBtn, QPushPhotos},
     data () {
       return {
         dialog: false,
@@ -179,8 +157,6 @@
         'userId'
       ]),
       ...mapState([
-        'pool',
-        'selectedGroups',
         'search'
       ]),
       searchImages () {
@@ -199,25 +175,6 @@
     methods: {
       isLoading (loading) {
         this.loading = loading
-      },
-      pushPhotosToGroups () {
-        console.log('Pushing photos')
-        _.forEach(this.selectedGroups, (group) => {
-          _.forEach(this.pool, async (photo) => {
-            await this.axios(
-              signReq('pool', '', {
-                /** BACKWARDS COMPATIBILITY **/
-                photoId: photo.photoId !== undefined ? photo.photoId : photo.id,
-                /** END **/
-                groupId: group.groupId,
-                secret: photo.secret
-              }, 'post')
-            )
-              .then((response) => console.log(response))
-              .catch(error => console.log(error))
-          })
-        })
-        this.dialog = false
       }
     },
     apollo: {

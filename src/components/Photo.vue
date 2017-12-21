@@ -1,5 +1,5 @@
 <template>
-    <v-card hover>
+    <v-card @click.native="addToPool()" hover>
         <v-card-media
                 height="125px"
                 :src="photo.url_m">

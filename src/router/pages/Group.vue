@@ -46,8 +46,7 @@
                     <v-expansion-panel-content
                             v-for="group in filteredGroups"
                             :key="group.title"
-                            v-model="group.expanded"
-                            :class="{'grey lighten-3': group.selected}">
+                            v-model="group.expanded">
                         <expansion-panel slot="header" :group="group"></expansion-panel>
                         <v-card>
                             <v-card-text class="grey lighten-3">
@@ -61,59 +60,6 @@
                     </v-expansion-panel-content>
                 </v-expansion-panel>
                 </v-flex>
-                <v-tooltip left>
-                    <v-fab-transition slot="activator">
-                        <v-btn :class="[activeFab.class]" dark fab bottom right fixed
-                               :key="activeFab.icon"
-                               @click.native.stop="dialog = true">
-                            <v-icon>{{ activeFab.icon }}</v-icon>
-                        </v-btn>
-                    </v-fab-transition>
-                    <span>{{ activeFab.html }}</span>
-                </v-tooltip>
-                <v-dialog v-model="dialog" :fullscreen="!addingPhotosToGroup" :scrollable="addingPhotosToGroup"
-                          transition="dialog-bottom-transition">
-                    <v-card v-if="!addingPhotosToGroup">
-                        <v-toolbar dark :class="[activeFab.class, 'lighten-1']">
-                            <v-btn icon @click.native="dialog = false" dark>
-                                <v-icon>close</v-icon>
-                            </v-btn>
-                            <v-toolbar-title>Search photos</v-toolbar-title>
-                            <v-spacer></v-spacer>
-                            <v-toolbar-items>
-                                <q-pool-btn></q-pool-btn>
-                            </v-toolbar-items>
-                        </v-toolbar>
-                        <v-card-text>
-                            <v-container grid-list-md>
-                                <v-layout wrap>
-                                    <v-flex xs12>
-                                        <form @submit.stop.prevent="">
-                                            <v-text-field placeholder="Search your photos..." v-model="photosSearch"
-                                                          @keyup.esc.prevent.stop="photosSearch=''"
-                                                          :append-icon="photosSearch === '' ? 'search' : 'clear'"
-                                                          :append-icon-cb="() => (photosSearch = '')">
-                                            </v-text-field>
-                                        </form>
-                                    </v-flex>
-                                    <my-fetch :url="searchImages" method="post" :data="{text: photosSearch}">
-                                        <transition-group name="list" tag="div" class="layout wrap" slot-scope="data">
-                                            <v-flex md3 sm4 xs6 v-for="photo in data.photo" :key="photo.id">
-                                                <photo :photo="photo"></photo>
-                                            </v-flex>
-                                        </transition-group>
-                                    </my-fetch>
-                                </v-layout>
-                            </v-container>
-                        </v-card-text>
-
-                    </v-card>
-                    <q-push-photos
-                            v-else
-                            @photosPushed="dialog=false"
-                            @cancel="dialog=false"
-                    ></q-push-photos>
-                </v-dialog>
             </v-layout>
         </v-container>
     </v-content>
@@ -127,28 +73,17 @@
   import { mapGetters, mapState } from 'vuex'
   import gql from 'graphql-tag'
   import QPoolBtn from '../../components/QPoolBtn.vue'
-  import QPushPhotos from '../../components/QPushPhotos'
 
   export default {
     name: 'Group',
-    components: {ExpansionPanel, Photo, GroupView, QPoolBtn, QPushPhotos},
+    components: {ExpansionPanel, Photo, GroupView, QPoolBtn},
     data () {
       return {
-        dialog: false,
-        confirm: false,
-        photosSearch: '',
-        status: '',
-        error: '',
         loading: false
       }
     },
     created () {
       this.groups = localStorage.getObject('groups')
-      document.addEventListener('keyup', event => {
-        if (event.keyCode === 27 || event.key === 'Escape') {
-          this.dialog = false
-        }
-      })
     },
     computed: {
       ...mapGetters([
@@ -159,12 +94,6 @@
       ...mapState([
         'search'
       ]),
-      searchImages () {
-        if (this.photosSearch === '') {
-          return ''
-        }
-        return 'search'
-      },
       filteredGroups () {
         return this.groups.filter(group =>
             group.title.toLowerCase().search(this.search) >= 0 ||
@@ -201,7 +130,7 @@
             userId: this.userId
           }
         },
-        update: data => _.sortBy(data.userGroups.map(group => Object.assign({selected: false, expanded: false}, group)), ['title']),
+        update: data => _.sortBy(data.userGroups.map(group => Object.assign({expanded: false}, group)), ['title']),
         fetchPolicy: 'cache-and-network',
         loadingKey: 'loading'
       }

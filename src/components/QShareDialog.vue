@@ -15,7 +15,7 @@
                           @ctrlEsc="clearSelected"
                 ></q-filter>
             </div>
-            <v-card-text class="pa-0" v-if="!saveImages" >
+            <v-card-text class="pa-0" v-if="!saveImages">
                 <v-layout wrap v-if="filteredGroups.length">
                     <v-list two-line style="width: 100%;">
                         <v-subheader class="title">Groups</v-subheader>
@@ -94,7 +94,18 @@
         filterWord: ''
       }
     },
+    created () {
+      // document.addEventListener('keyup', this.cancel)
+    },
+    destroyed () {
+      // document.removeEventListener('keyup', this.cancel)
+    },
     methods: {
+      cancel (event) {
+        if (event.keyCode === 27 || event.key === 'Escape') {
+          this.dialog = false
+        }
+      },
       selectFiltered () {
         if (this.filterWord === '') {
           return

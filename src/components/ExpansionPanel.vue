@@ -1,12 +1,10 @@
 <template>
     <div>
-        <v-layout align-center row wrap spacer @mouseover="mouseOver" @mouseleave="mouseLeave">
-            <v-flex xs2 sm1 md1 @click.stop="">
-                <v-avatar size="40px" v-show="!hideAvatar">
+        <v-layout align-center row wrap spacer>
+            <v-flex xs2 sm1 md1>
+                <v-avatar size="40px">
                     <img :src="group.icon" :alt="group.title">
                 </v-avatar>
-                <v-checkbox v-model="selected" hide-details
-                            :class="{hidden: !hideAvatar, 'pa-1':true}"></v-checkbox>
             </v-flex>
             <v-flex d-flex xs10 sm11>
                 <v-layout row wrap>
@@ -29,7 +27,6 @@
     </div>
 </template>
 <script>
-  import { mapState } from 'vuex'
   import Moment from 'moment'
 
   Moment.updateLocale('en', {
@@ -54,18 +51,12 @@
   export default {
     name: 'ExpansionPanel',
     props: {
-      group: {required: true}
-    },
-    data () {
-      return {
-        mouseOverAvatar: false,
-        selected: false
+      group: {
+        type: Object,
+        required: true
       }
     },
     computed: {
-      ...mapState([
-        'selectedGroups'
-      ]),
       throttleText () {
         if (this.group.throttleRemaining === undefined) {
           return '∞'
@@ -75,28 +66,12 @@
         }
         return this.group.throttleRemaining + '/' + this.group.throttleCount
       },
-      hideAvatar () {
-        return this.selected || this.mouseOverAvatar
-      },
       dateAddedFormated () {
         if (this.group.photos[0].rawDateAdded === undefined) {
           return '-'
         } else {
           return Moment(this.group.photos[0].rawDateAdded).fromNow(true)
         }
-      }
-    },
-    watch: {
-      'selected' (isSelected) {
-        this.$store.commit('updateSelectedGroups', {group: this.group, isSelected})
-      }
-    },
-    methods: {
-      mouseOver () {
-        this.mouseOverAvatar = this.group.throttleMode !== 'disabled'
-      },
-      mouseLeave () {
-        this.mouseOverAvatar = false
       }
     }
   }

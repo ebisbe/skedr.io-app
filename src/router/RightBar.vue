@@ -1,9 +1,18 @@
 <template>
     <v-navigation-drawer clipped fixed app right v-model="rightDrawer">
         <v-container fluid grid-list-md>
-            <v-btn block color="error" small outline @click="clearPool">
-                <v-icon>delete</v-icon>&nbsp;Clear Pool
-            </v-btn>
+            <v-layout pa-0 fluid>
+                <v-flex xs6>
+                    <v-btn block color="success" small outline @click="share" :disabled="disable">
+                        <v-icon>share</v-icon>&nbsp;Share
+                    </v-btn>
+                </v-flex>
+                <v-flex xs6>
+                    <v-btn block color="error" small outline @click="clearPool" :disabled="disable">
+                        <v-icon>delete</v-icon>&nbsp;Clear
+                    </v-btn>
+                </v-flex>
+            </v-layout>
             <v-list subheader>
                 <transition-group name="list">
                     <template v-for="(photo, key) in pool">
@@ -36,7 +45,9 @@
     methods: {
       clearPool () {
         this.$store.commit('clearPool')
-        // this.rightDrawer = false
+      },
+      share () {
+        this.$store.commit('showDialog')
       }
     },
     computed: {
@@ -50,6 +61,9 @@
         set (value) {
           this.$store.commit('updateRightDrawer', value)
         }
+      },
+      disable () {
+        return this.pool.length === 0
       }
     }
   }
@@ -63,14 +77,12 @@
         transition: all .3s;
     }
 
-    .list-enter
-    {
+    .list-enter {
         opacity: 0;
         transform: translateY(-30px);
     }
 
-    .list-leave-to
-    {
+    .list-leave-to {
         opacity: 0;
     }
 </style>

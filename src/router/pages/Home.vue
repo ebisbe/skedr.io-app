@@ -11,7 +11,7 @@
                     <img src="/static/img/hourglass.svg" alt="Vuetify.js" height="200">
                     <h1 class="white--text mb-2 display-1 text-xs-center">Qronos</h1>
                     <div class="subheading mb-3 text-xs-center">Take your time</div>
-                    <v-btn dark large class="blue lighten-2 mt-5" :to="{ path: 'groups' }">
+                    <v-btn dark large class="primary lighten-2 mt-5" :to="{ path: 'groups' }">
                         Get Started
                     </v-btn>
                 </v-layout>
@@ -39,7 +39,7 @@
                             <v-flex xs12 md4>
                                 <v-card class="elevation-0 transparent">
                                     <v-card-text class="text-xs-center">
-                                        <v-icon x-large class="blue--text text--lighten-2">add_a_photo</v-icon>
+                                        <v-icon x-large class="primary--text">people</v-icon>
                                     </v-card-text>
                                     <v-card-title primary-title class="layout justify-center">
                                         <div class="headline text-xs-center">Create a pool</div>
@@ -53,7 +53,7 @@
                             <v-flex xs12 md4>
                                 <v-card class="elevation-0 transparent">
                                     <v-card-text class="text-xs-center">
-                                        <v-icon x-large class="blue--text text--lighten-2">add_to_photos</v-icon>
+                                        <v-icon x-large class="primary--text">trending_up</v-icon>
                                     </v-card-text>
                                     <v-card-title primary-title class="layout justify-center">
                                         <div class="headline">Choose groups</div>
@@ -67,7 +67,7 @@
                             <v-flex xs12 md4>
                                 <v-card class="elevation-0 transparent">
                                     <v-card-text class="text-xs-center">
-                                        <v-icon x-large class="blue--text text--lighten-2">access_time</v-icon>
+                                        <v-icon x-large class="primary--text">access_time</v-icon>
                                     </v-card-text>
                                     <v-card-title primary-title class="layout justify-center">
                                         <div class="headline text-xs-center">Autoschedule photos</div>
@@ -89,8 +89,9 @@
                 <v-layout column align-center justify-center>
                     <div class="headline white--text mb-3 text-xs-center">Web development has never been easier</div>
                     <em>Kick-start your application today</em>
-                    <v-btn dark large
-                           class="blue lighten-2 mt-5"
+                    <v-btn large
+                           class="mt-5"
+                           color="primary"
                            :to="{ path: 'groups' }"
                     >
                         Get Started

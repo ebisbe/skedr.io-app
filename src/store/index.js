@@ -22,7 +22,9 @@ export default new Vuex.Store({
     pool: [],
     selectedGroups: [],
     token: '',
-    search: ''
+    search: '',
+    dialog: false,
+    position: 0
   },
   mutations: {
     loadPool (state, payload) {
@@ -56,6 +58,12 @@ export default new Vuex.Store({
     },
     setPageTitle (state, value) {
       state.pageTitle = value
+    },
+    showDialog (state) {
+      state.dialog = true
+    },
+    hideDialog (state) {
+      state.dialog = false
     }
   },
   getters: {

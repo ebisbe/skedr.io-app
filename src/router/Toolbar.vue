@@ -3,10 +3,10 @@
         <h1>{{ title }}</h1>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-            <v-btn flat class="mr-4 deep-purple" to="/login">
+            <v-btn flat class="mr-4" to="/login">
                 Log in
             </v-btn>
-            <v-btn flat class="mr-4 deep-purple" to="/signup">
+            <v-btn flat class="mr-4" to="/signup">
                 Sign up
             </v-btn>
         </v-toolbar-items>

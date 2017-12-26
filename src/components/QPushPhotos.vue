@@ -1,7 +1,6 @@
 <template>
     <v-card>
-        <v-card-title class="headline">Add photos to selected groups?</v-card-title>
-        <v-card-text v-if="loading">
+        <v-card-text v-if="loading" style="text-align: center">
             <v-progress-circular
                     :size="100"
                     :width="15"
@@ -12,33 +11,23 @@
                 {{ progress }}
             </v-progress-circular>
         </v-card-text>
-        <v-card-text v-else>
-            Confirming will add all the photos to each group and schedule all the ones can not be
-            added.
-            <v-list subheader>
-                <v-list-tile avatar v-for="group in selectedGroups" :key="group.title">
-                    <v-list-tile-avatar>
-                        <img :src="group.icon"/>
-                    </v-list-tile-avatar>
-                    <v-list-tile-content>
-                        <v-list-tile-title v-html="group.title"></v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list>
-        </v-card-text>
-        <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn class="secondary--text" flat @click.native="$emit('cancel')">Cancel</v-btn>
-            <v-btn class="secondary--text" flat @click.native="pushPhotosToGroups()">OK</v-btn>
-        </v-card-actions>
     </v-card>
 </template>
 <script>
-  import { mapState } from 'vuex'
   import { signReq } from '../libs/aws-lib'
 
   export default {
     name: 'PushPhotos',
+    props: {
+      pool: {
+        type: Array,
+        required: true
+      },
+      groups: {
+        type: Array,
+        required: true
+      }
+    },
     data () {
       return {
         race: 0,
@@ -46,11 +35,10 @@
         loading: false
       }
     },
+    created () {
+      this.pushPhotosToGroups()
+    },
     computed: {
-      ...mapState([
-        'pool',
-        'selectedGroups'
-      ]),
       progress () {
         return `${this.race} / ${this.photosToPush.length}`
       },
@@ -61,7 +49,10 @@
     methods: {
       pushPhotosToGroups () {
         this.loading = true
-        for (const group of this.selectedGroups) {
+        this.photosToPush = []
+        this.race = 0
+
+        for (const group of this.groups) {
           for (const photo of this.pool) {
             const payload = {
               /** BACKWARDS COMPATIBILITY **/
@@ -76,12 +67,18 @@
 
         Promise.all(this.photosToPush)
           .then(() => {
-            this.$emit('photosPushed')
-            this.photosToPush = []
-            this.race = 0
-            this.loading = false
+            setTimeout(() => { this.loading = false }, 2000)
           })
           .catch(error => console.log(error))
+      }
+    },
+    watch: {
+      loading (value) {
+        if (value) {
+          this.$emit('loading')
+        } else {
+          this.$emit('loaded')
+        }
       }
     }
   }

@@ -166,8 +166,7 @@
         return 'search'
       },
       filteredGroups () {
-        return _.sortBy(this.groups, ['title'])
-          .filter(group =>
+        return this.groups.filter(group =>
             group.title.toLowerCase().search(this.search) >= 0 ||
             group.groupId.toLowerCase().search(this.search) >= 0
           )
@@ -202,7 +201,7 @@
             userId: this.userId
           }
         },
-        update: data => data.userGroups.map(group => Object.assign({selected: false, expanded: false}, group)),
+        update: data => _.sortBy(data.userGroups.map(group => Object.assign({selected: false, expanded: false}, group)), ['title']),
         fetchPolicy: 'cache-and-network',
         loadingKey: 'loading'
       }

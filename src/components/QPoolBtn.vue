@@ -1,8 +1,8 @@
 <template>
-    <v-btn flat icon
+    <v-btn flat
            @click.stop="rightDrawer = !rightDrawer"
            class="deep-purple ligthen-2"
-    >
+    >Pool&nbsp;
         <v-icon v-text="poolIcon"></v-icon>
     </v-btn>
 </template>

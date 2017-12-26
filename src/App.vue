@@ -22,20 +22,24 @@
                 <v-spacer></v-spacer>
             </v-layout>
         </v-footer>
+        <q-share-dialog v-if="dialog"></q-share-dialog>
     </v-app>
 </template>
 
 <script>
   import { mapGetters, mapState } from 'vuex'
+  import QShareDialog from './components/QShareDialog'
 
   export default {
     name: 'app',
+    components: {QShareDialog},
     computed: {
       ...mapGetters([
         'activeFab'
       ]),
       ...mapState([
-        'selectedGroups'
+        'selectedGroups',
+        'dialog'
       ])
     }
   }

@@ -31,12 +31,12 @@
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
                 <span v-text="pageTitle"></span>
             </v-toolbar-title>
-            <q-filter  placeholder="Filter groups" @search="search"
-                      v-if="this.$router.currentRoute.name === 'Group'"></q-filter>
-            <v-spacer v-else></v-spacer>
+            <q-filter placeholder="Filter groups" @search="search"></q-filter>
+            <v-spacer></v-spacer>
 
-
-            <q-pool-btn></q-pool-btn>
+            <v-toolbar-items>
+                <q-pool-btn></q-pool-btn>
+            </v-toolbar-items>
         </v-toolbar>
     </div>
 </template>
@@ -53,10 +53,6 @@
         title: 'Layout',
         drawer: false,
         lists: [
-          /*  {
-              icon: 'dashboard',
-              name: 'Dashboard'
-            }, */
           {
             icon: 'view_day',
             name: 'Group'

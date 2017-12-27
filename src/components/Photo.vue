@@ -23,8 +23,11 @@
             </span>
         </v-card-text>
         <v-card-actions>
-            <v-btn color="primary" flat @click="addToPool()" :disabled="disabled">
+            <v-btn color="primary" flat @click="addToPool" :disabled="disabled">
                 <v-icon>add_to_photos</v-icon>&nbsp;add
+            </v-btn>
+            <v-btn color="error" icon flat @click.stop="removeFromPool" v-if="disabled">
+                <v-icon>delete</v-icon>
             </v-btn>
         </v-card-actions>
     </v-card>
@@ -61,6 +64,9 @@
     methods: {
       addToPool () {
         this.$store.commit('addToPool', {photo: this.photo, add: true})
+      },
+      removeFromPool () {
+        this.$store.commit('addToPool', {photo: this.photo, add: false})
       }
     },
     computed: {
@@ -77,7 +83,7 @@
         return this.groups.length > 0 ? 'bookmark' : 'bookmark_border'
       },
       disabled () {
-        let matches = _.find(this.pool, {'id': this.photo.id})
+        let matches = _.find(this.pool, (o) => { return o.id === this.photoId || o.photoId === this.photoId })
         return this.selectedGroups.length > 0 || (matches !== undefined)
       },
       ...mapState([
@@ -90,10 +96,10 @@
 <style>
     .fade {
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3a3a3a+0,000000+100&0.65+0,0.35+18,0+57,0+100 */
-        background: -moz-linear-gradient(top, rgba(58,58,58,0.65) 0%, rgba(48,48,48,0.35) 18%, rgba(25,25,25,0) 57%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
-        background: -webkit-linear-gradient(top, rgba(58,58,58,0.65) 0%,rgba(48,48,48,0.35) 18%,rgba(25,25,25,0) 57%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
-        background: linear-gradient(to bottom, rgba(58,58,58,0.65) 0%,rgba(48,48,48,0.35) 18%,rgba(25,25,25,0) 57%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a63a3a3a', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+        background: -moz-linear-gradient(top, rgba(58, 58, 58, 0.65) 0%, rgba(48, 48, 48, 0.35) 18%, rgba(25, 25, 25, 0) 57%, rgba(0, 0, 0, 0) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, rgba(58, 58, 58, 0.65) 0%, rgba(48, 48, 48, 0.35) 18%, rgba(25, 25, 25, 0) 57%, rgba(0, 0, 0, 0) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, rgba(58, 58, 58, 0.65) 0%, rgba(48, 48, 48, 0.35) 18%, rgba(25, 25, 25, 0) 57%, rgba(0, 0, 0, 0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a63a3a3a', endColorstr='#00000000', GradientType=0); /* IE6-9 */
     }
 </style>
 

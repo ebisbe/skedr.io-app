@@ -3,12 +3,24 @@
         <v-layout align-center row wrap spacer>
             <v-flex xs2 sm1 md1>
                 <v-avatar size="40px">
-                    <img :src="group.icon" :alt="group.title">
+                    <a :href="link"
+                       target="_blank"
+                       @click.stop="a"
+                       class="text--secondary">
+                        <img :src="group.icon" :alt="group.title">
+                    </a>
                 </v-avatar>
             </v-flex>
             <v-flex d-flex xs10 sm11>
                 <v-layout row wrap>
-                    <v-flex d-flex xs12 sm6 lg6><strong v-html="group.title" class="break"></strong></v-flex>
+                    <v-flex d-flex xs12 sm6 lg6>
+                        <strong v-html="group.title" class="break"></strong>
+                        <!--<a :href="link"-->
+                           <!--target="_blank"-->
+                           <!--class="text&#45;&#45;secondary">-->
+                            <!--<v-icon>open_in_browser</v-icon>-->
+                        <!--</a>-->
+                    </v-flex>
                     <v-flex d-flex sm6 lg6>
                         <span>{{ dateAddedFormated }}</span>
                         <v-spacer></v-spacer>
@@ -57,6 +69,9 @@
       }
     },
     computed: {
+      link () {
+        return 'https://www.flickr.com/groups/' + this.group.groupId
+      },
       throttleText () {
         if (this.group.throttleRemaining === undefined) {
           return '∞'

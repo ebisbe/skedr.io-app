@@ -21,13 +21,14 @@
                         <v-subheader class="title">Groups</v-subheader>
                         <template v-for="group, key in filteredGroups">
                             <v-divider v-if="key!==0" inset></v-divider>
-                            <v-list-tile avatar :key="group.title" @click="group.selected = !group.selected"
+                            <v-list-tile avatar :key="group.title" @click="select(group)"
                                          :class="{selected: group.selected}">
                                 <v-list-tile-action>
                                     <v-checkbox
                                             @click.prevent=""
                                             v-model="group.selected"
                                             hide-details
+                                            :disabled="disabled(group)"
                                     ></v-checkbox>
                                 </v-list-tile-action>
                                 <v-list-tile-avatar>
@@ -101,6 +102,11 @@
       // document.removeEventListener('keyup', this.cancel)
     },
     methods: {
+      select (group) {
+        if (!this.disabled(group)) {
+          group.selected = !group.selected
+        }
+      },
       cancel (event) {
         if (event.keyCode === 27 || event.key === 'Escape') {
           this.dialog = false
@@ -123,6 +129,9 @@
           return '&mdash;'
         }
         return group.throttleRemaining + '/' + group.throttleCount
+      },
+      disabled (group) {
+        return group.throttleMode === 'disabled'
       },
       shareImages () {
         this.saveImages = true

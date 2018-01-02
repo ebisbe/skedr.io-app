@@ -15,6 +15,7 @@
 </template>
 <script>
   import { signReq } from '../libs/aws-lib'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'PushPhotos',
@@ -39,6 +40,7 @@
       this.pushPhotosToGroups()
     },
     computed: {
+      ...mapGetters(['userId']),
       progress () {
         return `${this.race} / ${this.photosToPush.length}`
       },
@@ -58,6 +60,7 @@
               /** BACKWARDS COMPATIBILITY **/
               photoId: photo.photoId !== undefined ? photo.photoId : photo.id,
               /** END **/
+              userId: this.userId,
               groupId: group.groupId,
               secret: photo.secret
             }

@@ -7,7 +7,7 @@
                         <h4 class="text-xs-center mt-3" v-text="index"></h4>
                         <v-list two-line>
                             <template v-for="(group, title) in groups(item)">
-                                <v-subheader v-html="title"></v-subheader>
+                                <v-subheader v-html="subheader(group[0].group)"></v-subheader>
                                 <template v-for="(photo, iteration) in group">
                                     <v-divider v-show="iteration !== 0" inset></v-divider>
                                     <photo-list :photo="photo"></photo-list>
@@ -52,6 +52,9 @@
       },
       groups (data) {
         return _.groupBy(data, 'group.title')
+      },
+      subheader (group) {
+        return `${group.title}`
       }
     },
     computed: {

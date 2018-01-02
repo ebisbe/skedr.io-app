@@ -27,7 +27,7 @@
             </v-list>
         </v-navigation-drawer>
         <v-toolbar app fixed :class="[activeFab.class]" dark clipped-left clipped-right prominent>
-            <v-toolbar-title class="pr-3" style="width: 300px" >
+            <v-toolbar-title class="pr-3" style="width: 300px">
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
                 <span v-text="pageTitle"></span>
             </v-toolbar-title>
@@ -80,7 +80,7 @@
       logout () {
         this.$store.dispatch('signOut')
           .then(() => { this.$router.push({name: 'Home'}) })
-          .catch((err) => console.log(err))
+          .catch(() => this.$router.push({name: 'Home'}))
       },
       search (value) {
         this.$store.commit('updateSearch', value)

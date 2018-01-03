@@ -30,6 +30,7 @@ Vue.use(Vuetify, {
   }
 })
 
+axios.defaults.baseURL = process.env.API_URL
 Vue.use(Axios, axios)
 Vue.config.productionTip = false
 

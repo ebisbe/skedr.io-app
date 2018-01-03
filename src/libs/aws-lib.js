@@ -1,5 +1,4 @@
 import AWS from 'aws-sdk'
-import cognitoConfig from '../store/cognito'
 import aws41 from 'aws41'
 
 export async function authUser (userToken) {
@@ -16,12 +15,12 @@ export async function authUser (userToken) {
 }
 
 export function AwsCredentials (userToken) {
-  const authenticator = `cognito-idp.${cognitoConfig.Region}.amazonaws.com/${cognitoConfig.UserPoolId}`
+  const authenticator = `cognito-idp.${process.env.REGION}.amazonaws.com/${process.env.USER_POOL_ID}`
 
-  AWS.config.update({region: cognitoConfig.Region})
+  AWS.config.update({region: process.env.REGION})
 
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: cognitoConfig.IdentityPoolId,
+    IdentityPoolId: process.env.IDENTITY_POOL_ID,
     Logins: {
       [authenticator]: userToken
     }

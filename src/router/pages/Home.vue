@@ -8,9 +8,8 @@
                         justify-center
                         class="white--text"
                 >
-                    <img src="/static/img/hourglass.svg" alt="Vuetify.js" height="200">
-                    <h1 class="white--text mb-2 display-1 text-xs-center">Qronos</h1>
-                    <div class="subheading mb-3 text-xs-center">Take your time</div>
+                    <h1 class="white--text mb-2 display-1 text-xs-center">Improved Flickr groups workflow</h1>
+                    <div class="subheading mb-3 text-xs-center">Tell Skedr what photos add to your groups, forget the rest</div>
                     <v-btn dark large class="primary lighten-2 mt-5" :to="{ path: 'groups' }">
                         Get Started
                     </v-btn>
@@ -43,7 +42,8 @@
                                     <v-card-title primary-title class="layout justify-center">
                                         <div class="headline text-xs-center">Create a pool</div>
                                     </v-card-title>
-                                    <v-card-text>Search all your photos that you want to add to the same groups. <br>Creating a
+                                    <v-card-text>Search all your photos that you want to add to the same groups. <br>Creating
+                                        a
                                         virtual pool of images is so easy!
                                     </v-card-text>
                                 </v-card>

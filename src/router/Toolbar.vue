@@ -19,7 +19,7 @@
     name: 'Toolbar',
     data () {
       return {
-        title: 'Qronos'
+        title: 'Skedr'
       }
     },
     computed: {

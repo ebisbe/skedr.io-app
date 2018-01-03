@@ -79,7 +79,8 @@
     components: {ExpansionPanel, Photo, GroupView, QPoolBtn},
     data () {
       return {
-        loading: false
+        loading: false,
+        groups: []
       }
     },
     created () {

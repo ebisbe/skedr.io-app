@@ -19,35 +19,36 @@
                 <v-layout wrap v-if="filteredGroups.length">
                     <v-list two-line style="width: 100%;">
                         <v-subheader class="title">Groups</v-subheader>
-                        <template v-for="group, key in filteredGroups">
-                            <v-divider v-if="key!==0" inset></v-divider>
-                            <v-list-tile avatar :key="group.title" @click="select(group)"
-                                         :class="{selected: group.selected}">
-                                <v-list-tile-action>
-                                    <v-checkbox
-                                            @click.prevent=""
-                                            v-model="group.selected"
-                                            hide-details
-                                            :disabled="disabled(group)"
-                                    ></v-checkbox>
-                                </v-list-tile-action>
-                                <v-list-tile-avatar>
-                                    <img :src="group.icon">
-                                </v-list-tile-avatar>
-                                <v-list-tile-content>
-                                    <v-list-tile-title v-html="group.title"></v-list-tile-title>
-                                    <v-list-tile-sub-title>
-                                        <v-layout row wrap>
-                                            <span>Members: {{ group.members }}</span>
-                                            <v-spacer></v-spacer>
-                                            <span>Photos: {{ group.poolCount }}</span>
-                                            <v-spacer></v-spacer>
-                                            <span v-html="throttleText(group)"></span>&nbsp;<span>{{ group.throttleMode }}</span>
-                                        </v-layout>
-                                    </v-list-tile-sub-title>
-                                </v-list-tile-content>
-                            </v-list-tile>
-                        </template>
+                        <transition-group name="whatsapp">
+                            <template v-for="group, key in filteredGroups">
+                                <v-list-tile avatar :key="group.title" @click="select(group)"
+                                             :class="{selected: group.selected}">
+                                    <v-list-tile-action>
+                                        <v-checkbox
+                                                @click.prevent=""
+                                                v-model="group.selected"
+                                                hide-details
+                                                :disabled="disabled(group)"
+                                        ></v-checkbox>
+                                    </v-list-tile-action>
+                                    <v-list-tile-avatar>
+                                        <img :src="group.icon">
+                                    </v-list-tile-avatar>
+                                    <v-list-tile-content style="border-bottom: 1px solid rgba(0,0,0,.12);">
+                                        <v-list-tile-title v-html="group.title"></v-list-tile-title>
+                                        <v-list-tile-sub-title>
+                                            <v-layout row wrap>
+                                                <span>Members: {{ group.members }}</span>
+                                                <v-spacer></v-spacer>
+                                                <span>Photos: {{ group.poolCount }}</span>
+                                                <v-spacer></v-spacer>
+                                                <span v-html="throttleText(group)"></span>&nbsp;<span>{{ group.throttleMode }}</span>
+                                            </v-layout>
+                                        </v-list-tile-sub-title>
+                                    </v-list-tile-content>
+                                </v-list-tile>
+                            </template>
+                        </transition-group>
                     </v-list>
                 </v-layout>
                 <v-layout v-else class="grey lighten-2">
@@ -191,5 +192,21 @@
 <style>
     .selected {
         background: #f5f5f5;
+    }
+    .whatsapp-enter-active {
+        transition: all .2s;
+    }
+
+    .whatsapp-leave-active {
+        transition: all .2s;
+    }
+
+    .whatsapp-enter {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    .whatsapp-leave-to {
+        opacity: 0;
     }
 </style>

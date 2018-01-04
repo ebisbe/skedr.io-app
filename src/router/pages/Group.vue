@@ -78,12 +78,15 @@
     components: {ExpansionPanel, Photo, GroupView, QPoolBtn},
     data () {
       return {
-        loading: false,
+        loading: 0,
         groups: []
       }
     },
     created () {
-      this.groups = localStorage.getObject('groups')
+      const groups = localStorage.getObject('groups')
+      if (groups !== null) {
+        this.groups = groups
+      }
     },
     computed: {
       ...mapGetters(['activeFab', 'addingPhotosToGroup', 'userId']),

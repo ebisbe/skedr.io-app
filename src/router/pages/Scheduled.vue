@@ -1,5 +1,6 @@
 <template>
     <v-content>
+        <v-progress-linear height="3" class="my-0" v-bind:indeterminate="true" v-if="loading"></v-progress-linear>
         <v-container fluid grid-list-xl>
             <v-layout row wrap>
                 <v-flex xs12>
@@ -32,7 +33,8 @@
     components: {PhotoList},
     data () {
       return {
-        scheduledPhotos: []
+        scheduledPhotos: [],
+        loading: 0
       }
     },
     methods: {

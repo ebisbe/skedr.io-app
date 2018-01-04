@@ -13,6 +13,8 @@ import Vuetify from 'vuetify'
 import store from './store'
 import MyFetch from './components/MyFetch'
 import { authUser } from './libs/aws-lib'
+import Raven from 'raven-js'
+import RavenVue from 'raven-js/plugins/vue'
 
 require('./libs/storage')
 
@@ -69,6 +71,13 @@ const apolloProvider = new VueApollo({
 
 // Install the vue plugin
 Vue.use(VueApollo)
+
+if (process.env.NODE_ENV === 'production') {
+  Raven
+    .config('https://5c9619998ba541a597a037ece72dafab@sentry.io/266872')
+    .addPlugin(RavenVue, Vue)
+    .install()
+}
 
 Vue.component('MyFetch', MyFetch)
 /* eslint-disable no-new */

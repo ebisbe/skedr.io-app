@@ -59,7 +59,6 @@
                         </v-card>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
-                </v-flex>
             </v-layout>
         </v-container>
     </v-content>
@@ -87,19 +86,14 @@
       this.groups = localStorage.getObject('groups')
     },
     computed: {
-      ...mapGetters([
-        'activeFab',
-        'addingPhotosToGroup',
-        'userId'
-      ]),
-      ...mapState([
-        'search'
-      ]),
+      ...mapGetters(['activeFab', 'addingPhotosToGroup', 'userId']),
+      ...mapState(['search']),
       filteredGroups () {
-        return this.groups.filter(group =>
+        return this.groups.filter(
+          group =>
             group.title.toLowerCase().search(this.search) >= 0 ||
             group.groupId.toLowerCase().search(this.search) >= 0
-          )
+        )
       }
     },
     methods: {
@@ -110,28 +104,36 @@
     apollo: {
       groups: {
         // gql query
-        query: gql`query groups($userId: ID!){
-  userGroups(userId: $userId) {
-    title
-    groupId
-    icon
-    poolCount
-    members
-    throttleMode
-    throttleCount
-    throttleRemaining
-    photos(first: 1) {
-      rawDateAdded
-      dateAdded
-    }
-  }
-}`,
+        query: gql`
+        query groups($userId: ID!) {
+          userGroups(userId: $userId) {
+            title
+            groupId
+            icon
+            poolCount
+            members
+            throttleMode
+            throttleCount
+            throttleRemaining
+            photos(first: 1) {
+              rawDateAdded
+              dateAdded
+            }
+          }
+        }
+      `,
         variables () {
           return {
             userId: this.userId
           }
         },
-        update: data => _.sortBy(data.userGroups.map(group => Object.assign({expanded: false}, group)), ['title']),
+        update: data =>
+          _.sortBy(
+            data.userGroups.map(group =>
+              Object.assign({expanded: false}, group)
+            ),
+            ['title']
+          ),
         fetchPolicy: 'cache-and-network',
         loadingKey: 'loading'
       }
@@ -153,12 +155,13 @@
         margin-right: 10px;
     }
 
-    .list-enter-active, .list-leave-active {
+    .list-enter-active,
+    .list-leave-active {
         transition: all 1s;
     }
 
-    .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */
-    {
+    .list-enter,
+    .list-leave-to {
         opacity: 0;
         transform: translateY(30px);
     }

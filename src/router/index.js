@@ -10,10 +10,12 @@ import Signup from './pages/Signup.vue'
 import Scheduled from './pages/Scheduled.vue'
 import Dashboard from './pages/Dashboard.vue'
 import Photostream from './pages/Photostream.vue'
+import { authUser } from '../libs/aws-lib'
+import store from '../store'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -82,3 +84,22 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.state.cognito.user === null) {
+      await store.dispatch('getCurrentUser')
+        .then(() => authUser(store.state.cognito.user.tokens.IdToken))
+        .catch(() => next({
+          path: '/login',
+          query: {redirect: to.fullPath}
+        }))
+    } else {
+      authUser(store.state.cognito.user.tokens.IdToken)
+    }
+  }
+  store.commit('setPageTitle', to.name)
+  next()
+})
+
+export default router

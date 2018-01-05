@@ -2,17 +2,13 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import { ApolloClient } from 'apollo-client'
-import { HttpLink } from 'apollo-link-http'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import VueApollo from 'vue-apollo'
+import apolloProvider from './settings/apolloProvider'
 import axios from 'axios'
 import Axios from 'vue-axios'
 import router from './router'
 import Vuetify from 'vuetify'
 import store from './store'
 import MyFetch from './components/MyFetch'
-import { authUser } from './libs/aws-lib'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import VueAnalytics from 'vue-analytics'
@@ -37,42 +33,6 @@ axios.defaults.baseURL = process.env.API_URL
 Vue.use(Axios, axios)
 Vue.config.productionTip = false
 
-router.beforeEach(async (to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.state.cognito.user === null) {
-      await store.dispatch('getCurrentUser')
-        .then(() => authUser(store.state.cognito.user.tokens.IdToken))
-        .catch(() => next({
-          path: '/login',
-          query: {redirect: to.fullPath}
-        }))
-    } else {
-      authUser(store.state.cognito.user.tokens.IdToken)
-    }
-  }
-  store.commit('setPageTitle', to.name)
-  next()
-})
-
-const httpLink = new HttpLink({
-  // You should use an absolute URL here
-  uri: process.env.API_URL + 'graphql'
-})
-
-// Create the apollo client
-const apolloClient = new ApolloClient({
-  link: httpLink,
-  cache: new InMemoryCache(),
-  connectToDevTools: true
-})
-
-const apolloProvider = new VueApollo({
-  defaultClient: apolloClient
-})
-
-// Install the vue plugin
-Vue.use(VueApollo)
-
 if (process.env.NODE_ENV === 'production') {
   Raven
     .config('https://5c9619998ba541a597a037ece72dafab@sentry.io/266872')
@@ -80,7 +40,7 @@ if (process.env.NODE_ENV === 'production') {
     .install()
 
   Vue.use(VueAnalytics, {
-    id: 'UA-53011336-4',
+    id: process.env.GA,
     router
   })
 }

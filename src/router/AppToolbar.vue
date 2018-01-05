@@ -79,7 +79,7 @@
     methods: {
       logout () {
         this.$store.dispatch('signOut')
-          .then(() => { this.$router.push({name: 'Home'}) })
+          .then(() => this.$router.push({name: 'Home'}))
           .catch(() => this.$router.push({name: 'Home'}))
       },
       search (value) {

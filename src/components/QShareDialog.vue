@@ -5,9 +5,8 @@
                 <v-btn icon @click.native="dialog = false" dark>
                     <v-icon>close</v-icon>
                 </v-btn>
-                <v-toolbar-title>Share Pool</v-toolbar-title>
+                <v-toolbar-title v-html="title"></v-toolbar-title>
             </v-toolbar>
-            <v-progress-linear height="3" class="my-0" v-bind:indeterminate="true" v-if="loading"></v-progress-linear>
             <div class="pa-1" v-if="!saveImages">
                 <q-filter placeholder="Search groups" class="pa-1"
                           @search="val => { filterWord = val }"
@@ -83,21 +82,30 @@
 <script>
   import QFilter from './QFilter'
   import QPushPhotos from './QPushPhotos'
-  import gql from 'graphql-tag'
-  import { mapGetters, mapState } from 'vuex'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'ShareDialog',
     components: {QFilter, QPushPhotos},
+    props: {
+      pool: {
+        type: Array,
+        required: true
+      }
+    },
     data () {
       return {
-        loading: 0,
         saveImages: false,
-        filterWord: ''
+        filterWord: '',
+        groups: []
       }
     },
     created () {
       // document.addEventListener('keyup', this.cancel)
+      const groups = localStorage.getObject('groups')
+      if (groups !== null) {
+        this.groups = groups
+      }
     },
     destroyed () {
       // document.removeEventListener('keyup', this.cancel)
@@ -140,10 +148,9 @@
     },
     computed: {
       ...mapGetters(['userId']),
-      ...mapState(['pool']),
       dialog: {
         get () {
-          return this.$store.state.dialog
+          return this.$store.state.sharePool.length > 0
         },
         set () {
           this.$store.commit('hideDialog')
@@ -160,31 +167,12 @@
       },
       selectedGroupsList () {
         return this.selectedGroups.map(group => group.title).join(',&nbsp;')
-      }
-    },
-    apollo: {
-      groups: {
-        // gql query
-        query: gql`query groups($userId: ID!){
-  userGroups(userId: $userId) {
-    title
-    groupId
-    icon
-    poolCount
-    members
-    throttleMode
-    throttleCount
-    throttleRemaining
-  }
-}`,
-        variables () {
-          return {
-            userId: this.userId
-          }
-        },
-        update: data => data.userGroups.map(group => Object.assign({selected: false}, group)),
-        fetchPolicy: 'cache-and-network',
-        loadingKey: 'loading'
+      },
+      title () {
+        if (this.pool.length === 1) {
+          return `Sharing '${this.pool[0].title}'`
+        }
+        return `Sharing Pool (${this.pool.length} elements)`
       }
     }
   }
@@ -193,6 +181,7 @@
     .selected {
         background: #f5f5f5;
     }
+
     .whatsapp-enter-active {
         transition: all .2s;
     }

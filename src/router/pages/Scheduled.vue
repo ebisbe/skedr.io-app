@@ -39,7 +39,7 @@
     },
     methods: {
       scheduled (data) {
-        const mappedData = data.map((photo) => {
+        const mappedData = data.map(photo => {
           photo.headerDate = moment(photo.scheduledAt).calendar(null, {
             nextDay: '[Tomorrow]',
             nextWeek: 'dddd, Do',
@@ -64,25 +64,30 @@
     },
     apollo: {
       scheduledPhotos: {
-        query: gql `query scheduled($userId: ID!){
-    scheduledPhotos (userId: $userId){
-      userId
-      groupId
-      photoId
-      secret
-      scheduledAt
-      message
-      group {
-        title
-      }
-    }
-    }`,
+        query: gql`
+        query scheduled($userId: ID!) {
+          scheduledPhotos(userId: $userId) {
+            userId
+            groupId
+            photoId
+            secret
+            scheduledAt
+            message
+            group {
+              title
+            }
+          }
+        }
+      `,
         variables () {
           return {
             userId: this.userId
           }
         },
-        update: data => data.scheduledPhotos.map(photo => Object.assign({headerDate: ''}, photo)),
+        update: data =>
+          data.scheduledPhotos.map(photo =>
+            Object.assign({headerDate: ''}, photo)
+          ),
         fetchPolicy: 'cache-and-network',
         loadingKey: 'loading'
       }

@@ -20,10 +20,9 @@ export default new Vuex.Store({
     rightDrawer: window.innerWidth > 1260,
     pageTitle: '',
     pool: [],
-    selectedGroups: [],
     token: '',
     search: '',
-    dialog: false,
+    sharePool: [],
     position: 0
   },
   mutations: {
@@ -39,13 +38,6 @@ export default new Vuex.Store({
       }
       localStorage.setObject('pool.photos', state.pool)
     },
-    updateSelectedGroups (state, payload) {
-      if (payload.isSelected) {
-        state.selectedGroups.unshift(payload.group)
-      } else {
-        state.selectedGroups = _.filter(state.selectedGroups, function (o) { return o.groupId !== payload.group.groupId })
-      }
-    },
     clearPool (state) {
       state.pool = []
       localStorage.setObject('pool.photos', [])
@@ -59,24 +51,14 @@ export default new Vuex.Store({
     setPageTitle (state, value) {
       state.pageTitle = value
     },
-    showDialog (state) {
-      state.dialog = true
+    showDialog (state, value) {
+      state.sharePool = value
     },
     hideDialog (state) {
-      state.dialog = false
+      state.sharePool = []
     }
   },
   getters: {
-    activeFab (state, getter) {
-      if (state.selectedGroups.length) {
-        return {'class': 'secondary', icon: 'add_to_photos', html: 'Add photos to group'}
-      } else {
-        return {'class': 'primary', icon: 'add_a_photo', html: 'Search photos'}
-      }
-    },
-    addingPhotosToGroup (state) {
-      return state.selectedGroups.length > 0
-    },
     userId (state) {
       return decodeURIComponent(state.cognito.user.username)
     },

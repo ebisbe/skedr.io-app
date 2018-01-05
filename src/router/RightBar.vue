@@ -47,7 +47,7 @@
         this.$store.commit('clearPool')
       },
       share () {
-        this.$store.commit('showDialog')
+        this.$store.commit('showDialog', this.pool)
       }
     },
     computed: {

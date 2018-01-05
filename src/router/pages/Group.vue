@@ -75,18 +75,17 @@
 
   export default {
     name: 'Group',
+    something: '',
     components: {ExpansionPanel, Photo, GroupView, QPoolBtn},
     data () {
       return {
-        loading: 0,
-        groups: []
+        loading: false,
+        groups: [],
+        somevar: ''
       }
     },
     created () {
-      const groups = localStorage.getObject('groups')
-      if (groups !== null) {
-        this.groups = groups
-      }
+      this.groups = localStorage.getObject('groups')
     },
     computed: {
       ...mapGetters(['activeFab', 'addingPhotosToGroup', 'userId']),
@@ -133,7 +132,7 @@
         update: data =>
           _.sortBy(
             data.userGroups.map(group =>
-              Object.assign({expanded: false}, group)
+              Object.assign({expanded: false, selected: false}, group)
             ),
             ['title']
           ),

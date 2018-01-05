@@ -26,7 +26,7 @@
                 </v-list-tile>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar app fixed :class="[activeFab.class]" dark clipped-left clipped-right prominent>
+        <v-toolbar app fixed color="primary" dark clipped-left clipped-right prominent>
             <v-toolbar-title class="pr-3" style="width: 300px">
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
                 <span v-text="pageTitle"></span>
@@ -73,7 +73,6 @@
         'pageTitle'
       ]),
       ...mapGetters([
-        'activeFab',
         'isDesktop'
       ])
     },

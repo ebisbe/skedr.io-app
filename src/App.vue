@@ -5,7 +5,7 @@
         <router-view></router-view>
         <router-view name="rightBar"></router-view>
 
-        <v-footer app :class="[activeFab.class]">
+        <v-footer app color="primary">
             <v-layout row wrap align-center class="white--text">
                 <v-flex xs3>
                     <div class="ml-3">
@@ -16,30 +16,23 @@
 
                     </div>
                 </v-flex>
-                <v-flex v-if="selectedGroups.length" class="title">
-                    <div class="text-xs-center"> {{ selectedGroups.length }} groups selected</div>
-                </v-flex>
                 <v-spacer></v-spacer>
             </v-layout>
         </v-footer>
-        <q-share-dialog v-if="dialog"></q-share-dialog>
+        <q-share-dialog :pool="sharePool"></q-share-dialog>
     </v-app>
 </template>
 
 <script>
-  import { mapGetters, mapState } from 'vuex'
+  import { mapState } from 'vuex'
   import QShareDialog from './components/QShareDialog'
 
   export default {
     name: 'app',
     components: {QShareDialog},
     computed: {
-      ...mapGetters([
-        'activeFab'
-      ]),
       ...mapState([
-        'selectedGroups',
-        'dialog'
+        'sharePool'
       ])
     }
   }

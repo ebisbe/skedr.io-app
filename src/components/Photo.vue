@@ -23,12 +23,24 @@
             </span>
         </v-card-text>
         <v-card-actions>
-            <v-btn color="primary" flat @click="addToPool" :disabled="disabled">
-                <v-icon>add_to_photos</v-icon>&nbsp;add
-            </v-btn>
-            <v-btn color="error" icon flat @click.stop="removeFromPool" v-if="disabled">
-                <v-icon>delete</v-icon>
-            </v-btn>
+            <v-tooltip top>
+                <v-btn color="primary" slot="activator" flat icon @click="addToPool" :disabled="disabled">
+                    <v-icon>add_to_photos</v-icon>
+                </v-btn>
+                <span>Add to pool</span>
+            </v-tooltip>
+            <v-tooltip top>
+                <v-btn icon flat slot="activator" @click.stop="sharePhoto" color="primary">
+                    <v-icon>share</v-icon>
+                </v-btn>
+                <span>Share</span>
+            </v-tooltip>
+            <v-tooltip top>
+                <v-btn color="error" slot="activator" icon flat @click.stop="removeFromPool" v-show="disabled">
+                    <v-icon>delete</v-icon>
+                </v-btn>
+                <span>Remove from pool</span>
+            </v-tooltip>
         </v-card-actions>
     </v-card>
 </template>
@@ -53,9 +65,10 @@
     },
     created () {
       let flickr = new Flickr(process.env.FLICKR_KEY)
-      flickr.photos.getAllContexts({photo_id: this.photoId})
+      flickr.photos
+        .getAllContexts({photo_id: this.photoId})
         .use(superagentCache)
-        .then((response) => {
+        .then(response => {
           if (response.body.hasOwnProperty('pool')) {
             this.groups = response.body.pool
           }
@@ -67,6 +80,9 @@
       },
       removeFromPool () {
         this.$store.commit('addToPool', {photo: this.photo, add: false})
+      },
+      sharePhoto () {
+        this.$store.commit('showDialog', [this.photo])
       }
     },
     computed: {
@@ -83,13 +99,12 @@
         return this.groups.length > 0 ? 'bookmark' : 'bookmark_border'
       },
       disabled () {
-        let matches = _.find(this.pool, (o) => { return o.id === this.photoId || o.photoId === this.photoId })
-        return this.selectedGroups.length > 0 || (matches !== undefined)
+        let matches = _.find(this.pool, o => {
+          return o.id === this.photoId || o.photoId === this.photoId
+        })
+        return matches !== undefined
       },
-      ...mapState([
-        'selectedGroups',
-        'pool'
-      ])
+      ...mapState(['pool'])
     }
   }
 </script>

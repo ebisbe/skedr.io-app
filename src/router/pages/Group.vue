@@ -119,7 +119,8 @@
             ['title']
           ),
         fetchPolicy: 'cache-and-network',
-        loadingKey: 'loading'
+        loadingKey: 'loading',
+        pollInterval: 5 * 60
       }
     },
     watch: {

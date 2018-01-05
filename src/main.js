@@ -15,6 +15,7 @@ import MyFetch from './components/MyFetch'
 import { authUser } from './libs/aws-lib'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
+import VueAnalytics from 'vue-analytics'
 
 require('./libs/storage')
 
@@ -77,6 +78,11 @@ if (process.env.NODE_ENV === 'production') {
     .config('https://5c9619998ba541a597a037ece72dafab@sentry.io/266872')
     .addPlugin(RavenVue, Vue)
     .install()
+
+  Vue.use(VueAnalytics, {
+    id: 'UA-53011336-4',
+    router
+  })
 }
 
 Vue.component('MyFetch', MyFetch)

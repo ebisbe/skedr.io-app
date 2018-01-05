@@ -36,6 +36,7 @@
     "raven-js": "^3.21.0",
     "superagent-cache-plugin": "^2.0.0",
     "vue": "^2.5.3",
+    "vue-analytics": "^5.8.0",
     "vue-apollo": "^3.0.0-alpha.1",
     "vue-auth-cognito": "^0.1.5",
     "vue-axios": "^2.0.2",

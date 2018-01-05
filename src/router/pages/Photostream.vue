@@ -3,7 +3,7 @@
         <v-progress-linear height="3" class="my-0" v-bind:indeterminate="true" v-if="loading"></v-progress-linear>
         <v-container fluid grid-list-xl>
             <v-layout row wrap v-if="searchImages === ''">
-                <v-flex  md3 sm4 xs6 v-for="photo in userPhotos" :key="photo.id">
+                <v-flex md3 sm4 xs6 v-for="photo in userPhotos" :key="photo.id">
                     <photo :photo="photo"></photo>
                 </v-flex>
             </v-layout>
@@ -20,9 +20,9 @@
     </v-content>
 </template>
 <script>
-  import gql from 'graphql-tag'
   import Photo from '../../components/Photo.vue'
   import { mapState, mapGetters } from 'vuex'
+  import STREAM_QUERY from '../../graphql/photostream.gql'
 
   export default {
     name: 'Photos',
@@ -35,16 +35,7 @@
     },
     apollo: {
       userPhotos: {
-        query: gql `query userPhotos($userId: ID!){
-  userPhotos(userId: $userId, first: 20) {
-    id
-    photoId
-    title
-    views
-    url_m
-    url_sq
-  }
-  }`,
+        query: STREAM_QUERY,
         variables () {
           return {
             userId: this.userId

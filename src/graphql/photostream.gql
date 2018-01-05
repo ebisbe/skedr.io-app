@@ -1,0 +1,10 @@
+query userPhotos($userId: ID!){
+  userPhotos(userId: $userId, first: 20) {
+    id
+    photoId
+    title
+    views
+    url_m
+    url_sq
+  }
+}

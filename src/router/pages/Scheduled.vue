@@ -22,11 +22,11 @@
     </v-content>
 </template>
 <script>
-  import gql from 'graphql-tag'
   import PhotoList from '../../components/PhotoList.vue'
   import { mapGetters } from 'vuex'
   import * as _ from 'lodash'
   import * as moment from 'moment'
+  import SCHEDULED_QUERY from '../../graphql/scheduled.gql'
 
   export default {
     name: 'Scheduled',
@@ -64,21 +64,7 @@
     },
     apollo: {
       scheduledPhotos: {
-        query: gql`
-        query scheduled($userId: ID!) {
-          scheduledPhotos(userId: $userId) {
-            userId
-            groupId
-            photoId
-            secret
-            scheduledAt
-            message
-            group {
-              title
-            }
-          }
-        }
-      `,
+        query: SCHEDULED_QUERY,
         variables () {
           return {
             userId: this.userId

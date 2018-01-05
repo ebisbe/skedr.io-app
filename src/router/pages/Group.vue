@@ -70,8 +70,8 @@
   import GroupView from '../../components/GroupView.vue'
   import * as _ from 'lodash'
   import { mapGetters, mapState } from 'vuex'
-  import gql from 'graphql-tag'
   import QPoolBtn from '../../components/QPoolBtn.vue'
+  import GROUPS_QUERY from '../../graphql/groups.gql'
 
   export default {
     name: 'Group',
@@ -105,25 +105,7 @@
     },
     apollo: {
       groups: {
-        // gql query
-        query: gql`
-        query groups($userId: ID!) {
-          userGroups(userId: $userId) {
-            title
-            groupId
-            icon
-            poolCount
-            members
-            throttleMode
-            throttleCount
-            throttleRemaining
-            photos(first: 1) {
-              rawDateAdded
-              dateAdded
-            }
-          }
-        }
-      `,
+        query: GROUPS_QUERY,
         variables () {
           return {
             userId: this.userId

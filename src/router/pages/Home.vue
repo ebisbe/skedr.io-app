@@ -28,7 +28,7 @@
                 <v-flex xs12 sm4 class="my-3">
                     <div class="text-xs-center">
                         <h2 class="headline">Share in flickr <strong>just</strong> once each photo</h2>
-                        <span class="subheading">We know it's hard to track which photo could't be added due to group restriccions. If it fails we will rember next day to add it for your, for each photo and group it missed</span>
+                        <span class="subheading">We know it's hard to track which photo couldn't be added due to group restrictions. If it fails we will rember next day to add it for you, for every photo and group it missed</span>
                     </div>
                 </v-flex>
                 <v-flex xs12>
@@ -44,7 +44,7 @@
                                         <div class="headline text-xs-center">Creating the pool</div>
                                     </v-card-title>
                                     <v-card-text>Find all your photos that you want to share. <br>Add them to your virtual pool.
-                                        <br> You can share a single photo directly. It's even faster for single photos!
+                                        <br> You can share a single photo directly. It's even faster!
                                     </v-card-text>
                                 </v-card>
                             </v-flex>
@@ -71,7 +71,7 @@
                                         <div class="headline text-xs-center">Autoschedule photos</div>
                                     </v-card-title>
                                     <v-card-text>
-                                        All photos that cannot be added due to group restriccions <br>will be scheduled. You will don't need to try it again next day or week.
+                                        All photos that can't be added due to group restriccions <br>will be scheduled. You will don't need to try it again next day or week.
                                     </v-card-text>
                                 </v-card>
                             </v-flex>

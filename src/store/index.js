@@ -17,7 +17,7 @@ export default new Vuex.Store({
   strict: debug,
   plugins: devenv ? [createLogger()] : [],
   state: {
-    rightDrawer: false,
+    rightDrawer: window.innerWidth > 1260,
     pageTitle: '',
     pool: [],
     selectedGroups: [],
@@ -79,6 +79,9 @@ export default new Vuex.Store({
     },
     userId (state) {
       return decodeURIComponent(state.cognito.user.username)
+    },
+    isDesktop () {
+      return window.innerWidth > 1260
     }
   }
 })

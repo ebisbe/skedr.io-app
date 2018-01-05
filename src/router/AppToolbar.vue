@@ -31,7 +31,7 @@
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
                 <span v-text="pageTitle"></span>
             </v-toolbar-title>
-            <q-filter placeholder="Filter groups" @search="search"></q-filter>
+            <q-filter placeholder="Filter groups" @search="search" :solo-inverted="true"></q-filter>
             <v-spacer></v-spacer>
 
             <v-toolbar-items>
@@ -51,7 +51,7 @@
     data () {
       return {
         title: 'Layout',
-        drawer: false,
+        drawer: this.isDesktop,
         lists: [
           {
             icon: 'view_day',
@@ -73,7 +73,8 @@
         'pageTitle'
       ]),
       ...mapGetters([
-        'activeFab'
+        'activeFab',
+        'isDesktop'
       ])
     },
     methods: {

@@ -2,7 +2,7 @@
     <v-dialog v-model="dialog" persistent scrollable max-width="500px">
         <v-card>
             <v-toolbar dark color="primary">
-                <v-btn icon @click.native="dialog = false" dark>
+                <v-btn icon @click.native="closePopUp" dark>
                     <v-icon>close</v-icon>
                 </v-btn>
                 <v-toolbar-title v-html="title"></v-toolbar-title>
@@ -60,7 +60,7 @@
                     v-else
                     :pool="pool"
                     :groups="selectedGroups"
-                    @loaded="dialog=false"
+                    @loaded="closePopUp"
             ></q-push-photos>
             <transition name="footer">
                 <v-toolbar dark color="primary" v-show="selectedGroups.length">
@@ -100,12 +100,15 @@
         groups: []
       }
     },
-    created () {
-      // document.addEventListener('keyup', this.cancel)
+    mounted () {
+      this.saveImages = false
       const groups = localStorage.getObject('groups')
       if (groups !== null) {
         this.groups = groups
       }
+    },
+    created () {
+      // document.addEventListener('keyup', this.cancel)
     },
     destroyed () {
       // document.removeEventListener('keyup', this.cancel)
@@ -125,7 +128,11 @@
         if (this.filterWord === '') {
           return
         }
-        this.filteredGroups.forEach(group => { group.selected = true })
+        this.filteredGroups
+          .filter(group => {
+            return !this.disabled(group)
+          })
+          .forEach(group => { group.selected = true })
       },
       clearSelected () {
         this.filteredGroups.forEach(group => { group.selected = false })
@@ -144,6 +151,14 @@
       },
       shareImages () {
         this.saveImages = true
+      },
+      closePopUp () {
+        this.dialog = false
+        setTimeout(() => {
+          this.saveImages = false
+          this.clearSelected()
+          this.filterWord = ''
+        }, 2000)
       }
     },
     computed: {

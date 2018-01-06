@@ -1,6 +1,6 @@
 <template>
     <v-card>
-        <v-card-text v-if="loading" style="text-align: center">
+        <v-card-text style="text-align: center">
             <v-progress-circular
                     :size="100"
                     :width="15"
@@ -32,8 +32,7 @@
     data () {
       return {
         race: 0,
-        photosToPush: [],
-        loading: false
+        photosToPush: []
       }
     },
     created () {
@@ -50,7 +49,7 @@
     },
     methods: {
       pushPhotosToGroups () {
-        this.loading = true
+        this.$emit('loading')
         this.photosToPush = []
         this.race = 0
 
@@ -70,18 +69,9 @@
 
         Promise.all(this.photosToPush)
           .then(() => {
-            setTimeout(() => { this.loading = false }, 2000)
+            setTimeout(() => { this.$emit('loaded') }, 2000)
           })
-          .catch(error => console.log(error))
-      }
-    },
-    watch: {
-      loading (value) {
-        if (value) {
-          this.$emit('loading')
-        } else {
-          this.$emit('loaded')
-        }
+          .catch(error => this.$emit('error', error))
       }
     }
   }

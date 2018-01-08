@@ -1,4 +1,4 @@
-let _ = require('lodash')
+import { uniqBy } from 'lodash'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createLogger from 'vuex/dist/logger'
@@ -32,9 +32,9 @@ export default new Vuex.Store({
     addToPool (state, payload) {
       if (payload.add) {
         state.pool.push(payload.photo)
-        state.pool = _.uniqBy(state.pool, 'id')
+        state.pool = uniqBy(state.pool, 'id')
       } else {
-        state.pool = _.filter(state.pool, function (o) { return o.id !== payload.photo.id })
+        state.pool = state.pool.filter((o) => { return o.id !== payload.photo.id })
       }
       localStorage.setObject('pool.photos', state.pool)
     },

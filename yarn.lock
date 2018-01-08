@@ -3305,10 +3305,6 @@ graphql-anywhere@^4.0.1:
   dependencies:
     apollo-utilities "^1.0.3"
 
-graphql-tag@^2.5.0:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.6.1.tgz#4788d509f6e29607d947fc47a40c4e18f736d34a"
-
 graphql-tag@apollographql/graphql-tag:
   version "2.6.1"
   resolved "https://codeload.github.com/apollographql/graphql-tag/tar.gz/384a9b222a67bdcc966ed23a2c43bbbcd26db10d"

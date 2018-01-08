@@ -8,21 +8,25 @@
                     <v-flex xs12 align-end flexbox class="pt-0">
                         <span class="subheading white--text">{{ photo.title }}</span>
                     </v-flex>
+                    <div style="position: absolute; bottom: 1px" class="white--text body-2">
+                        <a target="_blank" :href="'https://www.flickr.com/photos/' + photo.owner +'/' + photo.id "
+                           style="text-decoration: none;" class="white--text">
+                            <v-icon color="white">visibility</v-icon>
+                            {{ photo.views }}
+                        </a>
+                        <span>
+                            <v-icon color="white">{{ bookmark }}</v-icon>
+                            {{ groups.length }}
+                        </span>
+                        <span>
+                            <v-icon color="white">{{ star }}</v-icon>
+                            {{ totalFavs }}
+                        </span>
+                    </div>
                 </v-layout>
             </v-container>
         </v-card-media>
-        <v-card-text style="position: relative" class="pa-0" v-show="false">
-            <v-btn target="_blank" flat icon
-                   :href="'https://www.flickr.com/photos/' + photo.owner +'/' + photo.id ">
-                {{ photo.views }}
-                <v-icon>visibility</v-icon>
-            </v-btn>
-            <span>
-                {{ groups.length }}
-                <v-icon>{{ bookmark }}</v-icon>
-            </span>
-        </v-card-text>
-        <v-card-actions>
+        <v-card-actions class="py-1">
             <v-tooltip top>
                 <v-btn color="primary" slot="activator" flat icon @click="addToPool" :disabled="disabled">
                     <v-icon>add_to_photos</v-icon>
@@ -46,7 +50,6 @@
 </template>
 <script>
   import Flickr from 'flickr-sdk'
-  import _ from 'lodash'
   import { mapState } from 'vuex'
 
   const CacheModule = require('cache-service-cache-module')
@@ -60,7 +63,8 @@
     },
     data () {
       return {
-        groups: []
+        groups: [],
+        totalFavs: 0
       }
     },
     created () {
@@ -72,6 +76,12 @@
           if (response.body.hasOwnProperty('pool')) {
             this.groups = response.body.pool
           }
+        })
+
+      flickr.photos.getFavorites({photo_id: this.photoId})
+        .use(superagentCache)
+        .then(response => {
+          this.totalFavs = parseInt(response.body.photo.total)
         })
     },
     methods: {
@@ -98,11 +108,14 @@
       bookmark () {
         return this.groups.length > 0 ? 'bookmark' : 'bookmark_border'
       },
+      star () {
+        return this.totalFavs > 0 ? 'star' : 'star_border'
+      },
       disabled () {
-        let matches = _.find(this.pool, o => {
+        let matches = this.pool.filter(o => {
           return o.id === this.photoId || o.photoId === this.photoId
         })
-        return matches !== undefined
+        return matches.length > 0
       },
       ...mapState(['pool'])
     }
@@ -110,11 +123,11 @@
 </script>
 <style>
     .fade {
-        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3a3a3a+0,000000+100&0.65+0,0.35+18,0+57,0+100 */
-        background: -moz-linear-gradient(top, rgba(58, 58, 58, 0.65) 0%, rgba(48, 48, 48, 0.35) 18%, rgba(25, 25, 25, 0) 57%, rgba(0, 0, 0, 0) 100%); /* FF3.6-15 */
-        background: -webkit-linear-gradient(top, rgba(58, 58, 58, 0.65) 0%, rgba(48, 48, 48, 0.35) 18%, rgba(25, 25, 25, 0) 57%, rgba(0, 0, 0, 0) 100%); /* Chrome10-25,Safari5.1-6 */
-        background: linear-gradient(to bottom, rgba(58, 58, 58, 0.65) 0%, rgba(48, 48, 48, 0.35) 18%, rgba(25, 25, 25, 0) 57%, rgba(0, 0, 0, 0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a63a3a3a', endColorstr='#00000000', GradientType=0); /* IE6-9 */
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3a3a3a+0,3a3a3a+100&0.65+0,0.35+18,0+36,0+79,0.35+94,0.65+100 */
+        background: -moz-linear-gradient(top, rgba(58, 58, 58, 0.65) 0%, rgba(58, 58, 58, 0.35) 18%, rgba(58, 58, 58, 0) 36%, rgba(58, 58, 58, 0) 79%, rgba(58, 58, 58, 0.35) 94%, rgba(58, 58, 58, 0.65) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, rgba(58, 58, 58, 0.65) 0%, rgba(58, 58, 58, 0.35) 18%, rgba(58, 58, 58, 0) 36%, rgba(58, 58, 58, 0) 79%, rgba(58, 58, 58, 0.35) 94%, rgba(58, 58, 58, 0.65) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, rgba(58, 58, 58, 0.65) 0%, rgba(58, 58, 58, 0.35) 18%, rgba(58, 58, 58, 0) 36%, rgba(58, 58, 58, 0) 79%, rgba(58, 58, 58, 0.35) 94%, rgba(58, 58, 58, 0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a63a3a3a', endColorstr='#a63a3a3a', GradientType=0); /* IE6-9 */
     }
 </style>
 

@@ -24,7 +24,7 @@
 <script>
   import PhotoList from '../../components/PhotoList.vue'
   import { mapGetters } from 'vuex'
-  import * as _ from 'lodash'
+  import { groupBy } from 'lodash'
   import * as moment from 'moment'
   import SCHEDULED_QUERY from '../../graphql/scheduled.gql'
 
@@ -50,10 +50,10 @@
           })
           return photo
         })
-        return _.groupBy(mappedData, 'headerDate')
+        return groupBy(mappedData, 'headerDate')
       },
       groups (data) {
-        return _.groupBy(data, 'group.title')
+        return groupBy(data, 'group.title')
       },
       subheader (group) {
         return `${group.title}`

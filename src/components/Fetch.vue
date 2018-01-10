@@ -1,5 +1,5 @@
 <script>
-  import _ from 'lodash'
+  import debounce from 'lodash/debounce'
   import { signReq } from '../libs/aws-lib'
 
   export default {
@@ -31,7 +31,7 @@
 
       let activePromise = null
 
-      const fetchData = _.debounce(() => {
+      const fetchData = debounce(() => {
         if (!this.url) {
           res.status = 'waiting'
           return res

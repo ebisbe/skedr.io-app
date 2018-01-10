@@ -24,7 +24,7 @@
 <script>
   import PhotoList from '../../components/PhotoList.vue'
   import { mapGetters } from 'vuex'
-  import { groupBy } from 'lodash'
+  import groupBy from 'lodash/groupby'
   import * as moment from 'moment'
   import SCHEDULED_QUERY from '../../graphql/scheduled.gql'
 

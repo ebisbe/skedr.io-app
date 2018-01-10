@@ -1,4 +1,4 @@
-import { uniqBy } from 'lodash'
+import uniqBy from 'lodash/uniqby'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createLogger from 'vuex/dist/logger'

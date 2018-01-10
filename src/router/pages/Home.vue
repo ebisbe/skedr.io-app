@@ -12,7 +12,7 @@
                     <div class="subheading mb-3 text-xs-center">Spend less time sharing your photos, go out to take more
                     </div>
                     <v-btn dark large class="primary lighten-2 mt-5" :to="{ path: 'groups' }">
-                        Improve my profile
+                        Get Started
                     </v-btn>
                 </v-layout>
             </v-parallax>

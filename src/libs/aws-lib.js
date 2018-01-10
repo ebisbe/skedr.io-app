@@ -1,4 +1,4 @@
-import AWS from 'aws-sdk'
+import AWS from 'aws-sdk/global'
 import aws41 from 'aws41'
 
 export async function authUser (userToken) {

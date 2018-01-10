@@ -173,8 +173,8 @@
       },
       filteredGroups () {
         return this.groups.filter(group =>
-          group.title.toLowerCase().search(this.filterWord) >= 0 ||
-          group.groupId.toLowerCase().search(this.filterWord) >= 0
+          group.title.toLowerCase().search(this.filterWord.toLowerCase()) >= 0 ||
+          group.groupId.toLowerCase().search(this.filterWord.toLowerCase()) >= 0
         )
       },
       selectedGroups () {

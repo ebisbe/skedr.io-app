@@ -49,7 +49,7 @@ export default new Vuex.Store({
       state.search = value.toLowerCase()
     },
     setPageTitle (state, value) {
-      state.pageTitle = value
+      state.pageTitle = `Beta - ${value}`
     },
     showDialog (state, value) {
       state.sharePool = value

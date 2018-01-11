@@ -1,6 +1,8 @@
 <template>
     <v-toolbar app fixed color="primary" dark>
-        <h1>{{ title }}</h1>
+        <h1>
+            <router-link to="/" v-html="title" style="color: #fff; text-decoration: none;"></router-link>
+        </h1>
         <v-spacer></v-spacer>
         <v-toolbar-items>
             <v-btn flat class="mr-4" to="/login">
@@ -17,7 +19,7 @@
     name: 'Toolbar',
     data () {
       return {
-        title: 'Skedr'
+        title: 'Beta - Skedr.io'
       }
     }
   }

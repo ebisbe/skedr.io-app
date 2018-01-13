@@ -85,7 +85,10 @@
       }
     },
     created () {
-      this.groups = localStorage.getObject('groups')
+      const groups = localStorage.getObject('groups')
+      if (groups !== null) {
+        this.groups = groups
+      }
     },
     computed: {
       ...mapGetters(['activeFab', 'addingPhotosToGroup', 'userId']),

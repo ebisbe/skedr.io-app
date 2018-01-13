@@ -16,6 +16,15 @@
                     </v-list-tile-content>
                 </v-list-tile>
                 <v-divider></v-divider>
+                <v-list-tile @click="suggestionDialog = true" ripple>
+                    <v-list-tile-action>
+                        <v-icon>help</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Suggestions & Bugs</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+                <v-divider></v-divider>
                 <v-list-tile @click.stop="logout" ripple>
                     <v-list-tile-action>
                         <v-icon>input</v-icon>
@@ -25,6 +34,7 @@
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
+            <q-suggestion-dialog :suggestionDialog="suggestionDialog" @close="suggestionDialog = false"></q-suggestion-dialog>
         </v-navigation-drawer>
         <v-toolbar app fixed color="primary" dark clipped-left clipped-right prominent>
             <v-toolbar-title class="pr-3" style="width: 300px">
@@ -38,20 +48,24 @@
                 <q-pool-btn></q-pool-btn>
             </v-toolbar-items>
         </v-toolbar>
+
+
     </div>
 </template>
 <script>
   import { mapGetters, mapState } from 'vuex'
   import QFilter from './../components/QFilter.vue'
   import QPoolBtn from './../components/QPoolBtn.vue'
+  import QSuggestionDialog from './../components/QSuggestionDialog'
 
   export default {
     name: 'Toolbar',
-    components: {QFilter, QPoolBtn},
+    components: {QFilter, QPoolBtn, QSuggestionDialog},
     data () {
       return {
         title: 'Layout',
         drawer: this.isDesktop,
+        suggestionDialog: false,
         lists: [
           {
             icon: 'view_day',

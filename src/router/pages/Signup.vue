@@ -48,7 +48,6 @@
                                 <v-btn type="submit" color="primary" :disabled="protectedUI || disableAllInputs">
                                     Signup
                                 </v-btn>
-                                <v-btn flat>Cancel</v-btn>
                             </v-form>
                         </v-stepper-content>
                         <v-stepper-step step="3" v-bind:complete="step > 3">Validate your email
@@ -82,12 +81,12 @@
 
 <script>
   import { signReq, AwsCredentials } from '../../libs/aws-lib'
+  import { validations } from '../../mixins/validation'
 
   export default {
     name: 'SignUp',
+    mixins: [ validations ],
     data: () => {
-      const message = 'Use at least 8 characters. Include both lower and upper case letters, a number and a special character.'
-
       return {
         step: 1,
         userId: '',
@@ -106,29 +105,7 @@
         queryString: {},
         button: 'Connect',
         disableAllInputs: false,
-        showResendButton: false,
-        rules: {
-          required: (value) => !!value || 'Required.',
-          email: (value) => {
-            const pattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/
-            return pattern.test(value.toUpperCase()) || 'Invalid e-mail.'
-          },
-          lowerCaseLetters: (value) => {
-            return /[a-z]+/.test(value) || message
-          },
-          upperCaseLetters: (value) => {
-            return /[A-Z]+/.test(value) || message
-          },
-          numbers: (value) => {
-            return /[0-9]+/.test(value) || message
-          },
-          specialCharacters: (value) => {
-            return /[!@#$%^&*()_+={}[\]\\;:.,|]+/.test(value) || message
-          },
-          length: (value) => {
-            return value.length >= 8 || message
-          }
-        }
+        showResendButton: false
       }
     },
     created () {

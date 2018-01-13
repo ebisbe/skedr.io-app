@@ -15,7 +15,7 @@
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "predeploy": "npm run build",
-    "deploy": "aws s3 sync dist/ s3://$npm_package_frontend",
+    "deploy": "aws s3 sync --delete dist/ s3://$npm_package_frontend",
     "postdeploy": "aws cloudfront create-invalidation --distribution-id $npm_package_distribution_id --paths '/*'"
   },
   "dependencies": {
@@ -94,6 +94,7 @@
     "optimize-css-assets-webpack-plugin": "^2.0.0",
     "ora": "^1.2.0",
     "phantomjs-prebuilt": "^2.1.16",
+    "prerender-spa-plugin": "^2.1.0",
     "rimraf": "^2.6.0",
     "selenium-server": "^3.7.1",
     "semver": "^5.3.0",

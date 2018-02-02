@@ -82,7 +82,7 @@
         return this.group.throttleRemaining + '/' + this.group.throttleCount
       },
       dateAddedFormated () {
-        if (this.group.photos[0].rawDateAdded === undefined) {
+        if (this.group.photos.length === 0 || this.group.photos[0].rawDateAdded === undefined) {
           return '-'
         } else {
           return Moment(this.group.photos[0].rawDateAdded).fromNow(true)

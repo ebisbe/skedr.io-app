@@ -4,7 +4,7 @@
             <v-layout pa-0 fluid>
                 <v-flex xs6>
                     <v-btn block color="success" small outline @click="share" :disabled="disable">
-                        <v-icon>share</v-icon>&nbsp;Share
+                        <v-icon>share</v-icon>&nbsp;Sked
                     </v-btn>
                 </v-flex>
                 <v-flex xs6>

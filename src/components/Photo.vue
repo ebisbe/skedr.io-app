@@ -37,7 +37,7 @@
                 <v-btn icon flat slot="activator" @click.stop="sharePhoto" color="primary">
                     <v-icon>share</v-icon>
                 </v-btn>
-                <span>Share</span>
+                <span>Sked</span>
             </v-tooltip>
             <v-tooltip top>
                 <v-btn color="error" slot="activator" icon flat @click.stop="removeFromPool" v-show="disabled">

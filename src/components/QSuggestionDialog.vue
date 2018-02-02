@@ -43,12 +43,12 @@
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="primary"
-                       :disabled="protectedUI"
+                       :disabled="protectedUI || disabled"
                        @click.native="send"
                 >
                     <span v-if="status === 0">send</span>
                     <v-progress-circular v-else-if="status === 1" indeterminate color="amber"></v-progress-circular>
-                    <v-icon v-else-if="status === 2" color="green">check</v-icon>
+                    <v-icon v-else-if="status === 2" color="green">check_circle</v-icon>
                 </v-btn>
                 <v-btn flat @click.native="dialog = false">Close</v-btn>
             </v-card-actions>
@@ -71,6 +71,7 @@
     data () {
       return {
         dialog: false,
+        disabled: false,
         status: 0,
         feedback: {
           name: '',
@@ -85,6 +86,7 @@
         this.axios(signReq('suggestion', {}, this.feedback, 'post'))
           .then(() => {
             this.status = 2
+            this.disabled = true
           })
       }
     },
@@ -103,6 +105,7 @@
             text: ''
           }
           this.status = 0
+          this.disabled = false
         }
       },
       suggestionDialog (value) {

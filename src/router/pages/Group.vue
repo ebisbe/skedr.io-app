@@ -123,7 +123,7 @@
           ),
         fetchPolicy: 'cache-and-network',
         loadingKey: 'loading',
-        pollInterval: 5 * 60
+        pollInterval: 300000
       }
     },
     watch: {

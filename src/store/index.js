@@ -51,8 +51,8 @@ export default new Vuex.Store({
     setPageTitle (state, value) {
       state.pageTitle = `Beta - ${value}`
     },
-    showDialog (state, value) {
-      state.sharePool = value
+    showDialog (state, pool) {
+      state.sharePool = pool
     },
     hideDialog (state) {
       state.sharePool = []

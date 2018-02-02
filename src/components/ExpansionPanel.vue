@@ -16,9 +16,9 @@
                     <v-flex d-flex xs12 sm6 lg6>
                         <strong v-html="group.title" class="break"></strong>
                         <!--<a :href="link"-->
-                           <!--target="_blank"-->
-                           <!--class="text&#45;&#45;secondary">-->
-                            <!--<v-icon>open_in_browser</v-icon>-->
+                        <!--target="_blank"-->
+                        <!--class="text&#45;&#45;secondary">-->
+                        <!--<v-icon>open_in_browser</v-icon>-->
                         <!--</a>-->
                     </v-flex>
                     <v-flex d-flex sm6 lg6>
@@ -32,14 +32,34 @@
                                 <span v-html="throttleText"></span>
                                 <strong>{{ group.throttleMode }}</strong>
                             </span>
+                        <v-spacer></v-spacer>
+                        <span>
+                            <v-btn icon flat small @click.stop="share" color="primary" class="ma-0" :disabled="disabled">
+                                <v-icon>share</v-icon>
+                            </v-btn>
+                        </span>
                     </v-flex>
                 </v-layout>
             </v-flex>
+            <v-dialog v-model="dialog" max-width="500px">
+                <v-card>
+                    <v-toolbar dark color="primary">
+                        <v-toolbar-title v-html="title"></v-toolbar-title>
+                    </v-toolbar>
+                    <q-push-photos v-if="dialog"
+                                   :pool="pool"
+                                   :groups="[group]"
+                                   @loaded="closePopUp"
+                    ></q-push-photos>
+                </v-card>
+            </v-dialog>
         </v-layout>
     </div>
 </template>
 <script>
   import Moment from 'moment'
+  import { mapState } from 'vuex'
+  import QPushPhotos from './QPushPhotos'
 
   Moment.updateLocale('en', {
     relativeTime: {
@@ -62,13 +82,34 @@
 
   export default {
     name: 'ExpansionPanel',
+    components: {QPushPhotos},
     props: {
       group: {
         type: Object,
         required: true
       }
     },
+    data () {
+      return {
+        dialog: false
+      }
+    },
+    methods: {
+      share () {
+        this.dialog = true
+      },
+      closePopUp () {
+        this.dialog = false
+      }
+    },
     computed: {
+      ...mapState(['pool']),
+      disabled () {
+        return this.pool.length === 0
+      },
+      title () {
+        return `Sharing Pool (${this.pool.length} elements)`
+      },
       link () {
         return 'https://www.flickr.com/groups/' + this.group.groupId
       },

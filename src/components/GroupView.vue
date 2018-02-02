@@ -1,6 +1,6 @@
 <template>
     <v-layout row wrap>
-        <v-flex lg2 md3 sm4 xs6
+        <v-flex md3 sm4 xs6
                 v-for="photo in photos"
                 :key="photo.id">
             <photo :photo="photo"></photo>

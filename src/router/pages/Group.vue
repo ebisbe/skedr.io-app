@@ -35,6 +35,10 @@
                                         <span class="grey--text">
                                             <strong>Throttle</strong>
                                         </span>
+                                        <v-spacer></v-spacer>
+                                        <span class="grey--text mr-3">
+                                            <strong>Sked pool</strong>
+                                        </span>
                                     </v-layout>
                                 </v-flex>
                             </v-layout>

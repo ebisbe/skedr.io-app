@@ -1,5 +1,5 @@
-query userPhotos($userId: ID!){
-  userPhotos(userId: $userId, first: 20) {
+query userPhotos($userId: ID!, $offset: Int){
+  userPhotos(userId: $userId, count: 24, offset: $offset) {
     id
     photoId
     title

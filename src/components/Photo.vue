@@ -9,7 +9,7 @@
                         <span class="subheading white--text">{{ photo.title }}</span>
                     </v-flex>
                     <div style="position: absolute; bottom: 1px" class="white--text body-2">
-                        <a target="_blank" :href="'https://www.flickr.com/photos/' + photo.owner +'/' + photo.id "
+                        <a target="_blank" :href="photoLink"
                            style="text-decoration: none;" class="white--text">
                             <v-icon color="white">visibility</v-icon>
                             {{ photo.views }}
@@ -27,20 +27,21 @@
             </v-container>
         </v-card-media>
         <v-card-actions class="py-1">
-            <v-tooltip top>
-                <v-btn color="primary" slot="activator" flat icon @click="addToPool" :disabled="disabled">
+            <v-tooltip top class="ma-0">
+                <v-btn color="primary" class="mx-1" slot="activator" flat icon @click="addToPool" :disabled="disabled">
                     <v-icon>add_to_photos</v-icon>
                 </v-btn>
                 <span>Add to pool</span>
             </v-tooltip>
-            <v-tooltip top>
-                <v-btn icon flat slot="activator" @click.stop="sharePhoto" color="primary">
+            <v-tooltip top class="ma-0">
+                <v-btn icon flat class="mx-1" slot="activator" @click.stop="sharePhoto" color="primary">
                     <v-icon>share</v-icon>
                 </v-btn>
                 <span>Sked</span>
             </v-tooltip>
-            <v-tooltip top>
-                <v-btn color="error" slot="activator" icon flat @click.stop="removeFromPool" v-show="disabled">
+            <v-tooltip top class="ma-0">
+                <v-btn color="error" class="mx-1" slot="activator" icon flat @click.stop="removeFromPool"
+                       v-show="disabled">
                     <v-icon>delete</v-icon>
                 </v-btn>
                 <span>Remove from pool</span>
@@ -50,7 +51,7 @@
 </template>
 <script>
   import Flickr from 'flickr-sdk'
-  import { mapState } from 'vuex'
+  import { mapState, mapGetters } from 'vuex'
 
   const CacheModule = require('cache-service-cache-module')
   const cache = new CacheModule({storage: 'session', defaultExpiration: 900})
@@ -96,6 +97,9 @@
       }
     },
     computed: {
+      photoLink () {
+        return `https://www.flickr.com/photos/${this.userId}/${this.photoId}`
+      },
       /** Backwards compaitiblity with view group images */
       photoId () {
         if (this.photo.photoId !== undefined) {
@@ -117,7 +121,8 @@
         })
         return matches.length > 0
       },
-      ...mapState(['pool'])
+      ...mapState(['pool']),
+      ...mapGetters(['userId'])
     }
   }
 </script>

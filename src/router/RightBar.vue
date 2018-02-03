@@ -17,7 +17,7 @@
                 <transition-group name="list">
                     <template v-for="(photo, key) in pool">
                         <v-divider :key="key" inset v-if="key !== 0"></v-divider>
-                        <v-list-tile avatar :key="photo.title" @click="">
+                        <v-list-tile avatar :key="photo.id" @click="">
                             <v-list-tile-avatar>
                                 <img :src="photo.url_sq"/>
                             </v-list-tile-avatar>

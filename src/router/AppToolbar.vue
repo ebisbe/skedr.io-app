@@ -34,7 +34,8 @@
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
-            <q-suggestion-dialog :suggestionDialog="suggestionDialog" @close="suggestionDialog = false"></q-suggestion-dialog>
+            <q-suggestion-dialog :suggestionDialog="suggestionDialog"
+                                 @close="suggestionDialog = false"></q-suggestion-dialog>
         </v-navigation-drawer>
         <v-toolbar app fixed color="primary" dark clipped-left clipped-right prominent>
             <v-toolbar-title class="pr-3" style="width: 300px">
@@ -68,16 +69,16 @@
         suggestionDialog: false,
         lists: [
           {
-            icon: 'view_day',
-            name: 'Group'
+            icon: 'photo',
+            name: 'Photostream'
           },
           {
             icon: 'access_time',
             name: 'Scheduled photos'
           },
           {
-            icon: 'photo',
-            name: 'Photostream'
+            icon: 'view_day',
+            name: 'Group'
           }
         ]
       }

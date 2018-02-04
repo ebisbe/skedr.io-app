@@ -77,7 +77,7 @@
           this.protectedUI = false
 
           await AwsCredentials(this.$store.state.cognito.user.tokens.IdToken)
-            .then(() => this.$router.push({name: 'Group'}))
+            .then(() => this.$router.push({name: 'Photostream'}))
         }).catch((err) => {
           this.errorMessage = err.message
           this.protectedUI = false

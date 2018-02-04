@@ -172,7 +172,7 @@
                 this.axios(signReq('/oauth/user', {}, {
                   userId: this.userId
                 }, 'post')).then(response =>
-                  this.$router.push({name: 'Group'})
+                  this.$router.push({name: 'Photostream'})
                 )
               })
           }).catch((err) => {

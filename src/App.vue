@@ -1,25 +1,23 @@
 <template>
-    <v-app light>
+  <v-app light>
 
-        <router-view name="toolbar"></router-view>
-        <router-view></router-view>
-        <router-view name="rightBar"></router-view>
+    <router-view name="toolbar"/>
+    <router-view/>
+    <router-view name="rightBar"/>
 
-        <q-share-dialog :pool="sharePool"></q-share-dialog>
-    </v-app>
+    <q-share-dialog :pool="sharePool"/>
+  </v-app>
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import QShareDialog from './components/QShareDialog'
+import { mapState } from 'vuex'
+import QShareDialog from './components/QShareDialog'
 
-  export default {
-    name: 'app',
-    components: {QShareDialog},
-    computed: {
-      ...mapState([
-        'sharePool'
-      ])
-    }
+export default {
+  name: 'App',
+  components: { QShareDialog },
+  computed: {
+    ...mapState(['sharePool'])
   }
+}
 </script>

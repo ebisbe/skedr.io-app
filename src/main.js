@@ -19,13 +19,13 @@ import('../node_modules/vuetify/dist/vuetify.min.css')
 
 Vue.use(Vuetify, {
   theme: {
-    'primary': '#673AB7',
-    'secondary': '#7E57C2',
-    'accent': '#311B92',
-    'error': '#F44336',
-    'warning': '#ffeb3b',
-    'info': '#2196F3',
-    'success': '#4CAF50'
+    primary: '#673AB7',
+    secondary: '#7E57C2',
+    accent: '#311B92',
+    error: '#F44336',
+    warning: '#ffeb3b',
+    info: '#2196F3',
+    success: '#4CAF50'
   }
 })
 
@@ -34,8 +34,7 @@ Vue.use(Axios, axios)
 Vue.config.productionTip = false
 
 if (process.env.NODE_ENV === 'production') {
-  Raven
-    .config('https://5c9619998ba541a597a037ece72dafab@sentry.io/266872')
+  Raven.config('https://5c9619998ba541a597a037ece72dafab@sentry.io/266872')
     .addPlugin(RavenVue, Vue)
     .install()
 
@@ -52,12 +51,12 @@ new Vue({
   router,
   store,
   apolloProvider,
-  template: '<App/>',
-  components: {App},
-  beforeCreate () {
+  components: { App },
+  beforeCreate() {
     let photos = localStorage.getObject('pool.photos')
     if (photos !== null) {
-      store.commit('loadPool', {photos: photos})
+      store.commit('loadPool', { photos: photos })
     }
-  }
+  },
+  template: '<App/>'
 })

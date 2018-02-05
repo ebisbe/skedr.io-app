@@ -2,9 +2,9 @@ import Fetch from './Fetch.vue'
 
 export default {
   name: 'MyFetch',
-  component: {Fetch},
+  component: { Fetch },
   functional: true,
-  render (h, ctx) {
+  render(h, ctx) {
     return h(Fetch, {
       props: {
         url: ctx.props.url,
@@ -13,11 +13,13 @@ export default {
         params: ctx.props.params
       },
       scopedSlots: {
-        default: ({status, data, error}) => {
+        default: ({ status, data, error }) => {
           if (status === 'error') {
             return h('div', error)
           } else if (status === 'pending') {
-            return h('v-progress-linear', {props: {indeterminate: true, height: 3}})
+            return h('v-progress-linear', {
+              props: { indeterminate: true, height: 3 }
+            })
           } else if (status === 'waiting') {
             return ''
           } else {

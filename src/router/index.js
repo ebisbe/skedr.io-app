@@ -34,7 +34,7 @@ const router = new Router({
         toolbar: AppToolbar,
         rightbar: RightBar
       },
-      meta: {requiresAuth: true}
+      meta: { requiresAuth: true }
     },
     {
       path: '/groups',
@@ -44,7 +44,7 @@ const router = new Router({
         toolbar: AppToolbar,
         rightBar: RightBar
       },
-      meta: {requiresAuth: true}
+      meta: { requiresAuth: true }
     },
     {
       path: '/scheduled',
@@ -54,7 +54,7 @@ const router = new Router({
         toolbar: AppToolbar,
         rightBar: RightBar
       },
-      meta: {requiresAuth: true}
+      meta: { requiresAuth: true }
     },
     {
       path: '/photostream',
@@ -64,7 +64,7 @@ const router = new Router({
         toolbar: AppToolbar,
         rightBar: RightBar
       },
-      meta: {requiresAuth: true}
+      meta: { requiresAuth: true }
     },
     {
       path: '/login',
@@ -88,12 +88,15 @@ const router = new Router({
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.state.cognito.user === null) {
-      await store.dispatch('getCurrentUser')
+      await store
+        .dispatch('getCurrentUser')
         .then(() => authUser(store.state.cognito.user.tokens.IdToken))
-        .catch(() => next({
-          path: '/login',
-          query: {redirect: to.fullPath}
-        }))
+        .catch(() =>
+          next({
+            path: '/login',
+            query: { redirect: to.fullPath }
+          })
+        )
     } else {
       authUser(store.state.cognito.user.tokens.IdToken)
     }

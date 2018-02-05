@@ -26,43 +26,45 @@ export default new Vuex.Store({
     position: 0
   },
   mutations: {
-    loadPool (state, payload) {
+    loadPool(state, payload) {
       state.pool = payload.photos
     },
-    addToPool (state, payload) {
+    addToPool(state, payload) {
       if (payload.add) {
         state.pool.push(payload.photo)
         state.pool = uniqBy(state.pool, 'id')
       } else {
-        state.pool = state.pool.filter((o) => { return o.id !== payload.photo.id })
+        state.pool = state.pool.filter(o => {
+          return o.id !== payload.photo.id
+        })
       }
       localStorage.setObject('pool.photos', state.pool)
     },
-    clearPool (state) {
+    clearPool(state) {
       state.pool = []
       localStorage.setObject('pool.photos', [])
     },
-    updateRightDrawer (state, message) {
+    updateRightDrawer(state, message) {
       state.rightDrawer = message
     },
-    updateSearch (state, value) {
+    updateSearch(state, value) {
       state.search = value.toLowerCase()
     },
-    setPageTitle (state, value) {
+    setPageTitle(state, value) {
       state.pageTitle = `Beta - ${value}`
     },
-    showDialog (state, pool) {
+    showDialog(state, pool) {
       state.sharePool = pool
     },
-    hideDialog (state) {
+    hideDialog(state) {
       state.sharePool = []
     }
   },
   getters: {
-    userId (state) {
+    userId(state) {
       return decodeURIComponent(state.cognito.user.username)
     },
-    isDesktop () {
+    isDesktop() {
       return window.innerWidth > 1260
     }
   }

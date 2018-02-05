@@ -1,10 +1,10 @@
 export const url = {
   methods: {
-    urlGroup (group) {
-      return 'https://farm' + group.iconfarm + '.staticflickr.com/' + group.iconserver + '/buddyicons/' + group.nsid + '.jpg'
+    urlGroup({ iconfarm, iconserver, nsid }) {
+      return `https://farm${iconfarm}.staticflickr.com/${iconserver}/buddyicons/${nsid}.jpg`
     },
-    urlPhoto (photo) {
-      return 'https://farm' + photo.farm + '.staticflickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '_' + this.size + '.jpg'
+    urlPhoto({ farm, server, id, secret }) {
+      return `https://farm${farm}.staticflickr.com/${server}/${id}_${secret}_${this.size}.jpg`
     }
   }
 }

@@ -22,7 +22,7 @@
     "postdeploy": "aws cloudfront create-invalidation --distribution-id $npm_package_distribution_id --paths '/*'"
   },
   "lint-staged": {
-    "*.js": ["eslint --fix", "git add"]
+    "*.{js,vue}": ["eslint --fix", "git add"]
   },
   "dependencies": {
     "apollo-cache-inmemory": "^1.1.1",

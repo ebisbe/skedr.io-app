@@ -23,7 +23,7 @@
               <template v-for="(group, title) in groups(item)">
                 <v-subheader
                   v-html="subheader(group[0].group)"
-                        :key="title"/>
+                  :key="title"/>
                 <template v-for="(photo, iteration) in group">
                   <v-divider
                     :key="iteration"

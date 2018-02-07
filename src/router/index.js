@@ -8,7 +8,6 @@ import RightBar from './RightBar.vue'
 import Login from './pages/Login.vue'
 import Signup from './pages/Signup.vue'
 import Scheduled from './pages/Scheduled.vue'
-import Dashboard from './pages/Dashboard.vue'
 import Photostream from './pages/Photostream.vue'
 import { authUser } from '../libs/aws-lib'
 import store from '../store'
@@ -25,16 +24,6 @@ const router = new Router({
         default: Home,
         toolbar: Toolbar
       }
-    },
-    {
-      path: '/dashboard',
-      name: 'Dashboard',
-      components: {
-        default: Dashboard,
-        toolbar: AppToolbar,
-        rightbar: RightBar
-      },
-      meta: { requiresAuth: true }
     },
     {
       path: '/groups',

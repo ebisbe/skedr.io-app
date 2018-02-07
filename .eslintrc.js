@@ -12,6 +12,16 @@ module.exports = {
   extends: ['prettier', 'prettier/standard', 'plugin:vue/recommended'],
   plugins: ['vue', 'prettier'],
   rules: {
-    'prettier/prettier': 'error'
+    'prettier/prettier': 'error',
+    'vue/max-attributes-per-line': [
+      2,
+      {
+        singleline: 2,
+        multiline: {
+          max: 1,
+          allowFirstLine: false
+        }
+      }
+    ]
   }
 }

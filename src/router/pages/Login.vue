@@ -8,12 +8,15 @@
           xs12
           sm6
           offset-sm3>
-          <v-card>
+          <v-card class="elevation-12">
             <v-progress-linear
               height="3"
               class="my-0"
               :indeterminate="true"
               v-show="protectedUI"/>
+            <v-toolbar dark color="primary">
+              <v-toolbar-title>Login</v-toolbar-title>
+            </v-toolbar>
             <v-alert
               color="success"
               v-show="successMessage"
@@ -30,7 +33,6 @@
             </v-alert>
             <v-card-text>
               <v-form @submit.stop.prevent="handleSubmit">
-                <h3 class="headline mb-0">Log in</h3>
 
                 <v-text-field
                   label="Name"

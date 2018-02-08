@@ -55,9 +55,6 @@ export default new Vuex.Store({
     },
     showDialog(state, pool) {
       state.sharePool = pool
-    },
-    hideDialog(state) {
-      state.sharePool = []
     }
   },
   getters: {

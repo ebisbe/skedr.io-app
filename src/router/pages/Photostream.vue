@@ -21,19 +21,20 @@
           <photo :photo="photo"/>
         </v-flex>
         <v-flex>
-          <mugen-scroll
-            :handler="showMore"
-            :should-handle="!loading">
-            <v-btn
-              block
-              color="secondary"
-              dark>
-              <v-progress-circular
-                indeterminate
-                color="amber"/>
-              &nbsp;Loading more photos...
-            </v-btn>
-          </mugen-scroll>
+          <v-btn
+            block
+            color="secondary"
+            @click="showMore"
+            :disabled="loading === 1"
+            dark>
+            <v-progress-circular
+              indeterminate
+              v-if="loading"
+              color="primary"/>
+            <span v-else>
+              &nbsp;Load more photos...
+            </span>
+          </v-btn>
         </v-flex>
       </v-layout>
       <v-layout v-else>
@@ -64,12 +65,11 @@
 import Photo from '../../components/Photo.vue'
 import { mapState, mapGetters } from 'vuex'
 import STREAM_QUERY from '../../graphql/photostream.gql'
-import MugenScroll from 'vue-mugen-scroll'
 
 const itemsPerPage = 24
 export default {
   name: 'Photos',
-  components: { Photo, MugenScroll },
+  components: { Photo },
   data() {
     return {
       loading: 0,

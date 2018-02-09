@@ -15,9 +15,7 @@
             target="_blank"
             @click.stop="a"
             class="text--secondary">
-            <img
-              :src="group.icon"
-              :alt="group.title">
+            <img :src="group.icon" :alt="group.title">
           </a>
         </v-avatar>
       </v-flex>
@@ -25,22 +23,18 @@
         d-flex
         xs10
         sm11>
-        <v-layout
-          row
-          wrap>
+        <v-layout row wrap>
           <v-flex
             d-flex
             xs12
             sm6
             lg6>
-            <strong
-              v-html="group.title"
-              class="break"/>
-              <!--<a :href="link"-->
-              <!--target="_blank"-->
-              <!--class="text&#45;&#45;secondary">-->
-              <!--<v-icon>open_in_browser</v-icon>-->
-              <!--</a>-->
+            <strong v-html="group.title" class="break"/>
+            <!--<a :href="link"-->
+            <!--target="_blank"-->
+            <!--class="text&#45;&#45;secondary">-->
+            <!--<v-icon>open_in_browser</v-icon>-->
+            <!--</a>-->
           </v-flex>
           <v-flex
             d-flex
@@ -74,13 +68,9 @@
           </v-flex>
         </v-layout>
       </v-flex>
-      <v-dialog
-        v-model="dialog"
-        max-width="500px">
+      <v-dialog v-model="dialog" max-width="500px">
         <v-card>
-          <v-toolbar
-            dark
-            color="primary">
+          <v-toolbar dark color="primary">
             <v-toolbar-title v-html="title"/>
           </v-toolbar>
           <q-push-photos

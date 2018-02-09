@@ -5,12 +5,8 @@
       class="my-0"
       :indeterminate="true"
       v-if="loading"/>
-    <v-container
-      fluid
-      grid-list-sm>
-      <v-layout
-        row
-        wrap>
+    <v-container fluid grid-list-sm>
+      <v-layout row wrap>
         <v-flex xs12>
           <v-layout
             align-center
@@ -26,9 +22,7 @@
               d-flex
               xs10
               sm11>
-              <v-layout
-                row
-                wrap>
+              <v-layout row wrap>
                 <v-flex
                   d-flex
                   xs12
@@ -79,9 +73,7 @@
             v-for="group in filteredGroups"
             :key="group.title"
             v-model="group.expanded">
-            <expansion-panel
-              slot="header"
-              :group="group"/>
+            <expansion-panel slot="header" :group="group"/>
             <v-card>
               <v-card-text class="grey lighten-3">
                 <group-view

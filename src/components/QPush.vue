@@ -2,6 +2,7 @@
   <v-card>
     <v-card-text style="text-align: center">
       <v-progress-circular
+        v-if="requests instanceof Array"
         :size="100"
         :width="15"
         :rotate="360"
@@ -10,6 +11,12 @@
       >
         {{ progress }}
       </v-progress-circular>
+      <v-progress-circular
+        v-else
+        color="teal"
+        :size="100"
+        :width="4"
+        indeterminate/>
     </v-card-text>
   </v-card>
 </template>
@@ -18,7 +25,7 @@ export default {
   name: 'QPush',
   props: {
     requests: {
-      type: Array,
+      type: [Array, Object],
       required: true
     }
   },
@@ -42,14 +49,25 @@ export default {
     pushPhotosToGroups() {
       this.$emit('loading')
 
-      this.requests.map(request => this.axios(request).then(() => this.resolvedRequests++))
-      Promise.all(this.requests)
-        .then(() => {
-          setTimeout(() => {
-            this.$emit('loaded')
-          }, 2000)
+      if (this.requests instanceof Array) {
+        this.requests.map(request => this.axios(request).then(() => this.resolvedRequests++))
+
+        Promise.all(this.requests)
+          .then(() => {
+            this.autoClosePopup()
+          })
+          .catch(error => this.$emit('error', error))
+      } else {
+        this.axios(this.requests).then(() => {
+          this.resolvedRequests++
+          this.autoClosePopup()
         })
-        .catch(error => this.$emit('error', error))
+      }
+    },
+    autoClosePopup() {
+      setTimeout(() => {
+        this.$emit('loaded')
+      }, 2000)
     }
   }
 }

@@ -73,10 +73,9 @@
           <v-toolbar dark color="primary">
             <v-toolbar-title v-html="title"/>
           </v-toolbar>
-          <q-push-photos
+          <q-push
             v-if="dialog"
-            :pool="pool"
-            :groups="[group]"
+            :requests="constructPayload([group])"
             @loaded="closePopUp"
           />
         </v-card>
@@ -87,7 +86,8 @@
 <script>
 import Moment from 'moment'
 import { mapState } from 'vuex'
-import QPushPhotos from './QPushPhotos'
+import QPush from './QPush'
+import groupsPayload from '../mixins/groupsPayload'
 
 Moment.updateLocale('en', {
   relativeTime: {
@@ -110,7 +110,8 @@ Moment.updateLocale('en', {
 
 export default {
   name: 'ExpansionPanel',
-  components: { QPushPhotos },
+  components: { QPush },
+  mixins: [groupsPayload],
   props: {
     group: {
       type: Object,

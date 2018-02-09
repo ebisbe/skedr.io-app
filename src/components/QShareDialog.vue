@@ -12,11 +12,10 @@
       slot-scope="props"
       :key="props.item.groupId"
       :group="props.item"/>
-    <q-push-photos
+    <q-push
       slot="save"
       slot-scope="props"
-      :pool="pool"
-      :groups="props.selectedData"
+      :requests="constructPayload(props.selectedData)"
       @loaded="dialog = false"
     />
   </q-popup>
@@ -24,13 +23,15 @@
 
 <script>
 import QPopup from './QPopup'
-import QPushPhotos from './QPushPhotos'
+import QPush from './QPush'
 import QShareDialogList from './QShareDialogList'
 import { mapGetters } from 'vuex'
+import groupsPayload from '../mixins/groupsPayload'
 
 export default {
   name: 'ShareDialog',
-  components: { QPopup, QPushPhotos, QShareDialogList },
+  components: { QPopup, QPush, QShareDialogList },
+  mixins: [groupsPayload],
   props: {
     pool: {
       type: Array,
@@ -66,12 +67,12 @@ export default {
       this.groups = groups
     }
   },
-  created() {
-    // document.addEventListener('keyup', this.cancel)
+  /* created() {
+    document.addEventListener('keyup', this.cancel)
   },
   destroyed() {
-    // document.removeEventListener('keyup', this.cancel)
-  },
+    document.removeEventListener('keyup', this.cancel)
+  },*/
   methods: {
     cancel(event) {
       if (event.keyCode === 27 || event.key === 'Escape') {

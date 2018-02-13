@@ -1,6 +1,7 @@
 <template>
   <v-card
     @click.native="addToPool()"
+    :color="color"
     hover>
     <v-card-media
       height="125px"
@@ -24,6 +25,7 @@
             <a
               target="_blank"
               :href="photoLink"
+              @click.stop
               style="text-decoration: none;"
               class="white--text">
               <v-icon color="white">visibility</v-icon>
@@ -103,6 +105,10 @@ export default {
     photo: {
       type: Object,
       required: true
+    },
+    tag: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -112,6 +118,10 @@ export default {
     }
   },
   computed: {
+    color() {
+      if (this.tag === '') return ''
+      return this.photo.tags.search(this.tag) >= 0 ? 'green lighten-4' : ''
+    },
     photoLink() {
       return `https://www.flickr.com/photos/${this.userId}/${this.photoId}`
     },

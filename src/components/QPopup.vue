@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    v-model="dialog"
+    v-model="dialogComputed"
     :persistent="selectedData.length > 0"
     scrollable
     max-width="500px">
@@ -12,6 +12,25 @@
           <v-icon>close</v-icon>
         </v-btn>
         <v-toolbar-title v-html="toolbarTitle"/>
+        <v-spacer/>
+        <v-toolbar-items>
+          <!-- <v-btn flat @click="dialog3 = !dialog3">
+            <v-icon>add</v-icon> Add
+          </v-btn>
+          <v-dialog v-model="dialog3" max-width="500px">
+            <v-card>
+              <v-card-title>
+                <span>Dialog 3</span>
+              </v-card-title>
+              <v-card-actions>
+                <v-btn
+                  color="primary"
+                  flat
+                  @click.stop="dialog3=false">Close</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog> -->
+        </v-toolbar-items>
       </v-toolbar>
       <div v-if="showList" class="pa-1">
         <q-filter
@@ -31,7 +50,11 @@
                 name="list"
                 v-for="item in filteredData"
                 :item="item">
-                No data available
+                <v-list-tile>
+                  <v-list-tile-content>
+                    {{ item[itemText] }}
+                  </v-list-tile-content>
+                </v-list-tile>
               </slot>
             </transition-group>
           </v-list>
@@ -105,27 +128,40 @@ export default {
     filterPlaceholder: {
       type: String,
       default: 'Filter data'
+    },
+    itemText: {
+      type: String,
+      default: 'title'
     }
   },
   data() {
     return {
       filterWord: '',
-      showList: true
+      showList: true,
+      dialog3: false
     }
   },
   computed: {
+    dialogComputed: {
+      set(value) {
+        if (!value) {
+          this.$emit('close')
+        } else {
+          this.dialog = value
+        }
+      },
+      get() {
+        return this.dialog
+      }
+    },
     filteredData() {
-      return this.data.filter(
-        item =>
-          item.title.toLowerCase().search(this.filterWord) >= 0 ||
-          item.groupId.toLowerCase().search(this.filterWord) >= 0
-      )
+      return this.data.filter(item => item[this.itemText].toLowerCase().search(this.filterWord) >= 0)
     },
     selectedData() {
-      return this.data.filter(data => data.selected === true)
+      return this.data.filter(item => item.selected === true)
     },
     selectedDataList() {
-      return this.selectedData.map(item => item.title).join(',&nbsp;')
+      return this.selectedData.map(item => item[this.itemText]).join(',&nbsp;')
     }
   },
   watch: {

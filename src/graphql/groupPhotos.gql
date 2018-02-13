@@ -1,0 +1,11 @@
+ query photos($userId: ID!, $groupId: ID!) {
+  groupPhotos(groupId: $groupId, userId: $userId, first: 20) {
+    id
+    photoId
+    title
+    views
+    tags
+    url_m
+    url_sq
+  }
+}

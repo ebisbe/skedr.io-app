@@ -1772,6 +1772,10 @@ commander@^2.11.0, commander@^2.13.0, commander@^2.9.0, commander@~2.13.0:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.13.0.tgz#6964bca67685df7c1f1430c584f07d7597885b9c"
 
+commander@~2.14.1:
+  version "2.14.1"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.14.1.tgz#2235123e37af8ca3c65df45b026dbd357b01b9aa"
+
 commondir@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
@@ -3081,11 +3085,11 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flickr-sdk@3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/flickr-sdk/-/flickr-sdk-3.4.0.tgz#af81b5fdce158a6e8ce8af71153027672743968a"
+flickr-sdk@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/flickr-sdk/-/flickr-sdk-3.7.0.tgz#c162085030ddb4eb4c1d7297399dd7a12c8be15b"
   dependencies:
-    superagent "^3.5.3-beta.2"
+    superagent "^3.8.0"
     xml2js "^0.4.17"
 
 flush-write-stream@^1.0.0:
@@ -7673,7 +7677,7 @@ superagent-cache-plugin@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/superagent-cache-plugin/-/superagent-cache-plugin-2.0.0.tgz#28dead1cd6fbe952612987a506ddaa3ae651ca4a"
 
-superagent@^3.5.3-beta.2:
+superagent@^3.8.0:
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/superagent/-/superagent-3.8.2.tgz#e4a11b9d047f7d3efeb3bbe536d9ec0021d16403"
   dependencies:
@@ -7983,11 +7987,11 @@ typedarray@^0.0.6, typedarray@~0.0.5:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-uglify-es@^3.1.8:
-  version "3.3.9"
-  resolved "https://registry.yarnpkg.com/uglify-es/-/uglify-es-3.3.9.tgz#0c1c4f0700bed8dbc124cdb304d2592ca203e677"
+uglify-es@^3.3.10:
+  version "3.3.10"
+  resolved "https://registry.yarnpkg.com/uglify-es/-/uglify-es-3.3.10.tgz#8b0b7992cebe20edc26de1bf325cef797b8f3fa5"
   dependencies:
-    commander "~2.13.0"
+    commander "~2.14.1"
     source-map "~0.6.1"
 
 uglify-js@3.3.x, uglify-js@^3.0.13:

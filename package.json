@@ -51,7 +51,7 @@
     "vue-axios": "^2.0.2",
     "vue-router": "^2.8.1",
     "vuelidate": "^0.6.1",
-    "vuetify": "^1.0.2",
+    "vuetify": "^1.0.3",
     "vuex": "^2.5.0"
   },
   "devDependencies": {
@@ -115,6 +115,8 @@
     "shelljs": "^0.7.6",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.8.0",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
     "sw-precache-webpack-plugin": "^0.11.4",
     "uglify-es": "^3.3.10",
     "url-loader": "^0.5.8",

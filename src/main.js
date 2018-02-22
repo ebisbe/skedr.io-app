@@ -6,7 +6,7 @@ import apolloProvider from './settings/apolloProvider'
 import axios from 'axios'
 import Axios from 'vue-axios'
 import router from './router'
-import Vuetify from 'vuetify'
+import vuetify from './settings/vuetify'
 import store from './store'
 import MyFetch from './components/MyFetch'
 import Raven from 'raven-js'
@@ -14,20 +14,6 @@ import RavenVue from 'raven-js/plugins/vue'
 import VueAnalytics from 'vue-analytics'
 
 require('./libs/storage')
-
-import('../node_modules/vuetify/dist/vuetify.min.css')
-
-Vue.use(Vuetify, {
-  theme: {
-    primary: '#673AB7',
-    secondary: '#7E57C2',
-    accent: '#311B92',
-    error: '#F44336',
-    warning: '#ffeb3b',
-    info: '#2196F3',
-    success: '#4CAF50'
-  }
-})
 
 axios.defaults.baseURL = process.env.API_URL
 Vue.use(Axios, axios)

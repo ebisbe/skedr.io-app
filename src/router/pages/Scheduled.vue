@@ -15,7 +15,7 @@
           <template v-for="(item, index) in scheduled(scheduledPhotos)">
             <h4
               class="text-xs-center mt-3"
-              :key="index"
+              :key="index+item"
               v-text="index"/>
             <v-list
               :key="index"
@@ -23,14 +23,14 @@
               <template v-for="(group, title) in groups(item)">
                 <v-subheader
                   v-html="subheader(group[0].group)"
-                  :key="title"/>
+                  :key="title+index"/>
                 <template v-for="(photo, iteration) in group">
                   <v-divider
-                    :key="iteration"
+                    :key="photo.photoId+iteration"
                     v-show="iteration !== 0"
                     inset/>
                   <photo-list
-                    :key="iteration"
+                    :key="photo.photoId"
                     :photo="photo"/>
                 </template>
               </template>
@@ -44,7 +44,7 @@
 <script>
 import PhotoList from '../../components/PhotoList.vue'
 import { mapGetters } from 'vuex'
-import groupBy from 'lodash/groupby'
+import _groupBy from 'lodash/groupby'
 import * as moment from 'moment'
 import SCHEDULED_QUERY from '../../graphql/scheduled.gql'
 
@@ -73,10 +73,10 @@ export default {
         })
         return photo
       })
-      return groupBy(mappedData, 'headerDate')
+      return _groupBy(mappedData, 'headerDate')
     },
     groups(data) {
-      return groupBy(data, 'group.title')
+      return _groupBy(data, 'group.title')
     },
     subheader(group) {
       return `${group.title}`

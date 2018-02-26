@@ -3,6 +3,7 @@
     <section>
       <v-parallax
         src="/static/img/weat_field.jpg"
+        alt="Background: Weat field with bokeh."
         height="600">
         <v-layout
           column
@@ -10,20 +11,31 @@
           justify-center
           class="white--text"
         >
-          <h1 class="white--text mb-2 display-1 text-xs-center">Improved Flickr groups workflow</h1>
-          <div class="subheading mb-3 text-xs-center">Spend less time sharing your photos, go out to take more
+          <h1 class="white--text mb-2 display-1 text-xs-center">Autoimport and autosked for Flickr groups</h1>
+          <div class="subheading mb-3 text-xs-center">
+            Spend less time sharing photos, go out to take more
           </div>
-          <v-tooltip top>
+          <div>
+            <v-tooltip top>
+              <v-btn
+                dark
+                large
+                class="primary lighten-1 mt-5"
+                :to="{ name: 'Signup' }"
+                slot="activator">
+                Sign Up
+              </v-btn>
+              <span>Requires Flickr account</span>
+            </v-tooltip>
             <v-btn
               dark
               large
-              class="primary lighten-2 mt-5"
-              :to="{ path: 'signup' }"
+              class="primary lighten-3 mt-5"
+              :to="{ name: 'Login' }"
               slot="activator">
-              Try our Beta
+              Log In
             </v-btn>
-            <span>Requires Flickr account</span>
-          </v-tooltip>
+          </div>
         </v-layout>
       </v-parallax>
     </section>
@@ -75,6 +87,7 @@
                     class="white--text"
                     :height="height"
                     src="https://c1.staticflickr.com/5/4681/39475349062_10aa876c0e_c.jpg"
+                    alt="Among all your photos you can choose to create a pool or sked them directly"
                   />
                   <v-card-title>
                     <div>
@@ -93,6 +106,7 @@
                     class="white--text"
                     :height="height"
                     src="https://c1.staticflickr.com/5/4647/39475348792_94cee1a4de_c.jpg"
+                    alt="Filter through your followed groups. Add photos to them."
                   />
                   <v-card-title>
                     <div>
@@ -111,6 +125,7 @@
                     class="white--text"
                     :height="height"
                     src="https://c1.staticflickr.com/5/4739/39475349342_09bc60e943_c.jpg"
+                    alt="All photos that can't be added will be skeded."
                   />
                   <v-card-title>
                     <div>
@@ -130,6 +145,7 @@
     <section>
       <v-parallax
         src="/static/img/hero.jpeg"
+        alt="Background: Sea shoreline"
         height="380">
         <v-layout
           column
@@ -144,7 +160,7 @@
               large
               class="mt-5"
               color="primary"
-              :to="{ path: 'signup' }"
+              :to="{ name: 'Signup' }"
               slot="activator"
             >
               Sign me in!

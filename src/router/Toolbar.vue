@@ -15,13 +15,13 @@
       <v-btn
         flat
         class="mr-4"
-        to="/login">
+        :to="{name: 'Login'}">
         Log in
       </v-btn>
       <v-btn
         flat
         class="mr-4"
-        to="/signup">
+        :to="{name: 'Signup'}">
         Sign up
       </v-btn>
     </v-toolbar-items>

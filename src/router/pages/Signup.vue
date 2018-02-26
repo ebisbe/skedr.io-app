@@ -50,7 +50,7 @@
               :complete="step > 2">Create your account
             </v-stepper-step>
             <v-stepper-content step="2">
-              <v-form @submit.stop.prevent="signupUser">
+              <v-form @submit.stop.prevent="signupUser" method="post">
                 <v-text-field
                   label="Email"
                   v-model="email"

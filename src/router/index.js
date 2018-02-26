@@ -14,15 +14,25 @@ import store from '../store'
 
 Vue.use(Router)
 
+const mainTitle = 'Beta - Skedr.io - Improved Flickr groups workflow'
+
 const router = new Router({
   mode: 'history',
   routes: [
     {
       path: '/',
+      pathToRegexpOptions: {
+        strict: true
+      },
       name: 'Home',
       components: {
         default: Home,
         toolbar: Toolbar
+      },
+      meta: {
+        title: mainTitle,
+        description:
+          'Improve your Flickr groups workflow with Skedr.io. Autoschedule failed shared photos due to group restriccions.'
       }
     },
     {
@@ -56,25 +66,51 @@ const router = new Router({
       meta: { requiresAuth: true }
     },
     {
-      path: '/login',
+      path: '/login/',
+      pathToRegexpOptions: {
+        strict: true
+      },
       name: 'Login',
       components: {
         default: Login,
         toolbar: Toolbar
+      },
+      meta: {
+        title: `Login - ${mainTitle}`,
+        description:
+          'Login with your Flickr account into Skedr.io. Access a whole new interface that helps to manage your flickr photos in groups.'
       }
     },
     {
-      path: '/signup',
+      path: '/signup/',
+      pathToRegexpOptions: {
+        strict: true
+      },
       name: 'Signup',
       components: {
         default: Signup,
         toolbar: Toolbar
+      },
+      meta: {
+        title: `Signup - ${mainTitle}`,
+        description:
+          'Signup into Skedr.io. You need a Flickr account to be able to use this product. Go to Flickr.com to create one and comeback to signup.'
       }
+    },
+    {
+      path: '/login',
+      redirect: '/login/'
+    },
+    {
+      path: '/signup',
+      redirect: '/signup/'
     }
   ]
 })
 
 router.beforeEach(async (to, from, next) => {
+  document.title = to.meta.title
+  document.querySelector('meta[name="description"]').setAttribute('content', to.meta.description)
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.state.cognito.user === null) {
       await store

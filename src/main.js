@@ -32,8 +32,7 @@ if (process.env.NODE_ENV === 'production') {
 
 Vue.component('MyFetch', MyFetch)
 /* eslint-disable no-new */
-new Vue({
-  el: '#app',
+const root = new Vue({
   router,
   store,
   apolloProvider,
@@ -45,4 +44,8 @@ new Vue({
     }
   },
   template: '<App/>'
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+  root.$mount('#app')
 })

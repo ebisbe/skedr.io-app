@@ -12,6 +12,7 @@ var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 var SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 var loadMinified = require('./load-minified')
 var ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
+var PrerenderSPAPlugin = require('prerender-spa-plugin')
 
 var env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -113,7 +114,13 @@ var webpackConfig = merge(baseWebpackConfig, {
       minify: true,
       stripPrefix: 'dist/'
     }),
-    new ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
+    new ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+    new PrerenderSPAPlugin({
+      // Required - The path to the webpack-outputted app to prerender.
+      staticDir: path.join(__dirname, '../dist'),
+      // Required - Routes to render.
+      routes: [ '/', '/login/', '/signup/' ],
+    })
   ]
 })
 

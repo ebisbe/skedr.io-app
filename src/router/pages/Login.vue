@@ -32,7 +32,7 @@
               {{ errorMessage }}
             </v-alert>
             <v-card-text>
-              <v-form @submit.stop.prevent="handleSubmit">
+              <v-form @submit.stop.prevent="handleSubmit" method="post">
 
                 <v-text-field
                   label="Name"

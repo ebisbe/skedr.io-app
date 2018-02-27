@@ -25,7 +25,7 @@ export default {
   name: 'QPush',
   props: {
     requests: {
-      type: [Array, Object],
+      type: Array,
       required: true
     }
   },
@@ -49,25 +49,19 @@ export default {
     pushPhotosToGroups() {
       this.$emit('loading')
 
-      if (this.requests instanceof Array) {
-        this.requests.map(request => this.axios(request).then(() => this.resolvedRequests++))
+      const requestsArr = this.requests.map(request =>
+        this.axios(request)
+          .then(() => this.resolvedRequests++)
+          .catch(error => console.log(error))
+      )
 
-        Promise.all(this.requests)
-          .then(() => {
-            this.autoClosePopup()
-          })
-          .catch(error => this.$emit('error', error))
-      } else {
-        this.axios(this.requests).then(() => {
-          this.resolvedRequests++
-          this.autoClosePopup()
+      Promise.all(requestsArr)
+        .then(() => {
+          setTimeout(() => {
+            this.$emit('loaded')
+          }, 2000)
         })
-      }
-    },
-    autoClosePopup() {
-      setTimeout(() => {
-        this.$emit('loaded')
-      }, 2000)
+        .catch(error => this.$emit('error', error))
     }
   }
 }

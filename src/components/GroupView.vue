@@ -99,7 +99,10 @@ export default {
           groupId: this.groupId
         }
       },
-      update: ({ autoimportTags }) => autoimportTags[0].tags,
+      update: ({ autoimportTags }) => {
+        //TODO GraphQl query should be rethinked
+        return autoimportTags.length > 0 ? autoimportTags[0].tags : []
+      },
       loadingKey: 'loading',
       fetchPolicy: 'cache-and-network'
     }

@@ -43,7 +43,10 @@ const router = new Router({
         toolbar: AppToolbar,
         rightBar: RightBar
       },
-      meta: { requiresAuth: true }
+      meta: {
+        requiresAuth: true,
+        title: 'Groups'
+      }
     },
     {
       path: '/scheduled',
@@ -53,7 +56,10 @@ const router = new Router({
         toolbar: AppToolbar,
         rightBar: RightBar
       },
-      meta: { requiresAuth: true }
+      meta: {
+        requiresAuth: true,
+        title: 'Scheduled photos'
+      }
     },
     {
       path: '/photostream',
@@ -63,7 +69,10 @@ const router = new Router({
         toolbar: AppToolbar,
         rightBar: RightBar
       },
-      meta: { requiresAuth: true }
+      meta: {
+        requiresAuth: true,
+        title: 'Photostream'
+      }
     },
     {
       path: '/login/',

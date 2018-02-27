@@ -13,7 +13,7 @@
           <a
             :href="link"
             target="_blank"
-            @click.stop="a"
+            @click.stop
             class="text--secondary">
             <img :src="group.icon" :alt="group.title">
           </a>

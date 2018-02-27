@@ -27,6 +27,7 @@ import VForm from 'vuetify/es5/components/VForm'
 import VExpansionPanel from 'vuetify/es5/components/VExpansionPanel'
 import VAvatar from 'vuetify/es5/components/VAvatar'
 import VStepper from 'vuetify/es5/components/VStepper'
+import VChip from 'vuetify/es5/components/VChip'
 
 import transitions from 'vuetify/es5/components/transitions'
 import directives from 'vuetify/es5/directives'
@@ -57,6 +58,7 @@ Vue.use(Vuetify, {
     VExpansionPanel,
     VAvatar,
     VStepper,
+    VChip,
     transitions,
     directives
   },

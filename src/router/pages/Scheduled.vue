@@ -26,11 +26,11 @@
                   :key="title+index"/>
                 <template v-for="(photo, iteration) in group">
                   <v-divider
-                    :key="photo.photoId+iteration"
+                    :key="photo.photoId+iteration+title"
                     v-show="iteration !== 0"
                     inset/>
                   <photo-list
-                    :key="photo.photoId"
+                    :key="title+iteration+photo.photoId"
                     :photo="photo"/>
                 </template>
               </template>

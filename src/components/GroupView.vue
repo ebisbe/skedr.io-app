@@ -56,8 +56,7 @@ import QPush from './QPush'
 import GROUP_PHOTOS from '../graphql/groupPhotos.gql'
 import AUTOIMPORT_TAGS from '../graphql/autoimportTags.gql'
 
-import difference from 'lodash/difference'
-import sortBy from 'lodash/sortby'
+import _sortBy from 'lodash/sortby'
 
 export default {
   name: 'GroupView',
@@ -148,7 +147,7 @@ export default {
         compressed.push(tag)
       }
 
-      return sortBy(compressed, 'count').reverse()
+      return _sortBy(compressed, 'count').reverse()
     },
     constructPayload(tags) {
       const payload = {
@@ -156,7 +155,7 @@ export default {
         userId: this.userId,
         groupId: this.groupId
       }
-      return signReq('tags', '', payload, 'post')
+      return [signReq('tags', '', payload, 'post')]
     }
   }
 }

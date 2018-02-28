@@ -2,6 +2,7 @@ query userPhotos($userId: ID!, $offset: Int){
   userPhotos(userId: $userId, count: 24, offset: $offset) {
     id
     photoId
+    secret
     title
     views
     url_m

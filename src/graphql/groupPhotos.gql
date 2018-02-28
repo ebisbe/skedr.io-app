@@ -2,6 +2,7 @@
   groupPhotos(groupId: $groupId, userId: $userId, first: 20) {
     id
     photoId
+    secret
     title
     views
     tags

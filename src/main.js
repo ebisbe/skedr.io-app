@@ -13,11 +13,10 @@ import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import VueAnalytics from 'vue-analytics'
 
-Raven.config('https://5c9619998ba541a597a037ece72dafab@sentry.io/266872')
-  .addPlugin(RavenVue, Vue)
-  .install()
-
 if (process.env.NODE_ENV === 'production') {
+  Raven.config('https://5c9619998ba541a597a037ece72dafab@sentry.io/266872')
+    .addPlugin(RavenVue, Vue)
+    .install()
   Vue.use(VueAnalytics, {
     id: process.env.GA,
     router

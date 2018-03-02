@@ -1,5 +1,5 @@
 <template>
-  <v-content>
+  <v-content style="background-image: url(/static/img/material.jpg); background-size: cover;">
     <v-container
       fluid
       grid-list-xl>

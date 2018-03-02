@@ -81,7 +81,7 @@
               :complete="step > 3">Validate your email
             </v-stepper-step>
             <v-stepper-content step="3">
-              <small>We have sent you a email with a validation code. Please paste it here to validate your email. If you haven't received in a few minutes check your spam folder.</small>
+              <small>We have sent you an email with a validation code. Please paste the code here to validate your email. If you haven't received in a few minutes check your spam folder.</small>
               <br>
               <v-form @submit.stop.prevent="validateCode">
                 <v-text-field

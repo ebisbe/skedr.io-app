@@ -175,7 +175,7 @@ export default {
       this.$store.commit('addToPool', { photo: this.photo, add: false })
     },
     sharePhoto() {
-      this.$store.commit('showDialog', [this.photo])
+      this.$store.commit('showDialog', { pool: [this.photo], selectedGroups: this.groups })
     }
   }
 }

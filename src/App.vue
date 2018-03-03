@@ -5,7 +5,7 @@
     <router-view/>
     <router-view name="rightBar"/>
 
-    <q-share-dialog :pool="sharePool"/>
+    <q-share-dialog :pool="sharePool" :selected-groups="selectedGroups"/>
   </v-app>
 </template>
 
@@ -17,7 +17,7 @@ export default {
   name: 'App',
   components: { QShareDialog },
   computed: {
-    ...mapState(['sharePool'])
+    ...mapState(['sharePool', 'selectedGroups'])
   }
 }
 </script>

@@ -23,6 +23,7 @@ export default new Vuex.Store({
     token: '',
     search: '',
     sharePool: [],
+    selectedGroups: [],
     position: 0
   },
   mutations: {
@@ -53,8 +54,9 @@ export default new Vuex.Store({
     setPageTitle(state, value) {
       state.pageTitle = `Beta - ${value}`
     },
-    showDialog(state, pool) {
+    showDialog(state, { pool, selectedGroups }) {
       state.sharePool = pool
+      state.selectedGroups = selectedGroups.map(group => group.title)
     }
   },
   getters: {

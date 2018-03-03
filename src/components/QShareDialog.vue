@@ -36,6 +36,13 @@ export default {
     pool: {
       type: Array,
       required: true
+    },
+    selectedGroups: {
+      type: Array,
+      required: false,
+      default: function() {
+        return []
+      }
     }
   },
   data() {
@@ -57,6 +64,11 @@ export default {
     pool(data) {
       if (data.length > 0) {
         this.dialog = true
+        this.groups.forEach(group => {
+          if (this.selectedGroups.indexOf(group.title) !== -1) {
+            group.alreadyInGroup = true
+          }
+        })
       }
     }
   },

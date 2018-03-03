@@ -155,7 +155,18 @@ export default {
       }
     },
     filteredData() {
-      return this.data.filter(item => item[this.itemText].toLowerCase().search(this.filterWord) >= 0)
+      return this.data.filter(item => {
+        switch (this.filterWord) {
+          case ':sel':
+            return item.selected
+            break
+          case ':inpool':
+            return item.alreadyInGroup
+            break
+          default:
+            return item[this.itemText].toLowerCase().search(this.filterWord) >= 0
+        }
+      })
     },
     selectedData() {
       return this.data.filter(item => item.selected === true)

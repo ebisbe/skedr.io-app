@@ -120,34 +120,37 @@ export default {
       this.$emit('isLoading', value)
     },
     photos(photos) {
-      const tagsArr = []
+      const nonDuplicates = new Set()
+      const tagsCount = new Object()
       photos.forEach(photo => {
-        tagsArr.push(...photo.tags.split(' '))
+        photo.tags.split(' ').forEach(tagName => {
+          tagsCount[tagName] = nonDuplicates.has(tagName) ? tagsCount[tagName] + 1 : 1
+          nonDuplicates.add(tagName)
+        })
       })
-      this.tags = this.compressArray(tagsArr.filter(item => item !== ''))
+      this.tags = this.compressArray(tagsCount)
     }
   },
   methods: {
     selected(name) {
       this.selectedTag = name
     },
-    compressArray(original) {
-      const compressed = []
-
-      while (original.length > 0) {
-        let tag = new Object({ selected: false })
-        tag.value = original.shift()
-        let prevLength = original.length
-        original = original.filter(item => item !== tag.value)
-        tag.count = 1 + (prevLength - original.length)
-        tag.total = this.photos.length
-        tag.percentage = function() {
-          return Math.round(this.count / this.total * 100)
-        }
-        compressed.push(tag)
+    compressArray(tagsCount) {
+      const tagsArr = new Array()
+      for (let tagName in tagsCount) {
+        let tag = new Object({
+          selected: this.autoimportTags.indexOf(tagName) >= 0,
+          value: tagName,
+          total: this.photos.length,
+          count: tagsCount[tagName],
+          percentage: function() {
+            return Math.round(this.count / this.total * 100)
+          }
+        })
+        tagsArr.push(tag)
       }
 
-      return _sortBy(compressed, 'count').reverse()
+      return _sortBy(tagsArr, ['selected', 'count']).reverse()
     },
     constructPayload(tags) {
       const payload = {

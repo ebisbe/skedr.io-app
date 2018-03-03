@@ -168,7 +168,7 @@ export default {
     dialog(value) {
       if (value) {
         this.filterWord = ''
-        this.clearSelected()
+        //this.clearSelected()
         this.showList = true
       }
     }

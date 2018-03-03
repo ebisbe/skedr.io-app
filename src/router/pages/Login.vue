@@ -21,11 +21,13 @@
               color="success"
               v-show="successMessage"
               icon="check_circle"
+              class="mt-0"
               value="true">
               {{ successMessage }}
             </v-alert>
             <v-alert
               color="error"
+              class="mt-0"
               v-show="errorMessage"
               icon="warning"
               value="true">

@@ -27,6 +27,8 @@ import QPush from './QPush'
 import QShareDialogList from './QShareDialogList'
 import { mapGetters } from 'vuex'
 import groupsPayload from '../mixins/groupsPayload'
+import GROUPS_QUERY from '../graphql/groups.gql'
+import _sortBy from 'lodash/sortby'
 
 export default {
   name: 'ShareDialog',
@@ -70,6 +72,25 @@ export default {
           }
         })
       }
+    }
+  },
+  apollo: {
+    groups: {
+      query: GROUPS_QUERY,
+      variables() {
+        return {
+          userId: this.userId
+        }
+      },
+      update: data =>
+        _sortBy(
+          data.userGroups.map(group =>
+            Object.assign({ expanded: false, selected: false, alreadyInGroup: false }, group)
+          ),
+          ['title']
+        ),
+      fetchPolicy: 'cache-and-network',
+      loadingKey: 'loading'
     }
   },
   mounted() {

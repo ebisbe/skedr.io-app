@@ -94,10 +94,10 @@
 import ExpansionPanel from '../../components/ExpansionPanel.vue'
 import Photo from '../../components/Photo.vue'
 import GroupView from '../../components/GroupView.vue'
-import sortBy from 'lodash/sortby'
+import _sortBy from 'lodash/sortby'
 import { mapGetters, mapState } from 'vuex'
 import QPoolBtn from '../../components/QPoolBtn.vue'
-import GROUPS_QUERY from '../../graphql/groups.gql'
+import GROUPS_QUERY from '../../graphql/groupsLastPhoto.gql'
 
 export default {
   name: 'Group',
@@ -146,7 +146,12 @@ export default {
         }
       },
       update: data =>
-        sortBy(data.userGroups.map(group => Object.assign({ expanded: false, selected: false }, group)), ['title']),
+        _sortBy(
+          data.userGroups.map(group =>
+            Object.assign({ expanded: false, selected: false, alreadyInGroup: false }, group)
+          ),
+          ['title']
+        ),
       fetchPolicy: 'cache-and-network',
       loadingKey: 'loading',
       pollInterval: 300000

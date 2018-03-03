@@ -8,5 +8,9 @@ query groups($userId: ID!) {
     throttleMode
     throttleCount
     throttleRemaining
+    photos(first: 1) {
+      rawDateAdded
+      dateAdded
+    }
   }
 }

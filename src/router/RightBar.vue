@@ -89,7 +89,7 @@ export default {
       this.$store.commit('clearPool')
     },
     share() {
-      this.$store.commit('showDialog', this.pool)
+      this.$store.commit('showDialog', { pool: this.pool, selectedGroups: [] })
     }
   }
 }

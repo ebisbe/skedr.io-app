@@ -63,15 +63,18 @@
         </transition-group>
       </v-list>
     </v-container>
+    <q-share-dialog :pool="sharePool" :selected-groups="selectedGroups"/>
   </v-navigation-drawer>
 </template>
 <script>
 import { mapState } from 'vuex'
+import QShareDialog from '../components/QShareDialog'
 
 export default {
   name: 'RightBar',
+  components: { QShareDialog },
   computed: {
-    ...mapState(['pool']),
+    ...mapState(['pool', 'sharePool', 'selectedGroups']),
     rightDrawer: {
       get() {
         return this.$store.state.rightDrawer

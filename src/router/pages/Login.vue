@@ -1,14 +1,12 @@
 <template>
-  <v-content style="background-image: url(/static/img/material.jpg); background-size: cover;">
-    <v-container
-      fluid
-      grid-list-xl>
-      <v-layout>
+  <v-content style="background-image: url(/static/img/login.jpg); background-size: cover;">
+    <v-container fluid fill-height>
+      <v-layout align-center justify-center>
         <v-flex
           xs12
-          sm6
-          offset-sm3>
-          <v-card class="elevation-12">
+          sm8
+          md4>
+          <v-card class="elevation-8">
             <v-progress-linear
               height="3"
               class="my-0"
@@ -39,6 +37,7 @@
                 <v-text-field
                   label="Name"
                   v-model="username"
+                  prepend-icon="person"
                   min="1"
                   :disabled="disableAllInputs"
                   required
@@ -46,6 +45,7 @@
 
                 <v-text-field
                   label="Password"
+                  prepend-icon="lock"
                   v-model="password"
                   :disabled="disableAllInputs"
                   pattern="[\S]+"
@@ -66,6 +66,7 @@
               </v-form>
             </v-card-text>
           </v-card>
+          <strong>Photo by Ricardo Gomez Angel on Unsplash</strong>
         </v-flex>
       </v-layout>
     </v-container>

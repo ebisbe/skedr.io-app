@@ -1,13 +1,52 @@
 <template>
-  <v-content style="background-image: url(/static/img/material.jpg); background-size: cover;">
+  <v-content style="background-image: url(/static/img/login.jpg); background-size: cover;">
     <v-container
       fluid
-      grid-list-xl>
-      <v-layout>
+      fill-height
+      grid-list-md>
+      <v-layout
+        align-center
+        justify-center
+        wrap
+        row>
         <v-flex
-          xs12
-          sm6
-          offset-sm3>
+          xs11
+          sm8
+          md4>
+          <div class="information">
+            <v-flex class="block my-2">
+              <v-flex>
+                <v-icon x-large>autorenew</v-icon>
+              </v-flex>
+              <v-flex class="text subheading">
+                <p class="display-1">Autoimport</p>
+                With Skedr.io you can forget to add all your photos to your favorite groups. <strong>Tag your pictures</strong> and configure skedr to sync them.
+              </v-flex>
+            </v-flex>
+            <v-flex class="block my-3">
+              <v-flex>
+                <v-icon x-large>access_time</v-icon>
+              </v-flex>
+              <v-flex class="text subheading">
+                <p class="display-1">Autosked</p>
+                Whenever you add photos with skedr.io every rejection is tried again next day. You can now forget to try it again. <strong>Add it once.</strong>
+              </v-flex>
+            </v-flex>
+            <v-flex class="block my-2">
+              <v-flex>
+                <v-icon x-large>photo_camera</v-icon>
+              </v-flex>
+              <v-flex class="text subheading">
+                <p class="display-1">Enjoy your free time</p>
+                Configure and upload a single time each photo and groups. <strong>Take more photos!</strong>
+              </v-flex>
+            </v-flex>
+          </div>
+        </v-flex>
+        <v-flex
+          xs11
+          sm8
+          md4>
           <v-progress-linear
             height="3"
             class="my-0"
@@ -53,6 +92,7 @@
               <v-form @submit.stop.prevent="signupUser" method="post">
                 <v-text-field
                   label="Email"
+                  prepend-icon="person"
                   v-model="email"
                   min="1"
                   :disabled="disableAllInputs"
@@ -61,6 +101,7 @@
                 />
                 <v-text-field
                   label="Password"
+                  prepend-icon="lock"
                   v-model="password"
                   :disabled="disableAllInputs"
                   :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
@@ -110,6 +151,7 @@
               </v-form>
             </v-stepper-content>
           </v-stepper>
+          <strong>Photo by Ricardo Gomez Angel on Unsplash</strong>
         </v-flex>
       </v-layout>
     </v-container>
@@ -310,3 +352,19 @@ export default {
   }
 }
 </script>
+<style>
+.information {
+  background: rgba(255, 255, 255, 0.534);
+}
+.information .block {
+  display: flex;
+}
+
+.informatin .icon {
+  float: left;
+  align-content: flex-start;
+}
+.information .text {
+  float: right;
+}
+</style>

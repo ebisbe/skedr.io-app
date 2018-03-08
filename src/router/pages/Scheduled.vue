@@ -63,7 +63,7 @@ export default {
   methods: {
     scheduled(data) {
       const mappedData = data.map(photo => {
-        photo.headerDate = moment(photo.scheduledAt).calendar(null, {
+        photo.headerDate = moment.utc(photo.scheduledAt).calendar(null, {
           nextDay: '[Tomorrow]',
           nextWeek: 'dddd, Do',
           sameElse: 'DD-MM-YYYY',

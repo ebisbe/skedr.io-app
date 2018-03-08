@@ -52,8 +52,7 @@
       color="primary"
       dark
       clipped-left
-      clipped-right
-      prominent>
+      clipped-right>
       <v-toolbar-title
         class="pr-3"
         style="width: 300px">
@@ -65,9 +64,10 @@
         @search="search"
         :solo-inverted="true"/>
       <v-spacer/>
-      <v-toolbar-items>
-        <q-pool-btn/>
-      </v-toolbar-items>
+      <v-btn icon class="hidden-sm-and-up">
+        <v-icon>search</v-icon>
+      </v-btn>
+      <q-pool-btn/>
     </v-toolbar>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <v-text-field
     solo
-    class="mx-auto"
+    class="mx-auto hidden-sm-and-down"
     prepend-icon="search"
     :placeholder="placeholder"
     style="max-width: 500px; min-width: 128px"

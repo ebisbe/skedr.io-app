@@ -1,11 +1,14 @@
 <template>
-  <v-btn
-    flat
-    @click.stop="rightDrawer = !rightDrawer"
-    class="deep-purple ligthen-2"
-  >Pool&nbsp;
-    <v-icon v-text="poolIcon"/>
-  </v-btn>
+  <v-tooltip bottom>
+    <v-btn
+      icon
+      slot="activator"
+      @click.stop="rightDrawer = !rightDrawer"
+      class="deep-purple ligthen-2">
+      <v-icon v-text="poolIcon"/>
+    </v-btn>
+    <span>Pool</span>
+  </v-tooltip>
 </template>
 <script>
 import { mapGetters } from 'vuex'

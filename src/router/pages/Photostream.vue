@@ -11,7 +11,8 @@
         wrap
         v-if="searchImages === ''">
         <v-flex
-          md3
+          lg3
+          md4
           sm4
           xs6
           v-for="photo in userPhotos"

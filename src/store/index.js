@@ -6,6 +6,7 @@ import cognitoConfig from './cognito'
 import CognitoAuth from 'vue-auth-cognito'
 
 import pool from './modules/pool'
+import sharedPool from './modules/sharedPool'
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
@@ -14,7 +15,8 @@ const devenv = process.env.NODE_ENV === 'dev'
 export default new Vuex.Store({
   modules: {
     cognito: new CognitoAuth(cognitoConfig),
-    pool
+    pool,
+    sharedPool
   },
   strict: debug,
   plugins: devenv ? [createLogger()] : [],
@@ -23,8 +25,6 @@ export default new Vuex.Store({
     pageTitle: '',
     token: '',
     search: '',
-    sharePool: [],
-    selectedGroups: [],
     position: 0
   },
   mutations: {
@@ -36,10 +36,6 @@ export default new Vuex.Store({
     },
     setPageTitle(state, value) {
       state.pageTitle = `Beta - ${value}`
-    },
-    showDialog(state, { pool, selectedGroups }) {
-      state.sharePool = pool
-      state.selectedGroups = selectedGroups.map(group => group.title)
     }
   },
   getters: {

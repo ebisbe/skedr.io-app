@@ -13,7 +13,7 @@
             color="success"
             small
             outline
-            @click="share"
+            @click="share({photos:pool})"
             :disabled="disable">
             <v-icon>share</v-icon>&nbsp;Sked
           </v-btn>
@@ -57,21 +57,17 @@
         </transition-group>
       </v-list>
     </v-container>
-    <q-share-dialog :pool="sharePool" :selected-groups="selectedGroups"/>
+    <q-share-dialog/>
   </v-navigation-drawer>
 </template>
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import QShareDialog from '../components/QShareDialog'
 
 export default {
   name: 'RightBar',
   components: { QShareDialog },
   computed: {
-    ...mapState(['sharePool', 'selectedGroups']),
-    ...mapState('pool', {
-      pool: state => state.photos
-    }),
     ...mapGetters({
       disable: 'pool/isEmpty'
     }),
@@ -87,11 +83,9 @@ export default {
   methods: {
     ...mapActions({
       remove: 'pool/remove',
-      clearPool: 'pool/clearPool'
-    }),
-    share() {
-      this.$store.commit('showDialog', { pool: this.pool, selectedGroups: [] })
-    }
+      clearPool: 'pool/clearPool',
+      share: 'sharedPool/share'
+    })
   }
 }
 </script>

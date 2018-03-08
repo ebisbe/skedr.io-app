@@ -6,7 +6,7 @@
     no-data-text="No groups"
     filter-placeholder="Filter groups"
     :dialog="dialog"
-    @close="dialog = false">
+    @close="clearSharedPool">
     <q-share-dialog-list
       slot="list"
       slot-scope="props"
@@ -16,7 +16,7 @@
       slot="save"
       slot-scope="props"
       :requests="constructPayload(props.selectedData)"
-      @loaded="dialog = false"
+      @loaded="clearSharedPool"
     />
   </q-popup>
 </template>
@@ -25,7 +25,7 @@
 import QPopup from './QPopup'
 import QPush from './QPush'
 import QShareDialogList from './QShareDialogList'
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import groupsPayload from '../mixins/groupsPayload'
 import GROUPS_QUERY from '../graphql/groups.gql'
 import _sortBy from 'lodash/sortby'
@@ -34,27 +34,20 @@ export default {
   name: 'ShareDialog',
   components: { QPopup, QPush, QShareDialogList },
   mixins: [groupsPayload],
-  props: {
-    pool: {
-      type: Array,
-      required: true
-    },
-    selectedGroups: {
-      type: Array,
-      required: false,
-      default: function() {
-        return []
-      }
-    }
-  },
   data() {
     return {
-      groups: [],
-      dialog: false
+      groups: []
     }
   },
   computed: {
     ...mapGetters(['userId']),
+    ...mapGetters({
+      dialog: 'sharedPool/hasItems'
+    }),
+    ...mapState('sharedPool', {
+      pool: state => state.photos,
+      selectedGroups: state => state.blockedGroups
+    }),
     title() {
       if (this.pool.length === 1) {
         return `Sharing '${this.pool[0].title}'`
@@ -65,7 +58,6 @@ export default {
   watch: {
     pool(data) {
       if (data.length > 0) {
-        this.dialog = true
         this.groups.forEach(group => {
           if (this.selectedGroups.indexOf(group.title) !== -1) {
             group.alreadyInGroup = true
@@ -107,9 +99,12 @@ export default {
     document.removeEventListener('keyup', this.cancel)
   },*/
   methods: {
+    ...mapActions({
+      clearSharedPool: 'sharedPool/clear'
+    }),
     cancel(event) {
       if (event.keyCode === 27 || event.key === 'Escape') {
-        this.dialog = false
+        this.clearSharedPool()
       }
     }
   }

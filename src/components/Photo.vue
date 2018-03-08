@@ -3,7 +3,7 @@
     @click.native="addToPool(photo)"
     :color="color"
     hover>
-    <v-card-media height="125px" :src="photo.url_m">
+    <v-card-media height="175px" :src="photo.url_m">
       <v-container
         fill-height
         fluid
@@ -65,7 +65,7 @@
           color="primary">
           <v-icon>share</v-icon>
         </v-btn>
-        <span>Sked</span>
+        <span>Sked pool</span>
       </v-tooltip>
       <v-tooltip top class="ma-0">
         <v-btn
@@ -149,10 +149,11 @@ export default {
   methods: {
     ...mapActions({
       addToPool: 'pool/add',
-      removeFromPool: 'pool/remove'
+      removeFromPool: 'pool/remove',
+      share: 'sharedPool/share'
     }),
     sharePhoto() {
-      this.$store.dispatch('showDialog', { pool: [this.photo], selectedGroups: this.groups })
+      this.share({ photos: [this.photo], selectedGroups: this.groups })
     }
   }
 }

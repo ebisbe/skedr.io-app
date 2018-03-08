@@ -1,11 +1,9 @@
 <template>
   <v-card
-    @click.native="addToPool()"
+    @click.native="addToPool(photo)"
     :color="color"
     hover>
-    <v-card-media
-      height="125px"
-      :src="photo.url_m">
+    <v-card-media height="125px" :src="photo.url_m">
       <v-container
         fill-height
         fluid
@@ -44,9 +42,7 @@
       </v-container>
     </v-card-media>
     <v-card-actions class="py-1">
-      <v-tooltip
-        top
-        class="ma-0">
+      <v-tooltip top class="ma-0">
         <v-btn
           color="primary"
           class="mx-1"
@@ -54,14 +50,12 @@
           flat
           icon
           @click="addToPool"
-          :disabled="disabled">
+          :disabled="disabled(photo.photoId)">
           <v-icon>add_to_photos</v-icon>
         </v-btn>
         <span>Add to pool</span>
       </v-tooltip>
-      <v-tooltip
-        top
-        class="ma-0">
+      <v-tooltip top class="ma-0">
         <v-btn
           icon
           flat
@@ -73,17 +67,15 @@
         </v-btn>
         <span>Sked</span>
       </v-tooltip>
-      <v-tooltip
-        top
-        class="ma-0">
+      <v-tooltip top class="ma-0">
         <v-btn
           color="error"
           class="mx-1"
           slot="activator"
           icon
           flat
-          @click.stop="removeFromPool"
-          v-show="disabled">
+          @click.stop="removeFromPool(photo.photoId)"
+          v-show="disabled(photo.photoId)">
           <v-icon>delete</v-icon>
         </v-btn>
         <span>Remove from pool</span>
@@ -93,7 +85,7 @@
 </template>
 <script>
 import Flickr from 'flickr-sdk'
-import { mapState, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 const CacheModule = require('cache-service-cache-module')
 const cache = new CacheModule({ storage: 'session', defaultExpiration: 900 })
@@ -123,36 +115,23 @@ export default {
       return this.photo.tags.search(this.tag) >= 0 ? 'green lighten-4' : ''
     },
     photoLink() {
-      return `https://www.flickr.com/photos/${this.userId}/${this.photoId}`
+      return `https://www.flickr.com/photos/${this.userId}/${this.photo.photoId}`
     },
-    /** Backwards compaitiblity with view group images */
-    photoId() {
-      if (this.photo.photoId !== undefined) {
-        return this.photo.photoId
-      } else {
-        return this.photo.id
-      }
-    },
-    /** END - BACKWARDS compatibility */
     bookmark() {
       return this.groups.length > 0 ? 'bookmark' : 'bookmark_border'
     },
     star() {
       return this.totalFavs > 0 ? 'star' : 'star_border'
     },
-    disabled() {
-      let matches = this.pool.filter(o => {
-        return o.id === this.photoId || o.photoId === this.photoId
-      })
-      return matches.length > 0
-    },
-    ...mapState(['pool']),
-    ...mapGetters(['userId'])
+    ...mapGetters(['userId']),
+    ...mapGetters({
+      disabled: 'pool/inPool'
+    })
   },
   created() {
     let flickr = new Flickr(process.env.FLICKR_KEY)
     flickr.photos
-      .getAllContexts({ photo_id: this.photoId })
+      .getAllContexts({ photo_id: this.photo.photoId })
       .use(superagentCache)
       .then(response => {
         if (response.body.hasOwnProperty('pool')) {
@@ -161,21 +140,19 @@ export default {
       })
 
     flickr.photos
-      .getFavorites({ photo_id: this.photoId })
+      .getFavorites({ photo_id: this.photo.photoId })
       .use(superagentCache)
       .then(response => {
         this.totalFavs = parseInt(response.body.photo.total)
       })
   },
   methods: {
-    addToPool() {
-      this.$store.commit('addToPool', { photo: this.photo, add: true })
-    },
-    removeFromPool() {
-      this.$store.commit('addToPool', { photo: this.photo, add: false })
-    },
+    ...mapActions({
+      addToPool: 'pool/add',
+      removeFromPool: 'pool/remove'
+    }),
     sharePhoto() {
-      this.$store.commit('showDialog', { pool: [this.photo], selectedGroups: this.groups })
+      this.$store.dispatch('showDialog', { pool: [this.photo], selectedGroups: this.groups })
     }
   }
 }

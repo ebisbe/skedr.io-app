@@ -37,10 +37,7 @@ const root = new Vue({
   apolloProvider,
   components: { App },
   beforeCreate() {
-    let photos = localStorage.getObject('pool.photos')
-    if (photos !== null) {
-      store.commit('loadPool', { photos: photos })
-    }
+    store.dispatch('pool/load', localStorage.getObject('pool.photos'))
   },
   template: '<App/>'
 })

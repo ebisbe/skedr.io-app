@@ -5,6 +5,7 @@ import createLogger from 'vuex/dist/logger'
 import cognitoConfig from './cognito'
 import CognitoAuth from 'vue-auth-cognito'
 
+import pool from './modules/pool'
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
@@ -12,14 +13,14 @@ const devenv = process.env.NODE_ENV === 'dev'
 
 export default new Vuex.Store({
   modules: {
-    cognito: new CognitoAuth(cognitoConfig)
+    cognito: new CognitoAuth(cognitoConfig),
+    pool
   },
   strict: debug,
   plugins: devenv ? [createLogger()] : [],
   state: {
     rightDrawer: window.innerWidth > 1260,
     pageTitle: '',
-    pool: [],
     token: '',
     search: '',
     sharePool: [],
@@ -27,24 +28,6 @@ export default new Vuex.Store({
     position: 0
   },
   mutations: {
-    loadPool(state, payload) {
-      state.pool = payload.photos
-    },
-    addToPool(state, payload) {
-      if (payload.add) {
-        state.pool.push(payload.photo)
-        state.pool = uniqBy(state.pool, 'id')
-      } else {
-        state.pool = state.pool.filter(o => {
-          return o.id !== payload.photo.id
-        })
-      }
-      localStorage.setObject('pool.photos', state.pool)
-    },
-    clearPool(state) {
-      state.pool = []
-      localStorage.setObject('pool.photos', [])
-    },
     updateRightDrawer(state, message) {
       state.rightDrawer = message
     },

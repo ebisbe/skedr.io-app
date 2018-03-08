@@ -8,11 +8,10 @@
   </v-btn>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapState(['pool']),
     rightDrawer: {
       get() {
         return this.$store.state.rightDrawer
@@ -21,8 +20,11 @@ export default {
         this.$store.commit('updateRightDrawer', value)
       }
     },
+    ...mapGetters({
+      length: 'pool/length'
+    }),
     poolIcon() {
-      switch (this.pool.length) {
+      switch (this.length) {
         case 0:
           return 'filter'
         case 1:
@@ -34,7 +36,7 @@ export default {
         case 7:
         case 8:
         case 9:
-          return `filter_${this.pool.length}`
+          return `filter_${this.length}`
         default:
           return 'filter_9_plus'
       }

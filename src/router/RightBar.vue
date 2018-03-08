@@ -5,12 +5,8 @@
     app
     right
     v-model="rightDrawer">
-    <v-container
-      fluid
-      grid-list-md>
-      <v-layout
-        pa-0
-        fluid>
+    <v-container fluid grid-list-md>
+      <v-layout pa-0 fluid>
         <v-flex xs6>
           <v-btn
             block
@@ -41,9 +37,7 @@
               :key="key"
               inset
               v-if="key !== 0"/>
-            <v-list-tile
-              avatar
-              :key="photo.id">
+            <v-list-tile avatar :key="photo.id">
               <v-list-tile-avatar>
                 <img :src="photo.url_sq">
               </v-list-tile-avatar>
@@ -54,7 +48,7 @@
                 <v-btn
                   icon
                   ripple
-                  @click.native.stop="$store.commit('addToPool', {photo: photo, add: false})">
+                  @click.native.stop="remove(photo.photoId)">
                   <v-icon>close</v-icon>
                 </v-btn>
               </v-list-tile-action>
@@ -67,14 +61,20 @@
   </v-navigation-drawer>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import QShareDialog from '../components/QShareDialog'
 
 export default {
   name: 'RightBar',
   components: { QShareDialog },
   computed: {
-    ...mapState(['pool', 'sharePool', 'selectedGroups']),
+    ...mapState(['sharePool', 'selectedGroups']),
+    ...mapState('pool', {
+      pool: state => state.photos
+    }),
+    ...mapGetters({
+      disable: 'pool/isEmpty'
+    }),
     rightDrawer: {
       get() {
         return this.$store.state.rightDrawer
@@ -82,15 +82,13 @@ export default {
       set(value) {
         this.$store.commit('updateRightDrawer', value)
       }
-    },
-    disable() {
-      return this.pool.length === 0
     }
   },
   methods: {
-    clearPool() {
-      this.$store.commit('clearPool')
-    },
+    ...mapActions({
+      remove: 'pool/remove',
+      clearPool: 'pool/clearPool'
+    }),
     share() {
       this.$store.commit('showDialog', { pool: this.pool, selectedGroups: [] })
     }

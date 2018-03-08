@@ -61,13 +61,16 @@
   </v-navigation-drawer>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import QShareDialog from '../components/QShareDialog'
 
 export default {
   name: 'RightBar',
   components: { QShareDialog },
   computed: {
+    ...mapState('pool', {
+      pool: state => state.photos
+    }),
     ...mapGetters({
       disable: 'pool/isEmpty'
     }),

@@ -4,68 +4,60 @@
       <v-layout align-center justify-center>
         <v-flex
           xs12
-          sm8
-          md4>
-          <v-card class="elevation-8">
-            <v-progress-linear
-              height="3"
-              class="my-0"
-              :indeterminate="true"
-              v-show="protectedUI"/>
-            <v-toolbar dark color="primary">
-              <v-toolbar-title>Login</v-toolbar-title>
-            </v-toolbar>
-            <v-alert
-              color="success"
-              v-show="successMessage"
-              icon="check_circle"
-              class="mt-0"
-              value="true">
-              {{ successMessage }}
-            </v-alert>
-            <v-alert
-              color="error"
-              class="mt-0"
-              v-show="errorMessage"
-              icon="warning"
-              value="true">
-              {{ errorMessage }}
-            </v-alert>
-            <v-card-text>
-              <v-form @submit.stop.prevent="handleSubmit" method="post">
+          sm6
+          md5>
+          <v-form @submit.stop.prevent="handleSubmit" method="post">
+
+            <v-card class="elevation-12 pa-5">
+              <v-progress-linear
+                height="3"
+                class="my-0 topFloat"
+                :indeterminate="true"
+                v-if="protectedUI"/>
+              <v-alert
+                type="error"
+                :value="errorMessage !== ''"
+                class="mt-0 fullWidth topFloat"
+                v-html="errorMessage"
+                transition="scale-transition"/>
+              <v-card-text class="px-0">
+                <h1 class="display-1 mb-4">Log in</h1>
 
                 <v-text-field
-                  label="Name"
-                  v-model="username"
-                  prepend-icon="person"
-                  min="1"
-                  :disabled="disableAllInputs"
+                  label="Enter your email "
+                  v-model="form.username"
+                  validate-on-blur
                   required
+                  @update:error="username"
+                  :disabled="protectedUI"
+                  :rules="[rules.required, rules.email]"
                 />
 
                 <v-text-field
-                  label="Password"
-                  prepend-icon="lock"
-                  v-model="password"
-                  :disabled="disableAllInputs"
-                  pattern="[\S]+"
+                  label="Enter your password "
+                  v-model="form.password"
                   :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
                   :append-icon-cb="() => (passVisibility = !passVisibility)"
                   :type="passVisibility ? 'password' : 'text'"
-                  min="6"
-                  required/>
+                  required
+                  :disabled="protectedUI"
+                  @update:error="password"
+                  :rules="[rules.required, rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"/>
+
+              </v-card-text>
+              <v-card-actions class="px-0">
+                <v-spacer/>
                 <v-btn
+                  text-xs-right
                   type="submit"
                   color="primary"
-                  :disabled="protectedUI || !formIsValid || disableAllInputs">
-                  submit
+                  :disabled="!formIsValid || protectedUI">
+                  continue
                 </v-btn>
-                <v-btn
-                  @click="clear"
-                  flat>clear</v-btn>
-              </v-form>
-            </v-card-text>
-          </v-card>
+              </v-card-actions>
+            </v-card>
+          </v-form>
+
           <strong>Photo by Ricardo Gomez Angel on Unsplash</strong>
         </v-flex>
       </v-layout>
@@ -75,38 +67,40 @@
 
 <script>
 import { AwsCredentials } from '../../libs/aws-lib'
+import { validations } from '../../mixins/validation'
 
 export default {
   name: 'Login',
-  data: () => ({
-    errorMessage: null,
-    successMessage: null,
-    disableAllInputs: false,
-    protectedUI: false,
-    username: '',
-    password: '',
-    passVisibility: true
-  }),
+  mixins: [validations],
+  data: () => {
+    const defaultForm = Object.freeze({
+      username: '',
+      validUsername: false,
+      password: '',
+      validPassword: false
+    })
+
+    return {
+      form: Object.assign({}, defaultForm),
+      protectedUI: false,
+      passVisibility: true,
+      errorMessage: ''
+    }
+  },
   computed: {
     formIsValid() {
-      return /[\S]+/.test(this.username)
+      return this.form.validUsername && this.form.validPassword
     }
   },
   methods: {
     handleSubmit() {
-      this.successMessage = null
-      this.errorMessage = null
-
       this.protectedUI = true
       this.$store
         .dispatch('authenticateUser', {
-          username: this.username,
-          password: this.password
+          username: this.form.username,
+          password: this.form.password
         })
         .then(async () => {
-          this.disableAllInputs = true
-          this.password = this.errorMessage = ''
-          this.successMessage = 'Successfuly signed in'
           this.protectedUI = false
 
           await AwsCredentials(this.$store.state.cognito.user.tokens.IdToken).then(() =>
@@ -114,13 +108,33 @@ export default {
           )
         })
         .catch(err => {
+          console.log(err.message)
           this.errorMessage = err.message
+          setTimeout(() => {
+            this.errorMessage = ''
+          }, 5000)
           this.protectedUI = false
         })
     },
-    clear() {
-      this.successMessage = this.errorMessage = this.username = this.password = ''
+    username(hasError) {
+      this.form.validUsername = !hasError
+    },
+    password(hasError) {
+      this.form.validPassword = !hasError
     }
   }
 }
 </script>
+<style>
+.topFloat {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.fullWidth {
+  width: 100%;
+  width: -moz-available; /* WebKit-based browsers will ignore this. */
+  width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
+  width: fill-available;
+}
+</style>

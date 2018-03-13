@@ -1,10 +1,21 @@
 <template>
   <v-card
     height="175px"
-    @click.native="addToPool(photo)"
-    :class="{'pa-2': disabled(photo.photoId)}"
-    hover>
-    <v-card-media :height="!disabled(photo.photoId) ? '175px' : '159px'" :src="photo.url_m"/>
+    flat
+    class="grey lighten-3 sked-photo"
+    @mouseover="hover = true"
+    @mouseout="hover = false"
+    @click.native="!inPool(photo.photoId) ? addToPool(photo) : removeFromPool(photo.photoId)"
+    :class="{'pa-3': inPool(photo.photoId)}">
+    <v-card-media :height="!inPool(photo.photoId) ? '175px' : '143px'" :src="photo.url_m"/>
+    <v-icon
+      v-if="inPool(photo.photoId)"
+      class="sked-checkCircle"
+      color="primary">check_circle</v-icon>
+    <v-icon
+      v-else-if="hover"
+      class="sked-checkCircle white--text">check_circle</v-icon>
+    <v-icon v-else class="sked-checkCircle white--text">radio_button_unchecked</v-icon>
     <v-container style="position:absolute; bottom:0; left:0; padding:inherit;">
       <v-list
         two-line
@@ -25,11 +36,11 @@
                 {{ photo.views }}
               </a>
               <span>
-                <v-icon>{{ bookmark }}</v-icon>
+                <v-icon v-html="bookmark"/>
                 {{ groups.length }}
               </span>
               <span>
-                <v-icon>{{ star }}</v-icon>
+                <v-icon v-html="star"/>
                 {{ totalFavs }}
               </span>
             </v-list-tile-sub-title>
@@ -50,34 +61,6 @@
         </v-list-tile>
       </v-list>
     </v-container>
-    <!-- <v-card-actions class="py-1">
-      <v-tooltip top class="ma-0">
-        <v-btn
-          color="primary"
-          class="mx-1"
-          slot="activator"
-          flat
-          icon
-          @click="addToPool"
-          :disabled="disabled(photo.photoId)">
-          <v-icon>add_to_photos</v-icon>
-        </v-btn>
-        <span>Add to pool</span>
-      </v-tooltip>
-      <v-tooltip top class="ma-0">
-        <v-btn
-          color="error"
-          class="mx-1"
-          slot="activator"
-          icon
-          flat
-          @click.stop="removeFromPool(photo.photoId)"
-          v-show="disabled(photo.photoId)">
-          <v-icon>delete</v-icon>
-        </v-btn>
-        <span>Remove from pool</span>
-      </v-tooltip>
-    </v-card-actions> -->
   </v-card>
 </template>
 <script>
@@ -103,7 +86,8 @@ export default {
   data() {
     return {
       groups: [],
-      totalFavs: 0
+      totalFavs: 0,
+      hover: false
     }
   },
   computed: {
@@ -118,7 +102,7 @@ export default {
     },
     ...mapGetters(['userId']),
     ...mapGetters({
-      disabled: 'pool/inPool'
+      inPool: 'pool/inPool'
     })
   },
   created() {
@@ -152,6 +136,14 @@ export default {
 }
 </script>
 <style>
+.sked-checkCircle {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+.sked-photo:hover {
+  cursor: pointer;
+}
 .fade {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3a3a3a+0,3a3a3a+100&0.65+0,0.35+18,0+36,0+79,0.35+94,0.65+100 */
   background: -moz-linear-gradient(

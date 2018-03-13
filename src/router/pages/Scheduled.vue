@@ -7,11 +7,13 @@
       v-if="loading"/>
     <v-container
       fluid
+      fill-height
       grid-list-xl>
       <v-layout
+        align-center
         row
         wrap>
-        <v-flex xs12>
+        <v-flex xs12 v-if="scheduledPhotos.length">
           <template v-for="(item, index) in scheduled(scheduledPhotos)">
             <h4
               class="text-xs-center mt-3"
@@ -36,6 +38,12 @@
               </template>
             </v-list>
           </template>
+        </v-flex>
+        <v-flex v-else xs12>
+          <div class="text-xs-center">
+            <v-icon size="120px" class="text-xs-center">access_time</v-icon>
+          </div>
+          <h1 class="text-xs-center headline">You don't have any photos scheduled</h1>
         </v-flex>
       </v-layout>
     </v-container>

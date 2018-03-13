@@ -1,47 +1,56 @@
 <template>
   <v-card
+    height="175px"
     @click.native="addToPool(photo)"
-    :color="color"
+    :class="{'pa-2': disabled(photo.photoId)}"
     hover>
-    <v-card-media height="175px" :src="photo.url_m">
-      <v-container
-        fill-height
-        fluid
-        pt-2
-        class="fade">
-        <v-layout fill-height>
-          <v-flex
-            xs12
-            align-end
-            flexbox
-            lass="pt-0">
-            <span class="subheading white--text">{{ photo.title }}</span>
-          </v-flex>
-          <div
-            style="position: absolute; bottom: 1px"
-            class="white--text body-2">
-            <a
-              target="_blank"
-              :href="photoLink"
-              @click.stop
-              style="text-decoration: none;"
-              class="white--text">
-              <v-icon color="white">visibility</v-icon>
-              {{ photo.views }}
-            </a>
-            <span>
-              <v-icon color="white">{{ bookmark }}</v-icon>
-              {{ groups.length }}
-            </span>
-            <span>
-              <v-icon color="white">{{ star }}</v-icon>
-              {{ totalFavs }}
-            </span>
-          </div>
-        </v-layout>
-      </v-container>
-    </v-card-media>
-    <v-card-actions class="py-1">
+    <v-card-media :height="!disabled(photo.photoId) ? '175px' : '159px'" :src="photo.url_m"/>
+    <v-container style="position:absolute; bottom:0; left:0; padding:inherit;">
+      <v-list
+        two-line
+        dark
+        class="pa-0"
+        style="background-color:rgba(66,66,66,0.5); ">
+        <v-list-tile>
+          <v-list-tile-content>
+            <v-list-tile-title v-html="photo.title" />
+            <v-list-tile-sub-title>
+              <a
+                target="_blank"
+                :href="photoLink"
+                @click.stop
+                style="text-decoration: none;"
+                class="white--text">
+                <v-icon>visibility</v-icon>
+                {{ photo.views }}
+              </a>
+              <span>
+                <v-icon>{{ bookmark }}</v-icon>
+                {{ groups.length }}
+              </span>
+              <span>
+                <v-icon>{{ star }}</v-icon>
+                {{ totalFavs }}
+              </span>
+            </v-list-tile-sub-title>
+          </v-list-tile-content>
+          <v-list-tile-action>
+            <v-tooltip top class="ma-0">
+              <v-btn
+                icon
+                flat
+                class="mx-1"
+                slot="activator"
+                @click.stop="sharePhoto">
+                <v-icon>share</v-icon>
+              </v-btn>
+              <span>Sked pool</span>
+            </v-tooltip>
+          </v-list-tile-action>
+        </v-list-tile>
+      </v-list>
+    </v-container>
+    <!-- <v-card-actions class="py-1">
       <v-tooltip top class="ma-0">
         <v-btn
           color="primary"
@@ -57,18 +66,6 @@
       </v-tooltip>
       <v-tooltip top class="ma-0">
         <v-btn
-          icon
-          flat
-          class="mx-1"
-          slot="activator"
-          @click.stop="sharePhoto"
-          color="primary">
-          <v-icon>share</v-icon>
-        </v-btn>
-        <span>Sked pool</span>
-      </v-tooltip>
-      <v-tooltip top class="ma-0">
-        <v-btn
           color="error"
           class="mx-1"
           slot="activator"
@@ -80,7 +77,7 @@
         </v-btn>
         <span>Remove from pool</span>
       </v-tooltip>
-    </v-card-actions>
+    </v-card-actions> -->
   </v-card>
 </template>
 <script>
@@ -110,10 +107,6 @@ export default {
     }
   },
   computed: {
-    color() {
-      if (this.tag === '') return ''
-      return this.photo.tags.search(this.tag) >= 0 ? 'green lighten-4' : ''
-    },
     photoLink() {
       return `https://www.flickr.com/photos/${this.userId}/${this.photo.photoId}`
     },

@@ -5,7 +5,7 @@
       class="my-0"
       :indeterminate="true"
       v-if="loading"/>
-    <v-container fluid grid-list-xl>
+    <v-container fluid grid-list-md>
       <v-layout
         row
         wrap

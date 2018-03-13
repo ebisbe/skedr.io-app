@@ -12,8 +12,8 @@
         <v-flex
           xs11
           sm8
-          md4>
-          <div class="information">
+          md5>
+          <div class="information pa-5">
             <v-flex class="block my-2">
               <v-flex>
                 <v-icon x-large>autorenew</v-icon>
@@ -46,111 +46,113 @@
         <v-flex
           xs11
           sm8
-          md4>
-          <v-progress-linear
-            height="3"
-            class="my-0"
-            :indeterminate="true"
-            v-show="protectedUI"/>
-          <v-toolbar dark color="primary">
-            <v-toolbar-title>Sign up</v-toolbar-title>
-          </v-toolbar>
-          <v-stepper
-            class="elevation-12"
-            v-model="step"
-            vertical>
-            <v-alert
-              :color="alert.color"
-              class="mt-0"
-              v-show="alert.message"
-              :icon="alert.icon"
-              value="true">
-              {{ alert.message }}
-            </v-alert>
-            <v-stepper-step
-              step="1"
-              :complete="step > 1">
-              Sign up with Flickr
+          md5>
+          <v-card class="elevation-12 pa-5">
 
-            </v-stepper-step>
-            <v-stepper-content step="1">
-              <small>First we need to connect to you flickr account. Upon pressing Connect button you will
-              be redirected to your flickr account to grant us access.
-              </small>
-              <br>
-              <v-btn
-                color="primary"
-                @click="handleSubmit"
-                :disabled="protectedUI">{{ button }}
-              </v-btn>
-            </v-stepper-content>
-            <v-stepper-step
-              step="2"
-              :complete="step > 2">Create your account
-            </v-stepper-step>
-            <v-stepper-content step="2">
-              <v-form @submit.stop.prevent="signupUser" method="post">
-                <v-text-field
-                  label="Email"
-                  prepend-icon="person"
-                  v-model="email"
-                  min="1"
-                  :disabled="disableAllInputs"
-                  :rules="[rules.required, rules.email]"
-                  required
-                />
-                <v-text-field
-                  label="Password"
-                  prepend-icon="lock"
-                  v-model="password"
-                  :disabled="disableAllInputs"
-                  :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
-                  :append-icon-cb="() => (passVisibility = !passVisibility)"
-                  :type="passVisibility ? 'password' : 'text'"
-                  :rules="[rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
-                />
+            <v-progress-linear
+              height="3"
+              class="my-0 topFloat"
+              :indeterminate="true"
+              v-show="protectedUI"/>
+            <h1 class="display-1 mb-4">Sign up</h1>
+            <v-stepper
+              class="elevation-0"
+              v-model="step"
+              vertical>
+              <v-alert
+                :color="alert.color"
+                class="mt-0"
+                v-show="alert.message"
+                :icon="alert.icon"
+                value="true">
+                {{ alert.message }}
+              </v-alert>
+              <v-stepper-step
+                step="1"
+                :complete="step > 1">
+                Sign up with Flickr
+
+              </v-stepper-step>
+              <v-stepper-content step="1">
+                <small>First we need to connect to you flickr account. Upon pressing Connect button you will
+                be redirected to your flickr account to grant us access.
+                </small>
+                <br>
                 <v-btn
-                  type="submit"
                   color="primary"
-                  :disabled="protectedUI || disableAllInputs">
-                  Signup
+                  @click="handleSubmit"
+                  :disabled="protectedUI">{{ button }}
                 </v-btn>
-              </v-form>
-            </v-stepper-content>
-            <v-stepper-step
-              step="3"
-              :complete="step > 3">Validate your email
-            </v-stepper-step>
-            <v-stepper-content step="3">
-              <small>We have sent you an email with a validation code. Please paste the code here to validate your email. If you haven't received in a few minutes check your spam folder.</small>
-              <br>
-              <v-form @submit.stop.prevent="validateCode">
-                <v-text-field
-                  label="Code"
-                  v-model="code"
-                  :disabled="disableAllInputs"
-                  :rules="[rules.numbers]"
-                  counter="6"
-                />
-                <div
-                  class="form-group"
-                  v-show="showResendButton">
-                  <button
-                    class="btn btn-sm btn-info"
-                    @click.stop.prevent="resendCode">Resend
-                    confirmation code
-                  </button>
-                </div>
-                <v-btn
-                  type="submit"
-                  color="primary"
-                  :disabled="protectedUI || disableAllInputs">
-                  Confirm code
-                </v-btn>
-                <v-btn flat>Cancel</v-btn>
-              </v-form>
-            </v-stepper-content>
-          </v-stepper>
+              </v-stepper-content>
+              <v-stepper-step
+                step="2"
+                :complete="step > 2">Create your account
+              </v-stepper-step>
+              <v-stepper-content step="2">
+                <v-form @submit.stop.prevent="signupUser" method="post">
+                  <v-text-field
+                    label="Email"
+                    prepend-icon="person"
+                    v-model="email"
+                    min="1"
+                    :disabled="disableAllInputs"
+                    :rules="[rules.required, rules.email]"
+                    required
+                  />
+                  <v-text-field
+                    label="Password"
+                    prepend-icon="lock"
+                    v-model="password"
+                    :disabled="disableAllInputs"
+                    :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
+                    :append-icon-cb="() => (passVisibility = !passVisibility)"
+                    :type="passVisibility ? 'password' : 'text'"
+                    :rules="[rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
+                  />
+                  <v-btn
+                    type="submit"
+                    color="primary"
+                    :disabled="protectedUI || disableAllInputs">
+                    Signup
+                  </v-btn>
+                </v-form>
+              </v-stepper-content>
+              <v-stepper-step
+                step="3"
+                :complete="step > 3">Validate your email
+              </v-stepper-step>
+              <v-stepper-content step="3">
+                <small>We have sent you an email with a validation code. Please paste the code here to validate your email. If you haven't received in a few minutes check your spam folder.</small>
+                <br>
+                <v-form @submit.stop.prevent="validateCode">
+                  <v-text-field
+                    label="Code"
+                    v-model="code"
+                    :disabled="disableAllInputs"
+                    :rules="[rules.numbers]"
+                    counter="6"
+                  />
+                  <div
+                    class="form-group"
+                    v-show="showResendButton">
+                    <button
+                      class="btn btn-sm btn-info"
+                      @click.stop.prevent="resendCode">Resend
+                      confirmation code
+                    </button>
+                  </div>
+                  <v-btn
+                    type="submit"
+                    color="primary"
+                    :disabled="protectedUI || disableAllInputs">
+                    Confirm code
+                  </v-btn>
+                  <v-btn flat>Cancel</v-btn>
+                </v-form>
+              </v-stepper-content>
+            </v-stepper>
+          </v-card>
+
           <strong>Photo by Ricardo Gomez Angel on Unsplash</strong>
         </v-flex>
       </v-layout>

@@ -5,7 +5,8 @@
         <v-flex
           xs12
           sm6
-          md5>
+          md5
+          lg3>
           <v-form @submit.stop.prevent="handleSubmit" method="post">
 
             <v-card class="elevation-12 pa-5">
@@ -101,14 +102,12 @@ export default {
           password: this.form.password
         })
         .then(async () => {
-          this.protectedUI = false
-
-          await AwsCredentials(this.$store.state.cognito.user.tokens.IdToken).then(() =>
+          await AwsCredentials(this.$store.state.cognito.user.tokens.IdToken).then(() => {
+            this.protectedUI = false
             this.$router.push({ name: 'Photostream' })
-          )
+          })
         })
         .catch(err => {
-          console.log(err.message)
           this.errorMessage = err.message
           setTimeout(() => {
             this.errorMessage = ''
@@ -125,16 +124,3 @@ export default {
   }
 }
 </script>
-<style>
-.topFloat {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.fullWidth {
-  width: 100%;
-  width: -moz-available; /* WebKit-based browsers will ignore this. */
-  width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
-  width: fill-available;
-}
-</style>

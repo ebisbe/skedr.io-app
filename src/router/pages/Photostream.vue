@@ -17,8 +17,8 @@
         <v-flex
           lg3
           md4
-          sm4
-          xs6
+          sm6
+          xs12
           v-for="photo in userPhotos"
           :key="photo.id">
           <photo :photo="photo"/>

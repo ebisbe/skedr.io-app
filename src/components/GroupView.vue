@@ -35,8 +35,8 @@
     </q-popup>
     <v-flex
       md3
-      sm4
-      xs6
+      sm6
+      xs12
       v-for="photo in photos"
       :key="photo.id">
       <photo :photo="photo" :tag="selectedTag"/>

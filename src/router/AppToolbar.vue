@@ -60,6 +60,7 @@
         <span v-text="pageTitle"/>
       </v-toolbar-title>
       <q-filter
+        class="hidden-sm-and-down"
         placeholder="Filter groups"
         @search="search"
         :solo-inverted="true"/>

@@ -3,17 +3,16 @@
     avatar
     @click="select()"
     :class="{selected: group.selected}">
-    <v-list-tile-action>
-      <v-checkbox
-        @click.prevent
-        v-model="group.selected"
-        hide-details
-        :disabled="disabled"
-        :indeterminate="disabled"
-      />
-    </v-list-tile-action>
     <v-list-tile-avatar>
-      <img :src="group.icon">
+      <v-badge
+        overlap
+        :color="badgeColor"
+        v-model="badge">
+        <span slot="badge">
+          <v-icon color="white">check</v-icon>
+        </span>
+        <img :src="group.icon">
+      </v-badge>
     </v-list-tile-avatar>
     <v-list-tile-content style="border-bottom: 1px solid rgba(0,0,0,.12);">
       <v-list-tile-title v-html="group.title"/>
@@ -60,6 +59,16 @@ export default {
     },
     disabled() {
       return this.group.throttleMode === 'disabled' || this.group.alreadyInGroup === true
+    },
+    badgeColor() {
+      if (this.group.selected) {
+        return 'success'
+      } else {
+        return 'grey'
+      }
+    },
+    badge() {
+      return this.group.selected || this.disabled
     }
   },
   methods: {

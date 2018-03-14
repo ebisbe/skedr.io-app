@@ -24,10 +24,10 @@
           @click="suggestionDialog = true"
           ripple>
           <v-list-tile-action>
-            <v-icon>help</v-icon>
+            <v-icon>announcement</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Suggestions & Bugs</v-list-tile-title>
+            <v-list-tile-title>Send feedback</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-divider/>
@@ -38,7 +38,7 @@
             <v-icon>input</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Logout</v-list-tile-title>
+            <v-list-tile-title>Sign out</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>

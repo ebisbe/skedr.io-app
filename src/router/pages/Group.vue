@@ -3,9 +3,13 @@
     <v-progress-linear
       height="3"
       class="my-0"
+      color="accent"
       :indeterminate="true"
       v-if="loading"/>
-    <v-container fluid grid-list-sm>
+    <v-container
+      v-if="filteredGroups.length"
+      fluid
+      grid-list-sm>
       <v-layout row wrap>
         <v-flex xs12>
           <v-layout
@@ -87,22 +91,27 @@
         </v-expansion-panel>
       </v-layout>
     </v-container>
+    <empty
+      v-else
+      icon="view_day"
+      description="You don't have any group yet"/>
   </v-content>
 </template>
 
 <script>
-import ExpansionPanel from '../../components/ExpansionPanel.vue'
-import Photo from '../../components/Photo.vue'
-import GroupView from '../../components/GroupView.vue'
+import ExpansionPanel from '../../components/ExpansionPanel'
+import Photo from '../../components/Photo'
+import Empty from './Empty'
+import GroupView from '../../components/GroupView'
 import _sortBy from 'lodash/sortby'
 import { mapGetters, mapState } from 'vuex'
-import QPoolBtn from '../../components/QPoolBtn.vue'
+import QPoolBtn from '../../components/QPoolBtn'
 import GROUPS_QUERY from '../../graphql/groupsLastPhoto.gql'
 
 export default {
   name: 'Group',
   something: '',
-  components: { ExpansionPanel, Photo, GroupView, QPoolBtn },
+  components: { ExpansionPanel, Photo, GroupView, QPoolBtn, Empty },
   data() {
     return {
       loading: false,
@@ -112,7 +121,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['activeFab', 'addingPhotosToGroup', 'userId']),
+    ...mapGetters(['userId']),
     ...mapState(['search']),
     filteredGroups() {
       return this.groups.filter(

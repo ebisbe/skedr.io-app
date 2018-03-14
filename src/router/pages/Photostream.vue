@@ -3,9 +3,13 @@
     <v-progress-linear
       height="3"
       class="my-0"
+      color="accent"
       :indeterminate="true"
       v-if="loading"/>
-    <v-container fluid grid-list-md>
+    <v-container
+      fluid
+      grid-list-md
+      v-if="userPhotos.length">
       <v-layout
         row
         wrap
@@ -58,21 +62,27 @@
         </my-fetch>
       </v-layout>
     </v-container>
+    <empty
+      v-else
+      icon="photo"
+      description="You don't have any photo yet"/>
   </v-content>
 </template>
 <script>
-import Photo from '../../components/Photo.vue'
+import Photo from '../../components/Photo'
+import Empty from './Empty'
 import { mapState, mapGetters } from 'vuex'
 import STREAM_QUERY from '../../graphql/photostream.gql'
 
 const itemsPerPage = 24
 export default {
   name: 'Photos',
-  components: { Photo },
+  components: { Photo, Empty },
   data() {
     return {
       loading: 0,
-      offset: itemsPerPage
+      offset: itemsPerPage,
+      userPhotos: []
     }
   },
   computed: {

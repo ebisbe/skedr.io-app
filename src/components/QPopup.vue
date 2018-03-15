@@ -1,10 +1,9 @@
 <template>
   <v-dialog
-    v-resize="onResize"
     v-model="dialogComputed"
     :persistent="selectedData.length > 0"
     scrollable
-    :fullscreen="fullscreen"
+    :fullscreen="fullScreenDialog"
     max-width="500px">
     <v-card>
       <v-toolbar dark color="primary">
@@ -102,6 +101,7 @@
 
 <script>
 import QFilter from './QFilter'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'QPopup',
@@ -140,11 +140,11 @@ export default {
     return {
       filterWord: '',
       showList: true,
-      fullscreen: false,
       dialog3: false
     }
   },
   computed: {
+    ...mapGetters(['fullScreenDialog']),
     dialogComputed: {
       set(value) {
         if (!value) {
@@ -187,9 +187,6 @@ export default {
       }
     }
   },
-  mounted() {
-    this.onResize()
-  },
   methods: {
     closePopUp() {
       this.$emit('close')
@@ -202,9 +199,6 @@ export default {
     },
     clearSelected() {
       this.filteredData.forEach(item => (item.selected = false))
-    },
-    onResize() {
-      this.fullscreen = window.innerWidth < 550
     }
   }
 }

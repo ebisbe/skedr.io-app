@@ -52,8 +52,8 @@
             slot-scope="data">
             <v-flex
               md3
-              sm4
-              xs6
+              sm6
+              xs12
               v-for="photo in data.photo"
               :key="photo.id">
               <photo :photo="photo"/>

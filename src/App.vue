@@ -1,5 +1,5 @@
 <template>
-  <v-app light>
+  <v-app light v-resize="resize">
 
     <router-view name="toolbar"/>
     <router-view/>
@@ -9,8 +9,21 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
-  name: 'App'
+  name: 'App',
+  mounted() {
+    this.onResize({ width: window.innerWidth, height: window.innerHeight })
+  },
+  methods: {
+    resize() {
+      this.onResize({ width: window.innerWidth, height: window.innerHeight })
+    },
+    ...mapActions({
+      onResize: 'windowSize'
+    })
+  }
 }
 </script>
 <style>

@@ -51,23 +51,35 @@
       fixed
       color="primary"
       dark
+      :extended="extendedToolbar"
       clipped-left
       clipped-right>
-      <v-toolbar-title
-        class="pr-3"
-        style="width: 300px">
-        <v-toolbar-side-icon @click.stop="drawer = !drawer"/>
-        <span v-text="pageTitle"/>
-      </v-toolbar-title>
-      <q-filter
-        class="hidden-sm-and-down"
-        placeholder="Filter groups"
-        @search="search"
-        :solo-inverted="true"/>
-      <v-spacer/>
-      <v-btn icon class="hidden-sm-and-up">
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"/>
+      <v-toolbar-title style="width: 300px" v-text="pageTitle" />
+      <v-flex
+        :slot="extendedToolbar ? 'extension' : false"
+        class="pa-1">
+        <q-filter
+          placeholder="Search ..."
+          @search="searchText"
+          :solo-inverted="true"/>
+      </v-flex>
+      <v-spacer />
+      <v-btn
+        icon
+        v-show="!extendedToolbar"
+        @click="showSearch = true">
         <v-icon>search</v-icon>
       </v-btn>
+      <v-text-field
+        v-model="search"
+        v-show="showSearch"
+        color="white"
+        hide-details
+        class="py-2"
+        append-icon="close"
+        :append-icon-cb="() => {showSearch = false; search =''}"
+        placeholder="Search ..."/>
       <q-pool-btn/>
     </v-toolbar>
   </div>
@@ -81,11 +93,13 @@ import QSuggestionDialog from './../components/QSuggestionDialog'
 export default {
   name: 'Toolbar',
   components: { QFilter, QPoolBtn, QSuggestionDialog },
-  data() {
+  data: () => {
     return {
       title: 'Layout',
-      drawer: this.isDesktop,
+      drawer: false,
       suggestionDialog: false,
+      search: '',
+      showSearch: false,
       lists: [
         {
           icon: 'photo',
@@ -104,7 +118,15 @@ export default {
   },
   computed: {
     ...mapState(['pageTitle']),
-    ...mapGetters(['isDesktop'])
+    ...mapGetters(['extendedToolbar'])
+  },
+  watch: {
+    search(value) {
+      this.$store.commit('updateSearch', value)
+    }
+  },
+  mounted() {
+    this.drawer = window.innerWidth > 1260
   },
   methods: {
     logout() {
@@ -113,7 +135,7 @@ export default {
         .then(() => this.$router.push({ name: 'Home' }))
         .catch(() => this.$router.push({ name: 'Home' }))
     },
-    search(value) {
+    searchText(value) {
       this.$store.commit('updateSearch', value)
     }
   }

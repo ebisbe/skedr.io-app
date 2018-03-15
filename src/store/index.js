@@ -7,6 +7,7 @@ import CognitoAuth from 'vue-auth-cognito'
 
 import pool from './modules/pool'
 import sharedPool from './modules/sharedPool'
+//import pageLoader from './modules/pageLoader'
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
@@ -22,6 +23,10 @@ export default new Vuex.Store({
   plugins: devenv ? [createLogger()] : [],
   state: {
     rightDrawer: window.innerWidth > 1260,
+    window: {
+      width: window.innerWidth,
+      height: window.innerHeight
+    },
     pageTitle: '',
     token: '',
     search: '',
@@ -36,14 +41,26 @@ export default new Vuex.Store({
     },
     setPageTitle(state, value) {
       state.pageTitle = `Beta - ${value}`
+    },
+    window({ window }, payload) {
+      window.width = payload.width
+      window.height = payload.height
     }
   },
   getters: {
     userId(state) {
       return decodeURIComponent(state.cognito.user.username)
     },
-    isDesktop() {
-      return window.innerWidth > 1260
+    fullScreenDialog({ window }) {
+      return window.width < 550
+    },
+    extendedToolbar({ window }) {
+      return window.width < 900
+    }
+  },
+  actions: {
+    windowSize({ commit }, payload) {
+      commit('window', payload)
     }
   }
 })

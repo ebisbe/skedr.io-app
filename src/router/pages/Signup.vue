@@ -12,6 +12,8 @@
         <v-flex
           xs11
           sm8
+          order-md1
+          order-xs2
           md5>
           <div class="information pa-5">
             <v-flex class="block my-2">
@@ -46,6 +48,8 @@
         <v-flex
           xs11
           sm8
+          order-md2
+          order-xs1
           md5>
           <v-card class="elevation-12 pa-5">
 

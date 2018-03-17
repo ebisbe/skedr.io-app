@@ -26,14 +26,14 @@
         <v-flex>
           <v-btn
             block
-            color="secondary"
+            color="info"
             @click="showMore"
             :disabled="loading === 1"
             dark>
             <v-progress-circular
               indeterminate
               v-if="loading"
-              color="primary"/>
+              color="info"/>
             <span v-else>
               &nbsp;Load more photos...
             </span>

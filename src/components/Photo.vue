@@ -1,17 +1,17 @@
 <template>
   <v-card
-    height="175px"
+    :height="`${height}px`"
     flat
     class="grey lighten-3 sked-photo"
     @mouseover="hover = true"
     @mouseout="hover = false"
     @click.native="!inPool(photo.photoId) ? addToPool(photo) : removeFromPool(photo.photoId)"
     :class="{'pa-3': inPool(photo.photoId)}">
-    <v-card-media :height="!inPool(photo.photoId) ? '175px' : '143px'" :src="photo.url_m"/>
+    <v-card-media :height="!inPool(photo.photoId) ? `${height}px` : `${height - 32}px`" :src="photo.url_m"/>
     <v-icon
       v-if="inPool(photo.photoId)"
       class="sked-checkCircle"
-      color="primary">check_circle</v-icon>
+      color="info">check_circle</v-icon>
     <v-icon
       v-else-if="hover"
       class="sked-checkCircle white--text">check_circle</v-icon>
@@ -81,6 +81,10 @@ export default {
     tag: {
       type: String,
       default: ''
+    },
+    height: {
+      type: Number,
+      default: 205
     }
   },
   data() {

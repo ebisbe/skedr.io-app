@@ -36,6 +36,7 @@
       </v-layout>
     </v-container>
     <empty
+      v-else
       icon="access_time"
       :loading="loading === 1"
       description="You don't have any photos scheduled"/>

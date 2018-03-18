@@ -1,12 +1,16 @@
 <template>
   <v-dialog
     v-model="dialogComputed"
-    :persistent="selectedData.length > 0"
+    :persistent="hasItemsSelected0"
     scrollable
     :fullscreen="fullScreenDialog"
+    transition="dialog-bottom-transition"
     max-width="500px">
     <v-card>
-      <v-toolbar dark color="primary">
+      <v-toolbar
+        extended
+        dark
+        color="primary">
         <v-btn
           icon
           @click.native="closePopUp">
@@ -32,19 +36,23 @@
             </v-card>
           </v-dialog> -->
         </v-toolbar-items>
+        <v-flex
+          :slot="showList ? 'extension' : false"
+          class="pa-1">
+          <q-filter
+            :placeholder="filterPlaceholder"
+            @search="val => { filterWord = val.toLowerCase() }"
+            @ctrlEnter="selectFiltered"
+            @ctrlEsc="clearSelected"
+            :solo-inverted="true"/>
+        </v-flex>
       </v-toolbar>
-      <div v-if="showList" class="pa-1">
-        <q-filter
-          :placeholder="filterPlaceholder"
-          class="pa-1"
-          @search="val => { filterWord = val.toLowerCase() }"
-          @ctrlEnter="selectFiltered"
-          @ctrlEsc="clearSelected"
-        />
-      </div>
+
       <v-card-text v-if="showList" class="pa-0">
         <v-layout wrap v-if="filteredData.length">
-          <v-list two-line style="width: 100%;">
+          <v-list
+            two-line
+            :style="{'width': '100%', 'margin-bottom': hasItemsSelected ? '56px' : '0px'}">
             <v-subheader v-html="listTitle" class="title"/>
             <transition-group name="whatsapp">
               <slot
@@ -74,7 +82,8 @@
         <v-toolbar
           dark
           color="primary"
-          v-show="selectedData.length">
+          style="position: absolute; bottom:0"
+          v-show="hasItemsSelected">
           <div
             style="overflow: hidden; hieght: 12px;"
             class="ellipsis mx-3"
@@ -88,7 +97,7 @@
               fab
               :disabled="!showList"
               color="secondary"
-              v-show="selectedData.length > 0"
+              v-show="hasItemsSelected"
               @click="showList = false">
               <v-icon>send</v-icon>
             </v-btn>
@@ -173,6 +182,9 @@ export default {
     },
     selectedData() {
       return this.data.filter(item => item.selected === true)
+    },
+    hasItemsSelected() {
+      return this.selectedData.length > 0
     },
     selectedDataList() {
       return this.selectedData.map(item => item[this.itemText]).join(',&nbsp;')

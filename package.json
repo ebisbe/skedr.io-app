@@ -49,6 +49,7 @@
     "vue-apollo": "^3.0.0-alpha.3",
     "vue-auth-cognito": "^0.1.5",
     "vue-axios": "^2.0.2",
+    "vue-observe-visibility": "^0.3.1",
     "vue-router": "^2.8.1",
     "vuelidate": "^0.6.1",
     "vuetify": "^1.0.7",

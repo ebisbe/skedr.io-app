@@ -2,12 +2,16 @@
   <v-card
     :height="`${height}px`"
     flat
+    v-observe-visibility="visibilityChanged"
     class="grey lighten-3 sked-photo"
     @mouseover="hover = true"
     @mouseout="hover = false"
     @click.native="!inPool(photo.photoId) ? addToPool(photo) : removeFromPool(photo.photoId)"
     :class="{'pa-3': inPool(photo.photoId)}">
-    <v-card-media :height="!inPool(photo.photoId) ? `${height}px` : `${height - 32}px`" :src="photo.url_m"/>
+    <v-card-media
+      :class="{'blur':true, 'loaded': isVisible}"
+      :height="!inPool(photo.photoId) ? `${height}px` : `${height - 32}px`"
+      :src="photo.url_m"/>
     <v-icon
       v-if="inPool(photo.photoId)"
       class="sked-checkCircle"
@@ -16,12 +20,11 @@
       v-else-if="hover"
       class="sked-checkCircle white--text">check_circle</v-icon>
     <v-icon v-else class="sked-checkCircle white--text">radio_button_unchecked</v-icon>
-    <v-container style="position:absolute; bottom:0; left:0; padding:inherit;">
+    <v-container>
       <v-list
         two-line
         dark
-        class="pa-0"
-        style="background-color:rgba(66,66,66,0.5); ">
+        class="list pa-0">
         <v-list-tile>
           <v-list-tile-content>
             <v-list-tile-title v-html="photo.title" />
@@ -30,7 +33,6 @@
                 target="_blank"
                 :href="photoLink"
                 @click.stop
-                style="text-decoration: none;"
                 class="white--text">
                 <v-icon>visibility</v-icon>
                 {{ photo.views }}
@@ -91,7 +93,8 @@ export default {
     return {
       groups: [],
       totalFavs: 0,
-      hover: false
+      hover: false,
+      isVisible: false
     }
   },
   computed: {
@@ -109,24 +112,6 @@ export default {
       inPool: 'pool/inPool'
     })
   },
-  created() {
-    let flickr = new Flickr(process.env.FLICKR_KEY)
-    flickr.photos
-      .getAllContexts({ photo_id: this.photo.photoId })
-      .use(superagentCache)
-      .then(response => {
-        if (response.body.hasOwnProperty('pool')) {
-          this.groups = response.body.pool
-        }
-      })
-
-    flickr.photos
-      .getFavorites({ photo_id: this.photo.photoId })
-      .use(superagentCache)
-      .then(response => {
-        this.totalFavs = parseInt(response.body.photo.total)
-      })
-  },
   methods: {
     ...mapActions({
       addToPool: 'pool/add',
@@ -135,6 +120,31 @@ export default {
     }),
     sharePhoto() {
       this.share({ photos: [this.photo], selectedGroups: this.groups })
+    },
+    visibilityChanged(isVisible, entry) {
+      if (this.isVisible === false && isVisible) {
+        console.log(isVisible, this.isVisible)
+        this.isVisible = true
+        this.loadComponent()
+      }
+    },
+    loadComponent() {
+      let flickr = new Flickr(process.env.FLICKR_KEY)
+      flickr.photos
+        .getAllContexts({ photo_id: this.photo.photoId })
+        .use(superagentCache)
+        .then(response => {
+          if (response.body.hasOwnProperty('pool')) {
+            this.groups = response.body.pool
+          }
+        })
+
+      flickr.photos
+        .getFavorites({ photo_id: this.photo.photoId })
+        .use(superagentCache)
+        .then(response => {
+          this.totalFavs = parseInt(response.body.photo.total)
+        })
     }
   }
 }
@@ -147,6 +157,38 @@ export default {
 }
 .sked-photo:hover {
   cursor: pointer;
+}
+.sked-photo .container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: inherit;
+}
+.sked-photo .container .list {
+  background-color: rgba(66, 66, 66, 0.5);
+}
+.sked-photo .container .list .white--text {
+  text-decoration: none;
+}
+.sked-photo .blur {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -ms-filter: blur(5px);
+  -o-filter: blur(5px);
+  filter: blur(5px);
+}
+.sked-photo .blur.loaded {
+  -webkit-transition: all 0.5s linear;
+  -moz-transition: all 0.5s linear;
+  -ms-transition: all 0.5s linear;
+  -o-transition: all 0.5s linear;
+  transition: all 0.5s linear;
+
+  -webkit-filter: blur(0px);
+  -moz-filter: blur(0px);
+  -ms-filter: blur(0px);
+  -o-filter: blur(0px);
+  filter: blur(0px);
 }
 .fade {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3a3a3a+0,3a3a3a+100&0.65+0,0.35+18,0+36,0+79,0.35+94,0.65+100 */

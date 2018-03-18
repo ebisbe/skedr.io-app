@@ -1,11 +1,5 @@
 <template>
   <v-content>
-    <v-progress-linear
-      height="3"
-      class="my-0"
-      color="accent"
-      :indeterminate="true"
-      v-if="loading"/>
     <v-container
       fluid
       grid-list-md
@@ -65,6 +59,7 @@
     <empty
       v-else
       icon="photo"
+      :loading="loading === 1"
       description="You don't have any photo yet"/>
   </v-content>
 </template>
@@ -74,7 +69,7 @@ import Empty from './Empty'
 import { mapState, mapGetters } from 'vuex'
 import STREAM_QUERY from '../../graphql/photostream.gql'
 
-const itemsPerPage = 24
+const itemsPerPage = 9
 export default {
   name: 'Photos',
   components: { Photo, Empty },

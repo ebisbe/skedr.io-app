@@ -1,11 +1,5 @@
 <template>
   <v-content>
-    <v-progress-linear
-      height="3"
-      class="my-0"
-      color="accent"
-      :indeterminate="true"
-      v-if="loading"/>
     <v-container
       v-if="filteredGroups.length"
       fluid
@@ -94,6 +88,7 @@
     <empty
       v-else
       icon="view_day"
+      :loading="loading === 1"
       description="You don't have any group yet"/>
   </v-content>
 </template>

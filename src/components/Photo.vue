@@ -1,13 +1,12 @@
 <template>
   <v-card
-    :height="`${height}px`"
     flat
     v-observe-visibility="visibilityChanged"
     class="grey lighten-3 sked-photo"
     @mouseover="hover = true"
     @mouseout="hover = false"
     @click.native="!inPool(photo.photoId) ? addToPool(photo) : removeFromPool(photo.photoId)"
-    :class="{'pa-3': inPool(photo.photoId)}">
+    :class="{'pa-3': inPool(photo.photoId), 'selected': inPool(photo.photoId)}">
     <v-card-media
       :class="{'blur':true, 'loaded': isVisible}"
       :height="!inPool(photo.photoId) ? `${height}px` : `${height - 32}px`"
@@ -57,7 +56,7 @@
                 @click.stop="sharePhoto">
                 <v-icon>share</v-icon>
               </v-btn>
-              <span>Sked pool</span>
+              <span>Sked <br>'{{ photo.title }}'</span>
             </v-tooltip>
           </v-list-tile-action>
         </v-list-tile>
@@ -155,6 +154,11 @@ export default {
   top: 8px;
   left: 8px;
 }
+
+.sked-photo {
+  padding: 0;
+  transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 .sked-photo:hover {
   cursor: pointer;
 }
@@ -165,60 +169,17 @@ export default {
   padding: inherit;
 }
 .sked-photo .container .list {
-  background-color: rgba(66, 66, 66, 0.5);
+  background-color: rgba(66, 66, 66, 0.3);
 }
 .sked-photo .container .list .white--text {
   text-decoration: none;
 }
 .sked-photo .blur {
-  -webkit-filter: blur(5px);
-  -moz-filter: blur(5px);
-  -ms-filter: blur(5px);
-  -o-filter: blur(5px);
   filter: blur(5px);
 }
 .sked-photo .blur.loaded {
-  -webkit-transition: all 0.5s linear;
-  -moz-transition: all 0.5s linear;
-  -ms-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
-  transition: all 0.5s linear;
-
-  -webkit-filter: blur(0px);
-  -moz-filter: blur(0px);
-  -ms-filter: blur(0px);
-  -o-filter: blur(0px);
+  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   filter: blur(0px);
-}
-.fade {
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3a3a3a+0,3a3a3a+100&0.65+0,0.35+18,0+36,0+79,0.35+94,0.65+100 */
-  background: -moz-linear-gradient(
-    top,
-    rgba(58, 58, 58, 0.65) 0%,
-    rgba(58, 58, 58, 0.35) 18%,
-    rgba(58, 58, 58, 0) 36%,
-    rgba(58, 58, 58, 0) 79%,
-    rgba(58, 58, 58, 0.35) 94%,
-    rgba(58, 58, 58, 0.65) 100%
-  ); /* FF3.6-15 */
-  background: -webkit-linear-gradient(
-    top,
-    rgba(58, 58, 58, 0.65) 0%,
-    rgba(58, 58, 58, 0.35) 18%,
-    rgba(58, 58, 58, 0) 36%,
-    rgba(58, 58, 58, 0) 79%,
-    rgba(58, 58, 58, 0.35) 94%,
-    rgba(58, 58, 58, 0.65) 100%
-  ); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(
-    to bottom,
-    rgba(58, 58, 58, 0.65) 0%,
-    rgba(58, 58, 58, 0.35) 18%,
-    rgba(58, 58, 58, 0) 36%,
-    rgba(58, 58, 58, 0) 79%,
-    rgba(58, 58, 58, 0.35) 94%,
-    rgba(58, 58, 58, 0.65) 100%
-  ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#a63a3a3a', endColorstr='#a63a3a3a', GradientType=0); /* IE6-9 */
 }
 </style>

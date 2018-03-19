@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     v-model="dialogComputed"
-    :persistent="hasItemsSelected0"
+    :persistent="hasItemsSelected"
     scrollable
     :fullscreen="fullScreenDialog"
     transition="dialog-bottom-transition"

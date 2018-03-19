@@ -6,6 +6,11 @@ query scheduled($userId: ID!) {
     secret
     scheduledAt
     message
+    photo {
+      title
+      server
+      farm
+    }
     group {
       title
     }

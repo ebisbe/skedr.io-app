@@ -3,34 +3,32 @@
     <v-container
       v-if="scheduledPhotos.length"
       fluid
-      grid-list-xl>
+      grid-list-md>
       <v-layout
-        row
-        wrap>
-        <v-flex xs12>
-          <template v-for="(item, index) in scheduled(scheduledPhotos)">
-            <h4
-              class="text-xs-center mt-3"
-              :key="index+item"
-              v-text="index"/>
-            <v-list
-              :key="index"
-              two-line>
-              <template v-for="(group, title) in groups(item)">
-                <v-subheader
-                  v-html="subheader(group[0].group)"
-                  :key="title+index"/>
-                <template v-for="(photo, iteration) in group">
-                  <v-divider
-                    :key="photo.photoId+iteration+title"
-                    v-show="iteration !== 0"
-                    inset/>
-                  <photo-list
-                    :key="title+iteration+photo.photoId"
-                    :photo="photo"/>
-                </template>
-              </template>
-            </v-list>
+        class="pb-3"
+        v-for="(item, index) in scheduled(scheduledPhotos)"
+        :key="index+item">
+        <v-flex
+          xs1
+          class="display-1"
+          v-html="index" />
+        <v-flex xs11>
+          <template v-for="(group, title) in groups(item)">
+            <h2 v-html="subheader(group[0].group)" :key="title+index"/>
+            <v-layout
+              :key="title+index+'layout'"
+              row
+              wrap>
+              <v-flex
+                lg3
+                md4
+                sm6
+                xs12
+                v-for="(photo, iteration) in group"
+                :key="title+iteration+photo.photoId">
+                <photo-scheduled :photo="photo" />
+              </v-flex>
+            </v-layout>
           </template>
         </v-flex>
       </v-layout>
@@ -43,7 +41,7 @@
   </v-content>
 </template>
 <script>
-import PhotoList from '../../components/PhotoList'
+import PhotoScheduled from '../../components/QPhotoScheduled'
 import Empty from './Empty'
 import { mapGetters } from 'vuex'
 import _groupBy from 'lodash/groupby'
@@ -52,7 +50,7 @@ import SCHEDULED_QUERY from '../../graphql/scheduled.gql'
 
 export default {
   name: 'Scheduled',
-  components: { PhotoList, Empty },
+  components: { PhotoScheduled, Empty },
   data() {
     return {
       scheduledPhotos: [],
@@ -64,14 +62,13 @@ export default {
   },
   methods: {
     scheduled(data) {
+      const format = 'D <br> ddd'
       const mappedData = data.map(photo => {
         photo.headerDate = moment.utc(photo.scheduledAt).calendar(null, {
-          nextDay: '[Tomorrow]',
-          nextWeek: 'dddd, Do',
-          sameElse: 'DD-MM-YYYY',
-          lastDay: '[Yesterday]',
-          lastWeek: '[Last] dddd',
-          sameDay: '[Today]'
+          nextDay: format,
+          nextWeek: format,
+          sameElse: format,
+          sameDay: format
         })
         return photo
       })

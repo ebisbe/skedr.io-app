@@ -38,4 +38,38 @@ export default {
   width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
   width: fill-available;
 }
+.sked-checkCircle {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
+.sked-photo {
+  padding: 0;
+  transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.sked-photo:hover {
+  cursor: pointer;
+}
+.sked-photo .container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: inherit;
+}
+.sked-photo .container .list {
+  padding: 0;
+  background-color: rgba(66, 66, 66, 0.5);
+}
+.sked-photo .container .list .white--text {
+  text-decoration: none;
+}
+.sked-photo .blur {
+  filter: blur(5px);
+}
+.sked-photo .blur.loaded {
+  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: blur(0px);
+}
 </style>

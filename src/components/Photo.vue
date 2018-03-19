@@ -23,7 +23,7 @@
       <v-list
         two-line
         dark
-        class="list pa-0">
+        class="list">
         <v-list-tile>
           <v-list-tile-content>
             <v-list-tile-title v-html="photo.title" />
@@ -122,7 +122,6 @@ export default {
     },
     visibilityChanged(isVisible, entry) {
       if (this.isVisible === false && isVisible) {
-        console.log(isVisible, this.isVisible)
         this.isVisible = true
         this.loadComponent()
       }
@@ -148,38 +147,3 @@ export default {
   }
 }
 </script>
-<style>
-.sked-checkCircle {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-}
-
-.sked-photo {
-  padding: 0;
-  transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.sked-photo:hover {
-  cursor: pointer;
-}
-.sked-photo .container {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: inherit;
-}
-.sked-photo .container .list {
-  background-color: rgba(66, 66, 66, 0.3);
-}
-.sked-photo .container .list .white--text {
-  text-decoration: none;
-}
-.sked-photo .blur {
-  filter: blur(5px);
-}
-.sked-photo .blur.loaded {
-  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  filter: blur(0px);
-}
-</style>

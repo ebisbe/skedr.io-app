@@ -7,13 +7,8 @@
     transition="dialog-bottom-transition"
     max-width="500px">
     <v-card>
-      <v-toolbar
-        extended
-        dark
-        color="primary">
-        <v-btn
-          icon
-          @click.native="closePopUp">
+      <v-toolbar dark color="primary">
+        <v-btn icon @click.native="closePopUp">
           <v-icon>close</v-icon>
         </v-btn>
         <v-toolbar-title v-html="toolbarTitle"/>

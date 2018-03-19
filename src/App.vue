@@ -59,7 +59,7 @@ export default {
 }
 .sked-photo .container .list {
   padding: 0;
-  background-color: rgba(66, 66, 66, 0.5);
+  background-color: rgba(66, 66, 66, 0.5) !important;
 }
 .sked-photo .container .list .white--text {
   text-decoration: none;

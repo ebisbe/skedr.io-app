@@ -8,10 +8,7 @@
       :class="{'blur':true, 'loaded': isVisible}"
       height="205px"/>
     <v-container>
-      <v-list
-        two-line
-        dark
-        class="list">
+      <v-list two-line dark>
         <v-list-tile>
           <v-list-tile-content>
             <v-list-tile-title v-html="photo.photo.title" />

@@ -20,10 +20,7 @@
       class="sked-checkCircle white--text">check_circle</v-icon>
     <v-icon v-else class="sked-checkCircle white--text">radio_button_unchecked</v-icon>
     <v-container>
-      <v-list
-        two-line
-        dark
-        class="list">
+      <v-list two-line dark>
         <v-list-tile>
           <v-list-tile-content>
             <v-list-tile-title v-html="photo.title" />

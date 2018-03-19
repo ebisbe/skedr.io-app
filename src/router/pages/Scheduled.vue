@@ -20,7 +20,6 @@
               row
               wrap>
               <v-flex
-                lg3
                 md4
                 sm6
                 xs12

@@ -7,16 +7,14 @@
       :src="url"
       :class="{'blur':true, 'loaded': isVisible}"
       height="205px"/>
-    <v-container>
-      <v-list two-line dark>
-        <v-list-tile>
-          <v-list-tile-content>
-            <v-list-tile-title v-html="photo.photo.title" />
-            <v-list-tile-sub-title v-html="photo.message" />
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-container>
+    <v-list two-line dark>
+      <v-list-tile>
+        <v-list-tile-content>
+          <v-list-tile-title v-html="photo.photo.title" />
+          <v-list-tile-sub-title v-html="photo.message" />
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list>
   </v-card>
 </template>
 <script>

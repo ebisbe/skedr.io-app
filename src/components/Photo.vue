@@ -19,46 +19,44 @@
       v-else-if="hover"
       class="sked-checkCircle white--text">check_circle</v-icon>
     <v-icon v-else class="sked-checkCircle white--text">radio_button_unchecked</v-icon>
-    <v-container>
-      <v-list two-line dark>
-        <v-list-tile>
-          <v-list-tile-content>
-            <v-list-tile-title v-html="photo.title" />
-            <v-list-tile-sub-title>
-              <a
-                target="_blank"
-                :href="photoLink"
-                @click.stop
-                class="white--text">
-                <v-icon>visibility</v-icon>
-                {{ photo.views }}
-              </a>
-              <span>
-                <v-icon v-html="bookmark"/>
-                {{ groups.length }}
-              </span>
-              <span>
-                <v-icon v-html="star"/>
-                {{ totalFavs }}
-              </span>
-            </v-list-tile-sub-title>
-          </v-list-tile-content>
-          <v-list-tile-action>
-            <v-tooltip top class="ma-0">
-              <v-btn
-                icon
-                flat
-                class="mx-1"
-                slot="activator"
-                @click.stop="sharePhoto">
-                <v-icon>share</v-icon>
-              </v-btn>
-              <span>Sked <br>'{{ photo.title }}'</span>
-            </v-tooltip>
-          </v-list-tile-action>
-        </v-list-tile>
-      </v-list>
-    </v-container>
+    <v-list two-line dark>
+      <v-list-tile>
+        <v-list-tile-content>
+          <v-list-tile-title v-html="photo.title" />
+          <v-list-tile-sub-title>
+            <a
+              target="_blank"
+              :href="photoLink"
+              @click.stop
+              class="white--text">
+              <v-icon>visibility</v-icon>
+              {{ photo.views }}
+            </a>
+            <span>
+              <v-icon v-html="bookmark"/>
+              {{ groups.length }}
+            </span>
+            <span>
+              <v-icon v-html="star"/>
+              {{ totalFavs }}
+            </span>
+          </v-list-tile-sub-title>
+        </v-list-tile-content>
+        <v-list-tile-action>
+          <v-tooltip top class="ma-0">
+            <v-btn
+              icon
+              flat
+              class="mx-1"
+              slot="activator"
+              @click.stop="sharePhoto">
+              <v-icon>share</v-icon>
+            </v-btn>
+            <span>Sked <br>'{{ photo.title }}'</span>
+          </v-tooltip>
+        </v-list-tile-action>
+      </v-list-tile>
+    </v-list>
   </v-card>
 </template>
 <script>

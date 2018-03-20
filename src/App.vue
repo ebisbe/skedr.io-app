@@ -51,20 +51,20 @@ export default {
 .sked-photo:hover {
   cursor: pointer;
 }
-.sked-photo .container {
+.sked-photo .list {
   position: absolute;
+  width: 100%;
   bottom: 0;
   left: 0;
   padding: inherit;
-}
-.sked-photo .container .list {
-  padding: 0;
   background-color: rgba(66, 66, 66, 0.5) !important;
 }
-.sked-photo .container .list .white--text {
+.sked-photo .list .white--text {
   text-decoration: none;
 }
 .sked-photo .blur {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
   filter: blur(5px);
 }
 .sked-photo .blur.loaded {

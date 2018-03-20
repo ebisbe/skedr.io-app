@@ -29,8 +29,7 @@ export default new Vuex.Store({
     },
     pageTitle: '',
     token: '',
-    search: '',
-    position: 0
+    search: ''
   },
   mutations: {
     updateRightDrawer(state, message) {

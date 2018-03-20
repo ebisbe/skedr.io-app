@@ -51,13 +51,14 @@
       fixed
       color="primary"
       dark
-      :extended="extendedToolbar"
+      :dense="false"
+      :extended="useExtended && extendedToolbar"
       clipped-left
       clipped-right>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"/>
       <v-toolbar-title style="width: 300px" v-text="pageTitle" />
       <v-flex
-        :slot="extendedToolbar ? 'extension' : false"
+        :slot="useExtended && extendedToolbar ? 'extension' : false"
         class="pa-1">
         <q-filter
           placeholder="Search ..."
@@ -67,7 +68,7 @@
       <v-spacer />
       <v-btn
         icon
-        v-show="!extendedToolbar"
+        v-show="useExtended && !extendedToolbar"
         @click="showSearch = true">
         <v-icon>search</v-icon>
       </v-btn>
@@ -118,7 +119,10 @@ export default {
   },
   computed: {
     ...mapState(['pageTitle']),
-    ...mapGetters(['extendedToolbar'])
+    ...mapGetters(['extendedToolbar']),
+    useExtended() {
+      return this.$route.path !== '/scheduled'
+    }
   },
   watch: {
     search(value) {

@@ -3,6 +3,7 @@
     <v-container
       v-if="scheduledPhotos.length"
       fluid
+      class="pt-0 sked-schedule"
       grid-list-md>
       <v-layout
         class="pb-3"
@@ -10,11 +11,15 @@
         :key="index+item">
         <v-flex
           xs1
-          class="display-1"
-          v-html="index" />
-        <v-flex xs11>
+          class="display-1">
+          <span class="date" v-html="index" />
+        </v-flex>
+        <v-flex xs11 class="pt-0">
           <template v-for="(group, title) in groups(item)">
-            <h2 v-html="subheader(group[0].group)" :key="title+index"/>
+            <h2
+              class="title"
+              v-html="subheader(group[0].group)"
+              :key="title+index"/>
             <v-layout
               :key="title+index+'layout'"
               row
@@ -95,3 +100,17 @@ export default {
   }
 }
 </script>
+<style>
+.sked-schedule .date {
+  position: sticky;
+  top: 60px;
+}
+.sked-schedule .title {
+  padding-top: 10px;
+  padding-bottom: 4px;
+  position: sticky;
+  top: 56px;
+  z-index: 2;
+  background: white;
+}
+</style>

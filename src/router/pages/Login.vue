@@ -20,7 +20,7 @@
                 :value="errorMessage !== ''"
                 class="mt-0 fullWidth topFloat"
                 v-html="errorMessage"
-                transition="scale-transition"/>
+                transition="slide-y-transition"/>
               <v-card-text class="px-0">
                 <h1 class="display-1 mb-4">Log in</h1>
 

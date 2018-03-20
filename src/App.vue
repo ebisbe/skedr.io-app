@@ -28,7 +28,7 @@ export default {
 </script>
 <style>
 .topFloat {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   left: 0;
 }

@@ -8,7 +8,6 @@ import Axios from 'vue-axios'
 import router from './router'
 import vuetify from './settings/vuetify'
 import store from './store'
-import MyFetch from './components/MyFetch'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import VueAnalytics from 'vue-analytics'
@@ -29,7 +28,6 @@ axios.defaults.baseURL = process.env.API_URL
 Vue.use(Axios, axios)
 Vue.config.productionTip = false
 
-Vue.component('MyFetch', MyFetch)
 /* eslint-disable no-new */
 const root = new Vue({
   router,

@@ -65,13 +65,14 @@
 <script>
 import Photo from '../../components/Photo'
 import Empty from './Empty'
+import MyFetch from '../../components/MyFetch'
 import { mapState, mapGetters } from 'vuex'
 import STREAM_QUERY from '../../graphql/photostream.gql'
 
 const itemsPerPage = 6
 export default {
   name: 'Photos',
-  components: { Photo, Empty },
+  components: { Photo, Empty, MyFetch },
   data() {
     return {
       loading: 0,

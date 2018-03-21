@@ -111,6 +111,6 @@ export default {
   position: sticky;
   top: 56px;
   z-index: 2;
-  background: white;
+  background: #fafafa;
 }
 </style>

@@ -51,25 +51,24 @@ export default {
 .sked-photo:hover {
   cursor: pointer;
 }
-.sked-photo .list {
+.sked-photo .container {
   position: absolute;
-  width: 100%;
   bottom: 0;
   left: 0;
   padding: inherit;
-  background-color: rgba(66, 66, 66, 0.5) !important;
 }
-.sked-photo .list .white--text {
-  text-decoration: none;
-}
-.sked-photo .blur {
+.sked-photo .container .list {
+  padding: 0;
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
-  filter: blur(5px);
+  background-color: rgba(66, 66, 66, 0.5) !important;
 }
-.sked-photo .blur.loaded {
-  transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.sked-photo .container .list .white--text {
+  text-decoration: none;
+}
+.sked-photo .card__media {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
   transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  filter: blur(0px);
 }
 </style>

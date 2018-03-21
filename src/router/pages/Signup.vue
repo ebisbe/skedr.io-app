@@ -256,7 +256,7 @@ export default {
           username: this.user,
           password: this.password,
           attributes: {
-            email: this.email,
+            email: this.email.toLowerCase(),
             name: this.firstName,
             family_name: this.lastName
           }

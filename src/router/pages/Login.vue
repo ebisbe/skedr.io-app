@@ -27,7 +27,6 @@
                 <v-text-field
                   label="Enter your email "
                   v-model="form.username"
-                  validate-on-blur
                   required
                   @update:error="username"
                   :disabled="protectedUI"
@@ -98,7 +97,7 @@ export default {
       this.protectedUI = true
       this.$store
         .dispatch('authenticateUser', {
-          username: this.form.username,
+          username: this.form.username.toLowerCase(),
           password: this.form.password
         })
         .then(async () => {

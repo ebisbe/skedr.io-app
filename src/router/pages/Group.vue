@@ -87,8 +87,8 @@
     </v-container>
     <empty
       v-else
-      icon="view_day"
       :loading="loading === 1"
+      icon="view_day"
       description="You don't have any group yet"/>
   </v-content>
 </template>

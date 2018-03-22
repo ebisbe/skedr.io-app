@@ -2,8 +2,8 @@
   <v-dialog
     v-model="dialogComputed"
     :persistent="hasItemsSelected"
-    scrollable
     :fullscreen="fullScreenDialog"
+    scrollable
     transition="dialog-bottom-transition"
     max-width="500px">
     <v-card>
@@ -36,24 +36,24 @@
           class="pa-1">
           <q-filter
             :placeholder="filterPlaceholder"
+            :solo-inverted="true"
             @search="val => { filterWord = val.toLowerCase() }"
             @ctrlEnter="selectFiltered"
-            @ctrlEsc="clearSelected"
-            :solo-inverted="true"/>
+            @ctrlEsc="clearSelected"/>
         </v-flex>
       </v-toolbar>
 
       <v-card-text v-if="showList" class="pa-0">
-        <v-layout wrap v-if="filteredData.length">
+        <v-layout v-if="filteredData.length" wrap>
           <v-list
-            two-line
-            :style="{'width': '100%', 'margin-bottom': hasItemsSelected ? '56px' : '0px'}">
-            <v-subheader v-html="listTitle" class="title"/>
+            :style="{'width': '100%', 'margin-bottom': hasItemsSelected ? '56px' : '0px'}"
+            two-line>
+            <v-subheader class="title" v-html="listTitle"/>
             <transition-group name="whatsapp">
               <slot
-                name="list"
                 v-for="item in filteredData"
-                :item="item">
+                :item="item"
+                name="list">
                 <v-list-tile>
                   <v-list-tile-content>
                     {{ item[itemText] }}
@@ -64,35 +64,35 @@
           </v-list>
         </v-layout>
         <v-layout v-else class="grey lighten-2">
-          <v-flex v-html="noDataText" class="text-xs-center headline py-5 my-5"/>
+          <v-flex class="text-xs-center headline py-5 my-5" v-html="noDataText"/>
         </v-layout>
       </v-card-text>
       <slot
         v-else
-        name="save"
-        :selectedData="selectedData">
+        :selectedData="selectedData"
+        name="save">
         Data could not be saved.
       </slot>
       <transition name="footer">
         <v-toolbar
+          v-show="hasItemsSelected"
           dark
           color="primary"
-          style="position: absolute; bottom:0"
-          v-show="hasItemsSelected">
+          style="position: absolute; bottom:0">
           <div
             style="overflow: hidden; hieght: 12px;"
             class="ellipsis mx-3"
             v-html="selectedDataList"/>
           <v-fab-transition>
             <v-btn
+              v-show="hasItemsSelected"
+              :disabled="!showList"
               dark
               absolute
               top
               right
               fab
-              :disabled="!showList"
               color="secondary"
-              v-show="hasItemsSelected"
               @click="showList = false">
               <v-icon>send</v-icon>
             </v-btn>

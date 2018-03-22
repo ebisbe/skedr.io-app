@@ -3,10 +3,10 @@
     <v-flex xs10>
       <span v-if="autoimportTags.length">
         <q-chip
+          v-for="tag in selectedTags"
           :key="tag.value"
           :tag="tag"
-          @selectedTag="selected"
-          v-for="tag in selectedTags"/>
+          @selectedTag="selected"/>
       </span>
       <span v-else>
         You don't have any tag selected to autoimport photos to this group
@@ -17,28 +17,28 @@
     </v-flex>
     <q-popup
       :data="tags"
-      toolbar-title="Choose tags"
       :dialog="dialog"
+      toolbar-title="Choose tags"
       item-text="value"
       @close="dialog = false">
       <q-tags-dialog-list
         slot="list"
-        slot-scope="props"
         :key="props.item.value"
-        :tag="props.item"/>
+        :tag="props.item"
+        slot-scope="props"/>
       <q-push
         slot="save"
-        slot-scope="props"
         :requests="constructPayload(props.selectedData)"
+        slot-scope="props"
         @loaded="dialog = false"
       />
     </q-popup>
     <v-flex
+      v-for="photo in photos"
+      :key="photo.id"
       md3
       sm6
-      xs12
-      v-for="photo in photos"
-      :key="photo.id">
+      xs12>
       <photo :photo="photo" :tag="selectedTag"/>
     </v-flex>
   </v-layout>

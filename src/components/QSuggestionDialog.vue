@@ -8,8 +8,8 @@
         color="primary">
         <v-btn
           icon
-          @click.native="dialog = false"
-          dark>
+          dark
+          @click.native="dialog = false">
           <v-icon>close</v-icon>
         </v-btn>
         <v-toolbar-title>Write your feedback</v-toolbar-title>
@@ -21,30 +21,30 @@
             xs12
             sm6>
             <v-text-field
+              v-model="feedback.name"
+              :rules="[rules.required]"
               label="Name"
               name="name"
-              v-model="feedback.name"
-              required
-              :rules="[rules.required]"/>
+              required />
           </v-flex>
           <v-flex
             xs12
             sm6>
             <v-text-field
-              label="Email"
-              name="email"
               v-model="feedback.email"
               :rules="[rules.required, rules.email]"
+              label="Email"
+              name="email"
               required/>
           </v-flex>
           <v-flex>
             <v-text-field
+              v-model="feedback.text"
+              :rules="[rules.required]"
               name="feedback"
               label="Feedback"
               multi-line
               required
-              v-model="feedback.text"
-              :rules="[rules.required]"
             />
           </v-flex>
         </v-layout>
@@ -52,8 +52,8 @@
       <v-card-actions>
         <v-spacer/>
         <v-btn
-          color="primary"
           :disabled="protectedUI || disabled"
+          color="primary"
           @click.native="send"
         >
           <span v-if="status === 0">send</span>

@@ -13,9 +13,9 @@
       </v-progress-circular>
       <v-progress-circular
         v-else
-        color="teal"
         :size="100"
         :width="4"
+        color="teal"
         indeterminate/>
     </v-card-text>
   </v-card>

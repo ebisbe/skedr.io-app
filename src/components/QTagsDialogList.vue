@@ -1,16 +1,16 @@
 <template>
   <v-list-tile
+    :class="{selected: tag.selected}"
     avatar
-    @click="select"
-    :class="{selected: tag.selected}">
+    @click="select">
     <v-list-tile-action>
       <v-checkbox
-        @click.prevent
         v-model="tag.selected"
         hide-details
+        @click.prevent
       />
     </v-list-tile-action>
-    <v-list-tile-content v-html="tag.value" style="border-bottom: 1px solid rgba(0,0,0,.12);"/>
+    <v-list-tile-content style="border-bottom: 1px solid rgba(0,0,0,.12);" v-html="tag.value"/>
     <v-list-tile-action style="border-bottom: 1px solid rgba(0,0,0,.12);">
       <v-list-tile-action-text>{{ tag.percentage() }}%</v-list-tile-action-text>
       <v-icon color="yellow darken-2" v-html="icon"/>

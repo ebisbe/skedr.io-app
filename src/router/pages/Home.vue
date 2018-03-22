@@ -18,21 +18,21 @@
           <div>
             <v-tooltip top>
               <v-btn
+                slot="activator"
+                :to="{ name: 'Signup' }"
                 dark
                 large
-                class="primary lighten-1 mt-5"
-                :to="{ name: 'Signup' }"
-                slot="activator">
+                class="primary lighten-1 mt-5">
                 Sign Up
               </v-btn>
               <span>Requires Flickr account</span>
             </v-tooltip>
             <v-btn
+              slot="activator"
+              :to="{ name: 'Login' }"
               dark
               large
-              class="primary lighten-3 mt-5"
-              :to="{ name: 'Login' }"
-              slot="activator">
+              class="primary lighten-3 mt-5">
               Log In
             </v-btn>
           </div>
@@ -84,8 +84,8 @@
                 md4>
                 <v-card>
                   <v-card-media
-                    class="white--text"
                     :height="height"
+                    class="white--text"
                     src="https://c1.staticflickr.com/5/4681/39475349062_10aa876c0e_c.jpg"
                     alt="Among all your photos you can choose to create a pool or sked them directly"
                   />
@@ -103,8 +103,8 @@
                 md4>
                 <v-card>
                   <v-card-media
-                    class="white--text"
                     :height="height"
+                    class="white--text"
                     src="https://c1.staticflickr.com/5/4647/39475348792_94cee1a4de_c.jpg"
                     alt="Filter through your followed groups. Add photos to them."
                   />
@@ -122,8 +122,8 @@
                 md4>
                 <v-card>
                   <v-card-media
-                    class="white--text"
                     :height="height"
+                    class="white--text"
                     src="https://c1.staticflickr.com/5/4739/39475349342_09bc60e943_c.jpg"
                     alt="All photos that can't be added will be skeded."
                   />
@@ -157,11 +157,11 @@
           </em>
           <v-tooltip top>
             <v-btn
-              large
-              class="mt-5"
-              color="primary"
-              :to="{ name: 'Signup' }"
               slot="activator"
+              :to="{ name: 'Signup' }"
+              large
+              color="primary"
+              class="mt-5"
             >
               Sign me in!
             </v-btn>

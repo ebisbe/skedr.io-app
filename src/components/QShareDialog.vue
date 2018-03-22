@@ -2,20 +2,20 @@
   <q-popup
     :data="groups"
     :toolbar-title="title"
+    :dialog="dialog"
     list-title="Groups"
     no-data-text="No groups"
     filter-placeholder="Filter groups"
-    :dialog="dialog"
     @close="clearSharedPool">
     <q-share-dialog-list
       slot="list"
-      slot-scope="props"
+      :group="props.item"
       :key="props.item.groupId"
-      :group="props.item"/>
+      slot-scope="props"/>
     <q-push
       slot="save"
-      slot-scope="props"
       :requests="constructPayload(props.selectedData)"
+      slot-scope="props"
       @loaded="clearSharedPool"
     />
   </q-popup>

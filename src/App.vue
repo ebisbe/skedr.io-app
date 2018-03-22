@@ -1,5 +1,5 @@
 <template>
-  <v-app light v-resize="resize">
+  <v-app v-resize="resize" light>
 
     <router-view name="toolbar"/>
     <router-view/>

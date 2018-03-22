@@ -1,10 +1,10 @@
 <template>
   <v-tooltip bottom>
     <v-btn
-      icon
       slot="activator"
-      @click.stop="rightDrawer = !rightDrawer"
-      class="deep-purple ligthen-2">
+      icon
+      class="deep-purple ligthen-2"
+      @click.stop="rightDrawer = !rightDrawer">
       <v-icon v-text="poolIcon"/>
     </v-btn>
     <span>Pool</span>

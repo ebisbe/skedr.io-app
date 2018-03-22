@@ -41,7 +41,7 @@
     "graphql-tag": "apollographql/graphql-tag",
     "lodash": "^4.17.4",
     "moment": "^2.19.1",
-    "npm": "^5.6.0",
+    "npm": "^5.7.1",
     "raven-js": "^3.21.0",
     "superagent-cache-plugin": "^2.0.0",
     "vue": "^2.5.3",

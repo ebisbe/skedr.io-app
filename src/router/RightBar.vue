@@ -1,31 +1,31 @@
 <template>
   <v-navigation-drawer
+    v-model="rightDrawer"
     clipped
     fixed
     app
-    right
-    v-model="rightDrawer">
+    right>
     <v-container fluid grid-list-md>
       <v-layout pa-0 fluid>
         <v-flex xs6>
           <v-btn
+            :disabled="disable"
             block
             color="success"
             small
             outline
-            @click="share({photos:pool})"
-            :disabled="disable">
+            @click="share({photos:pool})">
             <v-icon>share</v-icon>&nbsp;Sked
           </v-btn>
         </v-flex>
         <v-flex xs6>
           <v-btn
+            :disabled="disable"
             block
             color="error"
             small
             outline
-            @click="clearPool"
-            :disabled="disable">
+            @click="clearPool" >
             <v-icon>delete</v-icon>&nbsp;Clear
           </v-btn>
         </v-flex>
@@ -34,10 +34,10 @@
         <transition-group name="list">
           <template v-for="(photo, key) in pool">
             <v-divider
+              v-if="key !== 0"
               :key="key"
-              inset
-              v-if="key !== 0"/>
-            <v-list-tile avatar :key="photo.id">
+              inset />
+            <v-list-tile :key="photo.id" avatar>
               <v-list-tile-avatar>
                 <img :src="photo.url_sq">
               </v-list-tile-avatar>

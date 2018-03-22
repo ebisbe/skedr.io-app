@@ -1,13 +1,13 @@
 <template>
   <v-list-tile
+    :class="{selected: group.selected}"
     avatar
-    @click="select()"
-    :class="{selected: group.selected}">
+    @click="select()">
     <v-list-tile-avatar>
       <v-badge
-        overlap
         :color="badgeColor"
-        v-model="badge">
+        v-model="badge"
+        overlap>
         <span slot="badge">
           <v-icon color="white">check</v-icon>
         </span>
@@ -18,9 +18,9 @@
       <v-list-tile-title v-html="group.title"/>
       <v-list-tile-sub-title>
         <v-layout
+          v-if="group.alreadyInGroup===true"
           row
-          wrap
-          v-if="group.alreadyInGroup===true">
+          wrap>
           Photo already in this group
         </v-layout>
         <v-layout

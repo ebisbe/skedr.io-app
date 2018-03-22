@@ -1,7 +1,7 @@
 <template>
   <v-container fill-height>
     <v-layout align-center>
-      <v-flex xs12 v-if="!loading">
+      <v-flex v-if="!loading" xs12>
         <div class="text-xs-center">
           <v-icon
             size="120px"

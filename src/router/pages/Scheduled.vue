@@ -6,9 +6,9 @@
       class="pt-0 sked-schedule"
       grid-list-md>
       <v-layout
-        class="pb-3"
         v-for="(item, index) in scheduled(scheduledPhotos)"
-        :key="index+item">
+        :key="index+item"
+        class="pb-3">
         <v-flex
           xs1
           class="display-1">
@@ -17,19 +17,19 @@
         <v-flex xs11 class="pt-0">
           <template v-for="(group, title) in groups(item)">
             <h2
+              :key="title+index"
               class="title"
-              v-html="subheader(group[0].group)"
-              :key="title+index"/>
+              v-html="subheader(group[0].group)"/>
             <v-layout
               :key="title+index+'layout'"
               row
               wrap>
               <v-flex
+                v-for="(photo, iteration) in group"
+                :key="title+iteration+photo.photoId"
                 md4
                 sm6
-                xs12
-                v-for="(photo, iteration) in group"
-                :key="title+iteration+photo.photoId">
+                xs12>
                 <photo-scheduled :photo="photo" />
               </v-flex>
             </v-layout>
@@ -39,8 +39,8 @@
     </v-container>
     <empty
       v-else
-      icon="access_time"
       :loading="loading === 1"
+      icon="access_time"
       description="You don't have any photos scheduled"/>
   </v-content>
 </template>

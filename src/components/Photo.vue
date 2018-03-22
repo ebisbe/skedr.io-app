@@ -1,11 +1,11 @@
 <template>
   <v-card
+    :class="{'pa-3': inPool(photo.photoId), 'selected': inPool(photo.photoId)}"
     flat
     class="grey lighten-3 sked-photo"
     @mouseover="hover = true"
     @mouseout="hover = false"
-    @click.native="!inPool(photo.photoId) ? addToPool(photo) : removeFromPool(photo.photoId)"
-    :class="{'pa-3': inPool(photo.photoId), 'selected': inPool(photo.photoId)}">
+    @click.native="!inPool(photo.photoId) ? addToPool(photo) : removeFromPool(photo.photoId)">
     <v-card-media
       :height="!inPool(photo.photoId) ? `${height}px` : `${height - 32}px`"
       :src="photo.url_m"/>
@@ -24,10 +24,10 @@
             <v-list-tile-title v-html="photo.title" />
             <v-list-tile-sub-title>
               <a
-                target="_blank"
                 :href="photoLink"
-                @click.stop
-                class="white--text">
+                target="_blank"
+                class="white--text"
+                @click.stop>
                 <v-icon>visibility</v-icon>
                 {{ photo.views }}
               </a>
@@ -44,10 +44,10 @@
           <v-list-tile-action>
             <v-tooltip top class="ma-0">
               <v-btn
+                slot="activator"
                 icon
                 flat
                 class="mx-1"
-                slot="activator"
                 @click.stop="sharePhoto">
                 <v-icon>share</v-icon>
               </v-btn>

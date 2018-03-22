@@ -1,10 +1,10 @@
 <template>
   <div>
     <v-navigation-drawer
+      v-model="drawer"
       clipped
       fixed
       app
-      v-model="drawer"
     >
       <v-list>
         <v-list-tile
@@ -20,9 +20,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-divider/>
-        <v-list-tile
-          @click="suggestionDialog = true"
-          ripple>
+        <v-list-tile ripple @click="suggestionDialog = true">
           <v-list-tile-action>
             <v-icon>announcement</v-icon>
           </v-list-tile-action>
@@ -31,9 +29,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-divider/>
-        <v-list-tile
-          @click.stop="logout"
-          ripple>
+        <v-list-tile ripple @click.stop="logout">
           <v-list-tile-action>
             <v-icon>input</v-icon>
           </v-list-tile-action>
@@ -47,12 +43,12 @@
         @close="suggestionDialog = false"/>
     </v-navigation-drawer>
     <v-toolbar
+      :dense="false"
+      :extended="useExtended && extendedToolbar"
       app
       fixed
       color="primary"
       dark
-      :dense="false"
-      :extended="useExtended && extendedToolbar"
       clipped-left
       clipped-right>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"/>
@@ -61,25 +57,25 @@
         :slot="useExtended && extendedToolbar ? 'extension' : false"
         class="pa-1">
         <q-filter
+          :solo-inverted="true"
           placeholder="Search ..."
-          @search="searchText"
-          :solo-inverted="true"/>
+          @search="searchText"/>
       </v-flex>
       <v-spacer />
       <v-btn
-        icon
         v-show="useExtended && !extendedToolbar"
+        icon
         @click="showSearch = true">
         <v-icon>search</v-icon>
       </v-btn>
       <v-text-field
-        v-model="search"
         v-show="showSearch"
+        v-model="search"
+        :append-icon-cb="() => {showSearch = false; search =''}"
         color="white"
         hide-details
         class="py-2"
         append-icon="close"
-        :append-icon-cb="() => {showSearch = false; search =''}"
         placeholder="Search ..."/>
       <q-pool-btn/>
     </v-toolbar>

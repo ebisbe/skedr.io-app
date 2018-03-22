@@ -1,31 +1,31 @@
 <template>
   <v-content>
     <v-container
+      v-if="userPhotos.length"
       fluid
-      grid-list-md
-      v-if="userPhotos.length">
+      grid-list-md >
       <v-layout
+        v-if="searchImages === ''"
         row
-        wrap
-        v-if="searchImages === ''">
+        wrap >
         <v-flex
+          v-for="photo in userPhotos"
+          :key="photo.id"
           md4
           sm6
-          xs12
-          v-for="photo in userPhotos"
-          :key="photo.id">
+          xs12>
           <photo :photo="photo"/>
         </v-flex>
         <v-flex>
           <v-btn
+            :disabled="loading === 1"
             block
             color="info"
-            @click="showMore"
-            :disabled="loading === 1"
-            dark>
+            dark
+            @click="showMore">
             <v-progress-circular
-              indeterminate
               v-if="loading"
+              indeterminate
               color="info"/>
             <span v-else>
               &nbsp;Load more photos...
@@ -36,19 +36,19 @@
       <v-layout v-else>
         <my-fetch
           :url="searchImages"
-          method="post"
-          :data="{text: search}">
+          :data="{text: search}"
+          method="post">
           <transition-group
             name="list"
             tag="div"
             class="layout wrap"
             slot-scope="data">
             <v-flex
+              v-for="photo in data.photo"
+              :key="photo.id"
               md3
               sm6
-              xs12
-              v-for="photo in data.photo"
-              :key="photo.id">
+              xs12>
               <photo :photo="photo"/>
             </v-flex>
           </transition-group>
@@ -57,8 +57,8 @@
     </v-container>
     <empty
       v-else
-      icon="photo"
       :loading="loading === 1"
+      icon="photo"
       description="You don't have any photo yet"/>
   </v-content>
 </template>

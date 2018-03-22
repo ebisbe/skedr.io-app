@@ -7,51 +7,51 @@
           sm6
           md5
           lg3>
-          <v-form @submit.stop.prevent="handleSubmit" method="post">
+          <v-form method="post" @submit.stop.prevent="handleSubmit">
 
             <v-card class="elevation-12 pa-5">
               <v-progress-linear
-                height="3"
-                class="my-0 topFloat"
+                v-if="protectedUI"
                 :indeterminate="true"
-                v-if="protectedUI"/>
+                height="3"
+                class="my-0 topFloat"/>
               <v-alert
-                type="error"
                 :value="errorMessage !== ''"
+                type="error"
+                transition="slide-y-transition"
                 class="mt-0 fullWidth topFloat"
-                v-html="errorMessage"
-                transition="slide-y-transition"/>
+                v-html="errorMessage"/>
               <v-card-text class="px-0">
                 <h1 class="display-1 mb-4">Log in</h1>
 
                 <v-text-field
-                  label="Enter your email "
                   v-model="form.username"
-                  required
-                  @update:error="username"
                   :disabled="protectedUI"
                   :rules="[rules.required, rules.email]"
+                  label="Enter your email "
+                  required
+                  @update:error="username"
                 />
 
                 <v-text-field
-                  label="Enter your password "
                   v-model="form.password"
                   :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
                   :append-icon-cb="() => (passVisibility = !passVisibility)"
                   :type="passVisibility ? 'password' : 'text'"
-                  required
                   :disabled="protectedUI"
-                  @update:error="password"
-                  :rules="[rules.required, rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"/>
+                  :rules="[rules.required, rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
+                  required
+                  label="Enter your password "
+                  @update:error="password"/>
 
               </v-card-text>
               <v-card-actions class="px-0">
                 <v-spacer/>
                 <v-btn
+                  :disabled="!formIsValid || protectedUI"
                   text-xs-right
                   type="submit"
-                  color="primary"
-                  :disabled="!formIsValid || protectedUI">
+                  color="primary">
                   continue
                 </v-btn>
               </v-card-actions>

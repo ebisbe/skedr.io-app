@@ -1,5 +1,5 @@
 <template>
-  <v-content style="background-image: url(/static/img/login.jpg); background-size: cover;">
+  <v-content style="background-image: url(/static/img/login.jpg); background-size: cover;" alt="Sometext">
     <v-container
       fluid
       fill-height
@@ -54,28 +54,27 @@
           <v-card class="elevation-12 pa-5">
 
             <v-progress-linear
-              height="3"
-              class="my-0 topFloat"
+              v-show="protectedUI"
               :indeterminate="true"
-              v-show="protectedUI"/>
+              height="3"
+              class="my-0 topFloat"/>
             <h1 class="display-1 mb-4">Sign up</h1>
             <v-stepper
-              class="elevation-0"
               v-model="step"
+              class="elevation-0"
               vertical>
               <v-alert
-                :color="alert.color"
-                class="mt-0"
                 v-show="alert.message"
+                :color="alert.color"
                 :icon="alert.icon"
+                class="mt-0"
                 value="true">
                 {{ alert.message }}
               </v-alert>
               <v-stepper-step
-                step="1"
-                :complete="step > 1">
+                :complete="step > 1"
+                step="1">
                 Sign up with Flickr
-
               </v-stepper-step>
               <v-stepper-content step="1">
                 <small>First we need to connect to you flickr account. Upon pressing Connect button you will
@@ -83,62 +82,62 @@
                 </small>
                 <br>
                 <v-btn
+                  :disabled="protectedUI"
                   color="primary"
-                  @click="handleSubmit"
-                  :disabled="protectedUI">{{ button }}
+                  @click="handleSubmit">{{ button }}
                 </v-btn>
               </v-stepper-content>
               <v-stepper-step
-                step="2"
-                :complete="step > 2">Create your account
+                :complete="step > 2"
+                step="2">Create your account
               </v-stepper-step>
               <v-stepper-content step="2">
-                <v-form @submit.stop.prevent="signupUser" method="post">
+                <v-form method="post" @submit.stop.prevent="signupUser">
                   <v-text-field
-                    label="Email"
-                    prepend-icon="person"
                     v-model="email"
-                    min="1"
                     :disabled="disableAllInputs"
                     :rules="[rules.required, rules.email]"
+                    label="Email"
+                    prepend-icon="person"
+                    min="1"
                     required
                   />
                   <v-text-field
-                    label="Password"
-                    prepend-icon="lock"
                     v-model="password"
                     :disabled="disableAllInputs"
-                    :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
                     :append-icon-cb="() => (passVisibility = !passVisibility)"
+                    :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
                     :type="passVisibility ? 'password' : 'text'"
                     :rules="[rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
+                    label="Password"
+                    prepend-icon="lock"
                   />
                   <v-btn
+                    :disabled="protectedUI || disableAllInputs"
                     type="submit"
-                    color="primary"
-                    :disabled="protectedUI || disableAllInputs">
+                    color="primary">
                     Signup
                   </v-btn>
                 </v-form>
               </v-stepper-content>
               <v-stepper-step
-                step="3"
-                :complete="step > 3">Validate your email
+                :complete="step > 3"
+                step="3">Validate your email
               </v-stepper-step>
               <v-stepper-content step="3">
                 <small>We have sent you an email with a validation code. Please paste the code here to validate your email. If you haven't received in a few minutes check your spam folder.</small>
                 <br>
                 <v-form @submit.stop.prevent="validateCode">
                   <v-text-field
-                    label="Code"
                     v-model="code"
                     :disabled="disableAllInputs"
                     :rules="[rules.numbers]"
+                    label="Code"
                     counter="6"
                   />
                   <div
-                    class="form-group"
-                    v-show="showResendButton">
+                    v-show="showResendButton"
+                    class="form-group">
                     <button
                       class="btn btn-sm btn-info"
                       @click.stop.prevent="resendCode">Resend
@@ -146,9 +145,9 @@
                     </button>
                   </div>
                   <v-btn
+                    :disabled="protectedUI || disableAllInputs"
                     type="submit"
-                    color="primary"
-                    :disabled="protectedUI || disableAllInputs">
+                    color="primary">
                     Confirm code
                   </v-btn>
                   <v-btn flat>Cancel</v-btn>

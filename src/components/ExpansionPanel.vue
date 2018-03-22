@@ -13,8 +13,8 @@
           <a
             :href="link"
             target="_blank"
-            @click.stop
-            class="text--secondary">
+            class="text--secondary"
+            @click.stop>
             <img :src="group.icon" :alt="group.title">
           </a>
         </v-avatar>
@@ -29,7 +29,7 @@
             xs12
             sm6
             lg6>
-            <strong v-html="group.title" class="break"/>
+            <strong class="break" v-html="group.title"/>
             <!--<a :href="link"-->
             <!--target="_blank"-->
             <!--class="text&#45;&#45;secondary">-->
@@ -55,13 +55,13 @@
             <v-spacer/>
             <span>
               <v-btn
+                :disabled="disabled"
                 icon
                 flat
                 small
-                @click.stop="share"
                 color="primary"
                 class="ma-0"
-                :disabled="disabled">
+                @click.stop="share">
                 <v-icon>share</v-icon>
               </v-btn>
             </span>

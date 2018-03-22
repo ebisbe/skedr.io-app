@@ -32,7 +32,7 @@ Vue.config.productionTip = false
 const root = new Vue({
   router,
   store,
-  apolloProvider,
+  provide: apolloProvider.provide(),
   components: { App },
   beforeCreate() {
     store.dispatch('pool/load', localStorage.getObject('pool.photos'))

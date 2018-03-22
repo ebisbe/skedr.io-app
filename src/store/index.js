@@ -5,20 +5,15 @@ import createLogger from 'vuex/dist/logger'
 import cognitoConfig from './cognito'
 import CognitoAuth from 'vue-auth-cognito'
 
-import pool from './modules/pool'
-import sharedPool from './modules/sharedPool'
-//import pageLoader from './modules/pageLoader'
+import modules from './modules'
+modules['cognito'] = new CognitoAuth(cognitoConfig)
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
 const devenv = process.env.NODE_ENV === 'dev'
 
 export default new Vuex.Store({
-  modules: {
-    cognito: new CognitoAuth(cognitoConfig),
-    pool,
-    sharedPool
-  },
+  modules,
   strict: debug,
   plugins: devenv ? [createLogger()] : [],
   state: {

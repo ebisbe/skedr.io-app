@@ -1,184 +1,259 @@
 <template>
-  <v-content>
-    <section>
-      <v-parallax
-        src="/static/img/weat_field.jpg"
-        alt="Background: Weat field with bokeh."
-        height="600">
+  <v-content class="landing">
+    <v-fab-transition>
+      <v-btn
+        v-show="showButton"
+        color="white"
+        fab
+        fixed
+        bottom
+        right
+        @click.native="moveSectionDown"
+      >
+        <v-icon x-large>expand_more</v-icon>
+      </v-btn>
+    </v-fab-transition>
+    <full-page
+      :options="options"
+      @on-leave="onLeave"
+      @after-load="afterLoad">
+      <v-container class="section info pa-0">
         <v-layout
-          column
           align-center
           justify-center
-          class="white--text"
-        >
-          <h1 class="white--text mb-2 display-1 text-xs-center">Autoimport and autosked for Flickr groups</h1>
-          <div class="subheading mb-3 text-xs-center">
-            Spend less time sharing photos, go out to take more
-          </div>
-          <div>
-            <v-tooltip top>
-              <v-btn
-                slot="activator"
-                :to="{ name: 'Signup' }"
-                dark
-                large
-                class="primary lighten-1 mt-5">
-                Sign Up
-              </v-btn>
-              <span>Requires Flickr account</span>
-            </v-tooltip>
-            <v-btn
-              slot="activator"
-              :to="{ name: 'Login' }"
-              dark
-              large
-              class="primary lighten-3 mt-5">
-              Log In
-            </v-btn>
-          </div>
-        </v-layout>
-      </v-parallax>
-    </section>
-    <section>
-      <v-layout
-        column
-        wrap
-        align-center
-      >
-        <v-jumbotron
-          src="/static/img/material2.jpg"
-          gradient="to top right, rgba(63,81,181, .7), rgba(25,32,72, .7)">
-          <v-container fill-height>
-            <v-layout align-center>
-              <v-flex>
-                <h3 class="display-2">Share in Flickr <strong>just</strong> once each photo</h3>
-                <span class="subheading">We know it's hard to track which photo couldn't be added due to group restrictions. If it fails we will rember next day to add it for you, for every photo and group it missed</span>
-                <v-divider class="my-3"/>
-                <div class="title mb-3">Check out how it works!</div>
-                <v-btn
-                  large
-                  color="primary"
-                  class="mx-0"
-                  href="#how-it-works">Read more</v-btn>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-jumbotron>
-      </v-layout>
-    </section>
-    <a id="how-it-works"/>
-    <section>
-      <v-layout
-        column
-        wrap
-        class="my-5">
-        <v-flex xs12>
-          <h2 class="text-xs-center">How it works?</h2>
-          <v-container grid-list-xl>
-            <v-layout
-              row
-              wrap
-              align-center>
-              <v-flex
-                xs12
-                md4>
-                <v-card>
-                  <v-card-media
-                    :height="height"
-                    class="white--text"
-                    src="https://c1.staticflickr.com/5/4681/39475349062_10aa876c0e_c.jpg"
-                    alt="Among all your photos you can choose to create a pool or sked them directly"
-                  />
-                  <v-card-title>
-                    <div>
-                      <h2><v-icon color="secondary">add_to_photos</v-icon>&nbsp;Creating the pool</h2>
-                      Find all your photos that you want to share. Add them to your
-                      virtual pool. You can share a single photo directly. It's even faster!
-                    </div>
-                  </v-card-title>
-                </v-card>
-              </v-flex>
-              <v-flex
-                xs12
-                md4>
-                <v-card>
-                  <v-card-media
-                    :height="height"
-                    class="white--text"
-                    src="https://c1.staticflickr.com/5/4647/39475348792_94cee1a4de_c.jpg"
-                    alt="Filter through your followed groups. Add photos to them."
-                  />
-                  <v-card-title>
-                    <div>
-                      <h2><v-icon color="secondary">share</v-icon>&nbsp;Sharing to groups</h2>
-                      Filter through your followed groups. Choose one, two or all of them. With
-                      <strong>one click</strong> add the pool to the selected groups.
-                    </div>
-                  </v-card-title>
-                </v-card>
-              </v-flex>
-              <v-flex
-                xs12
-                md4>
-                <v-card>
-                  <v-card-media
-                    :height="height"
-                    class="white--text"
-                    src="https://c1.staticflickr.com/5/4739/39475349342_09bc60e943_c.jpg"
-                    alt="All photos that can't be added will be skeded."
-                  />
-                  <v-card-title>
-                    <div>
-                      <h2><v-icon color="secondary">access_time</v-icon>&nbsp;Autoschedule photos</h2>
-                      All photos that can't be added due to group restriccions
-                      will be scheduled. You will don't need to try it again next day or week.
-                    </div>
-                  </v-card-title>
-                </v-card>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-flex>
-      </v-layout>
-    </section>
-
-    <section>
-      <v-parallax
-        src="/static/img/hero.jpeg"
-        alt="Background: Sea shoreline"
-        height="380">
-        <v-layout
           column
-          align-center
-          justify-center>
-          <div class="headline white--text mb-3 text-xs-center">Improve your profile</div>
-          <em>Sharing photos to more groups will make your photos more visible at Flickr. You will gain more
-          views and favs, followers too!
-          </em>
-          <v-tooltip top>
-            <v-btn
-              slot="activator"
-              :to="{ name: 'Signup' }"
-              large
-              color="primary"
-              class="mt-5"
-            >
-              Sign me in!
-            </v-btn>
-            <span>Requires Flickr account</span>
-          </v-tooltip>
+          class="white pa-0 pb-5"
+          style="height:80%">
+          <img
+            height="152"
+            src="/static/img/clock.png"
+            alt="Skedr.io">
+          <h1 xs12 class="display-4 text-xs-center">Skedr.io</h1>
+          <p class="headline">Discover your free time</p>
         </v-layout>
-      </v-parallax>
-    </section>
+      </v-container>
+      <v-container class="section white pa-0">
+        <v-layout
+          align-center
+          class="info white--text"
+          style="height:80%;">
+          <v-flex :class="{'hiddenInfo': true, information, 'offset-xs1': information}">
+            <h2 class="display-3 ">Make the
+              <br>most of
+            <br>every day</h2>
+            <p class="title">The new Skedr app helps
+              <br>you spend less time managing your
+            <br>schedule and more time enjoying it.</p>
+          </v-flex>
+        </v-layout>
+      </v-container>
+      <v-container class="section pa-0">
+        <v-layout
+          align-center
+          class="backgrounds"
+          style="background-image:url(/static/img/dikaseva-35077-unsplash-blur-min.jpg);">
+          <v-flex :class="{'hiddenInfo': true, 'white--text':true, information, 'offset-xs1': information}">
+            <h2 class="display-3 ">Photos from
+              <br>Flickr are added
+            <br>to your groups</h2>
+            <p class="title">When you upload a
+              <br>photo tagged it will be added
+            <br>to your selected groups automatically.</p>
+          </v-flex>
+        </v-layout>
+      </v-container>
+      <v-container class="section pa-0">
+        <v-layout
+          align-center
+          class="backgrounds"
+          style="background-image:url(/static/img/galen-crout-78522-unsplash-blur-min.jpg); ">
+          <v-flex :class="{'hiddenInfo': true, 'white--text':true, information, 'offset-xs1': information}">
+            <h2 class="display-3 ">Scheduled photos</h2>
+            <p class="title">Schedule View brings your schedule
+              <br>to life and makes it easy to see what's
+            <br>ahead in time.</p>
+          </v-flex>
+        </v-layout>
+      </v-container>
+      <v-container class="section info pa-0 white--text">
+        <v-flex class="text-xs-center display-3 pa-5">Enjoy your free time</v-flex>
+        <v-layout
+          row
+          wrap
+          style="height:50vh; align-items: center;">
+          <v-flex class="xs12 sm6">
+            <v-layout
+              align-center
+              justify-center
+              column
+              class="pa-0 pb-5">
+              <v-avatar
+                color="white"
+                size="105px">
+                <v-icon x-large>show_chart</v-icon>
+              </v-avatar>
+              <p class="headline text-xs-center">Sharing photos to more groups
+                <br>will make your photos more
+              <br>visible at Flickr.</p>
+            </v-layout>
+          </v-flex>
+          <v-flex class="xs12 sm6">
+            <v-layout
+              align-center
+              justify-center
+              column
+              class="pa-0 pb-5">
+              <v-avatar
+                color="white"
+                size="105px">
+                <v-icon x-large>photo</v-icon>
+              </v-avatar>
+              <p class="headline text-xs-center">Enjoy your time <br>taking more photos.</p>
+            </v-layout>
+          </v-flex>
+        </v-layout>
+        <v-flex class="blue darken-3 pa-5 display-3 text-xs-center ">
+          Try Skedr.io
+        </v-flex>
+      </v-container>
+    </full-page>
+    <div
+      id="device"
+      :class="device">
+      <div class="device-frame">
+        <div class="device-screen">
+          <img
+            style="position:absolute; z-index:5;"
+            class="device-content"
+            src="/static/img/View_photostream-min.png">
+          <img
+            :class="{initShare: true, 'device-content': true, share: share >= 2}"
+            src="/static/img/Action_share-min.png">
+          <img
+            :class="{initShare: true, 'device-content': true, share: share >= 3}"
+            src="/static/img/View_scheduled-min.png">
+        </div>
+      </div>
+      <div class="device-stripe"/>
+      <div class="device-header"/>
+      <div class="device-sensors"/>
+      <div class="device-btns"/>
+      <div class="device-power"/>
+    </div>
   </v-content>
 </template>
 <script>
+import FullPage from 'vue-fullpage.js'
+
 export default {
   name: 'Home',
+  components: { FullPage },
   data() {
     return {
-      height: 300
+      options: {
+        scrollingSpeed: 1000,
+        css3: true,
+        easingcss3: 'cubic-bezier(0.4, 0, 0.2, 1)'
+      },
+      information: false,
+      device: {
+        device: true,
+        'device-google-pixel': true,
+        'device-black': true,
+        initPosition: false,
+        hiddenPosition: false,
+        fixed: false
+      },
+      share: 0,
+      showButton: true
+    }
+  },
+  methods: {
+    onLeave(index, nextIndex, direction) {
+      if (index === 1 && nextIndex === 2) {
+        this.device.initPosition = true
+      }
+      if (index === 2 && nextIndex === 1) {
+        this.device.initPosition = false
+        this.device.fixed = false
+      }
+      if (index === 4 && nextIndex === 5) {
+        this.device.hiddenPosition = true
+        this.device.fixed = false
+        this.showButton = false
+      }
+      if (index === 5 && nextIndex === 4) {
+        this.device.hiddenPosition = false
+        this.device.fixed = true
+        this.showButton = true
+      }
+      this.information = false
+      if (direction === 'down') {
+        this.share++
+      } else {
+        this.share--
+      }
+    },
+    afterLoad(anchorLink, index) {
+      this.information = true
+    },
+    moveSectionDown() {
+      $.fn.fullpage.moveSectionDown()
     }
   }
 }
 </script>
+<style>
+.landing .container {
+  margin: 0;
+  max-width: inherit;
+  height: 100%;
+}
+.backgrounds {
+  height: 60%;
+  top: 15%;
+  position: relative;
+  background-size: cover;
+  background-position-y: bottom;
+}
+
+.section .hiddenInfo {
+  opacity: 0;
+  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: margin opacity;
+}
+.section .information {
+  opacity: 1;
+}
+
+.device {
+  position: absolute;
+  transition: top 1s cubic-bezier(0.4, 0, 0.2, 1);
+  top: 90vh;
+  right: 26vw;
+}
+.device.initPosition {
+  top: 15vh;
+}
+.device.hiddenPosition {
+  top: -850px;
+}
+.device.fixed {
+  position: fixed;
+}
+
+.device .device-frame .device-screen {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+.device .device-frame .device-screen .initShare {
+  position: absolute;
+  z-index: 6;
+  bottom: -100%;
+  transition: bottom 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.device .device-frame .device-screen .initShare.share {
+  bottom: 0;
+}
+</style>

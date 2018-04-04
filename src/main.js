@@ -22,6 +22,7 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
+require('devices.css/dist/devices.css')
 require('./libs/storage')
 
 axios.defaults.baseURL = process.env.API_URL

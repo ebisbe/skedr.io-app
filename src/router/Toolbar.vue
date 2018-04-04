@@ -2,29 +2,27 @@
   <v-toolbar
     app
     fixed
-    color="primary"
-    dark>
+    color="white">
     <h1>
       <router-link
         to="/"
-        style="color: #fff; text-decoration: none;"
+        class="grey--text darken-2"
+        style="text-decoration: none;"
         v-html="title"/>
     </h1>
     <v-spacer/>
-    <v-toolbar-items>
-      <v-btn
-        :to="{name: 'Login'}"
-        flat
-        class="mr-4">
-        Log in
-      </v-btn>
-      <v-btn
-        :to="{name: 'Signup'}"
-        flat
-        class="mr-4">
-        Sign up
-      </v-btn>
-    </v-toolbar-items>
+    <v-btn
+      :to="{name: 'Login'}"
+      flat
+      class="mr-4 grey--text darken-2">
+      Log in
+    </v-btn>
+    <v-btn
+      :to="{name: 'Signup'}"
+      color="primary"
+      class="mr-4">
+      Sign up
+    </v-btn>
   </v-toolbar>
 </template>
 <script>

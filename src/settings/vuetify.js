@@ -70,7 +70,7 @@ Vue.use(Vuetify, {
     accent: '#f57c00',
     error: '#F44336',
     warning: '#ffeb3b',
-    info: '#2196F3',
+    info: '#4184f3',
     success: '#4CAF50'
   }
 })

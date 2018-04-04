@@ -1,5 +1,5 @@
 <template>
-  <v-content style="background-image: url(/static/img/login.jpg); background-size: cover;" alt="Sometext">
+  <v-content style="background-image: url(/static/img/login-blur-min.jpg); background-size: cover;" alt="Sometext">
     <v-container
       fluid
       fill-height
@@ -15,7 +15,7 @@
           order-md1
           order-xs2
           md5>
-          <div class="information pa-5">
+          <div class="explanation pa-5">
             <v-flex class="block my-2">
               <v-flex>
                 <v-icon x-large>autorenew</v-icon>
@@ -358,10 +358,10 @@ export default {
 }
 </script>
 <style>
-.information {
+.explanation {
   background: rgba(255, 255, 255, 0.534);
 }
-.information .block {
+.explanation .block {
   display: flex;
 }
 
@@ -369,7 +369,7 @@ export default {
   float: left;
   align-content: flex-start;
 }
-.information .text {
+.explanation .text {
   float: right;
 }
 </style>

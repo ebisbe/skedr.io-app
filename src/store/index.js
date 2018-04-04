@@ -34,7 +34,7 @@ export default new Vuex.Store({
       state.search = value.toLowerCase()
     },
     setPageTitle(state, value) {
-      state.pageTitle = `Beta - ${value}`
+      state.pageTitle = `${value}`
     },
     window({ window }, payload) {
       window.width = payload.width
@@ -42,8 +42,13 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    userId(state) {
-      return decodeURIComponent(state.cognito.user.username)
+    userId({ cognito }) {
+      const { user } = cognito
+      if (user !== null) {
+        const { username } = user
+        return decodeURIComponent(username)
+      }
+      return false
     },
     fullScreenDialog({ window }) {
       return window.width < 550

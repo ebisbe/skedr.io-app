@@ -37,8 +37,8 @@
           align-center
           class="info white--text"
           style="height:80%;">
-          <v-flex :class="{'hiddenInfo': true, information, 'offset-xs1': information}">
-            <h2 class="display-3 ">Make the
+          <v-flex :class="{'hiddenInfo': true, information, 'offset-xs1': information, 'xs5': true}">
+            <h2 class="display-3">Make the
               <br>most of
             <br>every day</h2>
             <p class="title">The new Skedr app helps
@@ -68,10 +68,12 @@
           class="backgrounds"
           style="background-image:url(/static/img/galen-crout-78522-unsplash-blur-min.jpg); ">
           <v-flex :class="{'hiddenInfo': true, 'white--text':true, information, 'offset-xs1': information}">
-            <h2 class="display-3 ">Scheduled photos</h2>
-            <p class="title">Schedule View brings your schedule
-              <br>to life and makes it easy to see what's
-            <br>ahead in time.</p>
+            <h2 class="display-3 ">Scheduled
+            <br>photos</h2>
+            <p class="title">Schedule View brings
+              <br>your schedule to life
+              <br>and makes it easy to
+            <br> see what's ahead in time.</p>
           </v-flex>
         </v-layout>
       </v-container>
@@ -80,8 +82,8 @@
         <v-layout
           row
           wrap
-          style="height:50vh; align-items: center;">
-          <v-flex class="xs12 sm6">
+          class="py-5">
+          <v-flex class="xs12 sm6 py-5">
             <v-layout
               align-center
               justify-center
@@ -92,12 +94,12 @@
                 size="105px">
                 <v-icon x-large>show_chart</v-icon>
               </v-avatar>
-              <p class="headline text-xs-center">Sharing photos to more groups
-                <br>will make your photos more
-              <br>visible at Flickr.</p>
+              <p class="headline text-xs-center">Sharing photos to more
+                <br>groups will make your
+              <br>photos more visible at Flickr.</p>
             </v-layout>
           </v-flex>
-          <v-flex class="xs12 sm6">
+          <v-flex class="xs12 sm6 py-5">
             <v-layout
               align-center
               justify-center
@@ -158,6 +160,7 @@ export default {
       information: false,
       device: {
         device: true,
+        deviceCustom: true,
         'device-google-pixel': true,
         'device-black': true,
         initPosition: false,
@@ -226,11 +229,9 @@ export default {
   opacity: 1;
 }
 
-.device {
-  position: absolute;
+.deviceCustom {
+  position: absolute !important;
   transition: top 1s cubic-bezier(0.4, 0, 0.2, 1);
-  top: 90vh;
-  right: 26vw;
 }
 .device.initPosition {
   top: 15vh;
@@ -255,5 +256,48 @@ export default {
 }
 .device .device-frame .device-screen .initShare.share {
   bottom: 0;
+}
+
+@media all and (min-width: 0) {
+  .mediaColor {
+    color: lime;
+  }
+  .deviceCustom {
+    top: 90vh;
+    right: -20vw;
+  }
+}
+@media all and (min-width: 600px) {
+  .mediaColor {
+    color: limegreen;
+  }
+  .deviceCustom {
+    top: 90vh;
+    right: -10vw;
+  }
+}
+@media all and (min-width: 960px) {
+  .mediaColor {
+    color: greenyellow;
+  }
+  .deviceCustom {
+    top: 90vh;
+    right: 10vw;
+  }
+}
+@media all and (min-width: 1265px) {
+  .mediaColor {
+    color: forestgreen;
+  }
+
+  .deviceCustom {
+    top: 90vh;
+    right: 26vw;
+  }
+}
+@media all and (min-width: 1905px) {
+  .mediaColor {
+    color: green;
+  }
 }
 </style>

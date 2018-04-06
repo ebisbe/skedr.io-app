@@ -1,9 +1,10 @@
 import { signReq } from '../libs/aws-lib'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['userId'])
+    ...mapGetters(['userId']),
+    ...mapState('pool', { pool: state => state.photos })
   },
   methods: {
     constructPayload(groups) {

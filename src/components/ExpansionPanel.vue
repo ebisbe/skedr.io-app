@@ -85,7 +85,7 @@
 </template>
 <script>
 import Moment from 'moment'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import QPush from './QPush'
 import groupsPayload from '../mixins/groupsPayload'
 
@@ -124,12 +124,14 @@ export default {
     }
   },
   computed: {
-    ...mapState(['pool']),
+    ...mapGetters({
+      poolLength: 'pool/length'
+    }),
     disabled() {
-      return this.pool.length === 0
+      return this.poolLength === 0
     },
     title() {
-      return `Sharing Pool (${this.pool.length} elements)`
+      return `Sharing Pool (${this.poolLength} elements)`
     },
     link() {
       return 'https://www.flickr.com/groups/' + this.group.groupId

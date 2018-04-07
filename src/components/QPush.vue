@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card style="margin-bottom: 56px">
     <v-card-text style="text-align: center">
       <v-progress-circular
         v-if="requests instanceof Array"

@@ -43,7 +43,7 @@
             <br>every day</h2>
             <p class="title">The new Skedr app helps
               <br>you spend less time managing your
-            <br>schedule and more time enjoying it.</p>
+            <br>flickr groups.</p>
           </v-flex>
         </v-layout>
       </v-container>

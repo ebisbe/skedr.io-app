@@ -29,7 +29,8 @@
             src="/static/img/clock.png"
             alt="Skedr.io">
           <h1 xs12 class="display-4 text-xs-center">Skedr.io</h1>
-          <p class="headline">Discover your free time</p>
+          <h2 class="headline">Autoimport and autoschedule for Flickr Groups</h2>
+          <p class="title">Discover your free time</p>
         </v-layout>
       </v-container>
       <v-container class="section white pa-0">
@@ -78,7 +79,7 @@
         </v-layout>
       </v-container>
       <v-container class="section info pa-0 white--text">
-        <v-flex class="text-xs-center display-3 pa-5">Enjoy your free time</v-flex>
+        <v-flex class="text-xs-center display-3 pa-5">Enjoy your free time with our beta</v-flex>
         <v-layout
           row
           wrap
@@ -114,8 +115,15 @@
             </v-layout>
           </v-flex>
         </v-layout>
-        <v-flex class="blue darken-3 pa-5 display-3 text-xs-center ">
+        <v-flex class="blue darken-3 pa-5 display-3 text-xs-center logo">
           Try Skedr.io
+          <v-btn
+            :to="{name: 'Signup'}"
+            color="primary"
+            large
+            class="mr-4">
+            Sign up
+          </v-btn>
         </v-flex>
       </v-container>
     </full-page>
@@ -222,7 +230,7 @@ export default {
 
 .section .hiddenInfo {
   opacity: 0;
-  transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   transition-property: margin opacity;
 }
 .section .information {
@@ -256,6 +264,18 @@ export default {
 }
 .device .device-frame .device-screen .initShare.share {
   bottom: 0;
+}
+
+.logo:before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: -0.1em;
+  width: 1.25em;
+  height: 1.25em;
+  margin-right: 0.4em;
+  background-image: url(/static/img/clock-min.png);
+  background-size: 100%;
 }
 
 @media all and (min-width: 0) {

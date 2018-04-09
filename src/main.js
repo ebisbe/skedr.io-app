@@ -12,15 +12,21 @@ import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import VueAnalytics from 'vue-analytics'
 
-if (process.env.NODE_ENV === 'production') {
+const isProd = process.env.NODE_ENV === 'production'
+if (isProd) {
   Raven.config('https://5c9619998ba541a597a037ece72dafab@sentry.io/266872')
     .addPlugin(RavenVue, Vue)
     .install()
-  Vue.use(VueAnalytics, {
-    id: process.env.GA,
-    router
-  })
 }
+
+Vue.use(VueAnalytics, {
+  id: process.env.GA,
+  router,
+  debug: {
+    enabled: !isProd,
+    sendHitTask: isProd
+  }
+})
 
 require('devices.css/dist/devices.css')
 require('./libs/storage')

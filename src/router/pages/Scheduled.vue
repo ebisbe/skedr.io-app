@@ -10,11 +10,15 @@
         :key="index+item"
         class="pb-3">
         <v-flex
-          xs1
-          class="display-1">
+          xs2
+          sm1
+          class="headline">
           <span class="date" v-html="index" />
         </v-flex>
-        <v-flex xs11 class="pt-0">
+        <v-flex
+          xs10
+          sm11
+          class="pt-0">
           <template v-for="(group, title) in groups(item)">
             <h2
               :key="title+index"

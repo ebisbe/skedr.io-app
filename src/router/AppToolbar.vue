@@ -44,7 +44,7 @@
     </v-navigation-drawer>
     <v-toolbar
       :dense="false"
-      :extended="useExtended && extendedToolbar"
+      :extended="useExtended"
       app
       fixed
       color="primary"
@@ -54,7 +54,7 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"/>
       <v-toolbar-title style="width: 300px" v-text="pageTitle" />
       <v-flex
-        :slot="useExtended && extendedToolbar ? 'extension' : false"
+        :slot="useExtended ? 'extension' : ''"
         class="pa-1">
         <q-filter
           :solo-inverted="true"
@@ -63,7 +63,7 @@
       </v-flex>
       <v-spacer />
       <v-btn
-        v-show="useExtended && !extendedToolbar"
+        v-show="showSearch && $vuetify.breakpoint.smAndUp"
         icon
         @click="showSearch = true">
         <v-icon>search</v-icon>
@@ -82,7 +82,7 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import QFilter from './../components/QFilter.vue'
 import QPoolBtn from './../components/QPoolBtn.vue'
 import QSuggestionDialog from './../components/QSuggestionDialog'
@@ -115,8 +115,10 @@ export default {
   },
   computed: {
     ...mapState(['pageTitle']),
-    ...mapGetters(['extendedToolbar']),
     useExtended() {
+      return this.showSearch && this.$vuetify.breakpoint.xsOnly
+    },
+    showSearch() {
       return this.$route.path !== '/scheduled'
     }
   },
@@ -126,7 +128,7 @@ export default {
     }
   },
   mounted() {
-    this.drawer = window.innerWidth > 1260
+    this.drawer = this.$vuetify.breakpoint.lgAndpUp
   },
   methods: {
     logout() {

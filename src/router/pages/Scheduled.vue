@@ -33,8 +33,7 @@
                 :key="title+iteration+photo.photoId"
                 :xs6="group.length !== 1"
                 :xs12="group.length === 1"
-                md4
-                sm6>
+                sm4>
                 <photo-scheduled :photo="photo" :height="150" />
               </v-flex>
             </v-layout>

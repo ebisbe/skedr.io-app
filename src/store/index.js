@@ -49,9 +49,6 @@ export default new Vuex.Store({
         return decodeURIComponent(username)
       }
       return false
-    },
-    extendedToolbar({ window }) {
-      return window.width < 900
     }
   },
   actions: {

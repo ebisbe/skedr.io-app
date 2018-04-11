@@ -50,9 +50,6 @@ export default new Vuex.Store({
       }
       return false
     },
-    fullScreenDialog({ window }) {
-      return window.width < 550
-    },
     extendedToolbar({ window }) {
       return window.width < 900
     }

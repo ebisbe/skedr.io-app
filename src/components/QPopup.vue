@@ -2,7 +2,7 @@
   <v-dialog
     v-model="dialogComputed"
     :persistent="hasItemsSelected"
-    :fullscreen="fullScreenDialog"
+    :fullscreen="$vuetify.breakpoint.xsOnly"
     scrollable
     transition="dialog-bottom-transition"
     max-width="500px">
@@ -105,7 +105,6 @@
 
 <script>
 import QFilter from './QFilter'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'QPopup',
@@ -148,7 +147,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['fullScreenDialog']),
     dialogComputed: {
       set(value) {
         if (!value) {

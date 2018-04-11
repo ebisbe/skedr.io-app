@@ -4,7 +4,7 @@
     class="sked-photo">
     <v-card-media
       :src="url"
-      height="205px"/>
+      :height="`${height}px`"/>
     <v-container>
       <v-list two-line dark>
         <v-list-tile>
@@ -24,6 +24,11 @@ export default {
     photo: {
       type: Object,
       required: true
+    },
+    height: {
+      type: Number,
+      required: false,
+      default: 205
     }
   },
   data() {

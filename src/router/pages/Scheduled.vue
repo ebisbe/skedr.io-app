@@ -31,10 +31,11 @@
               <v-flex
                 v-for="(photo, iteration) in group"
                 :key="title+iteration+photo.photoId"
+                :xs6="group.length !== 1"
+                :xs12="group.length === 1"
                 md4
-                sm6
-                xs12>
-                <photo-scheduled :photo="photo" />
+                sm6>
+                <photo-scheduled :photo="photo" :height="150" />
               </v-flex>
             </v-layout>
           </template>

@@ -9,7 +9,7 @@
         v-model="badge"
         overlap>
         <span slot="badge">
-          <v-icon color="white">check</v-icon>
+          <v-icon color="white">{{ badgeType }}</v-icon>
         </span>
         <img :src="group.icon">
       </v-badge>
@@ -66,6 +66,9 @@ export default {
       } else {
         return 'grey'
       }
+    },
+    badgeType() {
+      return this.group.throttleMode === 'disabled' ? 'clear' : 'check'
     },
     badge() {
       return this.group.selected || this.disabled

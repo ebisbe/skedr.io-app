@@ -32,6 +32,7 @@
     "apollo-client": "^2.0.3",
     "apollo-link": "^1.0.3",
     "apollo-link-http": "^1.2.0",
+    "aws-amplify": "^0.3.3",
     "aws-sdk": "^2.149.0",
     "aws41": "^1.6.0",
     "axios": "^0.16.2",

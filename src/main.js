@@ -11,6 +11,17 @@ import store from './store'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import VueAnalytics from 'vue-analytics'
+import Amplify, { Auth, Logger } from 'aws-amplify'
+import aws_exports from './aws-exports.js'
+Amplify.configure(aws_exports)
+
+Amplify.Logger.LOG_LEVEL = 'DEBUG' // to show detailed logs from Amplify library
+
+const logger = new Logger('main')
+
+Auth.currentUserInfo()
+  .then(user => logger.debug(user))
+  .catch(err => logger.debug(err))
 
 const isProd = process.env.NODE_ENV === 'production'
 if (isProd) {
@@ -23,7 +34,7 @@ Vue.use(VueAnalytics, {
   id: process.env.GA,
   router,
   debug: {
-    enabled: !isProd,
+    enabled: false,
     sendHitTask: isProd
   }
 })

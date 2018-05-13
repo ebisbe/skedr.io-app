@@ -26,7 +26,11 @@ const store = new Vuex.Store({
   mutations: {
     setUser(state, user) {
       state.user = user
-      state.username = decodeURIComponent(user.username)
+      if (user !== null) {
+        state.username = decodeURIComponent(user.username)
+      } else {
+        state.username = null
+      }
     },
     setUserId(state, userId) {
       state.userId = userId

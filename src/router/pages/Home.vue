@@ -39,7 +39,7 @@
           class="info white--text"
           style="height:80%;">
           <v-flex :class="{'hiddenInfo': true, information, 'offset-xs1': information, 'xs5': true}">
-            <h2 class="display-3">Make the
+            <h2 :class="styles.title">Make the
               <br>most of
             <br>every day</h2>
             <p class="title">The new Skedr app helps
@@ -54,7 +54,7 @@
           class="backgrounds"
           style="background-image:url(/static/img/dikaseva-35077-unsplash-blur-min.jpg);">
           <v-flex :class="{'hiddenInfo': true, 'white--text':true, information, 'offset-xs1': information}">
-            <h2 class="display-3 ">Photos from
+            <h2 :class="styles.title">Photos from
               <br>Flickr are added
             <br>to your groups</h2>
             <p class="title">When you upload a
@@ -69,7 +69,7 @@
           class="backgrounds"
           style="background-image:url(/static/img/galen-crout-78522-unsplash-blur-min.jpg); ">
           <v-flex :class="{'hiddenInfo': true, 'white--text':true, information, 'offset-xs1': information}">
-            <h2 class="display-3 ">Scheduled
+            <h2 :class="styles.title">Scheduled
             <br>photos</h2>
             <p class="title">Schedule View brings
               <br>your schedule to life
@@ -79,12 +79,12 @@
         </v-layout>
       </v-container>
       <v-container class="section info pa-0 white--text">
-        <v-flex class="text-xs-center display-3 pa-5">Enjoy your free time with our beta</v-flex>
+        <v-flex :class="[styles.title, styles.pa]" class="text-xs-center" >Enjoy your free time with our beta</v-flex>
         <v-layout
           row
           wrap
           class="py-5">
-          <v-flex class="xs12 sm6 py-5">
+          <v-flex :class="[styles.py]" class="xs12 sm6">
             <v-layout
               align-center
               justify-center
@@ -92,7 +92,7 @@
               class="pa-0 pb-5">
               <v-avatar
                 color="white"
-                size="105px">
+                size="105">
                 <v-icon x-large>show_chart</v-icon>
               </v-avatar>
               <p class="headline text-xs-center">Sharing photos to more
@@ -100,7 +100,7 @@
               <br>photos more visible at Flickr.</p>
             </v-layout>
           </v-flex>
-          <v-flex class="xs12 sm6 py-5">
+          <v-flex :class="[styles.py]" class="xs12 sm6">
             <v-layout
               align-center
               justify-center
@@ -108,14 +108,14 @@
               class="pa-0 pb-5">
               <v-avatar
                 color="white"
-                size="105px">
+                size="105">
                 <v-icon x-large>photo</v-icon>
               </v-avatar>
               <p class="headline text-xs-center">Enjoy your time <br>taking more photos.</p>
             </v-layout>
           </v-flex>
         </v-layout>
-        <v-flex class="blue darken-3 pa-5 display-3 text-xs-center logo">
+        <v-flex :class="[styles.headline, styles.pa]" class="blue darken-3 text-xs-center logo">
           Try Skedr.io
           <v-btn
             :to="{name: 'Signup'}"
@@ -177,6 +177,33 @@ export default {
       },
       share: 0,
       showButton: true
+    }
+  },
+  computed: {
+    styles() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return {
+            title: 'display-2',
+            pa: 'pa-0',
+            py: 'py-0',
+            headline: 'display-2'
+          }
+        case 'sm':
+          return {
+            title: 'display-3',
+            pa: 'pa-5',
+            py: 'py-0',
+            headline: 'display-3'
+          }
+        default:
+          return {
+            title: 'display-3',
+            pa: 'pa-5',
+            py: 'py-3',
+            headline: 'display-3'
+          }
+      }
     }
   },
   methods: {
@@ -284,7 +311,8 @@ export default {
   }
   .deviceCustom {
     top: 90vh;
-    right: -20vw;
+    right: -40vw;
+    transform: scale(0.5);
   }
 }
 @media all and (min-width: 600px) {
@@ -294,6 +322,7 @@ export default {
   .deviceCustom {
     top: 90vh;
     right: -10vw;
+    transform: scale(1);
   }
 }
 @media all and (min-width: 960px) {

@@ -49,7 +49,6 @@
     "vue": "^2.5.3",
     "vue-analytics": "^5.8.0",
     "vue-apollo": "^3.0.0-alpha.3",
-    "vue-auth-cognito": "^0.1.5",
     "vue-axios": "^2.0.2",
     "vue-fullpage.js": "https://github.com/ebisbe/vue-fullpage.js",
     "vue-router": "^2.8.1",

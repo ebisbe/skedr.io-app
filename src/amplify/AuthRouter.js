@@ -74,7 +74,7 @@ const AuthFilter = (to, from, next) => {
       logger.debug('...no user', err)
       AmplifyStore.commit('setUser', null)
       if (to.matched.some(record => record.meta.requiresAuth)) {
-        next('/auth/signIn')
+        next('/login')
       } else {
         next()
       }

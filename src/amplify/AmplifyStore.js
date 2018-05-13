@@ -19,12 +19,14 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
   state: {
     user: null,
+    username: null,
     userId: null,
     userVerification: []
   },
   mutations: {
     setUser(state, user) {
       state.user = user
+      state.username = decodeURIComponent(user.username)
     },
     setUserId(state, userId) {
       state.userId = userId

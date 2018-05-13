@@ -66,8 +66,10 @@
 </template>
 
 <script>
-import { AwsCredentials } from '../../libs/aws-lib'
+import { Auth, Logger, JS } from 'aws-amplify'
+import AmplifyStore from '../../amplify/AmplifyStore'
 import { validations } from '../../mixins/validation'
+const logger = new Logger('SignInComp')
 
 export default {
   name: 'Login',
@@ -95,16 +97,20 @@ export default {
   methods: {
     handleSubmit() {
       this.protectedUI = true
-      this.$store
-        .dispatch('authenticateUser', {
-          username: this.form.username.toLowerCase(),
-          password: this.form.password
+      const that = this
+      Auth.signIn(this.form.username.toLowerCase(), this.form.password)
+        .then(user => {
+          logger.debug('sign in success', user)
+          AmplifyStore.commit('setUser', user)
+          return user
         })
-        .then(async () => {
-          await AwsCredentials(this.$store.state.cognito.user.tokens.IdToken).then(() => {
-            this.protectedUI = false
-            this.$router.push({ name: 'Photostream' })
-          })
+        .then(user => {
+          that.user = user
+          if (user.challengeName === 'SMS_MFA') {
+            that.confirmView = true
+            return
+          }
+          this.checkUser()
         })
         .catch(err => {
           this.errorMessage = err.message
@@ -113,6 +119,22 @@ export default {
           }, 5000)
           this.protectedUI = false
         })
+    },
+    checkUser: function() {
+      const user = this.user
+      if (!user) {
+        return
+      }
+
+      Auth.verifiedContact(user).then(data => {
+        logger.debug('verify result', data)
+        AmplifyStore.commit('setUserVerification', data)
+        if (!JS.isEmpty(data.verified)) {
+          this.$router.push('/photostream')
+        } else {
+          this.$router.push('/auth/verifyContact')
+        }
+      })
     },
     username(hasError) {
       this.form.validUsername = !hasError

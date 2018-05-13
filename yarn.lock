@@ -225,13 +225,6 @@ amazon-cognito-auth-js@^1.1.9:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/amazon-cognito-auth-js/-/amazon-cognito-auth-js-1.2.0.tgz#637f044a3a6114d6d0a87b415157ea36f32431e8"
 
-amazon-cognito-identity-js@^1.19.0:
-  version "1.31.0"
-  resolved "https://registry.yarnpkg.com/amazon-cognito-identity-js/-/amazon-cognito-identity-js-1.31.0.tgz#1dcd0f26ce9404c198a35468e8bb00410503021d"
-  dependencies:
-    aws-sdk "2.177.0"
-    js-cookie "^2.1.4"
-
 amazon-cognito-identity-js@^2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/amazon-cognito-identity-js/-/amazon-cognito-identity-js-2.0.3.tgz#38fb50f9c509be6d4aba491f8a901d8dd45f3a13"
@@ -554,21 +547,6 @@ aws-amplify@^0.3.3:
     paho-mqtt "^1.0.4"
     uuid "^3.2.1"
     zen-observable "^0.8.6"
-
-aws-sdk@2.177.0:
-  version "2.177.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.177.0.tgz#d5fbf1f82bab250e55153699b030b44f687f600b"
-  dependencies:
-    buffer "4.9.1"
-    crypto-browserify "1.0.9"
-    events "^1.1.1"
-    jmespath "0.15.0"
-    querystring "0.2.0"
-    sax "1.2.1"
-    url "0.10.3"
-    uuid "3.1.0"
-    xml2js "0.4.17"
-    xmlbuilder "4.2.1"
 
 aws-sdk@2.198.0:
   version "2.198.0"
@@ -8673,13 +8651,6 @@ vue-apollo@^3.0.0-alpha.3:
     lodash.omit "^4.5.0"
     lodash.throttle "^4.1.1"
 
-vue-auth-cognito@^0.1.5:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/vue-auth-cognito/-/vue-auth-cognito-0.1.5.tgz#9a6370bc346c671991634711a34c8be29f15b8c6"
-  dependencies:
-    amazon-cognito-identity-js "^1.19.0"
-    vuex "^2.3.1"
-
 vue-axios@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/vue-axios/-/vue-axios-2.0.2.tgz#0fe5a69f1edb09a1cd6c4a7f88c74d2fb7fe1778"
@@ -8758,7 +8729,7 @@ vuetify@^1.0.7:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.0.10.tgz#875d2d27d95470ce977ce9c705bb41b5b547e801"
 
-vuex@^2.3.1, vuex@^2.5.0:
+vuex@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/vuex/-/vuex-2.5.0.tgz#20f0265ade6c9a5ac6724a405d3ffdb4726c9741"
 

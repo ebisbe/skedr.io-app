@@ -3,14 +3,23 @@
 import Vue from 'vue'
 import App from './App'
 import apolloProvider from './settings/apolloProvider'
-import axios from 'axios'
-import Axios from 'vue-axios'
 import router from './router'
 import vuetify from './settings/vuetify'
 import store from './store'
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
 import VueAnalytics from 'vue-analytics'
+import Amplify, { Auth, Logger } from 'aws-amplify'
+import aws_exports from './aws-exports.js'
+Amplify.configure(aws_exports)
+
+Amplify.Logger.LOG_LEVEL = 'DEBUG' // to show detailed logs from Amplify library
+
+const logger = new Logger('main')
+
+Auth.currentUserInfo()
+  .then(user => logger.debug(user))
+  .catch(err => logger.debug(err))
 
 const isProd = process.env.NODE_ENV === 'production'
 if (isProd) {
@@ -31,8 +40,6 @@ Vue.use(VueAnalytics, {
 require('devices.css/dist/devices.css')
 require('./libs/storage')
 
-axios.defaults.baseURL = process.env.API_URL
-Vue.use(Axios, axios)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

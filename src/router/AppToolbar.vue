@@ -87,6 +87,10 @@ import QFilter from './../components/QFilter.vue'
 import QPoolBtn from './../components/QPoolBtn.vue'
 import QSuggestionDialog from './../components/QSuggestionDialog'
 
+import { Auth, Logger } from 'aws-amplify'
+
+const logger = new Logger('SignOutComp')
+
 export default {
   name: 'Toolbar',
   components: { QFilter, QPoolBtn, QSuggestionDialog },
@@ -96,7 +100,6 @@ export default {
       drawer: false,
       suggestionDialog: false,
       search: '',
-      showSearch: false,
       lists: [
         {
           icon: 'photo',
@@ -132,10 +135,12 @@ export default {
   },
   methods: {
     logout() {
-      this.$store
-        .dispatch('signOut')
-        .then(() => this.$router.push({ name: 'Home' }))
-        .catch(() => this.$router.push({ name: 'Home' }))
+      Auth.signOut()
+        .then(() => {
+          logger.debug('sign out success')
+          this.$router.push('/')
+        })
+        .catch(err => this.setError(err))
     },
     searchText(value) {
       this.$store.commit('updateSearch', value)

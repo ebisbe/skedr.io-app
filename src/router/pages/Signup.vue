@@ -164,8 +164,11 @@
 </template>
 
 <script>
-import { signReq, AwsCredentials } from '../../libs/aws-lib'
+import { API } from 'aws-amplify'
 import { validations } from '../../mixins/validation'
+
+import { Auth, Logger } from 'aws-amplify'
+const logger = new Logger('SignUpComp')
 
 export default {
   name: 'SignUp',
@@ -204,13 +207,15 @@ export default {
       }
       this.protectedUI = true
       this.button = 'Validating account'
-      this.axios
-        .post('/oauth/callback', {
+      const myInit = {
+        body: {
           userId: this.userId,
           oauthToken: queryString.oauth_token,
           oauthVerifier: queryString.oauth_verifier
-        })
-        .then(({ data }) => {
+        }
+      }
+      API.post(process.env.API_NAME, '/oauth/callback', myInit)
+        .then(data => {
           this.protectedUI = false
           this.userId = data.userId
           this.firstName = data.firstName
@@ -235,9 +240,8 @@ export default {
     handleSubmit() {
       this.protectedUI = true
       this.reset()
-      this.axios
-        .get('/oauth')
-        .then(({ data }) => {
+      API.get(process.env.API_NAME, '/oauth')
+        .then(data => {
           this.userId = data.userId
           localStorage.setItem('userId', this.userId)
           window.location.href = data.redirectUrl
@@ -250,20 +254,20 @@ export default {
     signupUser() {
       this.reset()
       this.protectedUI = true
-      this.$store
-        .dispatch('signUp', {
-          username: this.user,
-          password: this.password,
-          attributes: {
-            email: this.email.toLowerCase(),
-            name: this.firstName,
-            family_name: this.lastName
-          }
-        })
-        .then(() => {
+      Auth.signUp({
+        username: this.user,
+        password: this.password,
+        attributes: {
+          email: this.email.toLowerCase(),
+          name: this.firstName,
+          family_name: this.lastName
+        }
+      })
+        .then(data => {
           this.disableAllInputs = false
           this.protectedUI = false
           this.step = 3
+          logger.debug('sign up success', data)
           this.success('Successfuly signed up')
         })
         .catch(err => {
@@ -277,42 +281,14 @@ export default {
       this.showResendButton = false
       // Protect UI from being used
       this.protectedUI = true
-      this.$store
-        .dispatch('confirmRegistration', {
-          username: this.user,
-          code: this.code
-        })
-        .then(() => {
-          this.$store
-            .dispatch('authenticateUser', {
-              username: this.email,
-              password: this.password
-            })
-            .then(async () => {
-              this.disableAllInputs = true
-              this.success('Successfuly signed in')
-              this.protectedUI = false
 
-              await AwsCredentials(this.$store.state.cognito.user.tokens.IdToken)
-                .catch(() => console.log('Not logged. Redirect to Login page'))
-                .then(() => {
-                  this.axios(
-                    signReq(
-                      '/oauth/user',
-                      {},
-                      {
-                        userId: this.userId
-                      },
-                      'post'
-                    )
-                  ).then(response => this.$router.push({ name: 'Photostream' }))
-                })
-            })
-            .catch(err => {
-              this.error(err.message)
-              this.protectedUI = false
-            })
+      Auth.confirmSignUp(this.user, this.code)
+        .then(response => Auth.signIn(this.user, this.password))
+        .then(response => {
+          const payload = { body: { userId: this.userId, email: this.email.toLowerCase() } }
+          API.post(process.env.API_NAME, '/oauth/user', payload)
         })
+        .then(response => this.$router.push({ name: 'Photostream' }))
         .catch(err => {
           this.error(err.message)
           this.protectedUI = false
@@ -325,11 +301,10 @@ export default {
     resendCode() {
       // Remove alert boxes first
       this.reset()
-      this.$store
-        .dispatch('resendConfirmationCode', {
-          username: this.user
-        })
+
+      Auth.resendSignUp(this.username)
         .then(() => {
+          logger.debug('code resent')
           this.showResendButton = false
           this.success('Confirmation code has been successfuly sent')
           // Hide success message after 5 seconds

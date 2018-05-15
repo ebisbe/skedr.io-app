@@ -85,7 +85,7 @@ export default {
       if (this.search === '') {
         return ''
       }
-      return 'search'
+      return '/search'
     },
     ...mapGetters(['userId']),
     ...mapState(['search'])

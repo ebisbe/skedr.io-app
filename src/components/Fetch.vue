@@ -1,6 +1,6 @@
 <script>
 import debounce from 'lodash/debounce'
-import { signReq } from '../libs/aws-lib'
+import { API } from 'aws-amplify'
 
 export default {
   name: 'Fetch',
@@ -37,7 +37,10 @@ export default {
         return res
       }
 
-      const currentPromise = (activePromise = this.axios(signReq(this.url, this.params, this.data, this.method)))
+      const currentPromise = (activePromise = API.post(process.env.API_NAME, this.url, {
+        body: this.data,
+        response: true
+      }))
 
       res.status = 'pending'
 

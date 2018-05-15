@@ -1,4 +1,3 @@
-import { signReq } from '../libs/aws-lib'
 import { mapGetters, mapState } from 'vuex'
 
 export default {
@@ -12,12 +11,14 @@ export default {
       for (let group of groups) {
         for (let photo of this.pool) {
           let payload = {
-            photoId: photo.photoId,
-            userId: this.userId,
-            groupId: group.groupId,
-            secret: photo.secret
+            body: {
+              photoId: photo.photoId,
+              userId: this.userId,
+              groupId: group.groupId,
+              secret: photo.secret
+            }
           }
-          requests.push(signReq('pool', '', payload, 'post'))
+          requests.push({ path: '/pool', payload })
         }
       }
 

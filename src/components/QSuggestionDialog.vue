@@ -74,7 +74,7 @@
 </template>
 <script>
 import { validations } from '../mixins/validation'
-import { signReq } from '../libs/aws-lib'
+import { API } from 'aws-amplify'
 
 export default {
   name: 'SuggestionDialog',
@@ -122,7 +122,7 @@ export default {
   methods: {
     send() {
       this.status = 1
-      this.axios(signReq('suggestion', {}, this.feedback, 'post')).then(() => {
+      API.post(process.env.API_NAME, '/suggestion', { body: this.feedback }).then(() => {
         this.status = 2
         this.disabled = true
       })

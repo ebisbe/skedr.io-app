@@ -12,7 +12,7 @@
     </h1>
     <v-spacer/>
     <v-btn
-      :to="{name: 'Login'}"
+      :to="{name: 'Photostream'}"
       flat
       class="mr-4 grey--text darken-2">
       Log in

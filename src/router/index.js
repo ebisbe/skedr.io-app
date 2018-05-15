@@ -9,8 +9,8 @@ import Login from './pages/Login.vue'
 import Signup from './pages/Signup.vue'
 import Scheduled from './pages/Scheduled.vue'
 import Photostream from './pages/Photostream.vue'
-import { authUser } from '../libs/aws-lib'
 import store from '../store'
+import { AuthFilter } from '../amplify'
 
 Vue.use(Router)
 
@@ -117,24 +117,10 @@ const router = new Router({
   ]
 })
 
+router.beforeEach(AuthFilter)
 router.beforeEach(async (to, from, next) => {
   document.title = to.meta.title
   document.querySelector('meta[name="description"]').setAttribute('content', to.meta.description)
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.state.cognito.user === null) {
-      await store
-        .dispatch('getCurrentUser')
-        .then(() => authUser(store.state.cognito.user.tokens.IdToken))
-        .catch(() =>
-          next({
-            path: '/login',
-            query: { redirect: to.fullPath }
-          })
-        )
-    } else {
-      authUser(store.state.cognito.user.tokens.IdToken)
-    }
-  }
   store.commit('setPageTitle', to.name)
   next()
 })

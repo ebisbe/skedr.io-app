@@ -45,7 +45,6 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import { signReq } from '../libs/aws-lib'
 
 import Photo from './Photo'
 import QChip from './QChip'
@@ -154,11 +153,14 @@ export default {
     },
     constructPayload(tags) {
       const payload = {
-        tags: tags.map(tag => tag.value),
-        userId: this.userId,
-        groupId: this.groupId
+        body: {
+          tags: tags.map(tag => tag.value),
+          userId: this.userId,
+          groupId: this.groupId
+        }
       }
-      return [signReq('tags', '', payload, 'post')]
+
+      return [{ path: '/tags', payload }]
     }
   }
 }

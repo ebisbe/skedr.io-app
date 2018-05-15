@@ -8,5 +8,6 @@ module.exports = {
   API_DOMAIN: `"${API_DOMAIN}"`,
   API_URL: `"${API_DOMAIN}${API_BASE_URL}"`,
   API_BASE_URL: `"${API_BASE_URL}"`,
-  GA: `"UA-53011336-4"`
+  GA: `"UA-53011336-4"`,
+  API_NAME: `"production-skedr-api"`
 }

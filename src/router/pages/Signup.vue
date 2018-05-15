@@ -164,7 +164,7 @@
 </template>
 
 <script>
-import { signReq, AwsCredentials } from '../../libs/aws-lib'
+import { API } from 'aws-amplify'
 import { validations } from '../../mixins/validation'
 
 import { Auth, Logger } from 'aws-amplify'
@@ -207,13 +207,15 @@ export default {
       }
       this.protectedUI = true
       this.button = 'Validating account'
-      this.axios
-        .post('/oauth/callback', {
+      const myInit = {
+        body: {
           userId: this.userId,
           oauthToken: queryString.oauth_token,
           oauthVerifier: queryString.oauth_verifier
-        })
-        .then(({ data }) => {
+        }
+      }
+      API.post(process.env.API_NAME, '/oauth/callback', myInit)
+        .then(data => {
           this.protectedUI = false
           this.userId = data.userId
           this.firstName = data.firstName
@@ -238,9 +240,8 @@ export default {
     handleSubmit() {
       this.protectedUI = true
       this.reset()
-      this.axios
-        .get('/oauth')
-        .then(({ data }) => {
+      API.get(process.env.API_NAME, '/oauth')
+        .then(data => {
           this.userId = data.userId
           localStorage.setItem('userId', this.userId)
           window.location.href = data.redirectUrl
@@ -283,6 +284,10 @@ export default {
 
       Auth.confirmSignUp(this.user, this.code)
         .then(response => Auth.signIn(this.user, this.password))
+        .then(response => {
+          const payload = { body: { userId: this.userId, email: this.email.toLowerCase() } }
+          API.post(process.env.API_NAME, '/oauth/user', payload)
+        })
         .then(response => this.$router.push({ name: 'Photostream' }))
         .catch(err => {
           this.error(err.message)

@@ -9,9 +9,8 @@ import Login from './pages/Login.vue'
 import Signup from './pages/Signup.vue'
 import Scheduled from './pages/Scheduled.vue'
 import Photostream from './pages/Photostream.vue'
-import { authUser } from '../libs/aws-lib'
 import store from '../store'
-import { AuthRouter, AuthFilter } from '../amplify'
+import { AuthFilter } from '../amplify'
 
 Vue.use(Router)
 
@@ -114,8 +113,7 @@ const router = new Router({
     {
       path: '/signup',
       redirect: '/signup/'
-    },
-    AuthRouter
+    }
   ]
 })
 

@@ -3,8 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import apolloProvider from './settings/apolloProvider'
-import axios from 'axios'
-import Axios from 'vue-axios'
 import router from './router'
 import vuetify from './settings/vuetify'
 import store from './store'
@@ -34,7 +32,7 @@ Vue.use(VueAnalytics, {
   id: process.env.GA,
   router,
   debug: {
-    enabled: false,
+    enabled: !isProd,
     sendHitTask: isProd
   }
 })
@@ -42,8 +40,6 @@ Vue.use(VueAnalytics, {
 require('devices.css/dist/devices.css')
 require('./libs/storage')
 
-axios.defaults.baseURL = process.env.API_URL
-Vue.use(Axios, axios)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -11,51 +11,11 @@
  * and limitations under the License.
  */
 
-import * as Components from './components'
 import AmplifyStore from './AmplifyStore'
-import AuthView from './AuthView'
 
 import { Auth, Logger } from 'aws-amplify'
 
 const logger = new Logger('AuthRouter')
-
-const AuthRouter = {
-  path: '/auth',
-  name: 'auth',
-  component: AuthView,
-  children: [
-    {
-      path: 'signIn',
-      name: 'auth_SignIn',
-      component: Components.SignIn
-    },
-    {
-      path: 'signUp',
-      name: 'auth_SignUp',
-      component: Components.SignUp
-    },
-    {
-      path: 'signOut',
-      name: 'auth_SignOut',
-      component: Components.SignOut
-    },
-    {
-      path: 'confirmSignUp',
-      name: 'auth_ConfirmSignUp',
-      component: Components.ConfirmSignUp
-    },
-    {
-      path: 'verifyContact',
-      name: 'auth_VerifyContact',
-      component: Components.VerifyContact
-    },
-    {
-      path: 'forgotPassword',
-      name: 'auth_ForgotPassword',
-      component: Components.ForgotPassword
-    }
-  ]
-}
 
 const AuthFilter = (to, from, next) => {
   logger.debug('before routing ', to, from)
@@ -81,5 +41,4 @@ const AuthFilter = (to, from, next) => {
     })
 }
 
-export default AuthRouter
 export { AuthFilter }

@@ -12,11 +12,7 @@
  */
 
 import AmplifyStore from './AmplifyStore'
-import AmplifyTheme from './AmplifyTheme'
 
-import AuthRouter, { AuthFilter } from './AuthRouter'
-import AuthView from './AuthView'
+import { AuthFilter } from './AuthRouter'
 
-export * from './components'
-
-export { AmplifyStore, AmplifyTheme, AuthRouter, AuthFilter, AuthView }
+export { AmplifyStore, AuthFilter }

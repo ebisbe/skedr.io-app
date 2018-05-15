@@ -585,20 +585,9 @@ aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
 
-aws41@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/aws41/-/aws41-1.6.0.tgz#4124c71dd18992b589396403f0d42c0722f0ff7a"
-
 aws4@^1.2.1, aws4@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
-
-axios@^0.16.2:
-  version "0.16.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.16.2.tgz#ba4f92f17167dfbab40983785454b9ac149c3c6d"
-  dependencies:
-    follow-redirects "^1.2.3"
-    is-buffer "^1.1.5"
 
 axios@^0.17.0:
   version "0.17.1"
@@ -3283,7 +3272,7 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
 
-follow-redirects@^1.2.3, follow-redirects@^1.2.5:
+follow-redirects@^1.2.5:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.4.1.tgz#d8120f4518190f55aac65bb6fc7b85fcd666d6aa"
   dependencies:
@@ -8650,10 +8639,6 @@ vue-apollo@^3.0.0-alpha.3:
     lodash.debounce "^4.0.8"
     lodash.omit "^4.5.0"
     lodash.throttle "^4.1.1"
-
-vue-axios@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/vue-axios/-/vue-axios-2.0.2.tgz#0fe5a69f1edb09a1cd6c4a7f88c74d2fb7fe1778"
 
 vue-eslint-parser@^2.0.2, vue-eslint-parser@^2.0.3:
   version "2.0.3"

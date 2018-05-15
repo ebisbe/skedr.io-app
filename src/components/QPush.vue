@@ -7,8 +7,7 @@
         :width="15"
         :rotate="360"
         :value="progressToHundred"
-        color="teal"
-      >
+        color="teal">
         {{ progress }}
       </v-progress-circular>
       <v-progress-circular
@@ -21,6 +20,8 @@
   </v-card>
 </template>
 <script>
+import { API } from 'aws-amplify'
+
 export default {
   name: 'QPush',
   props: {
@@ -50,7 +51,7 @@ export default {
       this.$emit('loading')
 
       const requestsArr = this.requests.map(request =>
-        this.axios(request)
+        API.post(process.env.API_NAME, request.path, request.payload)
           .then(() => this.resolvedRequests++)
           .catch(error => console.log(error))
       )

@@ -23,13 +23,13 @@
       @close="dialog = false">
       <q-tags-dialog-list
         slot="list"
+        slot-scope="props"
         :key="props.item.value"
-        :tag="props.item"
-        slot-scope="props"/>
+        :tag="props.item"/>
       <q-push
         slot="save"
-        :requests="constructPayload(props.selectedData)"
         slot-scope="props"
+        :requests="constructPayload(props.selectedData)"
         @loaded="dialog = false"
       />
     </q-popup>
@@ -143,7 +143,7 @@ export default {
           total: this.photos.length,
           count: tagsCount[tagName],
           percentage: function() {
-            return Math.round(this.count / this.total * 100)
+            return Math.round((this.count / this.total) * 100)
           }
         })
         tagsArr.push(tag)

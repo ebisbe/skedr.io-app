@@ -40,7 +40,7 @@ export default {
       return `${this.resolvedRequests} / ${this.requests.length}`
     },
     progressToHundred() {
-      return this.resolvedRequests * 100 / this.requests.length || 0
+      return (this.resolvedRequests * 100) / this.requests.length || 0
     }
   },
   created() {

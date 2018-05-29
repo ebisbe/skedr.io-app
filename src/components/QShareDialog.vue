@@ -9,13 +9,13 @@
     @close="clearSharedPool">
     <q-share-dialog-list
       slot="list"
+      slot-scope="props"
       :group="props.item"
-      :key="props.item.groupId"
-      slot-scope="props"/>
+      :key="props.item.groupId"/>
     <q-push
       slot="save"
-      :requests="constructPayload(props.selectedData)"
       slot-scope="props"
+      :requests="constructPayload(props.selectedData)"
       @loaded="clearSharedPool"
     />
   </q-popup>

@@ -39,10 +39,10 @@
           :data="{text: search}"
           method="post">
           <transition-group
+            slot-scope="data"
             name="list"
             tag="div"
-            class="layout wrap"
-            slot-scope="data">
+            class="layout wrap">
             <v-flex
               v-for="photo in data.photo"
               :key="photo.id"

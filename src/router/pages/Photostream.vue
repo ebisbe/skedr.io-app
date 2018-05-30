@@ -20,13 +20,13 @@
           <v-btn
             :disabled="loading === 1"
             block
-            color="info"
+            color="accent"
             dark
             @click="showMore">
             <v-progress-circular
               v-if="loading"
               indeterminate
-              color="info"/>
+              color="accent"/>
             <span v-else>
               &nbsp;Load more photos...
             </span>

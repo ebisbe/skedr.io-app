@@ -12,7 +12,7 @@
     <v-icon
       v-if="inPool(photo.photoId)"
       class="sked-checkCircle"
-      color="info">check_circle</v-icon>
+      color="accent">check_circle</v-icon>
     <v-icon
       v-else-if="hover"
       class="sked-checkCircle white--text">check_circle</v-icon>

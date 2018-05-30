@@ -6,10 +6,9 @@
           xs12
           sm6
           md5
-          lg3>
+          lg4>
           <v-form method="post" @submit.stop.prevent="handleSubmit">
-
-            <v-card class="elevation-12 pa-5">
+            <v-card class="elevation-12">
               <v-progress-linear
                 v-if="protectedUI"
                 :indeterminate="true"
@@ -21,44 +20,46 @@
                 transition="slide-y-transition"
                 class="mt-0 fullWidth topFloat"
                 v-html="errorMessage"/>
-              <v-card-text class="px-0">
-                <h1 class="display-1 mb-4">Log in</h1>
+              <v-toolbar dark color="primary">
+                <v-toolbar-title>Log in to Skedr.io</v-toolbar-title>
+              </v-toolbar>
+              <div class="px-5 pb-5 pt-3">
+                <v-card-text>
+                  <v-text-field
+                    v-model="form.username"
+                    :disabled="protectedUI"
+                    :rules="[rules.required, rules.email]"
+                    label="Enter your email "
+                    required
+                    @update:error="username"
+                  />
 
-                <v-text-field
-                  v-model="form.username"
-                  :disabled="protectedUI"
-                  :rules="[rules.required, rules.email]"
-                  label="Enter your email "
-                  required
-                  @update:error="username"
-                />
+                  <v-text-field
+                    v-model="form.password"
+                    :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
+                    :append-icon-cb="() => (passVisibility = !passVisibility)"
+                    :type="passVisibility ? 'password' : 'text'"
+                    :disabled="protectedUI"
+                    :rules="[rules.required, rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
+                    required
+                    label="Enter your password "
+                    @update:error="password"/>
 
-                <v-text-field
-                  v-model="form.password"
-                  :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
-                  :append-icon-cb="() => (passVisibility = !passVisibility)"
-                  :type="passVisibility ? 'password' : 'text'"
-                  :disabled="protectedUI"
-                  :rules="[rules.required, rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
-                  required
-                  label="Enter your password "
-                  @update:error="password"/>
-
-              </v-card-text>
-              <v-card-actions class="px-0">
-                <v-spacer/>
-                <v-btn
-                  :disabled="!formIsValid || protectedUI"
-                  text-xs-right
-                  type="submit"
-                  color="primary">
-                  continue
-                </v-btn>
-              </v-card-actions>
+                </v-card-text>
+                <v-card-actions class="px-0">
+                  <v-spacer/>
+                  <v-btn
+                    :disabled="!formIsValid || protectedUI"
+                    text-xs-right
+                    type="submit"
+                    color="primary">
+                    continue
+                  </v-btn>
+                </v-card-actions>
+              </div>
             </v-card>
           </v-form>
-
-          <strong>Photo by Ricardo Gomez Angel on Unsplash</strong>
+          <p class="text-xs-center mb-0 white--text subheading">Don’t have an account yet? <router-link :to="{name: 'Signup'}">Sign up</router-link></p>
         </v-flex>
       </v-layout>
     </v-container>
@@ -130,7 +131,7 @@ export default {
         logger.debug('verify result', data)
         AmplifyStore.commit('setUserVerification', data)
         if (!JS.isEmpty(data.verified)) {
-          this.$router.push('/photostream')
+          this.$router.push('/')
         } else {
           this.$router.push('/auth/verifyContact')
         }

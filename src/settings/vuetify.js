@@ -32,6 +32,7 @@ import VBadge from 'vuetify/es5/components/VBadge'
 
 import transitions from 'vuetify/es5/components/transitions'
 import directives from 'vuetify/es5/directives'
+import colors from 'vuetify/es5/util/colors'
 
 Vue.use(Vuetify, {
   components: {
@@ -65,12 +66,12 @@ Vue.use(Vuetify, {
     directives
   },
   theme: {
-    primary: '#673AB7',
-    secondary: '#7E57C2',
-    accent: '#f57c00',
-    error: '#F44336',
-    warning: '#ffeb3b',
-    info: '#4184f3',
-    success: '#4CAF50'
+    primary: colors.deepPurple.base,
+    secondary: colors.deepPurple.lighten1,
+    accent: colors.orange.darken2,
+    error: colors.red.base,
+    warning: colors.yellow.base,
+    info: colors.blue.base,
+    success: colors.green.base
   }
 })

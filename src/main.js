@@ -37,7 +37,6 @@ Vue.use(VueAnalytics, {
   }
 })
 
-require('devices.css/dist/devices.css')
 require('./libs/storage')
 
 Vue.config.productionTip = false

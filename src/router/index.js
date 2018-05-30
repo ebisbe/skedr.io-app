@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Group from './pages/Group.vue'
 import Home from './pages/Home.vue'
-import Toolbar from './Toolbar.vue'
 import AppToolbar from './AppToolbar.vue'
 import RightBar from './RightBar.vue'
 import Login from './pages/Login.vue'
@@ -14,27 +13,11 @@ import { AuthFilter } from '../amplify'
 
 Vue.use(Router)
 
-const mainTitle = 'Beta - Skedr.io - Improved Flickr groups workflow'
+const mainTitle = 'Skedr.io - Improved Flickr groups workflow'
 
 const router = new Router({
   mode: 'history',
   routes: [
-    {
-      path: '/',
-      pathToRegexpOptions: {
-        strict: true
-      },
-      name: 'Home',
-      components: {
-        default: Home,
-        toolbar: Toolbar
-      },
-      meta: {
-        title: mainTitle,
-        description:
-          'Improve your Flickr groups workflow with Skedr.io. Autoschedule failed shared photos due to group restriccions.'
-      }
-    },
     {
       path: '/groups',
       name: 'Group',
@@ -62,7 +45,7 @@ const router = new Router({
       }
     },
     {
-      path: '/photostream',
+      path: '/',
       name: 'Photostream',
       components: {
         default: Photostream,
@@ -75,14 +58,11 @@ const router = new Router({
       }
     },
     {
-      path: '/login/',
-      pathToRegexpOptions: {
-        strict: true
-      },
+      path: '/login',
       name: 'Login',
       components: {
         default: Login,
-        toolbar: Toolbar
+        toolbar: null
       },
       meta: {
         title: `Login - ${mainTitle}`,
@@ -91,28 +71,17 @@ const router = new Router({
       }
     },
     {
-      path: '/signup/',
-      pathToRegexpOptions: {
-        strict: true
-      },
+      path: '/signup',
       name: 'Signup',
       components: {
         default: Signup,
-        toolbar: Toolbar
+        toolbar: null
       },
       meta: {
         title: `Signup - ${mainTitle}`,
         description:
           'Signup into Skedr.io. You need a Flickr account to be able to use this product. Go to Flickr.com to create one and comeback to signup.'
       }
-    },
-    {
-      path: '/login',
-      redirect: '/login/'
-    },
-    {
-      path: '/signup',
-      redirect: '/signup/'
     }
   ]
 })

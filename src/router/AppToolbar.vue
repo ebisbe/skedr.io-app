@@ -2,6 +2,7 @@
   <div>
     <v-navigation-drawer
       v-model="drawer"
+      :mini-variant="miniVariant"
       clipped
       fixed
       app
@@ -11,6 +12,7 @@
           v-for="item in lists"
           :to="{name: item.name}"
           :key="item.name"
+          exact
           ripple>
           <v-list-tile-action>
             <v-icon v-html="item.icon"/>
@@ -51,7 +53,7 @@
       dark
       clipped-left
       clipped-right>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"/>
+      <v-toolbar-side-icon @click.stop="toggle"/>
       <v-toolbar-title style="width: 300px" v-text="pageTitle" />
       <v-flex
         :slot="useExtended ? 'extension' : ''"
@@ -63,13 +65,13 @@
       </v-flex>
       <v-spacer />
       <v-btn
-        v-show="showSearch && $vuetify.breakpoint.smAndUp"
+        v-show="hideSearchBar"
         icon
         @click="showSearch = true">
         <v-icon>search</v-icon>
       </v-btn>
       <v-text-field
-        v-show="showSearch"
+        v-show="hideSearchBar"
         v-model="search"
         :append-icon-cb="() => {showSearch = false; search =''}"
         color="white"
@@ -98,6 +100,7 @@ export default {
     return {
       title: 'Layout',
       drawer: false,
+      miniVariant: true,
       suggestionDialog: false,
       search: '',
       lists: [
@@ -123,6 +126,9 @@ export default {
     },
     showSearch() {
       return this.$route.path !== '/scheduled'
+    },
+    hideSearchBar() {
+      return this.showSearch && this.$vuetify.breakpoint.smAndUp
     }
   },
   watch: {
@@ -134,11 +140,19 @@ export default {
     this.drawer = this.$vuetify.breakpoint.lgAndpUp
   },
   methods: {
+    toggle() {
+      if (this.$vuetify.breakpoint.lgAndUp) {
+        this.miniVariant = !this.miniVariant
+      } else {
+        this.miniVariant = false
+        this.drawer = !this.drawer
+      }
+    },
     logout() {
       Auth.signOut()
         .then(() => {
           logger.debug('sign out success')
-          this.$router.push('/')
+          this.$router.push('/login')
         })
         .catch(err => this.setError(err))
     },

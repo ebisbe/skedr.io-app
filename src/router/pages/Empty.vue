@@ -4,7 +4,7 @@
       <v-flex v-if="!loading" xs12>
         <div class="text-xs-center">
           <v-icon
-            size="120px"
+            size="120"
             class="text-xs-center"
             v-html="icon"/>
         </div>
@@ -15,7 +15,7 @@
           <v-progress-circular
             size="50"
             indeterminate
-            color="info"/>
+            color="accent"/>
         </div>
       </v-flex>
     </v-layout>

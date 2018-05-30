@@ -149,11 +149,9 @@ export default {
           userId: this.userId
         }
       },
-      update: data =>
+      update: ({ userGroups }) =>
         _sortBy(
-          data.userGroups.map(group =>
-            Object.assign({ expanded: false, selected: false, alreadyInGroup: false }, group)
-          ),
+          userGroups.map(group => Object.assign({ expanded: false, selected: false, alreadyInGroup: false }, group)),
           ['title']
         ),
       fetchPolicy: 'cache-and-network',

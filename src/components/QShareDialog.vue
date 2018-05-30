@@ -28,7 +28,7 @@ import QShareDialogList from './QShareDialogList'
 import { mapState, mapGetters, mapActions } from 'vuex'
 import groupsPayload from '../mixins/groupsPayload'
 import GROUPS_QUERY from '../graphql/groups.gql'
-import _sortBy from 'lodash/sortby'
+import _sortBy from 'lodash/sortBy'
 
 export default {
   name: 'ShareDialog',

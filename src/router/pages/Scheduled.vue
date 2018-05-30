@@ -52,7 +52,7 @@
 import PhotoScheduled from '../../components/QPhotoScheduled'
 import Empty from './Empty'
 import { mapGetters } from 'vuex'
-import _groupBy from 'lodash/groupby'
+import _groupBy from 'lodash/groupBy'
 import * as moment from 'moment'
 import SCHEDULED_QUERY from '../../graphql/scheduled.gql'
 

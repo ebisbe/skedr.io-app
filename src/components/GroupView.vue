@@ -55,7 +55,7 @@ import QPush from './QPush'
 import GROUP_PHOTOS from '../graphql/groupPhotos.gql'
 import AUTOIMPORT_TAGS from '../graphql/autoimportTags.gql'
 
-import _sortBy from 'lodash/sortby'
+import _sortBy from 'lodash/sortBy'
 
 export default {
   name: 'GroupView',

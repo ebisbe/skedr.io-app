@@ -121,12 +121,6 @@ var webpackConfig = merge(baseWebpackConfig, {
       ]
     }),
     new ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
-    // new PrerenderSPAPlugin({
-    //   // Required - The path to the webpack-outputted app to prerender.
-    //   staticDir: path.join(__dirname, '../dist'),
-    //   // Required - Routes to render.
-    //   routes: ['/', '/login/', '/signup/'],
-    // })
   ]
 })
 

@@ -8,9 +8,25 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "apollo-cache-inmemory": "^1.2.2",
+    "apollo-client": "^2.3.2",
+    "apollo-link": "^1.2.2",
+    "apollo-link-http": "^1.5.4",
+    "aws-amplify": "^0.4.1",
+    "cache-service-cache-module": "^2.0.0",
+    "flickr-sdk": "^3.7.0",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.9.2",
+    "lodash": "^4.17.10",
+    "moment": "^2.22.1",
+    "raven-js": "^3.25.2",
     "register-service-worker": "^1.0.0",
+    "superagent-cache-plugin": "^2.0.0",
     "vue": "^2.5.16",
+    "vue-analytics": "^5.12.2",
+    "vue-apollo": "^3.0.0-beta.16",
     "vue-router": "^3.0.1",
+    "vuetify": "^1.0.18",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -20,6 +36,8 @@
     "@vue/cli-service": "^3.0.0-beta.15",
     "@vue/eslint-config-prettier": "^3.0.0-beta.15",
     "lint-staged": "^6.0.0",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
     "vue-template-compiler": "^2.5.16"
   },
   "browserslist": [

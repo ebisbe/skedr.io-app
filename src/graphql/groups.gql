@@ -1,0 +1,12 @@
+query groups($userId: ID!) {
+  userGroups(userId: $userId) {
+    title
+    groupId
+    icon
+    poolCount
+    members
+    throttleMode
+    throttleCount
+    throttleRemaining
+  }
+}

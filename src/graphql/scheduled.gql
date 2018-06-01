@@ -1,0 +1,18 @@
+query scheduled($userId: ID!) {
+  scheduledPhotos(userId: $userId) {
+    userId
+    groupId
+    photoId
+    secret
+    scheduledAt
+    message
+    photo {
+      title
+      server
+      farm
+    }
+    group {
+      title
+    }
+  }
+}

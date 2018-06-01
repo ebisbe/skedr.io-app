@@ -1,12 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Group from '../views/Group.vue'
-import AppToolbar from './AppToolbar.vue'
-import RightBar from './RightBar.vue'
-import Login from '../views/Login.vue'
-import Signup from '../views/Signup.vue'
-import Scheduled from '../views/Scheduled.vue'
-import Photostream from '../views/Photostream.vue'
+
+const AppToolbar = () => import('./AppToolbar.vue')
+const RightBar = () => import('./RightBar.vue')
+
+const Group = () => import('../views/Group.vue')
+const Login = () => import('../views/Login.vue')
+const Signup = () => import('../views/Signup.vue')
+const Scheduled = () => import('../views/Scheduled.vue')
+const Photostream = () => import('../views/Photostream.vue')
+
 import { AuthFilter } from '../amplify'
 
 Vue.use(Router)

@@ -2,14 +2,13 @@
   <v-card style="margin-bottom: 56px">
     <v-card-text style="text-align: center">
       <v-progress-circular
-        v-if="requests instanceof Array"
+        v-if="multiplePush"
         :size="100"
         :width="15"
         :rotate="360"
         :value="progressToHundred"
-        color="teal">
-        {{ progress }}
-      </v-progress-circular>
+        color="teal"
+        v-html="progress"/>
       <v-progress-circular
         v-else
         :size="100"
@@ -36,8 +35,11 @@ export default {
     }
   },
   computed: {
+    multiplePush() {
+      return this.requests instanceof Array
+    },
     progress() {
-      return `${this.resolvedRequests} / ${this.requests.length}`
+      return this.resolvedRequests + ' / ' + this.requests.length
     },
     progressToHundred() {
       return (this.resolvedRequests * 100) / this.requests.length || 0
@@ -53,7 +55,7 @@ export default {
       const requestsArr = this.requests.map(request =>
         API.post(process.env.VUE_APP_API_NAME, request.path, request.payload)
           .then(() => this.resolvedRequests++)
-          .catch(error => console.log(error))
+          .catch(error => error)
       )
 
       Promise.all(requestsArr)

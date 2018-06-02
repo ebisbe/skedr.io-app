@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const AppToolbar = () => import('./AppToolbar.vue')
-const RightBar = () => import('./RightBar.vue')
+const AppToolbar = () => import(/* webpackChunkName: "bar" */ './AppToolbar.vue')
+const RightBar = () => import(/* webpackChunkName: "bar" */ './RightBar.vue')
 
-const Group = () => import('../views/Group.vue')
-const Login = () => import('../views/Login.vue')
-const Signup = () => import('../views/Signup.vue')
-const Scheduled = () => import('../views/Scheduled.vue')
-const Photostream = () => import('../views/Photostream.vue')
+const Group = () => import(/* webpackChunkName: "group" */ '../views/Group.vue')
+const Login = () => import(/* webpackChunkName: "signin" */ '../views/Login.vue')
+const Signup = () => import(/* webpackChunkName: "signin" */ '../views/Signup.vue')
+const Scheduled = () => import(/* webpackChunkName: "scheduled" */ '../views/Scheduled.vue')
+const Photostream = () => import(/* webpackChunkName: "photostream" */ '../views/Photostream.vue')
 
 import { AuthFilter } from '../amplify'
 

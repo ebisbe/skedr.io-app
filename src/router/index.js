@@ -5,6 +5,7 @@ const AppToolbar = () => import(/* webpackChunkName: "bar" */ './AppToolbar.vue'
 const RightBar = () => import(/* webpackChunkName: "bar" */ './RightBar.vue')
 
 const Group = () => import(/* webpackChunkName: "group" */ '../views/Group.vue')
+const GroupView = () => import(/* webpackChunkName: "group" */ '../views/GroupView.vue')
 const Login = () => import(/* webpackChunkName: "signin" */ '../views/Login.vue')
 const Signup = () => import(/* webpackChunkName: "signin" */ '../views/Signup.vue')
 const Scheduled = () => import(/* webpackChunkName: "scheduled" */ '../views/Scheduled.vue')
@@ -18,10 +19,19 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
-      path: '/groups',
+      path: '/group',
       name: 'Group',
       components: {
         default: Group,
+        toolbar: AppToolbar,
+        rightBar: RightBar
+      }
+    },
+    {
+      path: '/group/:groupId',
+      name: 'Group View',
+      components: {
+        default: GroupView,
         toolbar: AppToolbar,
         rightBar: RightBar
       }

@@ -1,56 +1,71 @@
 <template>
-  <v-layout row wrap>
-    <v-flex xs10>
-      <span v-if="autoimportTags.length">
-        <q-chip
-          v-for="tag in selectedTags"
-          :key="tag.value"
-          :tag="tag"
-          @selectedTag="selected"/>
-      </span>
-      <span v-else>
-        You don't have any tag selected to autoimport photos to this group
-      </span>
-    </v-flex>
-    <v-flex xs2 class="text-xs-right">
-      <v-btn @click="dialog = true">Add</v-btn>
-    </v-flex>
-    <q-popup
-      :data="tags"
-      :dialog="dialog"
-      toolbar-title="Choose tags"
-      item-text="value"
-      @close="dialog = false">
-      <q-tags-dialog-list
-        slot="list"
-        slot-scope="props"
-        :key="props.item.value"
-        :tag="props.item"/>
-      <q-push
-        slot="save"
-        slot-scope="props"
-        :requests="constructPayload(props.selectedData)"
-        @loaded="dialog = false"
-      />
-    </q-popup>
-    <v-flex
-      v-for="photo in photos"
-      :key="photo.id"
-      md3
-      sm6
-      xs12>
-      <photo :photo="photo" :tag="selectedTag"/>
-    </v-flex>
-  </v-layout>
+  <v-content>
+    <v-container
+      fluid
+      grid-list-md>
+      <v-layout row wrap>
+        <h1>
+          <v-btn
+            icon
+            ripple
+            flat
+            @click.stop="$router.push({name: 'Group'})">
+            <v-icon color="grey lighten-1">keyboard_arrow_left</v-icon>
+          </v-btn> {{ $route.params.title }}
+        </h1>
+        <v-flex xs10>
+          <span v-if="autoimportTags.length">
+            <q-chip
+              v-for="tag in selectedTags"
+              :key="tag.value"
+              :tag="tag"
+              @selectedTag="selected"/>
+          </span>
+          <span v-else>
+            You don't have any tag selected to autoimport photos to this group
+          </span>
+        </v-flex>
+        <v-flex xs2 class="text-xs-right">
+          <v-btn @click="dialog = true">Add</v-btn>
+        </v-flex>
+        <q-popup
+          :data="tags"
+          :dialog="dialog"
+          toolbar-title="Choose tags"
+          item-text="value"
+          @close="dialog = false">
+          <q-tags-dialog-list
+            slot="list"
+            slot-scope="props"
+            :key="props.item.value"
+            :tag="props.item"/>
+          <q-push
+            slot="save"
+            slot-scope="props"
+            :requests="constructPayload(props.selectedData)"
+            @loaded="dialog = false"
+          />
+        </q-popup>
+        <v-flex
+          v-for="photo in photos"
+          :key="photo.id"
+          md4
+          sm6
+          xs12>
+          <photo :photo="photo" :tag="selectedTag"/>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-content>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 
-import Photo from './Photo'
-import QChip from './QChip'
-import QPopup from './QPopup'
-import QTagsDialogList from './QTagsDialogList'
-import QPush from './QPush'
+import Photo from '../components/Photo'
+import QChip from '../components/QChip'
+import QPopup from '../components/QPopup'
+import QTagsDialogList from '../components/QTagsDialogList'
+import QPush from '../components/QPush'
 
 import GROUP_PHOTOS from '../graphql/groupPhotos.gql'
 import AUTOIMPORT_TAGS from '../graphql/autoimportTags.gql'
@@ -60,12 +75,6 @@ import _sortBy from 'lodash/sortBy'
 export default {
   name: 'GroupView',
   components: { Photo, QChip, QTagsDialogList, QPopup, QPush },
-  props: {
-    groupId: {
-      type: String,
-      required: true
-    }
-  },
   data() {
     return {
       photos: [],
@@ -82,7 +91,7 @@ export default {
       variables() {
         return {
           userId: this.userId,
-          groupId: this.groupId
+          groupId: this.$route.params.groupId
         }
       },
       update: ({ groupPhotos }) => groupPhotos,
@@ -94,7 +103,7 @@ export default {
       variables() {
         return {
           userId: this.userId,
-          groupId: this.groupId
+          groupId: this.$route.params.groupId
         }
       },
       update: ({ autoimportTags }) => {

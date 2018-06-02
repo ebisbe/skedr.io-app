@@ -1,73 +1,57 @@
 <template>
   <div>
-    <v-layout
-      align-center
-      row
-      wrap
-      spacer>
-      <v-flex
-        xs2
-        sm1
-        md1>
-        <v-avatar size="40px">
-          <a
-            :href="link"
-            target="_blank"
-            class="text--secondary"
-            @click.stop>
-            <img :src="group.icon" :alt="group.title">
-          </a>
-        </v-avatar>
-      </v-flex>
-      <v-flex
-        d-flex
-        xs10
-        sm11>
-        <v-layout row wrap>
-          <v-flex
-            d-flex
-            xs12
-            sm6
-            lg6>
-            <strong class="break" v-html="group.title"/>
-            <!--<a :href="link"-->
-            <!--target="_blank"-->
-            <!--class="text&#45;&#45;secondary">-->
-            <!--<v-icon>open_in_browser</v-icon>-->
-            <!--</a>-->
-          </v-flex>
-          <v-flex
-            d-flex
-            sm6
-            lg6>
-            <span>{{ dateAddedFormated }}</span>
-            <v-spacer/>
-            <span>{{ group.poolCount }}</span>
-            <v-spacer/>
-            <span>{{ group.members }}</span>
-            <v-spacer/>
-            <span
-              class="grey--text"
-              text-xs-right>
-              <span v-html="throttleText"/>
-              <strong>{{ group.throttleMode }}</strong>
-            </span>
-            <v-spacer/>
-            <span>
-              <v-btn
-                :disabled="disabled"
-                icon
-                flat
-                small
-                color="primary"
-                class="ma-0"
-                @click.stop="share">
-                <v-icon>share</v-icon>
-              </v-btn>
-            </span>
-          </v-flex>
-        </v-layout>
-      </v-flex>
+    <v-list-tile
+      avatar
+      ripple
+      @click.stop="$router.push({name: 'Group View', params: { groupId: group.groupId, title: group.title} })">
+      <v-list-tile-avatar>
+        <img :src="group.icon" :alt="group.title">
+      </v-list-tile-avatar>
+      <v-list-tile-content v-if="$vuetify.breakpoint.mdAndUp">
+        <v-list-tile-title>
+          <v-layout row wrap>
+            <v-flex d-flex>
+              <span style="width:200px;" v-html="group.title"/>
+              <v-spacer/>
+              <span class="text-xs-right">{{ group.poolCount }} <v-icon slot="activator">photo</v-icon></span>
+              <span class="text-xs-right">{{ group.members }} <v-icon slot="activator">face</v-icon></span>
+              <span
+                class="grey--text text-xs-right"
+                text-xs-right>
+                <span v-html="throttleText"/>
+                <strong>{{ group.throttleMode }}</strong>
+              </span>
+            </v-flex>
+          </v-layout>
+        </v-list-tile-title>
+      </v-list-tile-content>
+      <v-list-tile-content v-if="$vuetify.breakpoint.smAndDown">
+        <v-list-tile-title v-html="group.title"/>
+        <v-list-tile-sub-title>
+          <v-layout row wrap>
+            <v-flex d-flex>
+              <span>{{ group.poolCount }}</span>
+              <span>{{ group.members }}</span>
+              <span
+                class="grey--text"
+                text-xs-right>
+                <span v-html="throttleText"/>
+                <strong>{{ group.throttleMode }}</strong>
+              </span>
+            </v-flex>
+          </v-layout>
+        </v-list-tile-sub-title>
+      </v-list-tile-content>
+      <v-list-tile-action>
+        <v-list-tile-action-text>{{ dateAddedFormated }}</v-list-tile-action-text>
+        <v-btn
+          icon
+          ripple
+          flat
+          @click.stop="share">
+          <v-icon color="grey lighten-1">share</v-icon>
+        </v-btn>
+      </v-list-tile-action>
       <v-dialog v-model="dialog" max-width="500px">
         <v-card>
           <v-toolbar dark color="primary">
@@ -80,7 +64,8 @@
           />
         </v-card>
       </v-dialog>
-    </v-layout>
+    </v-list-tile>
+    <v-divider />
   </div>
 </template>
 <script>

@@ -2,7 +2,9 @@
   <v-app v-resize="resize" light>
 
     <router-view name="toolbar"/>
-    <router-view/>
+    <transition :name="transitionName">
+      <router-view/>
+    </transition>
     <router-view name="rightBar"/>
 
   </v-app>
@@ -13,6 +15,13 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
+  watch: {
+    $route(to, from) {
+      const toDepth = to.path.split('/').length
+      const fromDepth = from.path.split('/').length
+      this.transitionName = toDepth < fromDepth ? 'slide-y-transition' : 'slide-y-transition'
+    }
+  },
   mounted() {
     this.onResize({ width: window.innerWidth, height: window.innerHeight })
   },

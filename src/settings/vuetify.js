@@ -24,7 +24,6 @@ import VProgressLinear from 'vuetify/es5/components/VProgressLinear'
 import VProgressCircular from 'vuetify/es5/components/VProgressCircular'
 import VAlert from 'vuetify/es5/components/VAlert'
 import VForm from 'vuetify/es5/components/VForm'
-import VExpansionPanel from 'vuetify/es5/components/VExpansionPanel'
 import VAvatar from 'vuetify/es5/components/VAvatar'
 import VStepper from 'vuetify/es5/components/VStepper'
 import VChip from 'vuetify/es5/components/VChip'
@@ -57,7 +56,6 @@ Vue.use(Vuetify, {
     VAlert,
     VForm,
     VProgressCircular,
-    VExpansionPanel,
     VAvatar,
     VStepper,
     VChip,

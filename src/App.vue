@@ -40,7 +40,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="css">
 .topFloat {
   position: absolute !important;
   top: 0;

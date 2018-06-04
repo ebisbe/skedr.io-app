@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "skedr.io",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -47,7 +47,6 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "sideEffects": false,
   "gitHooks": {
     "pre-commit": "lint-staged"
   },

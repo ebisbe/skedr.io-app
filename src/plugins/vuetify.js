@@ -1,16 +1,14 @@
 import Vue from 'vue'
 
+import 'vuetify/src/stylus/app.styl'
+
 import VApp from 'vuetify/es5/components/VApp'
 import Vuetify from 'vuetify/es5/components/Vuetify'
 import VNavigationDrawer from 'vuetify/es5/components/VNavigationDrawer'
-import VFooter from 'vuetify/es5/components/VFooter'
 import VList from 'vuetify/es5/components/VList'
 import VBtn from 'vuetify/es5/components/VBtn'
 import VIcon from 'vuetify/es5/components/VIcon'
-import VGrid from 'vuetify/es5/components/VGrid'
 import VToolbar from 'vuetify/es5/components/VToolbar'
-import VJumbotron from 'vuetify/es5/components/VJumbotron'
-import VParallax from 'vuetify/es5/components/VParallax'
 import VCard from 'vuetify/es5/components/VCard'
 import VDivider from 'vuetify/es5/components/VDivider'
 import VDialog from 'vuetify/es5/components/VDialog'
@@ -35,16 +33,12 @@ Vue.use(Vuetify, {
   components: {
     VApp,
     VNavigationDrawer,
-    VFooter,
     VList,
     VBtn,
     VIcon,
-    VGrid,
     VToolbar,
-    VJumbotron,
     VCard,
     VDivider,
-    VParallax,
     VDialog,
     VTextField,
     VSubheader,

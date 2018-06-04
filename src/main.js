@@ -1,13 +1,12 @@
 import Vue from 'vue'
-require('vuetify/dist/vuetify.min.css')
 
 import './plugins/vuetify'
 import apolloProvider from './plugins/apolloProvider'
-import aws_exports from './plugins/aws-exports.js'
+import aws_exports from './plugins/aws-exports'
 
 import App from './App'
-import router from './router/'
-import store from './store/'
+import router from './router'
+import store from './store'
 import './registerServiceWorker'
 import './libs/storage'
 import VueAnalytics from 'vue-analytics'

@@ -16,6 +16,7 @@
       slot="save"
       slot-scope="props"
       :requests="constructPayload(props.selectedData)"
+      style="margin-bottom: 56px"
       @loaded="clearSharedPool"
     />
   </q-popup>
@@ -36,7 +37,8 @@ export default {
   mixins: [groupsPayload],
   data() {
     return {
-      groups: []
+      groups: [],
+      loading: 0
     }
   },
   computed: {
@@ -77,7 +79,13 @@ export default {
       update: data =>
         _sortBy(
           data.userGroups.map(group =>
-            Object.assign({ expanded: false, selected: false, alreadyInGroup: false }, group)
+            Object.assign(
+              {
+                selected: false,
+                alreadyInGroup: false
+              },
+              group
+            )
           ),
           ['title']
         ),
@@ -87,10 +95,10 @@ export default {
   },
   mounted() {
     this.saveImages = false
-    const groups = localStorage.getObject('groups')
-    if (groups !== null) {
-      this.groups = groups
-    }
+    // const groups = localStorage.getObject('groups')
+    // if (groups !== null) {
+    //   this.groups = groups
+    // }
   },
   /* created() {
     document.addEventListener('keyup', this.cancel)

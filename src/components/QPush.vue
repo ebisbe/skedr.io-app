@@ -1,19 +1,19 @@
 <template>
-  <v-card style="margin-bottom: 56px">
+  <v-card>
     <v-card-text style="text-align: center">
       <v-progress-circular
-        v-if="multiplePush"
+        v-if="requests.length > 1"
         :size="100"
-        :width="15"
-        :rotate="360"
+        :width="4"
         :value="progressToHundred"
-        color="teal"
-        v-html="progress"/>
+        color="accent">
+        {{ progress }}
+      </v-progress-circular>
       <v-progress-circular
         v-else
         :size="100"
         :width="4"
-        color="teal"
+        color="accent"
         indeterminate/>
     </v-card-text>
   </v-card>
@@ -35,9 +35,6 @@ export default {
     }
   },
   computed: {
-    multiplePush() {
-      return this.requests instanceof Array
-    },
     progress() {
       return this.resolvedRequests + ' / ' + this.requests.length
     },

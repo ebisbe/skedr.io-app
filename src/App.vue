@@ -15,6 +15,11 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      transitionName: ''
+    }
+  },
   watch: {
     $route(to, from) {
       const toDepth = to.path.split('/').length

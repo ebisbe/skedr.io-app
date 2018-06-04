@@ -2,25 +2,19 @@
   <div>
     <v-list-tile
       avatar
-      ripple
-      @click.stop="$router.push({name: 'Group View', params: { groupId: group.groupId, title: group.title} })">
+      ripple>
       <v-list-tile-avatar>
         <img :src="group.icon" :alt="group.title">
       </v-list-tile-avatar>
       <v-list-tile-content v-if="$vuetify.breakpoint.mdAndUp">
         <v-list-tile-title>
           <v-layout row wrap>
-            <v-flex d-flex>
-              <span style="width:200px;" v-html="group.title"/>
-              <v-spacer/>
-              <span class="text-xs-right">{{ group.poolCount }} <v-icon slot="activator">photo</v-icon></span>
-              <span class="text-xs-right">{{ group.members }} <v-icon slot="activator">face</v-icon></span>
-              <span
-                class="grey--text text-xs-right"
-                text-xs-right>
-                <span v-html="throttleText"/>
-                <strong>{{ group.throttleMode }}</strong>
-              </span>
+            <v-flex xs6 v-html="group.title"/>
+            <v-flex xs2 class="text-xs-right">{{ group.poolCount }} <v-icon slot="activator">photo</v-icon></v-flex>
+            <v-flex xs2 class="text-xs-right">{{ group.members }} <v-icon slot="activator">face</v-icon></v-flex>
+            <v-flex xs2 class="grey--text text-xs-right">
+              <span v-html="throttleText"/>&nbsp;
+              <strong>{{ group.throttleMode }}</strong>
             </v-flex>
           </v-layout>
         </v-list-tile-title>
@@ -29,15 +23,11 @@
         <v-list-tile-title v-html="group.title"/>
         <v-list-tile-sub-title>
           <v-layout row wrap>
-            <v-flex d-flex>
-              <span>{{ group.poolCount }}</span>
-              <span>{{ group.members }}</span>
-              <span
-                class="grey--text"
-                text-xs-right>
-                <span v-html="throttleText"/>
-                <strong>{{ group.throttleMode }}</strong>
-              </span>
+            <v-flex xs4 class="text-xs-right">{{ group.poolCount }} <v-icon slot="activator">photo</v-icon></v-flex>
+            <v-flex xs4 class="text-xs-right">{{ group.members }} <v-icon slot="activator">face</v-icon></v-flex>
+            <v-flex xs4 class="grey--text text-xs-right">
+              <span v-html="throttleText"/>&nbsp;
+              <strong>{{ group.throttleMode }}</strong>
             </v-flex>
           </v-layout>
         </v-list-tile-sub-title>
@@ -45,6 +35,7 @@
       <v-list-tile-action>
         <v-list-tile-action-text>{{ dateAddedFormated }}</v-list-tile-action-text>
         <v-btn
+          :disabled="disabled"
           icon
           ripple
           flat
@@ -52,26 +43,23 @@
           <v-icon color="grey lighten-1">share</v-icon>
         </v-btn>
       </v-list-tile-action>
-      <v-dialog v-model="dialog" max-width="500px">
-        <v-card>
-          <v-toolbar dark color="primary">
-            <v-toolbar-title v-html="title"/>
-          </v-toolbar>
-          <q-push
-            v-if="dialog"
-            :requests="constructPayload([group])"
-            @loaded="closePopUp"
-          />
-        </v-card>
-      </v-dialog>
+      <v-list-tile-action>
+        <v-btn
+          icon
+          ripple
+          flat
+          @click.stop="$router.push({name: 'Group View', params: { groupId: group.groupId, title: group.title} })">
+          <v-icon color="grey lighten-1">arrow_forward</v-icon>
+        </v-btn>
+      </v-list-tile-action>
+      <!--  -->
     </v-list-tile>
-    <v-divider />
+    <v-divider v-if="!lastItem" />
   </div>
 </template>
 <script>
 import Moment from 'moment'
 import { mapGetters } from 'vuex'
-import QPush from './QPush'
 import groupsPayload from '../mixins/groupsPayload'
 
 Moment.updateLocale('en', {
@@ -94,18 +82,16 @@ Moment.updateLocale('en', {
 })
 
 export default {
-  name: 'ExpansionPanel',
-  components: { QPush },
+  name: 'QGroupList',
   mixins: [groupsPayload],
   props: {
     group: {
       type: Object,
       required: true
-    }
-  },
-  data() {
-    return {
-      dialog: false
+    },
+    lastItem: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -114,9 +100,6 @@ export default {
     }),
     disabled() {
       return this.poolLength === 0
-    },
-    title() {
-      return `Sharing Pool (${this.poolLength} elements)`
     },
     link() {
       return 'https://www.flickr.com/groups/' + this.group.groupId
@@ -140,10 +123,7 @@ export default {
   },
   methods: {
     share() {
-      this.dialog = true
-    },
-    closePopUp() {
-      this.dialog = false
+      this.$emit('share', { payload: this.constructPayload([this.group]) })
     }
   }
 }

@@ -3,17 +3,17 @@
     <v-container
       fluid
       grid-list-md>
+      <h1>
+        <v-btn
+          icon
+          ripple
+          flat
+          @click.stop="$router.push({name: 'Group'})">
+          <v-icon color="grey lighten-1">keyboard_arrow_left</v-icon>
+        </v-btn> {{ $route.params.title }}
+      </h1>
       <v-layout row wrap>
-        <h1>
-          <v-btn
-            icon
-            ripple
-            flat
-            @click.stop="$router.push({name: 'Group'})">
-            <v-icon color="grey lighten-1">keyboard_arrow_left</v-icon>
-          </v-btn> {{ $route.params.title }}
-        </h1>
-        <v-flex xs10>
+        <v-flex xs9>
           <span v-if="autoimportTags.length">
             <q-chip
               v-for="tag in selectedTags"
@@ -25,27 +25,30 @@
             You don't have any tag selected to autoimport photos to this group
           </span>
         </v-flex>
-        <v-flex xs2 class="text-xs-right">
+        <v-flex xs3 class="text-xs-right">
           <v-btn @click="dialog = true">Add</v-btn>
         </v-flex>
-        <q-popup
-          :data="tags"
-          :dialog="dialog"
-          toolbar-title="Choose tags"
-          item-text="value"
-          @close="dialog = false">
-          <q-tags-dialog-list
-            slot="list"
-            slot-scope="props"
-            :key="props.item.value"
-            :tag="props.item"/>
-          <q-push
-            slot="save"
-            slot-scope="props"
-            :requests="constructPayload(props.selectedData)"
-            @loaded="dialog = false"
-          />
-        </q-popup>
+      </v-layout>
+      <q-popup
+        :data="tags"
+        :dialog="dialog"
+        toolbar-title="Choose tags"
+        item-text="value"
+        @close="dialog = false">
+        <q-tags-dialog-list
+          slot="list"
+          slot-scope="props"
+          :key="props.item.value"
+          :tag="props.item"/>
+        <q-push
+          slot="save"
+          slot-scope="props"
+          :requests="constructPayload(props.selectedData)"
+          style="margin-bottom: 56px"
+          @loaded="dialog = false"
+        />
+      </q-popup>
+      <v-layout row wrap>
         <v-flex
           v-for="photo in photos"
           :key="photo.id"

@@ -51,6 +51,7 @@
       fixed
       color="primary"
       dark
+      style="z-index:3;"
       clipped-left
       clipped-right>
       <v-toolbar-side-icon @click.stop="toggle"/>

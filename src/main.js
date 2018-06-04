@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import('vuetify/src/stylus/app.styl')
+require('../node_modules/vuetify/src/stylus/app.styl?module')
 
 import './plugins/vuetify'
 import apolloProvider from './plugins/apolloProvider'

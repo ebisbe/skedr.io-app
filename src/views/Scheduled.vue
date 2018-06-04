@@ -104,7 +104,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="css">
 .sked-schedule .date {
   position: sticky;
   top: 60px;

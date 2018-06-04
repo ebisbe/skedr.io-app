@@ -143,7 +143,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="css">
 .hidden {
   display: none !important;
 }

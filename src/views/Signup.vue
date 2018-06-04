@@ -296,7 +296,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="css">
 .explanation {
   background: rgba(255, 255, 255, 0.534);
 }

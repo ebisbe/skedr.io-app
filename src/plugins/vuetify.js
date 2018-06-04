@@ -8,6 +8,7 @@ import VNavigationDrawer from 'vuetify/es5/components/VNavigationDrawer'
 import VList from 'vuetify/es5/components/VList'
 import VBtn from 'vuetify/es5/components/VBtn'
 import VIcon from 'vuetify/es5/components/VIcon'
+import VGrid from 'vuetify/es5/components/VGrid'
 import VToolbar from 'vuetify/es5/components/VToolbar'
 import VCard from 'vuetify/es5/components/VCard'
 import VDivider from 'vuetify/es5/components/VDivider'
@@ -36,6 +37,7 @@ Vue.use(Vuetify, {
     VList,
     VBtn,
     VIcon,
+    VGrid,
     VToolbar,
     VCard,
     VDivider,

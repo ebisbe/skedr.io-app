@@ -128,7 +128,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="css">
 .break {
   word-break: break-all;
 }

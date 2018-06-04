@@ -1,4 +1,10 @@
 import Vue from 'vue'
+import('vuetify/src/stylus/app.styl')
+
+import './plugins/vuetify'
+import apolloProvider from './plugins/apolloProvider'
+import aws_exports from './plugins/aws-exports.js'
+
 import App from './App'
 import router from './router/'
 import store from './store/'
@@ -6,10 +12,6 @@ import './registerServiceWorker'
 import './libs/storage'
 import VueAnalytics from 'vue-analytics'
 import Amplify, { Auth, Logger } from 'aws-amplify'
-
-import apolloProvider from './settings/apolloProvider'
-import aws_exports from './settings/aws-exports.js'
-import './settings/vuetify'
 
 Amplify.configure(aws_exports)
 Amplify.Logger.LOG_LEVEL = 'DEBUG' // to show detailed logs from Amplify library

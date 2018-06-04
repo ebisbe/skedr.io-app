@@ -1,7 +1,5 @@
 import Vue from 'vue'
 
-require('vuetify/src/stylus/app.styl')
-
 import VApp from 'vuetify/es5/components/VApp'
 import Vuetify from 'vuetify/es5/components/Vuetify'
 import VNavigationDrawer from 'vuetify/es5/components/VNavigationDrawer'

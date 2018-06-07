@@ -1,5 +1,5 @@
 <template>
-  <v-content style="background-image: url(/img/login-blur-min.jpg); background-size: cover;">
+  <v-content>
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex

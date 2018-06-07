@@ -1,5 +1,5 @@
 <template>
-  <v-content style="background-image: url(/img/login-blur-min.jpg); background-size: cover;" alt="Sometext">
+  <v-content >
     <v-container
       fluid
       fill-height

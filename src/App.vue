@@ -1,8 +1,11 @@
 <template>
-  <v-app v-resize="resize" light>
+  <v-app
+    v-resize="resize"
+    :class="{'background': notLogged}"
+    light>
 
     <router-view name="toolbar"/>
-    <transition :name="transitionName">
+    <transition name="component-fade" mode="out-in">
       <router-view/>
     </transition>
     <router-view name="rightBar"/>
@@ -20,11 +23,16 @@ export default {
       transitionName: ''
     }
   },
+  computed: {
+    notLogged() {
+      return this.$route.name === 'Login' || this.$route.name === 'Signup'
+    }
+  },
   watch: {
     $route(to, from) {
       const toDepth = to.path.split('/').length
       const fromDepth = from.path.split('/').length
-      this.transitionName = toDepth < fromDepth ? 'slide-y-transition' : 'slide-y-transition'
+      this.transitionName = toDepth < fromDepth ? 'slide-x-transition' : 'slide-x-transition'
     }
   },
   mounted() {
@@ -41,6 +49,20 @@ export default {
 }
 </script>
 <style lang="css">
+.background {
+  background-image: url(/img/login-blur-min.jpg) !important;
+  background-size: cover !important;
+}
+
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.component-fade-enter, .component-fade-leave-to
+/* .component-fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
 .topFloat {
   position: absolute !important;
   top: 0;

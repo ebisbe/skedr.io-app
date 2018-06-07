@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const AppToolbar = () => import(/* webpackChunkName: "bar" */ './AppToolbar.vue')
+const Toolbar = () => import(/* webpackChunkName: "bar" */ './Toolbar.vue')
 const RightBar = () => import(/* webpackChunkName: "bar" */ './RightBar.vue')
 
 const Group = () => import(/* webpackChunkName: "group" */ '../views/Group.vue')
@@ -23,7 +23,7 @@ const router = new Router({
       name: 'Group',
       components: {
         default: Group,
-        toolbar: AppToolbar,
+        toolbar: Toolbar,
         rightBar: RightBar
       }
     },
@@ -32,7 +32,7 @@ const router = new Router({
       name: 'Group View',
       components: {
         default: GroupView,
-        toolbar: AppToolbar,
+        toolbar: Toolbar,
         rightBar: RightBar
       }
     },
@@ -41,7 +41,7 @@ const router = new Router({
       name: 'Scheduled photos',
       components: {
         default: Scheduled,
-        toolbar: AppToolbar,
+        toolbar: Toolbar,
         rightBar: RightBar
       }
     },
@@ -50,7 +50,7 @@ const router = new Router({
       name: 'Photostream',
       components: {
         default: Photostream,
-        toolbar: AppToolbar,
+        toolbar: Toolbar,
         rightBar: RightBar
       }
     },

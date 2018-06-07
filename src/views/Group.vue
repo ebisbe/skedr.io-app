@@ -8,6 +8,7 @@
         <v-flex xs12>
           <v-list
             two-line
+            style="background-color: transparent;"
             dense>
             <template
               v-for="(groups, legend) in filteredGroups">
@@ -15,7 +16,7 @@
                 :key="legend"
                 style="background-color: transparent;"
                 v-html="legend"/>
-              <v-card :key="legend">
+              <v-card :key="`${legend}-card`">
                 <q-group-list
                   v-for="(group, i) in groups"
                   :group="group"
@@ -30,7 +31,7 @@
     </v-container>
     <empty
       v-else
-      :loading="loading === 1"
+      :loading="$apolloData.loading === 1"
       icon="view_day"
       description="You don't have any group yet"/>
     <v-dialog v-model="dialog" max-width="500px">
@@ -67,10 +68,10 @@ export default {
   components: { QGroupList, Photo, QPoolBtn, Empty, QPush },
   data() {
     return {
-      loading: 0,
       groups: [],
       payload: null,
-      dialog: false
+      dialog: false,
+      error: ''
     }
   },
 
@@ -89,6 +90,12 @@ export default {
     },
     title() {
       return `Sharing Pool (${this.poolLength} elements)`
+    },
+    description() {
+      if (this.error === '') {
+        return "You don't have any photo yet"
+      }
+      return this.error
     }
   },
   watch: {
@@ -103,9 +110,6 @@ export default {
     }
   },
   methods: {
-    isLoading(loading) {
-      this.loading = loading
-    },
     share({ payload }) {
       this.payload = payload
       this.dialog = true
@@ -136,8 +140,10 @@ export default {
           ),
           ['legend']
         ),
-      fetchPolicy: 'cache-and-network',
-      loadingKey: 'loading',
+      error() {
+        this.error = 'Ups! Some error happened fetching your data...'
+      },
+      fetchPolicy: 'network',
       pollInterval: 300000
     }
   }

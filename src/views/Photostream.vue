@@ -18,13 +18,13 @@
         </v-flex>
         <v-flex>
           <v-btn
-            :disabled="loading === 1"
+            :disabled="$apolloData.loading === 1"
             block
             color="accent"
             dark
             @click="showMore">
             <v-progress-circular
-              v-if="loading"
+              v-if="$apolloData.loading"
               indeterminate
               color="accent"/>
             <span v-else>
@@ -57,9 +57,9 @@
     </v-container>
     <empty
       v-else
-      :loading="loading === 1"
-      icon="photo"
-      description="You don't have any photo yet"/>
+      :loading="$apolloData.loading === 1"
+      :description="description"
+      icon="photo"/>
   </v-content>
 </template>
 <script>
@@ -75,9 +75,9 @@ export default {
   components: { Photo, Empty, MyFetch },
   data() {
     return {
-      loading: 0,
       offset: itemsPerPage,
-      userPhotos: []
+      userPhotos: [],
+      error: ''
     }
   },
   computed: {
@@ -86,6 +86,12 @@ export default {
         return ''
       }
       return '/search'
+    },
+    description() {
+      if (this.error === '') {
+        return "You don't have any photo yet"
+      }
+      return this.error
     },
     ...mapGetters(['userId']),
     ...mapState(['search'])
@@ -100,8 +106,9 @@ export default {
         }
       },
       update: data => data.userPhotos,
-      fetchPolicy: 'cache-and-network',
-      loadingKey: 'loading'
+      error() {
+        this.error = 'Ups! Some error happened fetching your data...'
+      }
     }
   },
   methods: {

@@ -34,7 +34,7 @@ Vue.use(VueAnalytics, {
   id: process.env.VUE_APP_GA,
   router,
   debug: {
-    enabled: !isProd,
+    enabled: false,
     sendHitTask: isProd
   }
 })

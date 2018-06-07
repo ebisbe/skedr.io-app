@@ -43,7 +43,7 @@
     </v-container>
     <empty
       v-else
-      :loading="loading === 1"
+      :loading="$apolloData.loading === 1"
       icon="access_time"
       description="You don't have any photos scheduled"/>
   </v-content>
@@ -61,8 +61,7 @@ export default {
   components: { PhotoScheduled, Empty },
   data() {
     return {
-      scheduledPhotos: [],
-      loading: 0
+      scheduledPhotos: []
     }
   },
   computed: {
@@ -98,8 +97,7 @@ export default {
         }
       },
       update: data => data.scheduledPhotos.map(photo => Object.assign({ headerDate: '' }, photo)),
-      fetchPolicy: 'cache-and-network',
-      loadingKey: 'loading'
+      fetchPolicy: 'cache-and-network'
     }
   }
 }

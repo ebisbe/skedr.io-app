@@ -4,9 +4,12 @@ import { ApolloClient } from 'apollo-client/index'
 import VueApollo from 'vue-apollo'
 import Vue from 'vue'
 
+import exports from './aws-exports'
+const uri = exports.aws_cloud_logic_custom.filter(({ name }) => name === process.env.VUE_APP_API_NAME).pop().endpoint
+
 const httpLink = new HttpLink({
   // You should use an absolute URL here
-  uri: process.env.VUE_APP_API_URL + 'graphql'
+  uri: uri + '/graphql'
 })
 
 // Create the apollo client

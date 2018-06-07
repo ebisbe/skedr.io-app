@@ -81,7 +81,6 @@ export default {
   data() {
     return {
       photos: [],
-      loading: 0,
       tags: [],
       autoimportTags: [],
       selectedTag: '',
@@ -98,7 +97,6 @@ export default {
         }
       },
       update: ({ groupPhotos }) => groupPhotos,
-      loadingKey: 'loading',
       fetchPolicy: 'cache-and-network'
     },
     autoimportTags: {
@@ -113,7 +111,6 @@ export default {
         //TODO GraphQl query should be rethinked
         return autoimportTags.length > 0 ? autoimportTags[0].tags : []
       },
-      loadingKey: 'loading',
       fetchPolicy: 'cache-and-network'
     }
   },
@@ -127,9 +124,6 @@ export default {
     }*/
   },
   watch: {
-    loading(value) {
-      this.$emit('isLoading', value)
-    },
     photos(photos) {
       const nonDuplicates = new Set()
       const tagsCount = new Object()

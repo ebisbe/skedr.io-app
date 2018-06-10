@@ -32,6 +32,7 @@
     <empty
       v-else
       :loading="$apolloData.loading === 1"
+      :error="error"
       icon="view_day"
       description="You don't have any group yet"/>
     <v-dialog v-model="dialog" max-width="500px">
@@ -71,7 +72,7 @@ export default {
       groups: [],
       payload: null,
       dialog: false,
-      error: ''
+      error: false
     }
   },
 
@@ -90,12 +91,6 @@ export default {
     },
     title() {
       return `Sharing Pool (${this.poolLength} elements)`
-    },
-    description() {
-      if (this.error === '') {
-        return "You don't have any photo yet"
-      }
-      return this.error
     }
   },
   watch: {
@@ -126,24 +121,26 @@ export default {
           userId: this.userId
         }
       },
-      update: ({ userGroups }) =>
-        _sortBy(
-          userGroups.map(group =>
-            Object.assign(
-              {
-                selected: false,
-                alreadyInGroup: false,
-                legend: _upperCase(group.title).substring(0, 1)
-              },
-              group
+      update: data =>
+        data.hasOwnProperty('userGroups')
+          ? _sortBy(
+              data.userGroups.map(group =>
+                Object.assign(
+                  {
+                    selected: false,
+                    alreadyInGroup: false,
+                    legend: _upperCase(group.title).substring(0, 1)
+                  },
+                  group
+                )
+              ),
+              ['legend']
             )
-          ),
-          ['legend']
-        ),
+          : [],
       error() {
-        this.error = 'Ups! Some error happened fetching your data...'
+        this.error = true
       },
-      fetchPolicy: 'network',
+      fetchPolicy: 'cache-and-network',
       pollInterval: 300000
     }
   }

@@ -25,6 +25,9 @@ const router = new Router({
         default: Group,
         toolbar: Toolbar,
         rightBar: RightBar
+      },
+      meta: {
+        requiresAuth: true
       }
     },
     {
@@ -34,6 +37,9 @@ const router = new Router({
         default: GroupView,
         toolbar: Toolbar,
         rightBar: RightBar
+      },
+      meta: {
+        requiresAuth: true
       }
     },
     {
@@ -43,6 +49,9 @@ const router = new Router({
         default: Scheduled,
         toolbar: Toolbar,
         rightBar: RightBar
+      },
+      meta: {
+        requiresAuth: true
       }
     },
     {
@@ -52,6 +61,9 @@ const router = new Router({
         default: Photostream,
         toolbar: Toolbar,
         rightBar: RightBar
+      },
+      meta: {
+        requiresAuth: true
       }
     },
     {

@@ -63,6 +63,10 @@
             </transition-group>
           </v-list>
         </v-layout>
+        <empty 
+          v-else-if="loading" 
+          class="py-5 my-5" 
+          loading/>
         <v-layout v-else class="grey lighten-2">
           <v-flex class="text-xs-center headline py-5 my-5" v-html="noDataText"/>
         </v-layout>
@@ -105,10 +109,11 @@
 
 <script>
 import QFilter from './QFilter'
+import Empty from './Empty'
 
 export default {
   name: 'QPopup',
-  components: { QFilter },
+  components: { QFilter, Empty },
   props: {
     dialog: {
       type: Boolean,
@@ -117,6 +122,10 @@ export default {
     data: {
       type: Array,
       required: true
+    },
+    loading: {
+      type: Boolean,
+      default: false
     },
     toolbarTitle: {
       type: String,

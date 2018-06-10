@@ -2,6 +2,7 @@
   <q-popup
     :data="groups"
     :toolbar-title="title"
+    :loading="$apolloData.loading === 1"
     :dialog="dialog"
     list-title="Groups"
     no-data-text="No groups"
@@ -37,8 +38,7 @@ export default {
   mixins: [groupsPayload],
   data() {
     return {
-      groups: [],
-      loading: 0
+      groups: []
     }
   },
   computed: {
@@ -71,6 +71,9 @@ export default {
   apollo: {
     groups: {
       query: GROUPS_QUERY,
+      skip() {
+        return !this.dialog
+      },
       variables() {
         return {
           userId: this.userId
@@ -89,8 +92,7 @@ export default {
           ),
           ['title']
         ),
-      fetchPolicy: 'cache-and-network',
-      loadingKey: 'loading'
+      fetchPolicy: 'cache-and-network'
     }
   },
   mounted() {

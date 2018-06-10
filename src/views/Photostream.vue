@@ -58,7 +58,8 @@
     <empty
       v-else
       :loading="$apolloData.loading === 1"
-      :description="description"
+      :error="error"
+      description="You don't have any photo yet"
       icon="photo"/>
   </v-content>
 </template>
@@ -77,7 +78,7 @@ export default {
     return {
       offset: itemsPerPage,
       userPhotos: [],
-      error: ''
+      error: false
     }
   },
   computed: {
@@ -86,12 +87,6 @@ export default {
         return ''
       }
       return '/search'
-    },
-    description() {
-      if (this.error === '') {
-        return "You don't have any photo yet"
-      }
-      return this.error
     },
     ...mapGetters(['userId']),
     ...mapState(['search'])
@@ -105,9 +100,10 @@ export default {
           offset: itemsPerPage
         }
       },
-      update: data => data.userPhotos,
+      update: data => (data.hasOwnProperty('userPhotos') ? data.userPhotos : []),
+      fetchPolicy: 'cache-and-network',
       error() {
-        this.error = 'Ups! Some error happened fetching your data...'
+        this.error = true
       }
     }
   },

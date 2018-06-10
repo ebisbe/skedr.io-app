@@ -44,6 +44,7 @@
     <empty
       v-else
       :loading="$apolloData.loading === 1"
+      :error="error"
       icon="access_time"
       description="You don't have any photos scheduled"/>
   </v-content>
@@ -61,7 +62,8 @@ export default {
   components: { PhotoScheduled, Empty },
   data() {
     return {
-      scheduledPhotos: []
+      scheduledPhotos: [],
+      error: false
     }
   },
   computed: {
@@ -85,7 +87,7 @@ export default {
       return _groupBy(data, 'group.title')
     },
     subheader(group) {
-      return `${group.title}`
+      return group.title
     }
   },
   apollo: {
@@ -96,8 +98,14 @@ export default {
           userId: this.userId
         }
       },
-      update: data => data.scheduledPhotos.map(photo => Object.assign({ headerDate: '' }, photo)),
-      fetchPolicy: 'cache-and-network'
+      update: data =>
+        data.hasOwnProperty('scheduledPhotos')
+          ? data.scheduledPhotos.map(photo => Object.assign({ headerDate: '' }, photo))
+          : [],
+      fetchPolicy: 'cache-and-network',
+      error() {
+        this.error = true
+      }
     }
   }
 }

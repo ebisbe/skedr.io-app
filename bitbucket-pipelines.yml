@@ -1,0 +1,9 @@
+pipelines:
+  default:
+    - step:
+        image: lmlt/alpine-aws-node
+        caches:
+          - node
+        script:
+          - yarn install
+          - yarn deploy

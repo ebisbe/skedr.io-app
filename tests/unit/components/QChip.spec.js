@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import QChip from '@/components/QChip.vue'
 import Vuetify from 'vuetify'
 
@@ -10,56 +10,75 @@ describe('QChip.vue', () => {
 
   it('it renders a tag with 0%', () => {
     const tag = {
-      value: 'Tag1',
       percentage: () => {
         return 0
       }
     }
 
-    const wrapper = mount(QChip, {
-      localVue: localVue,
+    const wrapper = shallowMount(QChip, {
+      localVue,
       propsData: { tag }
     })
-    expect(wrapper.text()).toContain('0%')
-    expect(wrapper.text()).toContain('Tag1')
-    expect(wrapper.find('div').classes().length).toBe(2)
-    expect(wrapper.find('div').classes()).toContain('darken-2')
+    expect(wrapper.vm.percentageText).toBe('0%')
+    expect(wrapper.vm.color).toBe(undefined)
+  })
+
+  it('it renders a tag with 49%', () => {
+    const tag = {
+      percentage: () => {
+        return 49
+      }
+    }
+
+    const wrapper = shallowMount(QChip, {
+      localVue,
+      propsData: { tag }
+    })
+    expect(wrapper.vm.color).toBe(undefined)
   })
 
   it('it renders a tag with 50%', () => {
-    const tag = {
-      value: 'Tag2',
+    let tag = {
       percentage: () => {
         return 50
       }
     }
 
-    const wrapper = mount(QChip, {
-      localVue: localVue,
+    const wrapper = shallowMount(QChip, {
+      localVue,
       propsData: { tag }
     })
-    expect(wrapper.text()).toContain('50%')
-    expect(wrapper.text()).toContain('Tag2')
-    expect(wrapper.find('div').classes().length).toBe(3)
-    expect(wrapper.find('div').classes()).toContain('light-green')
+    expect(wrapper.vm.percentageText).toBe('50%')
+    expect(wrapper.vm.color).toBe('light-green')
+  })
+
+  it('it renders a tag with 75%', () => {
+    const tag = {
+      percentage: () => {
+        return 75
+      }
+    }
+
+    const wrapper = shallowMount(QChip, {
+      localVue,
+      propsData: { tag }
+    })
+    expect(wrapper.vm.color).toBe('light-green')
   })
 
   it('it renders a tag with 76%', () => {
     const tag = {
-      value: 'Tag3',
       percentage: () => {
         return 76
       }
     }
 
-    const wrapper = mount(QChip, {
+    const wrapper = shallowMount(QChip, {
       localVue: localVue,
       propsData: { tag }
     })
-    expect(wrapper.text()).toContain('76%')
-    expect(wrapper.text()).toContain('Tag3')
-    expect(wrapper.find('div').classes().length).toBe(3)
-    expect(wrapper.find('div').classes()).toContain('green')
+    expect(wrapper.vm.percentageText).toBe('76%')
+    expect(wrapper.vm.color).toBe('green')
   })
 
   it('it selects a chip', () => {
@@ -70,13 +89,13 @@ describe('QChip.vue', () => {
       }
     }
 
-    const wrapper = mount(QChip, {
-      localVue: localVue,
+    const wrapper = shallowMount(QChip, {
+      localVue,
       propsData: { tag }
     })
 
     expect(wrapper.vm.selected).toBe(false)
-    wrapper.find('.chip__content').trigger('click')
+    wrapper.vm.select()
     expect(wrapper.vm.selected).toBe(true)
     expect(wrapper.emitted().selectedTag[0][0]).toBe('Tag4')
   })

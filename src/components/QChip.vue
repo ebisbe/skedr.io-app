@@ -3,7 +3,7 @@
     :color="color"
     :selected="selected"
     @click.native="select">
-    <v-avatar :class="[ color, 'darken-2' ]">{{ tag.percentage() }}%</v-avatar>
+    <v-avatar :class="[ color, 'darken-2' ]" v-html="percentageText"/>
     {{ tag.value }}
   </v-chip>
 </template>
@@ -32,6 +32,9 @@ export default {
         default:
           return undefined
       }
+    },
+    percentageText() {
+      return `${this.tag.percentage()}%`
     }
   },
   methods: {

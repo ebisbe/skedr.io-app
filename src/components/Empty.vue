@@ -41,16 +41,12 @@ export default {
     error: {
       type: Boolean,
       default: false
-    },
-    errorText: {
-      type: String,
-      default: 'Ups! Some error happened fetching your data...'
     }
   },
   computed: {
     desc() {
-      if (this.error) {
-        return this.errorText
+      if (this.error && this.description === '') {
+        return 'Ups! Some error happened fetching your data...'
       } else {
         return this.description
       }

@@ -60,12 +60,11 @@ export default {
   watch: {
     pool(data) {
       if (data.length > 0) {
-        this.groups.forEach(group => {
-          if (this.selectedGroups.indexOf(group.title) !== -1) {
-            group.alreadyInGroup = true
-          }
-        })
+        this.setAlreadyInGroup()
       }
+    },
+    groups() {
+      this.setAlreadyInGroup()
     }
   },
   apollo: {
@@ -116,6 +115,13 @@ export default {
       if (event.keyCode === 27 || event.key === 'Escape') {
         this.clearSharedPool()
       }
+    },
+    setAlreadyInGroup() {
+      this.groups.forEach(group => {
+        if (this.selectedGroups.indexOf(group.title) !== -1) {
+          group.alreadyInGroup = true
+        }
+      })
     }
   }
 }

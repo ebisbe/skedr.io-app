@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     select() {
-      this.selected != this.selected
+      this.selected = !this.selected
       this.$emit('selectedTag', this.tag.value)
     }
   }

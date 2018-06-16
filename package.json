@@ -2,13 +2,13 @@
   "name": "skedr.io",
   "version": "0.1.0",
   "private": true,
-  "frontend": "decoralyte",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "deploy": "aws s3 sync --delete dist/ s3://$npm_package_frontend --cache-control \"public, max-age=14400\"",
     "predeploy": "npm run build",
-    "deploy": "aws s3 sync --delete dist/ s3://$npm_package_frontend --cache-control \"public, max-age=14400\""
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
     "apollo-cache-inmemory": "^1.2.2",
@@ -36,8 +36,12 @@
     "@vue/cli-plugin-babel": "^3.0.0-beta.15",
     "@vue/cli-plugin-eslint": "^3.0.0-beta.15",
     "@vue/cli-plugin-pwa": "^3.0.0-beta.15",
+    "@vue/cli-plugin-unit-jest": "^3.0.0-rc.2",
     "@vue/cli-service": "^3.0.0-beta.15",
     "@vue/eslint-config-prettier": "^3.0.0-beta.15",
+    "@vue/test-utils": "^1.0.0-beta.16",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^23.0.1",
     "lint-staged": "^6.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
@@ -50,6 +54,7 @@
     "last 2 versions",
     "not ie <= 8"
   ],
+  "frontend": "decoralyte",
   "gitHooks": {
     "pre-commit": "lint-staged"
   },

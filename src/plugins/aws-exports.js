@@ -6,7 +6,7 @@
 
 // AWS Mobile Hub Project Constants
 const awsmobile = {
-  aws_app_analytics: 'enable',
+  // aws_app_analytics: 'disable',
   aws_cloud_logic: 'enable',
   aws_cloud_logic_custom: [
     {
@@ -39,8 +39,8 @@ const awsmobile = {
   aws_content_delivery_bucket_region: 'eu-west-1',
   aws_content_delivery_cloudfront: 'enable',
   aws_content_delivery_cloudfront_domain: 'd2s3vlui1moinl.cloudfront.net',
-  aws_mobile_analytics_app_id: '567949a6911b4f0494fdec64f964871c',
-  aws_mobile_analytics_app_region: 'us-east-1',
+  // aws_mobile_analytics_app_id: '567949a6911b4f0494fdec64f964871c',
+  // aws_mobile_analytics_app_region: 'us-east-1',
   aws_project_id: '1bc53697-6f29-4e1f-a894-60ab870247a3',
   aws_project_name: 'skedr.io-dev',
   aws_project_region: 'eu-west-1',

@@ -13,7 +13,7 @@ import VueAnalytics from 'vue-analytics'
 import Amplify, { Auth, Logger } from 'aws-amplify'
 
 Amplify.configure(aws_exports)
-Amplify.Logger.LOG_LEVEL = 'DEBUG' // to show detailed logs from Amplify library
+Amplify.Logger.LOG_LEVEL = process.env.NODE_ENV === 'production' ? '' : '' // use DEBUG to show detailed logs from Amplify library
 const logger = new Logger('main')
 Auth.currentUserInfo()
   .then(user => logger.debug(user))

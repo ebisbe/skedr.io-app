@@ -14,7 +14,10 @@ export default {
   props: {
     tag: {
       type: Object,
-      required: true
+      required: true,
+      validator: function(tag) {
+        return tag.value !== '' && tag.percentage() >= 0 && tag.percentage() <= 100
+      }
     }
   },
   data() {

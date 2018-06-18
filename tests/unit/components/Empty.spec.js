@@ -4,9 +4,7 @@ import Vuetify from 'vuetify'
 
 describe('Empty.vue', () => {
   const localVue = createLocalVue()
-  beforeEach(() => {
-    localVue.use(Vuetify)
-  })
+  localVue.use(Vuetify)
 
   const createCmp = propsData => mount(comp, { localVue, propsData })
 

@@ -45,6 +45,9 @@ export default new Vuex.Store({
   actions: {
     windowSize({ commit }, payload) {
       commit('window', payload)
+    },
+    updateRightDrawer({ commit }, payload) {
+      commit('updateRightDrawer', payload)
     }
   }
 })

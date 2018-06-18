@@ -4,9 +4,7 @@ import Vuetify from 'vuetify'
 
 describe('QChip.vue', () => {
   const localVue = createLocalVue()
-  beforeEach(() => {
-    localVue.use(Vuetify)
-  })
+  localVue.use(Vuetify)
 
   const createCmp = propsData => shallowMount(QChip, { localVue, propsData })
 

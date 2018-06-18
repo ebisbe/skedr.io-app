@@ -34,7 +34,7 @@
                 :xs6="group.length !== 1"
                 :xs12="group.length === 1"
                 sm4>
-                <photo-scheduled :photo="photo" :height="150" />
+                <q-photo-scheduled :photo="photo" :height="150" />
               </v-flex>
             </v-layout>
           </template>
@@ -50,7 +50,7 @@
   </v-content>
 </template>
 <script>
-import PhotoScheduled from '../components/QPhotoScheduled'
+import QPhotoScheduled from '../components/QPhotoScheduled'
 import Empty from '../components/Empty'
 import { mapGetters } from 'vuex'
 import _groupBy from 'lodash/groupBy'
@@ -59,7 +59,7 @@ import SCHEDULED_QUERY from '../graphql/scheduled.gql'
 
 export default {
   name: 'Scheduled',
-  components: { PhotoScheduled, Empty },
+  components: { QPhotoScheduled, Empty },
   data() {
     return {
       scheduledPhotos: [],

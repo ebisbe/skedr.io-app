@@ -1,6 +1,6 @@
 <template>
   <v-card
-    :class="{'pa-3': inPool(photo.photoId), 'selected': inPool(photo.photoId)}"
+    :class="{'pa-3 selected': inPool(photo.photoId)}"
     flat
     class="grey lighten-3 sked-photo"
     @mouseover="hover = true"

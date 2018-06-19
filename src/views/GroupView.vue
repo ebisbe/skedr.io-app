@@ -10,7 +10,7 @@
           flat
           @click.stop="$router.push({name: 'Group'})">
           <v-icon color="grey lighten-1">keyboard_arrow_left</v-icon>
-        </v-btn> {{ $route.params.title }}
+        </v-btn> <span v-html="$route.params.title"/>
       </h1>
       <v-layout row wrap>
         <v-flex xs9>

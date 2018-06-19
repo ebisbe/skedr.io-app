@@ -1,6 +1,7 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import QChip from '@/components/QChip.vue'
 import Vuetify from 'vuetify'
+import Tag from '@/classes/Tag'
 
 describe('QChip.vue', () => {
   const localVue = createLocalVue()
@@ -10,12 +11,7 @@ describe('QChip.vue', () => {
 
   describe('Properties', () => {
     it('has a tag property', () => {
-      const tag = {
-        value: 'Tag1',
-        percentage: () => {
-          return 0
-        }
-      }
+      const tag = new Tag('a')
 
       const wrapper = createCmp({ tag })
       expect(wrapper.props().tag).toBe(tag)
@@ -24,11 +20,7 @@ describe('QChip.vue', () => {
 
   describe('Computed Properties', () => {
     it('it renders a colorless tag with 0%', () => {
-      const tag = {
-        percentage: () => {
-          return 0
-        }
-      }
+      const tag = new Tag('a')
 
       const wrapper = createCmp({ tag })
       expect(wrapper.vm.percentageText).toBe('0%')
@@ -36,22 +28,14 @@ describe('QChip.vue', () => {
     })
 
     it('it renders a colorless tag with 49%', () => {
-      const tag = {
-        percentage: () => {
-          return 49
-        }
-      }
+      const tag = new Tag('a', 49, 100)
 
       const wrapper = createCmp({ tag })
       expect(wrapper.vm.color).toBe(undefined)
     })
 
     it('it renders a light-green tag with 50%', () => {
-      let tag = {
-        percentage: () => {
-          return 50
-        }
-      }
+      let tag = new Tag('a', 50, 100)
 
       const wrapper = createCmp({ tag })
       expect(wrapper.vm.percentageText).toBe('50%')
@@ -59,11 +43,7 @@ describe('QChip.vue', () => {
     })
 
     it('it renders a light-green tag with 75%', () => {
-      const tag = {
-        percentage: () => {
-          return 75
-        }
-      }
+      const tag = new Tag('a', 75, 100)
 
       const wrapper = shallowMount(QChip, {
         localVue,
@@ -73,11 +53,7 @@ describe('QChip.vue', () => {
     })
 
     it('it renders a green tag with 76%', () => {
-      const tag = {
-        percentage: () => {
-          return 76
-        }
-      }
+      const tag = new Tag('a', 76, 100)
 
       const wrapper = createCmp({ tag })
       expect(wrapper.vm.percentageText).toBe('76%')
@@ -87,17 +63,12 @@ describe('QChip.vue', () => {
 
   describe('Events', () => {
     it('it selects a vuetify chip', () => {
-      const tag = {
-        value: 'Tag4',
-        percentage: () => {
-          return 25
-        }
-      }
+      const tag = new Tag('Tag4')
 
       const wrapper = createCmp({ tag })
-      expect(wrapper.vm.selected).toBe(false)
+      expect(wrapper.props().tag.selected).toBe(false)
       wrapper.vm.select()
-      expect(wrapper.vm.selected).toBe(true)
+      expect(wrapper.props().tag.selected).toBe(true)
       expect(wrapper.emitted().selectedTag[0][0]).toBe('Tag4')
     })
   })

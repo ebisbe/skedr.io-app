@@ -1,28 +1,22 @@
 <template>
   <v-chip
     :color="color"
-    :selected="selected"
+    :selected="tag.selected"
     @click.native="select">
     <v-avatar :class="[ color, 'darken-2' ]" v-html="percentageText"/>
-    {{ tag.value }}
+    {{ tag.name }}
   </v-chip>
 </template>
 
 <script>
+import Tag from '@/classes/Tag'
+
 export default {
   name: 'QChip',
   props: {
     tag: {
-      type: Object,
-      required: true,
-      validator: function(tag) {
-        return tag.value !== '' && tag.percentage() >= 0 && tag.percentage() <= 100
-      }
-    }
-  },
-  data() {
-    return {
-      selected: false
+      type: Tag,
+      required: true
     }
   },
   computed: {
@@ -42,8 +36,8 @@ export default {
   },
   methods: {
     select() {
-      this.selected = !this.selected
-      this.$emit('selectedTag', this.tag.value)
+      this.tag.selected = !this.tag.selected
+      this.$emit('selectedTag', this.tag.name)
     }
   }
 }

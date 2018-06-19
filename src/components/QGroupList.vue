@@ -3,7 +3,7 @@
     <v-list-tile
       avatar
       ripple>
-      <v-list-tile-avatar>
+      <v-list-tile-avatar v-if="$vuetify.breakpoint.smAndUp">
         <img :src="group.icon" :alt="group.title">
       </v-list-tile-avatar>
       <v-list-tile-content v-if="$vuetify.breakpoint.mdAndUp">

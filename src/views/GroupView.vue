@@ -70,6 +70,8 @@ import QPopup from '../components/QPopup'
 import QTagsDialogList from '../components/QTagsDialogList'
 import QPush from '../components/QPush'
 
+import Tag from '@/classes/Tag'
+
 import GROUP_PHOTOS from '../graphql/groupPhotos.gql'
 import AUTOIMPORT_TAGS from '../graphql/autoimportTags.gql'
 
@@ -143,16 +145,9 @@ export default {
     compressArray(tagsCount) {
       const tagsArr = new Array()
       for (let tagName in tagsCount) {
-        let tag = new Object({
-          selected: this.autoimportTags.indexOf(tagName) >= 0,
-          value: tagName,
-          total: this.photos.length,
-          count: tagsCount[tagName],
-          percentage: function() {
-            return Math.round((this.count / this.total) * 100)
-          }
-        })
-        tagsArr.push(tag)
+        tagsArr.push(
+          new Tag(tagName, tagsCount[tagName], this.photos.length, this.autoimportTags.indexOf(tagName) >= 0)
+        )
       }
 
       return _sortBy(tagsArr, ['selected', 'count']).reverse()

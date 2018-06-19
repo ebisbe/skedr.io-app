@@ -249,7 +249,9 @@ export default {
       Auth.confirmSignUp(this.user, this.code)
         .then(() => Auth.signIn(this.user, this.password))
         .then(() => {
-          const payload = { body: { userId: this.userId, email: this.email.toLowerCase() } }
+          const payload = {
+            body: { userId: this.userId, email: this.email.toLowerCase() }
+          }
           API.post(process.env.VUE_APP_API_NAME, '/oauth/user', payload)
         })
         .then(() => this.$router.push({ name: 'Photostream' }))

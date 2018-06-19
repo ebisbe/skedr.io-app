@@ -14,7 +14,7 @@
         <img :src="group.icon">
       </v-badge>
     </v-list-tile-avatar>
-    <v-list-tile-content style="border-bottom: 1px solid rgba(0,0,0,.12);">
+    <v-list-tile-content class="solid_hr_line">
       <v-list-tile-title v-html="group.title"/>
       <v-list-tile-sub-title>
         <v-layout

@@ -10,19 +10,21 @@
         @click.prevent
       />
     </v-list-tile-action>
-    <v-list-tile-content style="border-bottom: 1px solid rgba(0,0,0,.12);" v-html="tag.value"/>
-    <v-list-tile-action style="border-bottom: 1px solid rgba(0,0,0,.12);">
+    <v-list-tile-content class="solid_hr_line" v-html="tag.value"/>
+    <v-list-tile-action class="solid_hr_line">
       <v-list-tile-action-text>{{ tag.percentage() }}%</v-list-tile-action-text>
       <v-icon color="yellow darken-2" v-html="icon"/>
     </v-list-tile-action>
   </v-list-tile>
 </template>
 <script>
+import Tag from '@/classes/Tag'
+
 export default {
   name: 'QTagsDialogList',
   props: {
     tag: {
-      type: Object,
+      type: Tag,
       required: true
     }
   },

@@ -107,4 +107,8 @@ export default {
   border-bottom-right-radius: 2px;
   transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.solid_hr_line {
+  border-bottom: 1px solid rgba(0,0,0,.12);
+}
 </style>

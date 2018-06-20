@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store'
+import colors from 'vuetify/es5/util/colors'
 
 const Toolbar = () => import(/* webpackChunkName: "bar" */ './Toolbar.vue')
 const RightBar = () => import(/* webpackChunkName: "bar" */ './RightBar.vue')
@@ -29,7 +30,7 @@ const router = new Router({
       },
       meta: {
         requiresAuth: true,
-        hash: '#8BC34A'
+        hash: colors.lightGreen.base
       }
     },
     {
@@ -42,7 +43,7 @@ const router = new Router({
       },
       meta: {
         requiresAuth: true,
-        hash: '#8BC34A'
+        hash: colors.lightGreen.base
       }
     },
     {
@@ -55,7 +56,7 @@ const router = new Router({
       },
       meta: {
         requiresAuth: true,
-        hash: '#03A9F4'
+        hash: colors.lightBlue.base
       }
     },
     {
@@ -68,7 +69,7 @@ const router = new Router({
       },
       meta: {
         requiresAuth: true,
-        hash: '#673AB7'
+        hash: colors.deepPurple.base
       }
     },
     {
@@ -92,7 +93,9 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   store.commit('setPageTitle', to.name)
-  Vue.prototype.$vuetify.theme.primary = to.meta.hash
+  if (to.meta.hash) {
+    Vue.prototype.$vuetify.theme.primary = to.meta.hash
+  }
   next()
 })
 router.beforeEach(AuthFilter)

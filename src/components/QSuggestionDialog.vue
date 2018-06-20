@@ -5,7 +5,7 @@
     <v-card>
       <v-toolbar
         dark
-        color="primary">
+        color="blue-grey">
         <v-btn
           icon
           dark

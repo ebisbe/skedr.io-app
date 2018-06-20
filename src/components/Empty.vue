@@ -6,6 +6,7 @@
           <v-icon
             size="120"
             class="text-xs-center"
+            color="primary"
             v-html="icon"/>
         </div>
         <h1 class="text-xs-center headline" v-html="desc"/>

@@ -2,7 +2,7 @@
   <v-btn
     slot="activator"
     icon
-    class="deep-purple ligthen-2"
+    class="primary ligthen-2"
     @click.stop="rightDrawer = !rightDrawer">
     <v-icon v-text="poolIcon"/>
   </v-btn>

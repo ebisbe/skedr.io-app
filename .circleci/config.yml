@@ -35,5 +35,5 @@ jobs:
 
       # run tests!
       - run: yarn test:unit
-      - run: codecov
+      - run: yarn codecov
 

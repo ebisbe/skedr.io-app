@@ -10,6 +10,6 @@ module.exports = {
   },
   snapshotSerializers: ['jest-serializer-vue'],
   testMatch: ['<rootDir>/(tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx))'],
-  collectCoverage: true,
+  collectCoverage: process.env.NODE_ENV === 'production',
   collectCoverageFrom: ['src/**/*.{js,vue}', '!**/node_modules/**']
 }

@@ -48,7 +48,7 @@ export default {
     }),
     ...mapState('sharedPool', {
       pool: state => state.photos,
-      selectedGroups: state => state.blockedGroups
+      selectedGroups: state => state.selectedGroups
     }),
     title() {
       if (this.pool.length === 1) {

@@ -36,7 +36,6 @@
           class="pa-1">
           <q-filter
             :placeholder="filterPlaceholder"
-            :solo-inverted="true"
             @search="val => { filterWord = val.toLowerCase() }"
             @ctrlEnter="selectFiltered"
             @ctrlEsc="clearSelected"/>
@@ -63,9 +62,9 @@
             </transition-group>
           </v-list>
         </v-layout>
-        <empty 
-          v-else-if="loading" 
-          class="py-5 my-5" 
+        <empty
+          v-else-if="loading"
+          class="py-5 my-5"
           loading/>
         <v-layout v-else class="grey lighten-2">
           <v-flex class="text-xs-center headline py-5 my-5" v-html="noDataText"/>

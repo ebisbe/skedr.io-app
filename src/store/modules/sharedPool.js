@@ -1,6 +1,6 @@
 export const state = {
   photos: [],
-  blockedGroups: []
+  selectedGroups: []
 }
 
 export const getters = {
@@ -13,19 +13,19 @@ export const mutations = {
   add({ photos }, photo) {
     photos.push(photo)
   },
-  addGroups({ blockedGroups }, groups) {
-    groups.forEach(group => blockedGroups.push(group.title))
+  addToGroup({ selectedGroups }, group) {
+    selectedGroups.push(group.title)
   },
-  clear({ photos, blockedGroups }) {
+  clear({ photos, selectedGroups }) {
     photos.splice(0, photos.length)
-    blockedGroups.splice(0, blockedGroups.length)
+    selectedGroups.splice(0, selectedGroups.length)
   }
 }
 
 export const actions = {
   share({ commit }, { photos, selectedGroups = [] }) {
     photos.forEach(photo => commit('add', photo))
-    commit('addGroups', selectedGroups)
+    selectedGroups.forEach(group => commit('addToGroup', group))
   },
   clear({ commit }) {
     commit('clear')

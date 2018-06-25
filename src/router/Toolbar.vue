@@ -60,7 +60,7 @@
         :slot="useExtended ? 'extension' : ''"
         class="pa-1">
         <q-filter
-          :solo-inverted="true"
+          solo-inverted
           placeholder="Search ..."
           @search="searchText"/>
       </v-flex>

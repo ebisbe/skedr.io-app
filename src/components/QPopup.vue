@@ -206,7 +206,9 @@ export default {
       if (this.filterWord === '') {
         return
       }
-      this.filteredData.forEach(item => (item.selected = true))
+      this.filteredData.forEach(item => {
+        if (!item.alreadyInGroup && item.throttleMode !== 'disabled') item.selected = true
+      })
     },
     clearSelected() {
       this.filteredData.forEach(item => (item.selected = false))

@@ -31,6 +31,22 @@ describe('Store pool.js', () => {
       const wrapper = getters.inPool(state)
       expect(wrapper(2)).toBe(false)
     })
+
+    it('has a backup in pool', () => {
+      const state = {
+        backup: [{ photoId: 1 }, { photoId: 2 }]
+      }
+      const wrapper = getters.hasBackup(state)
+      expect(wrapper).toBe(true)
+    })
+
+    it('backup is empty', () => {
+      const state = {
+        backup: []
+      }
+      const wrapper = getters.hasBackup(state)
+      expect(wrapper).toBe(false)
+    })
   })
 
   describe('mutations', () => {
@@ -61,21 +77,40 @@ describe('Store pool.js', () => {
       mutations.clear(state)
       expect(state.photos.length).toBe(0)
     })
+
+    it('saves current pool as backup', () => {
+      const state = {
+        photos: [{ photoId: 1 }, { photoId: 2 }],
+        backup: []
+      }
+      expect(state.backup.length).toBe(0)
+      mutations.backup(state)
+      expect(state.backup.length).toBe(2)
+    })
+
+    it('clears the current backup', () => {
+      const state = {
+        backup: [{ photoId: 1 }, { photoId: 2 }]
+      }
+      expect(state.backup.length).toBe(2)
+      mutations.clearBackup(state)
+      expect(state.backup.length).toBe(0)
+    })
   })
 
   describe('actions', () => {
     it('loads 2 photos', () => {
-      const state = {
+      const store = {
         commit: jest.fn()
       }
       const photosToLoad = [{ photoId: 1 }, { photoId: 2 }]
 
-      actions.load(state, photosToLoad)
-      expect(state.commit).toHaveBeenCalledTimes(2)
+      actions.load(store, photosToLoad)
+      expect(store.commit).toHaveBeenCalledTimes(2)
     })
 
     it('adds 1 photo to pool', () => {
-      const state = {
+      const store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
         getters: {
@@ -83,13 +118,14 @@ describe('Store pool.js', () => {
         }
       }
 
-      actions.add(state, { photoId: 2 })
-      expect(state.commit).toHaveBeenCalledWith('add', { photoId: 2 })
-      expect(state.dispatch).toHaveBeenCalledWith('savePool')
+      actions.add(store, { photoId: 2 })
+      expect(store.commit).toHaveBeenCalledWith('add', { photoId: 2 })
+      expect(store.commit).toHaveBeenCalledWith('clearBackup')
+      expect(store.dispatch).toHaveBeenCalledWith('savePool')
     })
 
     it("don't add the same photo to pool", () => {
-      const state = {
+      const store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
         getters: {
@@ -97,13 +133,13 @@ describe('Store pool.js', () => {
         }
       }
 
-      actions.add(state, { photoId: 1 })
-      expect(state.commit).not.toHaveBeenCalledWith('add', { photoId: 1 })
-      expect(state.dispatch).not.toHaveBeenCalledWith('savePool')
+      actions.add(store, { photoId: 1 })
+      expect(store.commit).not.toHaveBeenCalledWith('add', { photoId: 1 })
+      expect(store.dispatch).not.toHaveBeenCalledWith('savePool')
     })
 
     it('removes 1 photo from pool', () => {
-      const state = {
+      const store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
         getters: {
@@ -111,13 +147,13 @@ describe('Store pool.js', () => {
         }
       }
 
-      actions.remove(state, 1)
-      expect(state.commit).toHaveBeenCalledWith('remove', 1)
-      expect(state.dispatch).toHaveBeenCalledWith('savePool')
+      actions.remove(store, 1)
+      expect(store.commit).toHaveBeenCalledWith('remove', 1)
+      expect(store.dispatch).toHaveBeenCalledWith('savePool')
     })
 
     it("can't remove photo from pool", () => {
-      const state = {
+      const store = {
         commit: jest.fn(),
         dispatch: jest.fn(),
         getters: {
@@ -125,21 +161,36 @@ describe('Store pool.js', () => {
         }
       }
 
-      actions.remove(state, 2)
-      expect(state.commit).not.toHaveBeenCalled()
-      expect(state.dispatch).not.toHaveBeenCalled()
+      actions.remove(store, 2)
+      expect(store.commit).not.toHaveBeenCalled()
+      expect(store.dispatch).not.toHaveBeenCalled()
     })
 
     it('clears pool', () => {
-      const state = {
+      const store = {
         commit: jest.fn(),
         dispatch: jest.fn()
       }
 
-      actions.clearPool(state)
+      actions.clearPool(store)
 
-      expect(state.commit).toHaveBeenCalledWith('clear')
-      expect(state.dispatch).toHaveBeenCalledWith('savePool')
+      expect(store.commit).toHaveBeenCalledWith('backup')
+      expect(store.commit).toHaveBeenCalledWith('clear')
+      expect(store.dispatch).toHaveBeenCalledWith('savePool')
+    })
+
+    it('restores the backup', () => {
+      const store = {
+        dispatch: jest.fn(),
+        commit: jest.fn(),
+        state: {
+          backup: [{ photoId: 1 }]
+        }
+      }
+
+      actions.restoreBackup(store)
+      expect(store.dispatch).toHaveBeenCalledWith('load', store.state.backup)
+      expect(store.commit).toHaveBeenCalledWith('clearBackup')
     })
   })
 })

@@ -20,6 +20,17 @@
         </v-flex>
         <v-flex xs6>
           <v-btn
+            v-if="hasBackup"
+            :disabled="!hasBackup"
+            block
+            color="accent"
+            small
+            outline
+            @click="restoreBackup" >
+            <v-icon>restore_from_trash</v-icon>&nbsp;Restore
+          </v-btn>
+          <v-btn
+            v-else
             :disabled="disable"
             block
             color="error"
@@ -72,7 +83,8 @@ export default {
       pool: state => state.photos
     }),
     ...mapGetters({
-      disable: 'pool/isEmpty'
+      disable: 'pool/isEmpty',
+      hasBackup: 'pool/hasBackup'
     }),
     rightDrawer: {
       get() {
@@ -87,6 +99,7 @@ export default {
     ...mapActions({
       remove: 'pool/remove',
       clearPool: 'pool/clearPool',
+      restoreBackup: 'pool/restoreBackup',
       share: 'sharedPool/share'
     })
   }

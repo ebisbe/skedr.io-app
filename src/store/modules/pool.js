@@ -1,5 +1,6 @@
 export const state = {
-  photos: []
+  photos: [],
+  backup: []
 }
 
 export const getters = {
@@ -13,6 +14,9 @@ export const getters = {
   },
   isEmpty({ photos }) {
     return photos.length === 0
+  },
+  hasBackup({ backup }) {
+    return backup.length > 0
   }
 }
 
@@ -26,6 +30,12 @@ export const mutations = {
   },
   clear({ photos }) {
     photos.splice(0, photos.length)
+  },
+  backup({ photos, backup }) {
+    backup.push(...photos)
+  },
+  clearBackup({ backup }) {
+    backup.splice(0, backup.length)
   }
 }
 
@@ -38,6 +48,7 @@ export const actions = {
   add({ commit, getters, dispatch }, photo) {
     if (!getters.inPool(photo.photoId)) {
       commit('add', photo)
+      commit('clearBackup')
       dispatch('savePool')
     }
   },
@@ -48,8 +59,13 @@ export const actions = {
     }
   },
   clearPool({ commit, dispatch }) {
+    commit('backup')
     commit('clear')
     dispatch('savePool')
+  },
+  restoreBackup({ dispatch, commit, state }) {
+    dispatch('load', state.backup)
+    commit('clearBackup')
   },
   savePool({ state }) {
     localStorage.setObject('pool.photos', state.photos)

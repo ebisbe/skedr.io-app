@@ -1,5 +1,5 @@
 import { createLocalVue, shallowMount } from '@vue/test-utils'
-import Vuetify from 'Vuetify'
+import Vuetify from 'vuetify'
 import QPopup from '@/components/QPopup'
 
 const localVue = createLocalVue()

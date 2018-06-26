@@ -6,7 +6,7 @@
     <v-list-tile-avatar>
       <v-badge
         :color="badgeColor"
-        v-model="badge"
+        v-model="useBadge"
         overlap>
         <span slot="badge">
           <v-icon color="white">{{ badgeType }}</v-icon>
@@ -61,16 +61,12 @@ export default {
       return this.group.throttleMode === 'disabled' || this.group.alreadyInGroup === true
     },
     badgeColor() {
-      if (this.group.selected) {
-        return 'success'
-      } else {
-        return 'grey'
-      }
+      return this.group.selected ? 'success' : 'grey'
     },
     badgeType() {
       return this.group.throttleMode === 'disabled' ? 'clear' : 'check'
     },
-    badge() {
+    useBadge() {
       return this.group.selected || this.disabled
     }
   },

@@ -128,7 +128,7 @@ export default {
     },
     toolbarTitle: {
       type: String,
-      required: true
+      default: 'Popup'
     },
     listTitle: {
       type: String,
@@ -200,6 +200,7 @@ export default {
   },
   methods: {
     closePopUp() {
+      this.clearSelected()
       this.$emit('close')
     },
     selectFiltered() {
@@ -211,7 +212,7 @@ export default {
       })
     },
     clearSelected() {
-      this.filteredData.forEach(item => (item.selected = false))
+      this.data.forEach(item => (item.selected = false))
     }
   }
 }

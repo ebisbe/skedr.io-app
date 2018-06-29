@@ -17,6 +17,7 @@ describe('Group.js', () => {
     expect(group.poolCount).toBe(1234)
     expect(group.link).toBe('https://www.flickr.com/groups/123456@N00')
     expect(group.icon).toBe('www.flickr.com')
+    expect(group.dateAdded).toBe('-')
   })
 
   it('has search()', () => {
@@ -78,5 +79,12 @@ describe('Group.js', () => {
     expect(group.selected).toBe(false)
     group.select()
     expect(group.selected).toBe(false)
+  })
+
+  it('last photo added was 1s ago', () => {
+    const object = { photos: [{ rawDateAdded: Date.now() }] }
+    const group = new Group(object)
+
+    expect(group.dateAdded).toBe('1s')
   })
 })

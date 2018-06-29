@@ -1,4 +1,24 @@
 import _upperCase from 'lodash/upperCase'
+import Moment from 'moment'
+
+Moment.updateLocale('en', {
+  relativeTime: {
+    future: 'in %s',
+    past: '%s ago',
+    s: '1s',
+    ss: '%ds',
+    m: '1m',
+    mm: '%dm',
+    h: '1h',
+    hh: '%dh',
+    d: '1d',
+    dd: '%dd',
+    M: '1mo',
+    MM: '%dmo',
+    y: '1yr',
+    yy: '%dyr'
+  }
+})
 
 export default class Group {
   constructor({
@@ -10,6 +30,7 @@ export default class Group {
     throttleRemaining,
     throttleCount,
     throttleMode,
+    photos,
     selected = false,
     alreadyInGroup = false
   }) {
@@ -21,11 +42,13 @@ export default class Group {
     this.throttleRemaining = throttleRemaining
     this.throttleCount = throttleCount
     this.throttleMode = throttleMode
+    this.photos = photos
 
     this.legend = _upperCase(title).substring(0, 1)
     this.selected = selected
     this.alreadyInGroup = alreadyInGroup
     this.link = `https://www.flickr.com/groups/${groupId}`
+    this.dateAdded = this.getLastMoment()
   }
 
   search = word => {
@@ -49,5 +72,18 @@ export default class Group {
 
   select = () => {
     if (!this.isDisabled()) this.selected = !this.selected
+  }
+
+  getLastMoment = () => {
+    if (
+      this.photos === undefined ||
+      this.photos === null ||
+      this.photos.length === 0 ||
+      this.photos[0].rawDateAdded === undefined
+    ) {
+      return '-'
+    } else {
+      return Moment(this.photos[0].rawDateAdded).fromNow(true)
+    }
   }
 }

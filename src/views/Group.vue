@@ -59,10 +59,10 @@ import QPush from '../components/QPush'
 
 import _sortBy from 'lodash/sortBy'
 import _groupBy from 'lodash/groupBy'
-import _upperCase from 'lodash/upperCase'
 
 import { mapGetters, mapState } from 'vuex'
 import GROUPS_QUERY from '../graphql/groupsLastPhoto.gql'
+import Group from '@/classes/Group'
 
 export default {
   name: 'Group',
@@ -83,10 +83,7 @@ export default {
     }),
     ...mapState(['search']),
     filteredGroups() {
-      const groupsFiltered = this.groups.filter(
-        group =>
-          group.title.toLowerCase().search(this.search) >= 0 || group.groupId.toLowerCase().search(this.search) >= 0
-      )
+      const groupsFiltered = this.groups.filter(group => group.search(this.search))
       return _groupBy(groupsFiltered, 'legend')
     },
     title() {
@@ -122,21 +119,7 @@ export default {
         }
       },
       update: data =>
-        data.hasOwnProperty('userGroups')
-          ? _sortBy(
-              data.userGroups.map(group =>
-                Object.assign(
-                  {
-                    selected: false,
-                    alreadyInGroup: false,
-                    legend: _upperCase(group.title).substring(0, 1)
-                  },
-                  group
-                )
-              ),
-              ['legend']
-            )
-          : [],
+        data.hasOwnProperty('userGroups') ? _sortBy(data.userGroups.map(group => new Group(group)), ['legend']) : [],
       error() {
         this.error = true
       },

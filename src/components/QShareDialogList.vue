@@ -39,26 +39,21 @@
 </template>
 
 <script>
+import Group from '@/classes/Group'
 export default {
   name: 'QShareDialogList',
   props: {
     group: {
-      type: Object,
+      type: Group,
       required: true
     }
   },
   computed: {
     throttleText() {
-      if (this.group.throttleRemaining === undefined) {
-        return '∞'
-      }
-      if (this.group.throttleCount === 0) {
-        return '&mdash;'
-      }
-      return this.group.throttleRemaining + '/' + this.group.throttleCount
+      return this.group.throttleText()
     },
     disabled() {
-      return this.group.throttleMode === 'disabled' || this.group.alreadyInGroup === true
+      return this.group.isDisabled()
     },
     badgeColor() {
       return this.group.selected ? 'success' : 'grey'
@@ -67,14 +62,12 @@ export default {
       return this.group.throttleMode === 'disabled' ? 'clear' : 'check'
     },
     useBadge() {
-      return this.group.selected || this.disabled
+      return this.group.selected || this.group.isDisabled()
     }
   },
   methods: {
     select() {
-      if (!this.disabled) {
-        this.group.selected = !this.group.selected
-      }
+      this.group.select()
     }
   }
 }

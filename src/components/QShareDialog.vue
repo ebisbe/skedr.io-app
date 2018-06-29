@@ -31,6 +31,7 @@ import { mapState, mapGetters, mapActions } from 'vuex'
 import groupsPayload from '../mixins/groupsPayload'
 import GROUPS_QUERY from '../graphql/groups.gql'
 import _sortBy from 'lodash/sortBy'
+import Group from '@/classes/Group'
 
 export default {
   name: 'ShareDialog',
@@ -78,19 +79,7 @@ export default {
           userId: this.userId
         }
       },
-      update: data =>
-        _sortBy(
-          data.userGroups.map(group =>
-            Object.assign(
-              {
-                selected: false,
-                alreadyInGroup: false
-              },
-              group
-            )
-          ),
-          ['title']
-        ),
+      update: data => _sortBy(data.userGroups.map(group => new Group(group)), ['title']),
       fetchPolicy: 'cache-and-network'
     }
   },

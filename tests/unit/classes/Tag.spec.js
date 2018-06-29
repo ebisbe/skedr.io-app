@@ -1,4 +1,4 @@
-import Tag from '@/classes/Tag.js'
+import Tag from '@/classes/Tag'
 
 describe('Tag.js', () => {
   it('has default values', () => {

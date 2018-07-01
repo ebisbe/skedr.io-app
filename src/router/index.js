@@ -78,6 +78,9 @@ const router = new Router({
       components: {
         default: Login,
         toolbar: null
+      },
+      meta: {
+        hash: colors.deepPurple.base
       }
     },
     {
@@ -86,6 +89,9 @@ const router = new Router({
       components: {
         default: Signup,
         toolbar: null
+      },
+      meta: {
+        hash: colors.deepPurple.base
       }
     }
   ]

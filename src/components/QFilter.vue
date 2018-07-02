@@ -2,13 +2,14 @@
   <v-text-field
     v-model="search"
     :placeholder="placeholder"
-    :append-icon="icon"
-    :append-icon-cb="clearText"
+    :clear-icon-cb="clearText"
     solo-inverted
+    clearable
     solo
     class="mx-auto"
     prepend-icon="search"
     style="max-width: 500px; min-width: 128px"
+    @click:append="clearText"
     @keyup.exact.esc="clearText"
     @keyup.ctrl.enter="ctrlEnter"
     @keyup.exact.ctrl.esc="ctrlEsc"

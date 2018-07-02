@@ -74,41 +74,41 @@ export default {
   width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
   width: stretch;
 }
-.sked-checkCircle {
+.q-checkCircle {
   position: absolute;
   top: 8px;
   left: 8px;
 }
 
-.sked-photo {
+.q-photo {
   padding: 0;
   transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.sked-photo:hover {
+.q-photo:hover {
   cursor: pointer;
 }
-.sked-photo .container {
+.q-photo .container {
   position: absolute;
   bottom: 0;
   left: 0;
   padding: inherit;
 }
-.sked-photo .container .list {
+.q-photo .container .v-list {
   padding: 0;
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
   background-color: rgba(66, 66, 66, 0.5) !important;
 }
-.sked-photo .container .list .white--text {
+.q-photo .container .v-list .white--text {
   text-decoration: none;
 }
-.sked-photo .card__media {
+.q-photo .v-card__media {
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
   transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .solid_hr_line {
-  border-bottom: 1px solid rgba(0,0,0,.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 </style>

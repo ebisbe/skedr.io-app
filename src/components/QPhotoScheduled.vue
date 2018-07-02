@@ -1,7 +1,7 @@
 <template>
   <v-card
     flat
-    class="sked-photo">
+    class="q-photo">
     <v-card-media
       :src="url"
       :height="`${height}px`"/>

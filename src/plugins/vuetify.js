@@ -14,6 +14,7 @@ import VCard from 'vuetify/es5/components/VCard'
 import VDivider from 'vuetify/es5/components/VDivider'
 import VDialog from 'vuetify/es5/components/VDialog'
 import VTextField from 'vuetify/es5/components/VTextField'
+import VTextArea from 'vuetify/es5/components/VTextarea'
 import VSubheader from 'vuetify/es5/components/VSubheader'
 import VCheckbox from 'vuetify/es5/components/VCheckbox'
 import VTooltip from 'vuetify/es5/components/VTooltip'
@@ -43,6 +44,7 @@ Vue.use(Vuetify, {
     VDivider,
     VDialog,
     VTextField,
+    VTextArea,
     VSubheader,
     VCheckbox,
     VTooltip,

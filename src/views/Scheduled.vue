@@ -3,7 +3,7 @@
     <v-container
       v-if="scheduledPhotos.length"
       fluid
-      class="pt-0 sked-schedule"
+      class="pt-0 q-schedule"
       grid-list-md>
       <v-layout
         v-for="(item, index) in scheduled(scheduledPhotos)"
@@ -111,11 +111,11 @@ export default {
 }
 </script>
 <style lang="css">
-.sked-schedule .date {
+.q-schedule .date {
   position: sticky;
   top: 60px;
 }
-.sked-schedule .title {
+.q-schedule .title {
   padding-top: 10px;
   padding-bottom: 4px;
   position: sticky;

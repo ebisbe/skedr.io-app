@@ -65,21 +65,16 @@
           @search="searchText"/>
       </v-flex>
       <v-spacer />
-      <v-btn
-        v-show="hideSearchBar"
-        icon
-        @click="showSearch = true">
-        <v-icon>search</v-icon>
-      </v-btn>
       <v-text-field
-        v-show="hideSearchBar"
         v-model="search"
-        :append-icon-cb="() => {showSearch = false; search =''}"
+        :clear-icon-cb="() => {search = ''}"
+        prepend-icon="search"
         color="white"
         hide-details
+        clearable
         class="py-2"
-        append-icon="close"
-        placeholder="Search ..."/>
+        placeholder="Search ..."
+        @click:append="() => {search =''}"/>
       <q-pool-btn/>
     </v-toolbar>
   </div>
@@ -124,12 +119,6 @@ export default {
     ...mapState(['pageTitle']),
     useExtended() {
       return this.showSearch && this.$vuetify.breakpoint.xsOnly
-    },
-    showSearch() {
-      return this.$route.path !== '/scheduled'
-    },
-    hideSearchBar() {
-      return this.showSearch && this.$vuetify.breakpoint.smAndUp
     }
   },
   watch: {

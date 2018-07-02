@@ -63,6 +63,7 @@
                       :disabled="disableAllInputs"
                       :rules="[rules.required, rules.email]"
                       label="Email"
+                      autocomplete="username"
                       prepend-icon="person"
                       min="1"
                       required
@@ -70,12 +71,13 @@
                     <v-text-field
                       v-model="password"
                       :disabled="disableAllInputs"
-                      :append-icon-cb="() => (passVisibility = !passVisibility)"
                       :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
                       :type="passVisibility ? 'password' : 'text'"
                       :rules="[rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
                       label="Password"
+                      autocomplete="new-password"
                       prepend-icon="lock"
+                      @click:append="() => (passVisibility = !passVisibility)"
                     />
                     <v-btn
                       :disabled="protectedUI || disableAllInputs"

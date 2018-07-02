@@ -30,6 +30,7 @@
                     :disabled="protectedUI"
                     :rules="[rules.required, rules.email]"
                     label="Enter your email "
+                    autocomplete="username"
                     required
                     @update:error="username"
                   />
@@ -37,12 +38,13 @@
                   <v-text-field
                     v-model="form.password"
                     :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
-                    :append-icon-cb="() => (passVisibility = !passVisibility)"
                     :type="passVisibility ? 'password' : 'text'"
                     :disabled="protectedUI"
                     :rules="[rules.required, rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
                     required
+                    autocomplete="current-password"
                     label="Enter your password "
+                    @click:append="() => (passVisibility = !passVisibility)"
                     @update:error="password"/>
 
                 </v-card-text>

@@ -2,7 +2,7 @@
   <v-card
     :class="{'pa-3 selected': inPool(photo.photoId)}"
     flat
-    class="grey lighten-3 sked-photo"
+    class="grey lighten-3 q-photo"
     @mouseover="hover = true"
     @mouseout="hover = false"
     @click.native="!inPool(photo.photoId) ? addToPool(photo) : removeFromPool(photo.photoId)">
@@ -11,12 +11,12 @@
       :src="photo.url_m"/>
     <v-icon
       v-if="inPool(photo.photoId)"
-      class="sked-checkCircle"
+      class="q-checkCircle"
       color="accent">check_circle</v-icon>
     <v-icon
       v-else-if="hover"
-      class="sked-checkCircle white--text">check_circle</v-icon>
-    <v-icon v-else class="sked-checkCircle white--text">radio_button_unchecked</v-icon>
+      class="q-checkCircle white--text">check_circle</v-icon>
+    <v-icon v-else class="q-checkCircle white--text">radio_button_unchecked</v-icon>
     <v-container>
       <v-list two-line dark>
         <v-list-tile>

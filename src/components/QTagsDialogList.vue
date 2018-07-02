@@ -10,8 +10,8 @@
         @click.prevent
       />
     </v-list-tile-action>
-    <v-list-tile-content class="solid_hr_line" v-html="tag.value"/>
-    <v-list-tile-action class="solid_hr_line">
+    <v-list-tile-content class="q-solid_hr_line" v-html="tag.value"/>
+    <v-list-tile-action class="q-solid_hr_line">
       <v-list-tile-action-text>{{ tag.percentage() }}%</v-list-tile-action-text>
       <v-icon color="yellow darken-2" v-html="icon"/>
     </v-list-tile-action>

@@ -38,12 +38,11 @@
               required/>
           </v-flex>
           <v-flex>
-            <v-text-field
+            <v-textarea
               v-model="feedback.text"
               :rules="[rules.required]"
               name="feedback"
               label="Feedback"
-              multi-line
               required
             />
           </v-flex>

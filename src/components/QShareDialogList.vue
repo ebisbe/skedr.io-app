@@ -14,7 +14,7 @@
         <img :src="group.icon">
       </v-badge>
     </v-list-tile-avatar>
-    <v-list-tile-content class="solid_hr_line">
+    <v-list-tile-content class="q-solid_hr_line">
       <v-list-tile-title v-html="group.title"/>
       <v-list-tile-sub-title>
         <v-layout

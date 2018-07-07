@@ -157,7 +157,7 @@ export default {
         body: {
           tags: tags.map(tag => tag.value),
           userId: this.userId,
-          groupId: this.groupId
+          groupId: this.$route.params.groupId
         }
       }
 

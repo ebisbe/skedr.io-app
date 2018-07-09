@@ -35,6 +35,7 @@
           :slot="showList ? 'extension' : false"
           class="pa-1">
           <q-filter
+            v-if="dialogComputed"
             :placeholder="filterPlaceholder"
             @search="val => { filterWord = val.toLowerCase() }"
             @ctrlEnter="selectFiltered"
@@ -200,8 +201,10 @@ export default {
   },
   methods: {
     closePopUp() {
-      this.clearSelected()
       this.$emit('close')
+      setTimeout(() => {
+        this.clearSelected()
+      }, 1000)
     },
     selectFiltered() {
       if (this.filterWord === '') {
@@ -212,6 +215,7 @@ export default {
       })
     },
     clearSelected() {
+      this.filterWord = ''
       this.data.forEach(item => (item.selected = false))
     }
   }

@@ -119,38 +119,29 @@ export default {
   computed: {
     ...mapGetters(['userId']),
     selectedTags() {
-      return this.tags.filter(tag => this.autoimportTags.indexOf(tag.value) !== -1)
+      return this.tags.filter(tag => this.autoimportTags.indexOf(tag.name) !== -1)
     }
-    /*usefulTags() {
-      return this.tags.filter(tag => tag.count / this.photos.length * 100 > 74)
-    }*/
   },
   watch: {
     photos(photos) {
-      const nonDuplicates = new Set()
       const tagsCount = new Object()
       photos.forEach(photo => {
         photo.tags.split(' ').forEach(tagName => {
-          tagsCount[tagName] = nonDuplicates.has(tagName) ? tagsCount[tagName] + 1 : 1
-          nonDuplicates.add(tagName)
+          tagsCount[tagName] = tagsCount.hasOwnProperty(tagName) ? tagsCount[tagName] + 1 : 1
         })
       })
-      this.tags = this.compressArray(tagsCount)
-    }
-  },
-  methods: {
-    selected(name) {
-      this.selectedTag = name
-    },
-    compressArray(tagsCount) {
       const tagsArr = new Array()
       for (let tagName in tagsCount) {
         tagsArr.push(
           new Tag(tagName, tagsCount[tagName], this.photos.length, this.autoimportTags.indexOf(tagName) >= 0)
         )
       }
-
-      return _sortBy(tagsArr, ['selected', 'count']).reverse()
+      this.tags = _sortBy(tagsArr, ['count']).reverse()
+    }
+  },
+  methods: {
+    selected(name) {
+      this.selectedTag = name
     },
     constructPayload(tags) {
       const payload = {

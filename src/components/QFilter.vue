@@ -40,6 +40,9 @@ export default {
       this.$emit('search', this.search)
     }
   },
+  mounted() {
+    this.search = ''
+  },
   methods: {
     clearText() {
       this.search = ''

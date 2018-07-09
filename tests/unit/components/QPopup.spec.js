@@ -68,10 +68,14 @@ describe('QPopup.vue', () => {
     // when v2.6 of VUE is release
     it('clear selected data', () => {
       const wrapper = createCmp({ data: [{ title: 'Title', selected: true }] })
+      wrapper.setData({ filterWord: 'title' })
 
       expect(wrapper.vm.selectedData.length).toBe(1)
+      expect(wrapper.vm.filterWord).toBe('title')
+
       wrapper.vm.clearSelected()
       expect(wrapper.props().data.filter(data => data.selected === true).length).toBe(0)
+      expect(wrapper.vm.filterWord).toBe('')
     })
 
     it('clears data when closing the popup', () => {
@@ -80,8 +84,11 @@ describe('QPopup.vue', () => {
       expect(wrapper.vm.selectedData.length).toBe(1)
       wrapper.vm.closePopUp()
 
-      expect(wrapper.emitted().close).toMatchObject([[]])
-      expect(wrapper.props().data.filter(data => data.selected === true).length).toBe(0)
+      // We have to wait because the .clearSelecte() function is delayed 1s
+      setTimeout(() => {
+        expect(wrapper.emitted().close).toMatchObject([[]])
+        expect(wrapper.props().data.filter(data => data.selected === true).length).toBe(0)
+      }, 2000)
     })
   })
 })

@@ -20,4 +20,11 @@ describe('Tag.js', () => {
     const tag = new Tag('name', 1, 3)
     expect(tag.percentage()).toBe(33)
   })
+
+  it('increments the count by 1', () => {
+    const tag = new Tag('name')
+    expect(tag.count).toBe(0)
+    tag.add()
+    expect(tag.count).toBe(1)
+  })
 })

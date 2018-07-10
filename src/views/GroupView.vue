@@ -124,18 +124,16 @@ export default {
   },
   watch: {
     photos(photos) {
-      const tagsCount = new Object()
+      const tagsArr = new Object()
       photos.forEach(photo => {
         photo.tags.split(' ').forEach(tagName => {
-          tagsCount[tagName] = tagsCount.hasOwnProperty(tagName) ? tagsCount[tagName] + 1 : 1
+          let tag = !tagsArr.hasOwnProperty(tagName)
+            ? new Tag(tagName, 0, this.photos.length, this.autoimportTags.indexOf(tagName) >= 0)
+            : tagsArr[tagName]
+          tag.add()
+          tagsArr[tagName] = tag
         })
       })
-      const tagsArr = new Array()
-      for (let tagName in tagsCount) {
-        tagsArr.push(
-          new Tag(tagName, tagsCount[tagName], this.photos.length, this.autoimportTags.indexOf(tagName) >= 0)
-        )
-      }
       this.tags = _sortBy(tagsArr, ['count']).reverse()
     }
   },

@@ -12,4 +12,8 @@ export default class Tag {
     if (this.total === 0) return 0
     return Math.round((this.count / this.total) * 100)
   }
+
+  add = () => {
+    this.count += 1
+  }
 }

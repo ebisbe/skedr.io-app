@@ -1,4 +1,3 @@
-import _upperCase from 'lodash/upperCase'
 import Moment from 'moment'
 
 Moment.updateLocale('en', {
@@ -44,7 +43,8 @@ export default class Group {
     this.throttleMode = throttleMode
     this.photos = photos
 
-    this.legend = _upperCase(title).substring(0, 1)
+    const result = /([A-Z])/gi.exec(this.decodeHtmlEntity(title))
+    this.legend = result ? result[0].toUpperCase() : 'A'
     this.selected = selected
     this.alreadyInGroup = alreadyInGroup
     this.link = `https://www.flickr.com/groups/${groupId}`
@@ -85,5 +85,11 @@ export default class Group {
     } else {
       return Moment(this.photos[0].rawDateAdded).fromNow(true)
     }
+  }
+
+  decodeHtmlEntity = encodedStr => {
+    var parser = new DOMParser()
+    var dom = parser.parseFromString('<!doctype html><body>' + encodedStr, 'text/html')
+    return dom.body.textContent
   }
 }

@@ -102,7 +102,6 @@ export default {
         data.hasOwnProperty('scheduledPhotos')
           ? data.scheduledPhotos.map(photo => Object.assign({ headerDate: '' }, photo))
           : [],
-      fetchPolicy: 'cache-and-network',
       error() {
         this.error = true
       }

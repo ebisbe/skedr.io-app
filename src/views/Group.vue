@@ -4,6 +4,22 @@
       v-if="Object.keys(filteredGroups).length"
       fluid
       grid-list-lg>
+      Total groups: {{ groups.length }}
+      <v-btn
+        :loading="$apolloData.loading === 1"
+        :disabled="$apolloData.loading === 1"
+        @click="showMore">Load more groups</v-btn>
+
+      <v-flex>
+        <v-chip
+          v-for="(group, legend) in filteredGroups"
+          :key="`selector-${legend}`"
+          @click="selectedLegend = legend">
+          <v-avatar class="accent" v-html="legend"/>
+          <span v-html="group.length"/>
+        </v-chip>
+      </v-flex>
+
       <v-layout row wrap>
         <v-flex xs12>
           <v-list
@@ -11,7 +27,8 @@
             style="background-color: transparent;"
             dense>
             <template
-              v-for="(groups, legend) in filteredGroups">
+              v-for="(groups, legend) in filteredGroups"
+              v-if="legend === selectedLegend">
               <v-subheader
                 :key="legend"
                 style="background-color: transparent;"
@@ -64,15 +81,19 @@ import { mapGetters, mapState } from 'vuex'
 import GROUPS_QUERY from '../graphql/groupsLastPhoto.gql'
 import Group from '@/classes/Group'
 
+const itemsPerPage = 100
 export default {
   name: 'Group',
   components: { QGroupList, Photo, QPoolBtn, Empty, QPush },
   data() {
     return {
       groups: [],
+      selectedLegend: 'A',
+      savedLegend: '',
       payload: null,
       dialog: false,
-      error: false
+      error: false,
+      offset: itemsPerPage
     }
   },
 
@@ -93,6 +114,11 @@ export default {
   watch: {
     groups() {
       //localStorage.setObject('groups', groups)
+    },
+    filteredGroups(value) {
+      if (!value[this.selectedLegend]) {
+        this.selectedLegend = Object.keys(value)[0]
+      }
     }
   },
   created() {
@@ -108,6 +134,28 @@ export default {
     },
     closePopUp() {
       this.dialog = false
+    },
+    showMore() {
+      this.offset += itemsPerPage
+      // Fetch more data and transform the original result
+      this.$apollo.queries.groups.fetchMore({
+        // New variables
+        variables: {
+          userId: this.userId,
+          offset: this.offset,
+          count: itemsPerPage
+        },
+        // Transform the previous result with new data
+        updateQuery: (previousResult, data) => {
+          if (data.fetchMoreResult.userGroups.length !== 0) {
+            this.showMore()
+          }
+          return {
+            __typename: previousResult.userGroups.__typename,
+            userGroups: [...previousResult.userGroups, ...data.fetchMoreResult.userGroups]
+          }
+        }
+      })
     }
   },
   apollo: {
@@ -115,16 +163,16 @@ export default {
       query: GROUPS_QUERY,
       variables() {
         return {
-          userId: this.userId
+          userId: this.userId,
+          offset: itemsPerPage,
+          count: itemsPerPage
         }
       },
       update: data =>
         data.hasOwnProperty('userGroups') ? _sortBy(data.userGroups.map(group => new Group(group)), ['legend']) : [],
       error() {
         this.error = true
-      },
-      fetchPolicy: 'cache-and-network',
-      pollInterval: 300000
+      }
     }
   }
 }

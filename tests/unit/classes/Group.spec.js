@@ -23,6 +23,9 @@ describe('Group.js', () => {
   it('has search()', () => {
     const group = new Group(object)
 
+    expect(group.search('')).toBe(true)
+    expect(group.search('a')).toBe(true)
+    expect(group.search('ab')).toBe(true)
     expect(group.search('gro')).toBe(true)
     expect(group.search('@N00')).toBe(true)
   })

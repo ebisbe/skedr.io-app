@@ -1,5 +1,5 @@
-query groups($userId: ID!) {
-  userGroups(userId: $userId, first: 500) {
+query groups($userId: ID!, $offset: Int, $count: Int) {
+  userGroups(userId: $userId, count: $count, offset: $offset) {
     title
     groupId
     icon
@@ -8,5 +8,9 @@ query groups($userId: ID!) {
     throttleMode
     throttleCount
     throttleRemaining
+    photos(first: 1) {
+      rawDateAdded
+      dateAdded
+    }
   }
 }

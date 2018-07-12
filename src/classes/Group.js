@@ -52,6 +52,7 @@ export default class Group {
   }
 
   search = word => {
+    if (word.length < 3) return true
     const lowerWord = word.toLowerCase()
     return this.title.toLowerCase().search(lowerWord) >= 0 || this.groupId.toLowerCase().search(lowerWord) >= 0
   }

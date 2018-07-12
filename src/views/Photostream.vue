@@ -101,7 +101,6 @@ export default {
         }
       },
       update: data => (data.hasOwnProperty('userPhotos') ? data.userPhotos : []),
-      fetchPolicy: 'cache-and-network',
       error() {
         this.error = true
       }

@@ -1,5 +1,5 @@
-query groups($userId: ID!) {
-  userGroups(userId: $userId, first: 500) {
+query groups($userId: ID!, $offset: Int) {
+  userGroups(userId: $userId, count: 100, offset: $offset) {
     title
     groupId
     icon

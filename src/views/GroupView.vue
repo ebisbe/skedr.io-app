@@ -98,8 +98,7 @@ export default {
           groupId: this.$route.params.groupId
         }
       },
-      update: ({ groupPhotos }) => groupPhotos,
-      fetchPolicy: 'cache-and-network'
+      update: ({ groupPhotos }) => groupPhotos
     },
     autoimportTags: {
       query: AUTOIMPORT_TAGS,
@@ -112,8 +111,7 @@ export default {
       update: ({ autoimportTags }) => {
         //TODO GraphQl query should be rethinked
         return autoimportTags.length > 0 ? autoimportTags[0].tags : []
-      },
-      fetchPolicy: 'cache-and-network'
+      }
     }
   },
   computed: {

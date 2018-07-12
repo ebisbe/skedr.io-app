@@ -79,8 +79,7 @@ export default {
           userId: this.userId
         }
       },
-      update: data => _sortBy(data.userGroups.map(group => new Group(group)), ['title']),
-      fetchPolicy: 'cache-and-network'
+      update: data => _sortBy(data.userGroups.map(group => new Group(group)), ['legend'])
     }
   },
   mounted() {

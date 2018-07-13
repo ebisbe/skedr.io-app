@@ -12,7 +12,7 @@
         <v-list-tile-title>
           <v-layout row wrap>
             <v-flex xs6 v-html="group.title"/>
-            <v-flex xs2 class="text-xs-right"><v-icon v-html="punctuation"/></v-flex>
+            <v-flex xs2 class="text-xs-right"><v-icon v-html="punctuation"/>&nbsp;<v-icon>exposure</v-icon></v-flex>
             <v-flex xs2 class="text-xs-right">{{ group.poolCount }} <v-icon>photo</v-icon></v-flex>
             <v-flex xs2 class="text-xs-right">{{ group.members }} <v-icon>face</v-icon></v-flex>
             <v-flex xs2 class="grey--text text-xs-right">

@@ -49,7 +49,9 @@ export default class Group {
     this.alreadyInGroup = alreadyInGroup
     this.link = `https://www.flickr.com/groups/${groupId}`
     this.dateAdded = this.getLastMoment()
-    this.punctuation = this.membersLadder() + this.timeLadder()
+    this.membersPunc = this.membersLadder()
+    this.timePunc = this.timeLadder()
+    this.punctuation = this.membersPunc + this.timePunc
   }
 
   search = word => {
@@ -97,15 +99,15 @@ export default class Group {
   }
 
   membersLadder = () => {
+    if (this.members === undefined) return 0
     if (this.members <= 500) return 0
     if (this.members <= 1000) return 1
     if (this.members <= 2000) return 2
     if (this.members <= 5000) return 4
     if (this.members <= 10000) return 6
     if (this.members <= 50000) return 10
-    if (this.members <= 50001) return 15
 
-    return 0
+    return 15
   }
 
   timeLadder = () => {

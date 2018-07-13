@@ -49,6 +49,7 @@ export default class Group {
     this.alreadyInGroup = alreadyInGroup
     this.link = `https://www.flickr.com/groups/${groupId}`
     this.dateAdded = this.getLastMoment()
+    this.punctuation = this.membersLadder() + this.timeLadder()
   }
 
   search = word => {
@@ -84,7 +85,8 @@ export default class Group {
     ) {
       return '-'
     } else {
-      return Moment(this.photos[0].rawDateAdded).fromNow(true)
+      const date = Moment(this.photos[0].rawDateAdded)
+      return date.fromNow(true)
     }
   }
 
@@ -92,5 +94,29 @@ export default class Group {
     var parser = new DOMParser()
     var dom = parser.parseFromString('<!doctype html><body>' + encodedStr, 'text/html')
     return dom.body.textContent
+  }
+
+  membersLadder = () => {
+    if (this.members <= 500) return 0
+    if (this.members <= 1000) return 1
+    if (this.members <= 2000) return 2
+    if (this.members <= 5000) return 4
+    if (this.members <= 10000) return 6
+    if (this.members <= 50000) return 10
+    if (this.members <= 50001) return 15
+
+    return 0
+  }
+
+  timeLadder = () => {
+    if (this.throttleMode == 'disabled') return -30
+    if (this.dateAdded === '-') return 0
+    const diff = Moment().diff(Moment(this.photos[0].rawDateAdded))
+    if (diff <= 6 * 216001) return 15
+    if (diff <= 24 * 216001) return 10
+    if (diff <= 3 * 24 * 216001) return 6
+    if (diff <= 14 * 24 * 216001) return 4
+
+    return 0
   }
 }

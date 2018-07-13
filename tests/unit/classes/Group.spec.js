@@ -129,4 +129,30 @@ describe('Group.js', () => {
       expect(new Group({ title: '&quot;Black' }).legend).toBe('B')
     })
   })
+
+  describe('Calculates Group value', () => {
+    it('calculates members', () => {
+      expect(new Group({}).membersLadder()).toBe(0)
+      expect(new Group({ members: 500 }).membersLadder()).toBe(0)
+      expect(new Group({ members: 1000 }).membersLadder()).toBe(1)
+      expect(new Group({ members: 2000 }).membersLadder()).toBe(2)
+      expect(new Group({ members: 5000 }).membersLadder()).toBe(4)
+      expect(new Group({ members: 10000 }).membersLadder()).toBe(6)
+      expect(new Group({ members: 50000 }).membersLadder()).toBe(10)
+      expect(new Group({ members: 50001 }).membersLadder()).toBe(15)
+    })
+
+    it('calculates lastTime photo', () => {
+      expect(new Group({ throttleMode: 'disabled' }).timeLadder()).toBe(-30)
+      expect(new Group({ photos: [{ rawDateAdded: Date.now() - 6 * 216000 }] }).timeLadder()).toBe(15)
+      expect(new Group({ photos: [{ rawDateAdded: Date.now() - 24 * 216000 }] }).timeLadder()).toBe(10)
+      expect(new Group({ photos: [{ rawDateAdded: Date.now() - 3 * 24 * 216000 }] }).timeLadder()).toBe(6)
+      expect(new Group({ photos: [{ rawDateAdded: Date.now() - 14 * 24 * 216000 }] }).timeLadder()).toBe(4)
+      expect(new Group({ photos: [{ rawDateAdded: Date.now() - 14 * 24 * 216002 }] }).timeLadder()).toBe(0)
+    })
+
+    it('calculates final punctuation', () => {
+      expect(new Group({ members: 50001, photos: [{ rawDateAdded: Date.now() - 6 * 216000 }] }).punctuation).toBe(30)
+    })
+  })
 })

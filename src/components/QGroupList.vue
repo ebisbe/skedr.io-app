@@ -12,8 +12,9 @@
         <v-list-tile-title>
           <v-layout row wrap>
             <v-flex xs6 v-html="group.title"/>
-            <v-flex xs2 class="text-xs-right">{{ group.poolCount }} <v-icon slot="activator">photo</v-icon></v-flex>
-            <v-flex xs2 class="text-xs-right">{{ group.members }} <v-icon slot="activator">face</v-icon></v-flex>
+            <v-flex xs2 class="text-xs-right"><v-icon v-html="punctuation"/></v-flex>
+            <v-flex xs2 class="text-xs-right">{{ group.poolCount }} <v-icon>photo</v-icon></v-flex>
+            <v-flex xs2 class="text-xs-right">{{ group.members }} <v-icon>face</v-icon></v-flex>
             <v-flex xs2 class="grey--text text-xs-right">
               <span v-html="group.throttleText()"/>&nbsp;
               <strong>{{ group.throttleMode }}</strong>
@@ -25,8 +26,8 @@
         <v-list-tile-title v-html="group.title"/>
         <v-list-tile-sub-title>
           <v-layout row wrap>
-            <v-flex xs4 class="text-xs-right">{{ group.poolCount }} <v-icon slot="activator">photo</v-icon></v-flex>
-            <v-flex xs4 class="text-xs-right">{{ group.members }} <v-icon slot="activator">face</v-icon></v-flex>
+            <v-flex xs4 class="text-xs-right">{{ group.poolCount }} <v-icon>photo</v-icon></v-flex>
+            <v-flex xs4 class="text-xs-right">{{ group.members }} <v-icon>face</v-icon></v-flex>
             <v-flex xs4 class="grey--text text-xs-right">
               <span v-html="group.throttleText()"/>&nbsp;
               <strong>{{ group.throttleMode }}</strong>
@@ -83,6 +84,14 @@ export default {
     }),
     disabled() {
       return this.poolLength === 0
+    },
+    punctuation() {
+      if (this.group.punctuation > 25) return 'exposure_plus_2'
+      if (this.group.punctuation > 20) return 'exposure_plus_1'
+      if (this.group.punctuation > 10) return 'exposure_zero'
+      if (this.group.punctuation > 0) return 'exposure_neg_1'
+
+      return 'exposure_neg_2'
     }
   },
   methods: {

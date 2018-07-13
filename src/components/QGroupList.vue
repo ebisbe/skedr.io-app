@@ -86,9 +86,9 @@ export default {
       return this.poolLength === 0
     },
     punctuation() {
-      if (this.group.punctuation > 25) return 'exposure_plus_2'
-      if (this.group.punctuation > 20) return 'exposure_plus_1'
-      if (this.group.punctuation > 10) return 'exposure_zero'
+      if (this.group.punctuation >= 25) return 'exposure_plus_2'
+      if (this.group.punctuation >= 18) return 'exposure_plus_1'
+      if (this.group.punctuation >= 7) return 'exposure_zero'
       if (this.group.punctuation > 0) return 'exposure_neg_1'
 
       return 'exposure_neg_2'

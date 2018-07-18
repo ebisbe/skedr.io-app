@@ -1,7 +1,7 @@
 <template>
   <v-content>
     <v-container
-      v-if="Object.keys(filteredGroups).length"
+      v-if="Object.keys(groupedGroups).length"
       fluid
       grid-list-lg>
       Total groups: {{ groups.length }}
@@ -12,11 +12,14 @@
 
       <v-flex>
         <v-chip
-          v-for="(group, legend) in filteredGroups"
-          :key="`selector-${legend}`"
-          @click="selectedLegend = legend">
-          <v-avatar class="accent" v-html="legend"/>
-          <span v-html="group.length"/>
+          v-for="letter in letters"
+          :key="`selector-${letter}`"
+          :disabled="groupedGroups[letter] === undefined"
+          :color="groupedGroups[letter] ? 'accent' : 'grey'"
+          label
+          outline
+          @click="selLetter = groupedGroups[letter] ? letter : selLetter">
+          {{ letter }}
         </v-chip>
       </v-flex>
 
@@ -26,22 +29,17 @@
             two-line
             style="background-color: transparent;"
             dense>
-            <template
-              v-for="(groups, legend) in filteredGroups"
-              v-if="legend === selectedLegend">
-              <v-subheader
-                :key="legend"
-                style="background-color: transparent;"
-                v-html="legend"/>
-              <v-card :key="`${legend}-card`">
-                <q-group-list
-                  v-for="(group, i) in groups"
-                  :group="group"
-                  :last-item="groups.length - 1 === i"
-                  :key="group.title"
-                  @share="share"/>
-              </v-card>
-            </template>
+            <v-subheader
+              style="background-color: transparent;"
+              v-html="selLetter"/>
+            <v-card>
+              <q-group-list
+                v-for="(group, i) in listableGroups"
+                :group="group"
+                :last-item="groups.length - 1 === i"
+                :key="group.title"
+                @share="share"/>
+            </v-card>
           </v-list>
         </v-flex>
       </v-layout>
@@ -64,6 +62,21 @@
         />
       </v-card>
     </v-dialog>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="0"
+      bottom
+      left
+    >
+      Loading more groups...
+      <v-btn
+        color="pink"
+        flat
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-content>
 </template>
 
@@ -81,50 +94,43 @@ import { mapGetters, mapState } from 'vuex'
 import GROUPS_QUERY from '../graphql/groupsLastPhoto.gql'
 import Group from '@/classes/Group'
 
-const itemsPerPage = 100
+const itemsPerPage = 300
 export default {
   name: 'Group',
   components: { QGroupList, Photo, QPoolBtn, Empty, QPush },
   data() {
     return {
       groups: [],
-      selectedLegend: 'A',
+      letters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
+      selLetter: 'A',
       savedLegend: '',
       payload: null,
       dialog: false,
       error: false,
-      offset: itemsPerPage
+      offset: itemsPerPage,
+      snackbar: false
     }
   },
 
   computed: {
     ...mapGetters(['userId']),
-    ...mapGetters({
-      poolLength: 'pool/length'
-    }),
+    ...mapGetters({ poolLength: 'pool/length' }),
     ...mapState(['search']),
-    filteredGroups() {
-      const groupsFiltered = this.groups.filter(group => group.search(this.search))
-      return _groupBy(groupsFiltered, 'legend')
+    groupedGroups() {
+      return _groupBy(this.groups.filter(group => group.search(this.search)), 'legend')
+    },
+    listableGroups() {
+      return this.groupedGroups[this.selLetter]
     },
     title() {
       return `Sharing Pool (${this.poolLength} elements)`
     }
   },
   watch: {
-    groups() {
-      //localStorage.setObject('groups', groups)
-    },
-    filteredGroups(value) {
-      if (!value[this.selectedLegend]) {
-        this.selectedLegend = Object.keys(value)[0]
+    groupedGroups(value) {
+      if (!value[this.selLetter]) {
+        this.selLetter = Object.keys(value)[0]
       }
-    }
-  },
-  created() {
-    const groups = localStorage.getObject('groups')
-    if (groups !== null) {
-      this.groups = groups
     }
   },
   methods: {
@@ -136,6 +142,7 @@ export default {
       this.dialog = false
     },
     showMore() {
+      this.snackbar = true
       this.offset += itemsPerPage
       // Fetch more data and transform the original result
       this.$apollo.queries.groups.fetchMore({
@@ -149,6 +156,8 @@ export default {
         updateQuery: (previousResult, data) => {
           if (data.fetchMoreResult.userGroups.length !== 0) {
             this.showMore()
+          } else {
+            this.snackbar = false
           }
           return {
             __typename: previousResult.userGroups.__typename,
@@ -170,6 +179,10 @@ export default {
       },
       update: data =>
         data.hasOwnProperty('userGroups') ? _sortBy(data.userGroups.map(group => new Group(group)), ['legend']) : [],
+      result() {
+        //this.showMore()
+      },
+      //fetchPolicy: 'cache-and-network',
       error() {
         this.error = true
       }

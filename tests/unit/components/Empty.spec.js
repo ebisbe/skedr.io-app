@@ -28,7 +28,7 @@ describe('Empty.vue', () => {
       }
 
       const wrapper = createCmp(propsData)
-      expect(wrapper.text()).toContain('Custom error text')
+      expect(wrapper.text()).toContain('Ups! Some error happened fetching your data...')
     })
 
     it('it shows error with default error text', () => {

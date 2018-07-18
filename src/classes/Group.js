@@ -20,34 +20,13 @@ Moment.updateLocale('en', {
 })
 
 export default class Group {
-  constructor({
-    title = '',
-    groupId,
-    members,
-    icon,
-    poolCount,
-    throttleRemaining,
-    throttleCount,
-    throttleMode,
-    photos,
-    selected = false,
-    alreadyInGroup = false
-  }) {
-    this.title = title
-    this.groupId = groupId
-    this.members = members
-    this.icon = icon
-    this.poolCount = poolCount
-    this.throttleRemaining = throttleRemaining
-    this.throttleCount = throttleCount
-    this.throttleMode = throttleMode
-    this.photos = photos
+  constructor(group) {
+    const defaultProps = { title: '', selected: false, alreadyInGroup: false }
+    Object.assign(this, defaultProps, group)
 
-    const result = /([A-Z])/gi.exec(this.decodeHtmlEntity(title))
+    const result = /([A-Z])/gi.exec(this.decodeHtmlEntity(this.title))
     this.legend = result ? result[0].toUpperCase() : 'A'
-    this.selected = selected
-    this.alreadyInGroup = alreadyInGroup
-    this.link = `https://www.flickr.com/groups/${groupId}`
+    this.link = `https://www.flickr.com/groups/${this.groupId}`
     this.dateAdded = this.getLastMoment()
     this.membersPunc = this.membersLadder()
     this.timePunc = this.timeLadder()
@@ -55,6 +34,19 @@ export default class Group {
   }
 
   search = word => {
+    switch (word) {
+      case ':+2':
+        return this.punctuation >= 25
+      case ':+1':
+        return this.punctuation >= 18 && this.punctuation < 25
+      case ':0':
+        return this.punctuation >= 7 && this.punctuation < 18
+      case ':-1':
+        return this.punctuation > 0 && this.punctuation < 7
+      case ':-2':
+        return this.punctuation <= 0
+    }
+
     if (word.length < 3) return true
     const lowerWord = word.toLowerCase()
     return this.title.toLowerCase().search(lowerWord) >= 0 || this.groupId.toLowerCase().search(lowerWord) >= 0
@@ -100,12 +92,12 @@ export default class Group {
 
   membersLadder = () => {
     if (this.members === undefined) return 0
-    if (this.members <= 500) return 0
-    if (this.members <= 1000) return 1
-    if (this.members <= 2000) return 2
-    if (this.members <= 5000) return 4
-    if (this.members <= 10000) return 6
-    if (this.members <= 50000) return 10
+    if (this.members <= 500) return 1
+    if (this.members <= 1000) return 2
+    if (this.members <= 2000) return 4
+    if (this.members <= 5000) return 6
+    if (this.members <= 10000) return 10
+    if (this.members <= 50000) return 12
 
     return 15
   }
@@ -118,7 +110,9 @@ export default class Group {
     if (diff <= 24 * 216001) return 10
     if (diff <= 3 * 24 * 216001) return 6
     if (diff <= 14 * 24 * 216001) return 4
+    if (diff <= 30 * 24 * 216001) return -5
+    if (diff <= 45 * 24 * 216001) return -10
 
-    return 0
+    return -15
   }
 }

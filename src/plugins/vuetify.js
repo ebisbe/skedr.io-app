@@ -26,6 +26,7 @@ import VAvatar from 'vuetify/es5/components/VAvatar'
 import VStepper from 'vuetify/es5/components/VStepper'
 import VChip from 'vuetify/es5/components/VChip'
 import VBadge from 'vuetify/es5/components/VBadge'
+import VSnackbar from 'vuetify/es5/components/VSnackbar'
 
 import transitions from 'vuetify/es5/components/transitions'
 import directives from 'vuetify/es5/directives'
@@ -56,6 +57,7 @@ Vue.use(Vuetify, {
     VStepper,
     VChip,
     VBadge,
+    VSnackbar,
     transitions,
     directives
   },

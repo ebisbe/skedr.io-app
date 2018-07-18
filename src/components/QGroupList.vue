@@ -11,8 +11,8 @@
       <v-list-tile-content v-if="$vuetify.breakpoint.mdAndUp">
         <v-list-tile-title>
           <v-layout row wrap>
-            <v-flex xs6 v-html="group.title"/>
-            <v-flex xs2 class="text-xs-right"><v-icon v-html="punctuation"/>&nbsp;<v-icon>exposure</v-icon></v-flex>
+            <v-flex xs5 v-html="group.title"/>
+            <v-flex xs1 class="text-xs-right"><v-icon v-html="punctuation"/>&nbsp;<v-icon>exposure</v-icon></v-flex>
             <v-flex xs2 class="text-xs-right">{{ group.poolCount }} <v-icon>photo</v-icon></v-flex>
             <v-flex xs2 class="text-xs-right">{{ group.members }} <v-icon>face</v-icon></v-flex>
             <v-flex xs2 class="grey--text text-xs-right">
@@ -26,9 +26,10 @@
         <v-list-tile-title v-html="group.title"/>
         <v-list-tile-sub-title>
           <v-layout row wrap>
-            <v-flex xs4 class="text-xs-right">{{ group.poolCount }} <v-icon>photo</v-icon></v-flex>
-            <v-flex xs4 class="text-xs-right">{{ group.members }} <v-icon>face</v-icon></v-flex>
-            <v-flex xs4 class="grey--text text-xs-right">
+            <v-flex xs3 class="text-xs-right"><v-icon v-html="punctuation"/>&nbsp;<v-icon>exposure</v-icon></v-flex>
+            <v-flex xs3 class="text-xs-right">{{ group.poolCount }} <v-icon>photo</v-icon></v-flex>
+            <v-flex xs3 class="text-xs-right">{{ group.members }} <v-icon>face</v-icon></v-flex>
+            <v-flex xs3 class="grey--text text-xs-right">
               <span v-html="group.throttleText()"/>&nbsp;
               <strong>{{ group.throttleMode }}</strong>
             </v-flex>

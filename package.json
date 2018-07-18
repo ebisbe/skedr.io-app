@@ -20,6 +20,7 @@
     "flickr-sdk": "^3.7.0",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
+    "greenkeeper-lockfile": "^1.15.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.1",
     "raven-js": "^3.25.2",

@@ -29,8 +29,8 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: greenkeeper-lockfile-update
+      - run: yarn greenkeeper-lockfile-update
       - run: yarn test:unit
       - run: yarn codecov
-      - run: greenkeeper-lockfile-upload
+      - run: yarn greenkeeper-lockfile-upload
 

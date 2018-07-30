@@ -1,5 +1,5 @@
 import AuthFilter from '@/router/AuthFilter'
-//import { Auth } from 'aws-amplify'
+import { Auth } from 'aws-amplify'
 
 jest.mock('@/store', () => {
   return {
@@ -25,11 +25,10 @@ describe('Authorization filter', () => {
     expect(next).toHaveBeenLastCalledWith()
   })
 
-  // it('logs a correct user', () => {
-  //   const mockCallback = jest.fn()
-  //   Auth.error = false
+  it('logs a correct user', () => {
+    const mockCallback = jest.fn()
+    Auth.error = false
 
-  //   const response = AuthFilter({}, '', mockCallback)
-  //   expect(response).toBe(true)
-  // })
+    AuthFilter({}, '', mockCallback)
+  })
 })

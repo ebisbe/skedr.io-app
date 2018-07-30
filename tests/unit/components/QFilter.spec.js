@@ -41,13 +41,13 @@ describe('QFilter.vue', () => {
     it("emits 'ctrlEnter' event", () => {
       const wrapper = createCmp()
       wrapper.vm.ctrlEnter()
-      expect(wrapper.emitted().ctrlEnter).toMatchObject([[]])
+      expect(wrapper.emitted().ctrlEnter).toEqual([[]])
     })
 
     it("emits 'ctrlEsc' event", () => {
       const wrapper = createCmp()
       wrapper.vm.ctrlEsc()
-      expect(wrapper.emitted().ctrlEsc).toMatchObject([[]])
+      expect(wrapper.emitted().ctrlEsc).toEqual([[]])
     })
   })
 })

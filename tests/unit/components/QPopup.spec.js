@@ -12,7 +12,7 @@ describe('QPopup.vue', () => {
       const data = [{ title: 'Title 1' }]
       const wrapper = createCmp({ data })
       expect(wrapper.props().dialog).toBe(false)
-      expect(wrapper.props().data).toMatchObject(data)
+      expect(wrapper.props().data).toEqual(data)
       expect(wrapper.props().loading).toBe(false)
       expect(wrapper.props().toolbarTitle).toBe('Popup')
       expect(wrapper.props().listTitle).toBe('Data')
@@ -28,7 +28,7 @@ describe('QPopup.vue', () => {
       expect(wrapper.vm.filteredData.length).toBe(2)
       wrapper.setData({ filterWord: 'title' })
       expect(wrapper.vm.filteredData.length).toBe(1)
-      expect(wrapper.vm.filteredData[0]).toMatchObject({ title: 'Title1' })
+      expect(wrapper.vm.filteredData[0]).toEqual({ title: 'Title1' })
     })
 
     it("filters data by ':sel'", () => {
@@ -40,7 +40,7 @@ describe('QPopup.vue', () => {
       })
 
       expect(wrapper.vm.filteredData.length).toBe(1)
-      expect(wrapper.vm.filteredData[0]).toMatchObject({ title: 'Dog', selected: true })
+      expect(wrapper.vm.filteredData[0]).toEqual({ title: 'Dog', selected: true })
     })
 
     it("filters data by ':inpool'", () => {
@@ -52,7 +52,7 @@ describe('QPopup.vue', () => {
       })
 
       expect(wrapper.vm.filteredData.length).toBe(1)
-      expect(wrapper.vm.filteredData[0]).toMatchObject({ title: 'Dog', alreadyInGroup: true })
+      expect(wrapper.vm.filteredData[0]).toEqual({ title: 'Dog', alreadyInGroup: true })
     })
 
     it('returns selected elements only', () => {
@@ -86,7 +86,7 @@ describe('QPopup.vue', () => {
 
       // We have to wait because the .clearSelecte() function is delayed 1s
       setTimeout(() => {
-        expect(wrapper.emitted().close).toMatchObject([[]])
+        expect(wrapper.emitted().close).toEqual([[]])
         expect(wrapper.props().data.filter(data => data.selected === true).length).toBe(0)
       }, 2000)
     })

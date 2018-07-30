@@ -7,15 +7,14 @@ const AuthFilter = async (to, from, next) => {
     const credentials = await Auth.currentCredentials()
     Store.commit('user/setUser', user)
     Store.commit('user/setUserId', credentials.identityId)
-    next()
   } catch (err) {
     Store.commit('user/setUser', null)
     if (to.matched.some(record => record.meta.requiresAuth)) {
       next('/login')
-    } else {
-      next()
+      return
     }
   }
+  next()
 }
 
 export default AuthFilter

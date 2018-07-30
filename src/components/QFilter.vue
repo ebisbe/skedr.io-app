@@ -2,7 +2,6 @@
   <v-text-field
     v-model="search"
     :placeholder="placeholder"
-    :clear-icon-cb="clearText"
     solo-inverted
     clearable
     solo
@@ -36,8 +35,9 @@ export default {
     }
   },
   watch: {
-    search() {
-      this.$emit('search', this.search)
+    search(value) {
+      value = value === null ? '' : value
+      this.$emit('search', value)
     }
   },
   mounted() {

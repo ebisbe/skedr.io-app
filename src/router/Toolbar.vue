@@ -67,14 +67,12 @@
       <v-spacer />
       <v-text-field
         v-model="search"
-        :clear-icon-cb="() => {search = ''}"
         prepend-icon="search"
         color="white"
         hide-details
         clearable
         class="py-2"
-        placeholder="Search ..."
-        @click:append="() => {search =''}"/>
+        placeholder="Search ..."/>
       <q-pool-btn/>
     </v-toolbar>
   </div>
@@ -122,8 +120,9 @@ export default {
     }
   },
   watch: {
-    search(value) {
-      this.$store.commit('updateSearch', value)
+    search(newVal) {
+      newVal = newVal === null ? '' : newVal
+      this.$store.commit('updateSearch', newVal)
     }
   },
   mounted() {

@@ -88,7 +88,7 @@ export default {
       }
       return '/search'
     },
-    ...mapGetters(['userId']),
+    ...mapGetters({ userId: 'user/userId' }),
     ...mapState(['search'])
   },
   apollo: {

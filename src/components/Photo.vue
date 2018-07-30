@@ -101,8 +101,8 @@ export default {
     star() {
       return this.totalFavs > 0 ? 'star' : 'star_border'
     },
-    ...mapGetters(['userId']),
     ...mapGetters({
+      userId: 'user/userId',
       inPool: 'pool/inPool'
     })
   },

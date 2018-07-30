@@ -2,7 +2,7 @@ import { mapGetters, mapState } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(['userId']),
+    ...mapGetters({ userId: 'user/userId' }),
     ...mapState('pool', { pool: state => state.photos })
   },
   methods: {

@@ -67,7 +67,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userId'])
+    ...mapGetters({ userId: 'user/userId' })
   },
   methods: {
     scheduled(data) {

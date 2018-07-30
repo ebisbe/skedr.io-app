@@ -43,8 +43,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userId']),
     ...mapGetters({
+      userId: 'user/userId',
       dialog: 'sharedPool/hasItems'
     }),
     ...mapState('sharedPool', {

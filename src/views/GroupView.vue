@@ -115,7 +115,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userId']),
+    ...mapGetters({ userId: 'user/userId' }),
     selectedTags() {
       return this.tags.filter(tag => this.autoimportTags.indexOf(tag.name) !== -1)
     }

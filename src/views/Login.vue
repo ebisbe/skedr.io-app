@@ -77,10 +77,8 @@
 </template>
 
 <script>
-import { Auth, Logger, JS } from 'aws-amplify'
-import AmplifyStore from '../amplify/AmplifyStore'
 import { validations } from '../mixins/validation'
-const logger = new Logger('SignInComp')
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
@@ -107,22 +105,14 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      loginUser: 'user/loginUser'
+    }),
     handleSubmit: async function() {
       this.protectedUI = true
       try {
-        const user = await Auth.signIn(this.form.username.toLowerCase(), this.form.password)
-        logger.debug('sign in success', user)
-        AmplifyStore.commit('setUser', user)
-
-        const data = await Auth.verifiedContact(user)
-        logger.debug('verify result', data)
-        AmplifyStore.commit('setUserVerification', data)
-
-        if (!JS.isEmpty(data.verified)) {
-          this.$router.push('/')
-        } else {
-          this.$router.push('/auth/verifyContact')
-        }
+        const path = (await this.loginUser(this.form)) ? '/' : '/verify'
+        this.$router.push(path)
       } catch (err) {
         this.errorLogin = true
         this.errorMessage = err.message

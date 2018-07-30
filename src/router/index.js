@@ -13,7 +13,7 @@ const Signup = () => import(/* webpackChunkName: "signin" */ '../views/Signup.vu
 const Scheduled = () => import(/* webpackChunkName: "scheduled" */ '../views/Scheduled.vue')
 const Photostream = () => import(/* webpackChunkName: "photostream" */ '../views/Photostream.vue')
 
-import { AuthFilter } from '../amplify'
+import AuthFilter from './AuthFilter'
 
 Vue.use(Router)
 

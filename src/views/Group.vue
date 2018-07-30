@@ -113,8 +113,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['userId']),
-    ...mapGetters({ poolLength: 'pool/length' }),
+    ...mapGetters({ userId: 'user/userId', poolLength: 'pool/length' }),
     ...mapState(['search']),
     groupedGroups() {
       return _groupBy(this.groups.filter(group => group.search(this.search)), 'legend')

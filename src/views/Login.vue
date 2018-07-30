@@ -1,5 +1,19 @@
 <template>
   <v-content>
+    <v-snackbar
+      v-model="errorLogin"
+      :timeout="5000"
+      top>
+      {{ errorMessage }}
+      <v-btn
+        dark
+        color="orange"
+        flat
+        @click="errorLogin = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex
@@ -14,12 +28,6 @@
                 :indeterminate="true"
                 height="3"
                 class="my-0 topFloat"/>
-              <v-alert
-                :value="errorMessage !== ''"
-                type="error"
-                transition="slide-y-transition"
-                class="mt-0 fullWidth topFloat"
-                v-html="errorMessage"/>
               <v-toolbar dark color="primary">
                 <v-toolbar-title>Log in to Skedr.io</v-toolbar-title>
               </v-toolbar>
@@ -89,7 +97,8 @@ export default {
       form: Object.assign({}, defaultForm),
       protectedUI: false,
       passVisibility: true,
-      errorMessage: ''
+      errorMessage: '',
+      errorLogin: false
     }
   },
   computed: {
@@ -98,46 +107,27 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
+    handleSubmit: async function() {
       this.protectedUI = true
-      const that = this
-      Auth.signIn(this.form.username.toLowerCase(), this.form.password)
-        .then(user => {
-          logger.debug('sign in success', user)
-          AmplifyStore.commit('setUser', user)
-          return user
-        })
-        .then(user => {
-          that.user = user
-          if (user.challengeName === 'SMS_MFA') {
-            that.confirmView = true
-            return
-          }
-          this.checkUser()
-        })
-        .catch(err => {
-          this.errorMessage = err.message
-          setTimeout(() => {
-            this.errorMessage = ''
-          }, 5000)
-          this.protectedUI = false
-        })
-    },
-    checkUser: function() {
-      const user = this.user
-      if (!user) {
-        return
-      }
+      try {
+        const user = await Auth.signIn(this.form.username.toLowerCase(), this.form.password)
+        logger.debug('sign in success', user)
+        AmplifyStore.commit('setUser', user)
 
-      Auth.verifiedContact(user).then(data => {
+        const data = await Auth.verifiedContact(user)
         logger.debug('verify result', data)
         AmplifyStore.commit('setUserVerification', data)
+
         if (!JS.isEmpty(data.verified)) {
           this.$router.push('/')
         } else {
           this.$router.push('/auth/verifyContact')
         }
-      })
+      } catch (err) {
+        this.errorLogin = true
+        this.errorMessage = err.message
+        this.protectedUI = false
+      }
     },
     username(hasError) {
       this.form.validUsername = !hasError

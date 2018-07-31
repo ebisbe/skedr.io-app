@@ -7,7 +7,6 @@ jest.mock('@/store', () => {
   }
 })
 
-console.log(AuthFilter)
 describe('Authorization filter', () => {
   it('logs with incorrect user / password and redirects to login', () => {
     const next = jest.fn()

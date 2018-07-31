@@ -10,7 +10,7 @@ const requireModule = require.context(
   // Search for files in subdirectories
   true,
   // Include any `.js` files that are not unit tests
-  /^((?!\.unit\.).)*\.js$/
+  /^((?!\.spec\.).)*\.js$/
 )
 const root = { modules: {} }
 

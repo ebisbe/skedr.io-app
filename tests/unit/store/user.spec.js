@@ -1,4 +1,5 @@
 import { getters, mutations, actions } from '@/store/modules/user'
+import { Auth } from 'aws-amplify'
 
 describe('Store user.js', () => {
   describe('getters', () => {
@@ -57,6 +58,42 @@ describe('Store user.js', () => {
         verified: { email: 'Verified-User-test@mail.com' }
       })
       expect(response).toEqual(true)
+    })
+
+    it('validates current user is not authenticated and needs to redirect to /login', async () => {
+      const store = {
+        commit: jest.fn()
+      }
+      const to = { matched: [{ meta: { requiresAuth: true } }] }
+
+      const path = await actions.getAuthenticated(store, to)
+      expect(store.commit).toHaveBeenCalledTimes(1)
+      expect(store.commit).toHaveBeenCalledWith('setUser', null)
+      expect(path).toBe('/login')
+    })
+
+    it('validates current user is not authenticated', async () => {
+      const store = {
+        commit: jest.fn()
+      }
+      const to = { matched: [{ meta: { requiresAuth: false } }] }
+
+      const path = await actions.getAuthenticated(store, to)
+      expect(store.commit).toHaveBeenCalledTimes(1)
+      expect(store.commit).toHaveBeenCalledWith('setUser', null)
+      expect(path).toBe(null)
+    })
+
+    it('validates current user is still authenticated', async () => {
+      const store = {
+        commit: jest.fn()
+      }
+      Auth.error = false
+      const path = await actions.getAuthenticated(store, {})
+      expect(store.commit).toHaveBeenCalledTimes(2)
+      expect(store.commit).toHaveBeenNthCalledWith(1, 'setUser', { user: 'enric' })
+      expect(store.commit).toHaveBeenNthCalledWith(2, 'setUserId', '12345')
+      expect(path).toBe(null)
     })
   })
 })

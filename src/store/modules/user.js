@@ -35,5 +35,19 @@ export const actions = {
     const data = await Auth.verifiedContact(user)
     commit('setUserVerification', data)
     return !JS.isEmpty(data.verified) ? true : false
+  },
+  getAuthenticated: async ({ commit }, to) => {
+    try {
+      const user = await Auth.currentAuthenticatedUser()
+      const credentials = await Auth.currentCredentials()
+      commit('setUser', user)
+      commit('setUserId', credentials.identityId)
+    } catch (err) {
+      commit('setUser', null)
+      if (to.matched.some(record => record.meta.requiresAuth)) {
+        return '/login'
+      }
+    }
+    return null
   }
 }

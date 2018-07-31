@@ -11,7 +11,7 @@ export const Auth = {
     else return Promise.resolve({ user: 'enric' })
   },
   currentCredentials() {
-    return Promise.resolve({ indentityId: '12345' })
+    return Promise.resolve({ identityId: '12345' })
   }
 }
 

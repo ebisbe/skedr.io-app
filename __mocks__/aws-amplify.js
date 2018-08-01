@@ -20,3 +20,7 @@ export const JS = {
     return false
   }
 }
+
+export const API = {
+  post() {}
+}

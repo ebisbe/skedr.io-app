@@ -1,4 +1,4 @@
-import { Auth, JS } from 'aws-amplify'
+import { Auth, JS, API } from 'aws-amplify'
 
 export const state = {
   user: null,
@@ -28,12 +28,18 @@ export const mutations = {
 }
 
 export const actions = {
-  loginUser: async function({ commit }, { username, password }) {
+  loginUser: async function({ state, commit }, { username, password }) {
+    //the value of `username` is really an `email`
     const user = await Auth.signIn(username.toLowerCase(), password)
     commit('setUser', user)
 
     const data = await Auth.verifiedContact(user)
     commit('setUserVerification', data)
+
+    const payload = {
+      body: { userId: state.username, email: username }
+    }
+    API.post(process.env.VUE_APP_API_NAME, '/oauth/user', payload)
     return !JS.isEmpty(data.verified) ? true : false
   },
   getAuthenticated: async ({ commit }, to) => {

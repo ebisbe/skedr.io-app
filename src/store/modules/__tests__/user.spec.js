@@ -47,6 +47,9 @@ describe('Store user.js', () => {
   describe('actions', () => {
     it('log in an authenticated user', async () => {
       const store = {
+        state: {
+          username: '12345@N01'
+        },
         commit: jest.fn()
       }
       const user = { username: 'test@mail.com', password: '123456' }

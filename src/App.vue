@@ -4,6 +4,8 @@
     :class="{'background': notLogged}"
     light>
 
+    <q-message/>
+
     <router-view name="toolbar"/>
     <transition name="component-fade" mode="out-in">
       <router-view/>
@@ -15,9 +17,11 @@
 
 <script>
 import { mapActions } from 'vuex'
+import QMessage from '@/components/QMessage'
 
 export default {
   name: 'App',
+  components: { QMessage },
   data() {
     return {
       transitionName: ''

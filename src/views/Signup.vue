@@ -28,14 +28,6 @@
                 v-model="step"
                 class="elevation-0"
                 vertical>
-                <v-alert
-                  v-show="alert.message"
-                  :color="alert.color"
-                  :icon="alert.icon"
-                  class="mt-0"
-                  value="true">
-                  {{ alert.message }}
-                </v-alert>
                 <v-stepper-step
                   :complete="step > 1"
                   step="1">
@@ -133,8 +125,7 @@
 import { API } from 'aws-amplify'
 import { validations } from '../mixins/validation'
 
-import { Auth, Logger } from 'aws-amplify'
-const logger = new Logger('SignUpComp')
+import { Auth } from 'aws-amplify'
 
 export default {
   name: 'SignUp',
@@ -147,11 +138,6 @@ export default {
       firstName: '',
       lastName: '',
       code: '',
-      alert: {
-        color: '',
-        icon: '',
-        message: ''
-      },
       passVisibility: true,
       password: '',
       protectedUI: false,
@@ -167,8 +153,8 @@ export default {
     }
   },
   watch: {
-    queryString(queryString) {
-      if (queryString.oauth_verifier === undefined && queryString.oauth_token === undefined) {
+    queryString: async function({ oauth_verifier, oauth_token }) {
+      if (oauth_verifier === undefined || oauth_token === undefined) {
         return
       }
       this.protectedUI = true
@@ -176,26 +162,27 @@ export default {
       const myInit = {
         body: {
           userId: this.userId,
-          oauthToken: queryString.oauth_token,
-          oauthVerifier: queryString.oauth_verifier
+          oauthToken: oauth_token,
+          oauthVerifier: oauth_verifier
         }
       }
-      API.post(process.env.VUE_APP_API_NAME, '/oauth/callback', myInit)
-        .then(data => {
-          this.protectedUI = false
-          this.userId = data.userId
-          this.firstName = data.firstName
-          this.lastName = data.lastName
-          this.email = data.email
-          localStorage.setItem('userId', '')
-          this.step = 2
-        })
-        .catch(err => {
-          this.error(err.message)
-          this.protectedUI = false
-          this.step = 1
-          this.button = 'Connect'
-        })
+      try {
+        const { userId, firstName, lastName, email } = await API.post(
+          process.env.VUE_APP_API_NAME,
+          '/oauth/callback',
+          myInit
+        )
+        this.userId = userId
+        this.firstName = firstName
+        this.lastName = lastName
+        this.email = email
+        this.step = 2
+      } catch (err) {
+        this.$store.dispatch('message/add', err.message)
+        this.step = 1
+        this.button = 'Connect'
+      }
+      this.protectedUI = false
     }
   },
   created() {
@@ -203,99 +190,68 @@ export default {
     this.userId = localStorage.getItemDef('userId', '')
   },
   methods: {
-    handleSubmit() {
+    handleSubmit: async function() {
       this.protectedUI = true
-      this.reset()
-      API.get(process.env.VUE_APP_API_NAME, '/oauth')
-        .then(data => {
-          this.userId = data.userId
-          localStorage.setItem('userId', this.userId)
-          window.location.href = data.redirectUrl
-        })
-        .catch(err => {
-          this.protectedUI = false
-          this.error(err.message)
-        })
+      try {
+        const { userId, redirectUrl } = await API.get(process.env.VUE_APP_API_NAME, '/oauth')
+        this.userId = userId
+        localStorage.setItem('userId', userId)
+        window.location.href = redirectUrl
+      } catch (err) {
+        this.protectedUI = false
+        this.$store.dispatch('message/add', err.message)
+      }
     },
-    signupUser() {
-      this.reset()
+    signupUser: async function() {
       this.protectedUI = true
-      Auth.signUp({
-        username: this.user,
-        password: this.password,
-        attributes: {
-          email: this.email.toLowerCase(),
-          name: this.firstName,
-          family_name: this.lastName
-        }
-      })
-        .then(data => {
-          this.disableAllInputs = false
-          this.protectedUI = false
-          this.step = 3
-          logger.debug('sign up success', data)
-          this.success('Successfuly signed up')
+      try {
+        await Auth.signUp({
+          username: this.user,
+          password: this.password,
+          attributes: {
+            email: this.email.toLowerCase(),
+            name: this.firstName,
+            family_name: this.lastName
+          }
         })
-        .catch(err => {
-          this.error(err.message)
-          this.protectedUI = false
-        })
+
+        this.disableAllInputs = false
+        this.step = 3
+        this.$store.dispatch('message/add', 'Account created successfully')
+      } catch (err) {
+        this.$store.dispatch('message/add', err.message)
+      }
+      this.protectedUI = false
     },
-    validateCode() {
-      // Remove alert boxes and resend confirmation parts first
-      this.reset()
+    validateCode: async function() {
       this.showResendButton = false
-      // Protect UI from being used
       this.protectedUI = true
-
-      Auth.confirmSignUp(this.user, this.code)
-        .then(() => Auth.signIn(this.user, this.password))
-        .then(() => {
-          const payload = {
-            body: { userId: this.userId, email: this.email.toLowerCase() }
-          }
-          API.post(process.env.VUE_APP_API_NAME, '/oauth/user', payload)
-        })
-        .then(() => this.$router.push({ name: 'Photostream' }))
-        .catch(err => {
-          this.error(err.message)
-          this.protectedUI = false
-          // TODO: should it be checked for `CodeMismatchException`?
-          if (err.code === 'ExpiredCodeException') {
-            this.showResendButton = true
-          }
-        })
+      try {
+        await Auth.confirmSignUp(this.user, this.code)
+        await Auth.signIn(this.user, this.password)
+        const payload = {
+          body: { userId: this.userId, email: this.email.toLowerCase() }
+        }
+        await API.post(process.env.VUE_APP_API_NAME, '/oauth/user', payload)
+        this.$store.dispatch('message/add', 'Code validated')
+        this.$router.push({ name: 'Photostream' })
+      } catch (err) {
+        this.$store.dispatch('message/add', err.message)
+        this.protectedUI = false
+        // TODO: should it be checked for `CodeMismatchException`?
+        if (err.code === 'ExpiredCodeException') {
+          this.showResendButton = true
+        }
+      }
     },
-    resendCode() {
-      // Remove alert boxes first
-      this.reset()
-
-      Auth.resendSignUp(this.username)
-        .then(() => {
-          logger.debug('code resent')
-          this.showResendButton = false
-          this.success('Confirmation code has been successfuly sent')
-          // Hide success message after 5 seconds
-          setTimeout(() => {
-            this.reset()
-          }, 5000)
-        })
-        .catch(err => {
-          this.error(err.message)
-        })
-    },
-    success(text) {
-      this.alert.icon = 'check_circle'
-      this.alert.message = text
-      this.alert.color = 'success'
-    },
-    error(text) {
-      this.alert.icon = 'warning'
-      this.alert.message = text
-      this.alert.color = 'error'
-    },
-    reset() {
-      this.alert.message = null
+    resendCode: async function() {
+      try {
+        await Auth.resendSignUp(this.username)
+        this.showResendButton = false
+        this.$store.dispatch('message/add', 'Confirmation code has been successfuly sent')
+      } catch (err) {
+        this.$store.dispatch('message/add', err.message)
+      }
     }
   }
 }

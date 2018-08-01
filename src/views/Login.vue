@@ -1,19 +1,5 @@
 <template>
   <v-content>
-    <v-snackbar
-      v-model="errorLogin"
-      :timeout="5000"
-      top>
-      {{ errorMessage }}
-      <v-btn
-        dark
-        color="orange"
-        flat
-        @click="errorLogin = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex
@@ -26,6 +12,7 @@
               <v-progress-linear
                 v-if="protectedUI"
                 :indeterminate="true"
+                color="accent"
                 height="3"
                 class="my-0 topFloat"/>
               <v-toolbar dark color="primary">
@@ -94,9 +81,7 @@ export default {
     return {
       form: Object.assign({}, defaultForm),
       protectedUI: false,
-      passVisibility: true,
-      errorMessage: '',
-      errorLogin: false
+      passVisibility: true
     }
   },
   computed: {
@@ -112,10 +97,10 @@ export default {
       this.protectedUI = true
       try {
         const path = (await this.loginUser(this.form)) ? '/' : '/verify'
+        this.$store.dispatch('message/add', 'You have been log in')
         this.$router.push(path)
       } catch (err) {
-        this.errorLogin = true
-        this.errorMessage = err.message
+        this.$store.dispatch('message/add', err.message)
         this.protectedUI = false
       }
     },

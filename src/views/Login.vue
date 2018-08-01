@@ -97,7 +97,7 @@ export default {
       this.protectedUI = true
       try {
         const path = (await this.loginUser(this.form)) ? '/' : '/verify'
-        this.$store.dispatch('message/add', 'You have been log in')
+        this.$store.dispatch('message/add', 'You have been logged in')
         this.$router.push(path)
       } catch (err) {
         this.$store.dispatch('message/add', err.message)

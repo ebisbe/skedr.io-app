@@ -83,9 +83,7 @@ import QFilter from './../components/QFilter.vue'
 import QPoolBtn from './../components/QPoolBtn.vue'
 import QSuggestionDialog from './../components/QSuggestionDialog'
 
-import { Auth, Logger } from 'aws-amplify'
-
-const logger = new Logger('SignOutComp')
+import { Auth } from 'aws-amplify'
 
 export default {
   name: 'Toolbar',
@@ -137,13 +135,13 @@ export default {
         this.drawer = !this.drawer
       }
     },
-    logout() {
-      Auth.signOut()
-        .then(() => {
-          logger.debug('sign out success')
-          this.$router.push('/login')
-        })
-        .catch(err => this.setError(err))
+    logout: async function() {
+      try {
+        await Auth.signOut()
+        this.$router.push('/login')
+      } catch (err) {
+        this.$store.dispatch('message/add', err.message)
+      }
     },
     searchText(value) {
       this.$store.commit('updateSearch', value)

@@ -67,14 +67,14 @@ export default {
           res.data = data
           res.error = null
         })
-        .catch(error => {
+        .catch((/*error*/) => {
           if (activePromise !== currentPromise) {
             return
           }
           activePromise = null
           res.status = 'error'
           res.data = null
-          res.error = error
+          res.error = 'Ops! we had an error...'
         })
     }, 300)
 

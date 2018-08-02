@@ -62,21 +62,6 @@
         />
       </v-card>
     </v-dialog>
-    <v-snackbar
-      v-model="snackbar"
-      :timeout="0"
-      bottom
-      left
-    >
-      Loading more groups...
-      <v-btn
-        color="pink"
-        flat
-        @click="snackbar = false"
-      >
-        Close
-      </v-btn>
-    </v-snackbar>
   </v-content>
 </template>
 
@@ -107,8 +92,7 @@ export default {
       payload: null,
       dialog: false,
       error: false,
-      offset: itemsPerPage,
-      snackbar: false
+      offset: itemsPerPage
     }
   },
 
@@ -141,7 +125,7 @@ export default {
       this.dialog = false
     },
     showMore() {
-      this.snackbar = true
+      this.$store.dispatch('message/add', 'Loading more groups...')
       this.offset += itemsPerPage
       // Fetch more data and transform the original result
       this.$apollo.queries.groups.fetchMore({
@@ -155,8 +139,6 @@ export default {
         updateQuery: (previousResult, data) => {
           if (data.fetchMoreResult.userGroups.length !== 0) {
             this.showMore()
-          } else {
-            this.snackbar = false
           }
           return {
             __typename: previousResult.userGroups.__typename,

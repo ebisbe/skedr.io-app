@@ -2,7 +2,7 @@
   <v-snackbar
     v-model="active"
     :timeout="4000"
-    bottom>
+    v-bind="$attrs">
     {{ message }}
     <v-btn
       dark

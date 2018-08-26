@@ -4,7 +4,7 @@
     :class="{'background': notLogged}"
     light>
 
-    <q-message/>
+    <q-message multi-line bottom/>
 
     <router-view name="toolbar"/>
     <transition name="component-fade" mode="out-in">

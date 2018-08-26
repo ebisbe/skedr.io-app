@@ -1,20 +1,17 @@
 <template>
   <v-content >
     <v-container
+      :class="{'pa-0': $vuetify.breakpoint.xs}"
       fluid
-      fill-height
       grid-list-md>
       <v-layout
-        align-center
         justify-center>
-        <v-flex
-          xs11
-          sm8
-          order-md2
-          order-xs1
-          md5>
+        <v-dialog
+          v-model="dialog"
+          :fullscreen="$vuetify.breakpoint.xs"
+          max-width="500"
+          hide-overlay>
           <v-card class="elevation-12">
-
             <v-progress-linear
               v-show="protectedUI"
               :indeterminate="true"
@@ -23,7 +20,7 @@
             <v-toolbar dark color="primary">
               <v-toolbar-title>Create a Skedr.io account</v-toolbar-title>
             </v-toolbar>
-            <div class="px-5 pb-5 pt-3">
+            <div :class="{'pa-0': $vuetify.breakpoint.xs, 'px-5 pt-3': $vuetify.breakpoint.smAndUp}">
               <v-stepper
                 v-model="step"
                 class="elevation-0"
@@ -51,7 +48,8 @@
                 <v-stepper-content step="2">
                   <v-form method="post" @submit.stop.prevent="signupUser">
                     <v-text-field
-                      v-model="email"
+                      ref="email"
+                      v-model="form.email"
                       :disabled="disableAllInputs"
                       :rules="[rules.required, rules.email]"
                       label="Email"
@@ -61,7 +59,8 @@
                       required
                     />
                     <v-text-field
-                      v-model="password"
+                      ref="password"
+                      v-model="form.password"
                       :disabled="disableAllInputs"
                       :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
                       :type="passVisibility ? 'password' : 'text'"
@@ -113,9 +112,10 @@
                   </v-form>
                 </v-stepper-content>
               </v-stepper>
-          </div></v-card>
-          <p class="text-xs-center mb-0 white--text subheading">Already have an account? <router-link :to="{name: 'Login'}">Log in</router-link></p>
-        </v-flex>
+            </div>
+            <p class="text-xs-center mb-0 grey--text subheading pb-2">Already have an account? <router-link :to="{name: 'Login'}">Log in</router-link></p>
+          </v-card>
+        </v-dialog>
       </v-layout>
     </v-container>
   </v-content>
@@ -134,17 +134,20 @@ export default {
     return {
       step: 1,
       userId: '',
-      email: '',
+      form: {
+        email: '',
+        password: ''
+      },
       firstName: '',
       lastName: '',
       code: '',
       passVisibility: true,
-      password: '',
       protectedUI: false,
       queryString: {},
       button: 'Connect',
       disableAllInputs: false,
-      showResendButton: false
+      showResendButton: false,
+      dialog: true
     }
   },
   computed: {
@@ -175,7 +178,7 @@ export default {
         this.userId = userId
         this.firstName = firstName
         this.lastName = lastName
-        this.email = email
+        this.form.email = email
         this.step = 2
       } catch (err) {
         this.$store.dispatch('message/add', err.message)
@@ -203,13 +206,23 @@ export default {
       }
     },
     signupUser: async function() {
+      Object.keys(this.form).forEach(f => {
+        if (!this.form[f]) this.formHasErrors = true
+
+        this.$refs[f].validate(true)
+      })
+
+      if (this.formHasErrors) {
+        this.formHasErrors = false
+        return
+      }
       this.protectedUI = true
       try {
         await Auth.signUp({
           username: this.user,
-          password: this.password,
+          password: this.form.password,
           attributes: {
-            email: this.email.toLowerCase(),
+            email: this.form.email.toLowerCase(),
             name: this.firstName,
             family_name: this.lastName
           }
@@ -228,9 +241,9 @@ export default {
       this.protectedUI = true
       try {
         await Auth.confirmSignUp(this.user, this.code)
-        await Auth.signIn(this.user, this.password)
+        await Auth.signIn(this.user, this.form.password)
         const payload = {
-          body: { userId: this.userId, email: this.email.toLowerCase() }
+          body: { userId: this.userId, email: this.form.email.toLowerCase() }
         }
         await API.post(process.env.VUE_APP_API_NAME, '/oauth/user', payload)
         this.$store.dispatch('message/add', 'Code validated')

@@ -1,63 +1,65 @@
 <template>
   <v-content>
-    <v-container fluid fill-height>
-      <v-layout align-center justify-center>
-        <v-flex
-          xs12
-          sm6
-          md5
-          lg4>
-          <v-form method="post" @submit.stop.prevent="handleSubmit">
-            <v-card class="elevation-12">
-              <v-progress-linear
-                v-if="protectedUI"
-                :indeterminate="true"
-                color="accent"
-                height="3"
-                class="my-0 topFloat"/>
-              <v-toolbar dark color="primary">
-                <v-toolbar-title>Log in to Skedr.io</v-toolbar-title>
-              </v-toolbar>
-              <div class="px-5 pb-5 pt-3">
-                <v-card-text>
-                  <v-text-field
-                    v-model="form.username"
-                    :disabled="protectedUI"
-                    :rules="[rules.required, rules.email]"
-                    label="Enter your email "
-                    autocomplete="username"
-                    required
-                    @update:error="username"
-                  />
+    <v-container
+      :class="{'pa-0': $vuetify.breakpoint.xs}"
+      fluid
+      fill-height>
+      <v-layout justify-center>
+        <v-dialog
+          v-model="dialog"
+          :fullscreen="$vuetify.breakpoint.xs"
+          hide-overlay
+          max-width="500"
+          transition="dialog-bottom-transition">
+          <v-card class="elevation-12" >
+            <v-progress-linear
+              v-if="protectedUI"
+              :indeterminate="true"
+              color="accent"
+              height="3"
+              class="my-0 topFloat"/>
+            <v-toolbar dark color="primary">
+              <v-toolbar-title>Log in to Skedr.io</v-toolbar-title>
+            </v-toolbar>
+            <div :class="{'pa-2': $vuetify.breakpoint.xs, 'px-4 pb-4 pt-3': $vuetify.breakpoint.smAndUp}">
+              <v-card-text>
+                <v-text-field
+                  v-model="form.username"
+                  :disabled="protectedUI"
+                  :rules="[rules.required, rules.email]"
+                  label="Enter your email "
+                  autocomplete="username"
+                  required
+                  @update:error="username"
+                />
 
-                  <v-text-field
-                    v-model="form.password"
-                    :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
-                    :type="passVisibility ? 'password' : 'text'"
-                    :disabled="protectedUI"
-                    :rules="[rules.required, rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
-                    required
-                    autocomplete="current-password"
-                    label="Enter your password "
-                    @click:append="() => (passVisibility = !passVisibility)"
-                    @update:error="password"/>
+                <v-text-field
+                  v-model="form.password"
+                  :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
+                  :type="passVisibility ? 'password' : 'text'"
+                  :disabled="protectedUI"
+                  :rules="[rules.required, rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
+                  required
+                  autocomplete="current-password"
+                  label="Enter your password "
+                  @click:append="() => (passVisibility = !passVisibility)"
+                  @update:error="password"/>
 
-                </v-card-text>
-                <v-card-actions class="px-0">
-                  <v-spacer/>
-                  <v-btn
-                    :disabled="!formIsValid || protectedUI"
-                    text-xs-right
-                    type="submit"
-                    color="primary">
-                    continue
-                  </v-btn>
-                </v-card-actions>
-              </div>
-            </v-card>
-          </v-form>
-          <p class="text-xs-center mb-0 white--text subheading">Don’t have an account yet? <router-link :to="{name: 'Signup'}">Sign up</router-link></p>
-        </v-flex>
+              </v-card-text>
+              <v-card-actions class="px-0">
+                <v-spacer/>
+                <v-btn
+                  :disabled="!formIsValid || protectedUI"
+                  text-xs-right
+                  color="primary"
+                  @click="handleSubmit">
+                  continue
+                </v-btn>
+              </v-card-actions>
+            </div>
+            <p class="text-xs-center mb-0 grey--text subheading pb-2">Don’t have an account yet? <router-link :to="{name: 'Signup'}">Sign up</router-link></p>
+          </v-card>
+        </v-dialog>
       </v-layout>
     </v-container>
   </v-content>
@@ -81,7 +83,8 @@ export default {
     return {
       form: Object.assign({}, defaultForm),
       protectedUI: false,
-      passVisibility: true
+      passVisibility: true,
+      dialog: true
     }
   },
   computed: {

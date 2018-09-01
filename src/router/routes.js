@@ -84,5 +84,9 @@ export default [
     meta: {
       hash: colors.deepPurple.base
     }
+  },
+  {
+    path: '*',
+    redirect: '/login'
   }
 ]

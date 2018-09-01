@@ -106,7 +106,7 @@ export default {
 .q-photo .container .v-list .white--text {
   text-decoration: none;
 }
-.q-photo .v-card__media {
+.q-photo .img {
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
   transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);

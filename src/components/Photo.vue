@@ -6,9 +6,23 @@
     @mouseover="hover = true"
     @mouseout="hover = false"
     @click.native="!inPool(photo.photoId) ? addToPool(photo) : removeFromPool(photo.photoId)">
-    <v-card-media
-      :height="!inPool(photo.photoId) ? `${height}px` : `${height - 32}px`"
-      :src="photo.url_m"/>
+    <v-img
+      :height="!inPool(photo.photoId) ? height : height - 32"
+      :src="photo.url_m"
+      :lazy-src="photo.url_sq"
+      aspect-ratio="1"
+      class="grey lighten-2 img"
+    >
+      <v-layout
+        slot="placeholder"
+        fill-height
+        align-center
+        justify-center
+        ma-0
+      >
+        <v-progress-circular indeterminate color="grey lighten-5"/>
+      </v-layout>
+    </v-img>
     <v-icon
       v-if="inPool(photo.photoId)"
       class="q-checkCircle"

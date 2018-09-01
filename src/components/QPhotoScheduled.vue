@@ -2,9 +2,23 @@
   <v-card
     flat
     class="q-photo">
-    <v-card-media
+    <v-img
+      :height="height"
       :src="url"
-      :height="`${height}px`"/>
+      :lazy-src="url"
+      aspect-ratio="1"
+      class="grey lighten-2 img"
+    >
+      <v-layout
+        slot="placeholder"
+        fill-height
+        align-center
+        justify-center
+        ma-0
+      >
+        <v-progress-circular indeterminate color="grey lighten-5"/>
+      </v-layout>
+    </v-img>
     <v-container>
       <v-list two-line dark>
         <v-list-tile>
@@ -33,6 +47,21 @@ export default {
   },
   computed: {
     url() {
+      return this.composeUrl()
+    },
+    url_sq() {
+      return this.composeUrl('_sq')
+    },
+    title() {
+      if (this.photo.hasOwnProperty('photo') && this.photo.photo.hasOwnProperty('title')) {
+        return this.photo.photo.title
+      } else {
+        return 'Error loading image'
+      }
+    }
+  },
+  methods: {
+    composeUrl(size = '') {
       if (
         this.photo.hasOwnProperty('photoId') &&
         this.photo.hasOwnProperty('secret') &&
@@ -45,16 +74,9 @@ export default {
           secret,
           photo: { server, farm }
         } = this.photo
-        return `https://farm${farm}.staticflickr.com/${server}/${photoId}_${secret}.jpg`
+        return `https://farm${farm}.staticflickr.com/${server}/${photoId}_${secret}${size}.jpg`
       } else {
         return 'https://fakeurl.com'
-      }
-    },
-    title() {
-      if (this.photo.hasOwnProperty('photo') && this.photo.photo.hasOwnProperty('title')) {
-        return this.photo.photo.title
-      } else {
-        return 'Error loading image'
       }
     }
   }

@@ -14,7 +14,7 @@ import VCard from 'vuetify/es5/components/VCard'
 import VDivider from 'vuetify/es5/components/VDivider'
 import VDialog from 'vuetify/es5/components/VDialog'
 import VTextField from 'vuetify/es5/components/VTextField'
-import VTextArea from 'vuetify/es5/components/VTextarea'
+import VTextarea from 'vuetify/es5/components/VTextarea'
 import VSubheader from 'vuetify/es5/components/VSubheader'
 import VCheckbox from 'vuetify/es5/components/VCheckbox'
 import VTooltip from 'vuetify/es5/components/VTooltip'
@@ -27,9 +27,10 @@ import VStepper from 'vuetify/es5/components/VStepper'
 import VChip from 'vuetify/es5/components/VChip'
 import VBadge from 'vuetify/es5/components/VBadge'
 import VSnackbar from 'vuetify/es5/components/VSnackbar'
+import VImg from 'vuetify/es5/components/VImg'
 
 import transitions from 'vuetify/es5/components/transitions'
-import directives from 'vuetify/es5/directives'
+import { Resize, Ripple } from 'vuetify/es5/directives'
 import colors from 'vuetify/es5/util/colors'
 
 Vue.use(Vuetify, {
@@ -39,13 +40,14 @@ Vue.use(Vuetify, {
     VList,
     VBtn,
     VIcon,
+    VImg,
     VGrid,
     VToolbar,
     VCard,
     VDivider,
     VDialog,
     VTextField,
-    VTextArea,
+    VTextarea,
     VSubheader,
     VCheckbox,
     VTooltip,
@@ -58,8 +60,11 @@ Vue.use(Vuetify, {
     VChip,
     VBadge,
     VSnackbar,
-    transitions,
-    directives
+    transitions
+  },
+  directives: {
+    Resize,
+    Ripple
   },
   theme: {
     primary: colors.deepPurple.base,

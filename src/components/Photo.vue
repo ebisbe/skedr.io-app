@@ -125,17 +125,15 @@ export default {
     flickr.photos
       .getAllContexts({ photo_id: this.photo.photoId })
       .use(superagentCache)
-      .then(response => {
-        if (response.body.hasOwnProperty('pool')) {
-          this.groups = response.body.pool
-        }
+      .then(({ body: { pool = [] } }) => {
+        this.groups = pool
       })
 
     flickr.photos
       .getFavorites({ photo_id: this.photo.photoId })
       .use(superagentCache)
-      .then(response => {
-        this.totalFavs = parseInt(response.body.photo.total)
+      .then(({ body: { photo: { total = 0 } } }) => {
+        this.totalFavs = parseInt(total)
       })
   },
   methods: {

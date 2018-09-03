@@ -42,7 +42,7 @@ Vue.use(VueAnalytics, {
 new Vue({
   router,
   store,
-  provide: apolloProvider.provide(),
+  apolloProvider,
   beforeCreate() {
     store.dispatch('pool/load', localStorage.getObject('pool.photos'))
   },

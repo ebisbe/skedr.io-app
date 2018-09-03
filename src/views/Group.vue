@@ -163,7 +163,6 @@ export default {
       result() {
         //this.showMore()
       },
-      //fetchPolicy: 'cache-and-network',
       error() {
         this.error = true
       }

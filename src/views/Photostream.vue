@@ -18,15 +18,14 @@
         </v-flex>
         <v-flex>
           <v-btn
-            :disabled="$apolloData.loading === 1"
+            :disabled="!showMoreEnabled || $apolloData.loading === 1"
             block
             color="accent"
-            dark
             @click="showMore">
             <v-progress-circular
               v-if="$apolloData.loading"
               indeterminate
-              color="accent"/>
+              color="grey"/>
             <span v-else>
               &nbsp;Load more photos...
             </span>
@@ -78,7 +77,8 @@ export default {
     return {
       offset: itemsPerPage,
       userPhotos: [],
-      error: false
+      error: false,
+      showMoreEnabled: true
     }
   },
   computed: {
@@ -94,10 +94,12 @@ export default {
   apollo: {
     userPhotos: {
       query: STREAM_QUERY,
+      fetchPolicy: 'cache-and-network',
       variables() {
         return {
           userId: this.userId,
-          offset: itemsPerPage
+          offset: itemsPerPage,
+          count: 6
         }
       },
       update: data => (data.hasOwnProperty('userPhotos') ? data.userPhotos : []),
@@ -119,7 +121,7 @@ export default {
         // Transform the previous result with new data
         updateQuery: (previousResult, data) => {
           // const hasMore = fetchMoreResult.tagsPage.hasMore
-          // this.showMoreEnabled = hasMore
+          this.showMoreEnabled = data.fetchMoreResult.userPhotos.length > 0
 
           return {
             __typename: previousResult.userPhotos.__typename,

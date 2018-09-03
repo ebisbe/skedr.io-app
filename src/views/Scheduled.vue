@@ -93,6 +93,7 @@ export default {
   apollo: {
     scheduledPhotos: {
       query: SCHEDULED_QUERY,
+      fetchPolicy: 'cache-and-network',
       variables() {
         return {
           userId: this.userId

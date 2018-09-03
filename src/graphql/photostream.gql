@@ -1,5 +1,5 @@
-query userPhotos($userId: ID!, $offset: Int){
-  userPhotos(userId: $userId, count: 6, offset: $offset) {
+query userPhotos($userId: ID!, $offset: Int, $count: Int){
+  userPhotos(userId: $userId, count: $count, offset: $offset) {
     id
     photoId
     secret

@@ -1,13 +1,13 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import QChip from '@/components/QChip.vue'
+import Vue from 'vue'
 import Vuetify from 'vuetify'
 import Tag from '@/classes/Tag'
 
 describe('QChip.vue', () => {
-  const localVue = createLocalVue()
-  localVue.use(Vuetify)
+  Vue.use(Vuetify)
 
-  const createCmp = propsData => shallowMount(QChip, { localVue, propsData })
+  const createCmp = propsData => shallowMount(QChip, { propsData })
 
   describe('Properties', () => {
     it('has a tag property', () => {
@@ -46,7 +46,6 @@ describe('QChip.vue', () => {
       const tag = new Tag('a', 75, 100)
 
       const wrapper = shallowMount(QChip, {
-        localVue,
         propsData: { tag }
       })
       expect(wrapper.vm.color).toBe('light-green')

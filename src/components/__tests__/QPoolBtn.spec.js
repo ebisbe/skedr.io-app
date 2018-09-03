@@ -1,12 +1,12 @@
-import { createLocalVue, shallowMount, mount } from '@vue/test-utils'
+import { shallowMount, mount } from '@vue/test-utils'
 import QPoolBtn from '@/components/QPoolBtn.vue'
+import Vue from 'vue'
 import Vuetify from 'vuetify'
 import Vuex from 'vuex'
 import { getters } from '@/store/modules/pool'
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
+Vue.use(Vuetify)
+Vue.use(Vuex)
 
 const actions = {
   updateRightDrawer: jest.fn()
@@ -28,7 +28,7 @@ describe('QPoolBtn.vue', () => {
         }
       }
     })
-  const createCmp = store => shallowMount(QPoolBtn, { store, localVue })
+  const createCmp = store => shallowMount(QPoolBtn, { store })
 
   describe('Computed properties - PoolIcon', () => {
     it('renders filter without items in the pool', () => {
@@ -90,13 +90,13 @@ describe('QPoolBtn.vue', () => {
   describe('Computed properties - RightDrawer', () => {
     it('renturns initial store state', () => {
       const store = createStore([])
-      const wrapper = mount(QPoolBtn, { store, localVue })
+      const wrapper = mount(QPoolBtn, { store })
       expect(wrapper.vm.rightDrawer).toBe(false)
     })
 
     it('calls updateRightDrawer actions', () => {
       const store = createStore([])
-      const wrapper = mount(QPoolBtn, { store, localVue })
+      const wrapper = mount(QPoolBtn, { store })
       wrapper.find('button').trigger('click')
       expect(actions.updateRightDrawer).toHaveBeenCalled()
     })

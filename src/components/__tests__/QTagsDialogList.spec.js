@@ -1,13 +1,13 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import comp from '@/components/QTagsDialogList'
+import Vue from 'vue'
 import Vuetify from 'vuetify'
 import Tag from '@/classes/Tag'
 
 describe('QTagsDialogList.vue', () => {
-  const localVue = createLocalVue()
-  localVue.use(Vuetify)
+  Vue.use(Vuetify)
 
-  const createCmp = propsData => mount(comp, { localVue, propsData })
+  const createCmp = propsData => mount(comp, { propsData })
 
   describe('Properties', () => {
     it('accepts Tag Class', () => {
@@ -54,7 +54,7 @@ describe('QTagsDialogList.vue', () => {
 
     it('clicks the whole div', () => {
       const tag = new Tag('a')
-      const wrapper = mount(comp, { localVue, propsData: { tag } })
+      const wrapper = mount(comp, { propsData: { tag } })
       wrapper.find('div').trigger('click')
       expect(wrapper.props().tag.selected).toBeTruthy()
     })

@@ -1,12 +1,12 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import comp from '@/components/QPhotoScheduled'
+import Vue from 'vue'
 import Vuetify from 'vuetify'
 
 describe('QPhotoScheduled.vue', () => {
-  const localVue = createLocalVue()
-  localVue.use(Vuetify)
+  Vue.use(Vuetify)
 
-  const createComp = propsData => mount(comp, { localVue, propsData })
+  const createComp = propsData => mount(comp, { propsData })
 
   const photo = {
     photoId: 'photoId',

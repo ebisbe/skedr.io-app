@@ -1,13 +1,13 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import QShareDialogList from '@/components/QShareDialogList'
+import Vue from 'vue'
 import Vuetify from 'vuetify'
 import Group from '@/classes/Group'
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
+Vue.use(Vuetify)
 
 describe('QShareDialogList.vue', () => {
-  const createCmp = propsData => shallowMount(QShareDialogList, { propsData, localVue })
+  const createCmp = propsData => shallowMount(QShareDialogList, { propsData })
 
   describe('Properties', () => {
     it('requires a group Object', () => {

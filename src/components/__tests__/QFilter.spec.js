@@ -1,12 +1,12 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import QFilter from '@/components/QFilter.vue'
+import Vue from 'vue'
 import Vuetify from 'vuetify'
 
 describe('QFilter.vue', () => {
-  const localVue = createLocalVue()
-  localVue.use(Vuetify)
+  Vue.use(Vuetify)
 
-  const createCmp = propsData => shallowMount(QFilter, { localVue, propsData, attrs: { search: 'Flickr' } })
+  const createCmp = propsData => shallowMount(QFilter, { propsData, attrs: { search: 'Flickr' } })
 
   describe('Properties', () => {
     it("has a placeholder property with default to 'Search'", () => {

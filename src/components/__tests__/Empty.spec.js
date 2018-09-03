@@ -1,12 +1,12 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import comp from '@/components/Empty.vue'
+import Vue from 'vue'
 import Vuetify from 'vuetify'
 
 describe('Empty.vue', () => {
-  const localVue = createLocalVue()
-  localVue.use(Vuetify)
+  Vue.use(Vuetify)
 
-  const createCmp = propsData => mount(comp, { localVue, propsData })
+  const createCmp = propsData => mount(comp, { propsData })
 
   describe('Properties', () => {
     it('has default properties', () => {

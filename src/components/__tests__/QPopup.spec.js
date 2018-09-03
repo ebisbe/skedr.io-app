@@ -1,11 +1,11 @@
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Vuetify from 'vuetify'
+import Vue from 'vue'
 import QPopup from '@/components/QPopup'
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
+Vue.use(Vuetify)
 
-const createCmp = propsData => shallowMount(QPopup, { propsData, localVue })
+const createCmp = propsData => shallowMount(QPopup, { propsData })
 describe('QPopup.vue', () => {
   describe('Properties', () => {
     it('requires data array', () => {

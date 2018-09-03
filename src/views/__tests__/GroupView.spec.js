@@ -1,14 +1,13 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Tag from '@/classes/Tag'
 import GroupView from '@/views/GroupView'
+import Vue from 'vue'
 import Vuetify from 'vuetify'
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
+Vue.use(Vuetify)
 const createCmp = propsData =>
   shallowMount(GroupView, {
     propsData,
-    localVue,
     mocks: {
       $route: {
         params: {

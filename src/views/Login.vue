@@ -58,6 +58,7 @@
               </v-card-actions>
             </div>
             <p class="text-xs-center mb-0 grey--text subheading pb-2">Don’t have an account yet? <router-link :to="{name: 'Signup'}">Sign up</router-link></p>
+            <p class="text-xs-center mb-0 grey--text subheading pb-2">Or try our <a @click="setDemoAccount()">Demo Account</a></p>
           </v-card>
         </v-dialog>
       </v-layout>
@@ -112,6 +113,10 @@ export default {
     },
     password(hasError) {
       this.form.validPassword = !hasError
+    },
+    setDemoAccount() {
+      this.form.username = 'info@skedr.io'
+      this.form.password = 'Passw0rd!'
     }
   }
 }

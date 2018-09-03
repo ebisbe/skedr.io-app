@@ -126,7 +126,6 @@ export default {
         // Transform the previous result with new data
         updateQuery: (previousResult, data) => {
           // const hasMore = fetchMoreResult.tagsPage.hasMore
-          this.showMoreEnabled = data.fetchMoreResult.userPhotos.length > 0
           this.$store.dispatch('showMoreButtonStatus', { length: data.fetchMoreResult.userPhotos.length })
 
           return {

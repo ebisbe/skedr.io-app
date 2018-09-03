@@ -4,25 +4,27 @@
       v-if="Object.keys(groupedGroups).length"
       fluid
       grid-list-lg>
-      Total groups: {{ groups.length }}
-      <v-btn
-        :loading="$apolloData.loading === 1"
-        :disabled="$apolloData.loading === 1"
-        @click="showMore">Load more groups</v-btn>
+      <v-btn @click="showAllGroups = !showAllGroups"><span v-if="showAllGroups">Grouped Mode</span><span v-else>Full List</span></v-btn>
+      <v-flex v-if="!showAllGroups">
+        Total groups: {{ groups.length }}
+        <v-btn
+          :loading="$apolloData.loading === 1"
+          :disabled="$apolloData.loading === 1"
+          @click="showMore">Load more groups</v-btn>
 
-      <v-flex>
-        <v-chip
-          v-for="letter in letters"
-          :key="`selector-${letter}`"
-          :disabled="groupedGroups[letter] === undefined"
-          :color="groupedGroups[letter] ? 'accent' : 'grey'"
-          label
-          outline
-          @click="selLetter = groupedGroups[letter] ? letter : selLetter">
-          {{ letter }}
-        </v-chip>
+        <v-flex>
+          <v-chip
+            v-for="letter in letters"
+            :key="`selector-${letter}`"
+            :disabled="groupedGroups[letter] === undefined"
+            :color="groupedGroups[letter] ? 'accent' : 'grey'"
+            label
+            outline
+            @click="selLetter = groupedGroups[letter] ? letter : selLetter">
+            {{ letter }}
+          </v-chip>
+        </v-flex>
       </v-flex>
-
       <v-layout row wrap>
         <v-flex xs12>
           <v-list
@@ -34,7 +36,7 @@
               v-html="selLetter"/>
             <v-card>
               <q-group-list
-                v-for="(group, i) in listableGroups"
+                v-for="(group, i) in groupsList"
                 :group="group"
                 :last-item="groups.length - 1 === i"
                 :key="group.title"
@@ -92,7 +94,8 @@ export default {
       payload: null,
       dialog: false,
       error: false,
-      offset: itemsPerPage
+      offset: itemsPerPage,
+      showAllGroups: true
     }
   },
 
@@ -104,6 +107,9 @@ export default {
     },
     listableGroups() {
       return this.groupedGroups[this.selLetter]
+    },
+    groupsList() {
+      return this.showAllGroups ? this.groups : this.listableGroups
     },
     title() {
       return `Sharing Pool (${this.poolLength} elements)`

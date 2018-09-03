@@ -69,16 +69,13 @@ import MyFetch from '../components/MyFetch'
 import { mapState, mapGetters } from 'vuex'
 import STREAM_QUERY from '../graphql/photostream.gql'
 
-const itemsPerPage = 6
 export default {
   name: 'Photos',
   components: { Photo, Empty, MyFetch },
   data() {
     return {
-      offset: itemsPerPage,
       userPhotos: [],
-      error: false,
-      showMoreEnabled: true
+      error: false
     }
   },
   computed: {
@@ -89,20 +86,27 @@ export default {
       return '/search'
     },
     ...mapGetters({ userId: 'user/userId' }),
-    ...mapState(['search'])
+    ...mapState({
+      search: ({ search }) => search,
+      itemsPerPage: ({ photostream }) => photostream.itemsPerPage,
+      offset: ({ photostream }) => photostream.offset,
+      showMoreEnabled: ({ photostream }) => photostream.showMoreEnabled
+    })
   },
   apollo: {
     userPhotos: {
       query: STREAM_QUERY,
       fetchPolicy: 'cache-and-network',
       variables() {
+        const count = this.offset !== 6 ? this.offset : this.itemsPerPage
+        const offset = this.offset !== 6 ? this.offset : this.itemsPerPage
         return {
           userId: this.userId,
-          offset: itemsPerPage,
-          count: 6
+          offset,
+          count
         }
       },
-      update: data => (data.hasOwnProperty('userPhotos') ? data.userPhotos : []),
+      update: ({ userPhotos = [] }) => userPhotos,
       error() {
         this.error = true
       }
@@ -110,18 +114,20 @@ export default {
   },
   methods: {
     showMore() {
-      this.offset += itemsPerPage
+      //this.offset += this.itemsPerPage
+      this.$store.dispatch('showMore', { increment: this.itemsPerPage })
       // Fetch more data and transform the original result
       this.$apollo.queries.userPhotos.fetchMore({
-        // New variables
         variables: {
           userId: this.userId,
+          count: this.itemsPerPage,
           offset: this.offset
         },
         // Transform the previous result with new data
         updateQuery: (previousResult, data) => {
           // const hasMore = fetchMoreResult.tagsPage.hasMore
           this.showMoreEnabled = data.fetchMoreResult.userPhotos.length > 0
+          this.$store.dispatch('showMoreButtonStatus', { length: data.fetchMoreResult.userPhotos.length })
 
           return {
             __typename: previousResult.userPhotos.__typename,

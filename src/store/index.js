@@ -16,7 +16,12 @@ const store = new Vuex.Store({
     },
     pageTitle: '',
     token: '',
-    search: ''
+    search: '',
+    photostream: {
+      itemsPerPage: 6,
+      offset: 6,
+      showMoreEnabled: true
+    }
   },
   mutations: {
     updateRightDrawer(state, message) {
@@ -31,6 +36,12 @@ const store = new Vuex.Store({
     window({ window }, payload) {
       window.width = payload.width
       window.height = payload.height
+    },
+    incrementOffset({ photostream }, { increment }) {
+      photostream.offset = photostream.offset + increment
+    },
+    disableShowMore({ photostream }) {
+      photostream.showMoreEnabled = false
     }
   },
   actions: {
@@ -39,6 +50,14 @@ const store = new Vuex.Store({
     },
     updateRightDrawer({ commit }, payload) {
       commit('updateRightDrawer', payload)
+    },
+    showMore({ commit }, payload) {
+      commit('incrementOffset', payload)
+    },
+    showMoreButtonStatus({ commit }, { length }) {
+      if (length === 0) {
+        commit('disableShowMore')
+      }
     }
   }
 })

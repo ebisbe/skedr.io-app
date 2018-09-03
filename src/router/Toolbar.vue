@@ -2,7 +2,6 @@
   <div>
     <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
       clipped
       fixed
       app
@@ -92,7 +91,6 @@ export default {
     return {
       title: 'Layout',
       drawer: false,
-      miniVariant: true,
       suggestionDialog: false,
       search: '',
       lists: [
@@ -128,12 +126,7 @@ export default {
   },
   methods: {
     toggle() {
-      if (this.$vuetify.breakpoint.lgAndUp) {
-        this.miniVariant = !this.miniVariant
-      } else {
-        this.miniVariant = false
-        this.drawer = !this.drawer
-      }
+      this.drawer = !this.drawer
     },
     logout: async function() {
       try {

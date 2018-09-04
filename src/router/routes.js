@@ -1,14 +1,14 @@
 import colors from 'vuetify/es5/util/colors'
 
-const Toolbar = () => import(/* webpackChunkName: "bar" */ './Toolbar.vue')
-const RightBar = () => import(/* webpackChunkName: "bar" */ './RightBar.vue')
+const Toolbar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/AppToolbar.vue')
+const RightBar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/AppRightBar.vue')
 
-const Group = () => import(/* webpackChunkName: "group" */ '../views/Group.vue')
-const GroupView = () => import(/* webpackChunkName: "group" */ '../views/GroupView.vue')
-const Login = () => import(/* webpackChunkName: "signin" */ '../views/Login.vue')
-const Signup = () => import(/* webpackChunkName: "signin" */ '../views/Signup.vue')
-const Scheduled = () => import(/* webpackChunkName: "scheduled" */ '../views/Scheduled.vue')
-const Photostream = () => import(/* webpackChunkName: "photostream" */ '../views/Photostream.vue')
+const Group = () => import(/* webpackChunkName: "group" */ '../pages/GroupPage.vue')
+const GroupView = () => import(/* webpackChunkName: "group" */ '../pages/GroupViewPage.vue')
+const Login = () => import(/* webpackChunkName: "signin" */ '../pages/LoginPage.vue')
+const Signup = () => import(/* webpackChunkName: "signin" */ '../pages/SignupPage.vue')
+const Scheduled = () => import(/* webpackChunkName: "scheduled" */ '../pages/ScheduledPage.vue')
+const Photostream = () => import(/* webpackChunkName: "photostream" */ '../pages/PhotostreamPage.vue')
 
 export default [
   {

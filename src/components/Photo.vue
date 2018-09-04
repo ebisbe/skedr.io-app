@@ -6,9 +6,10 @@
     @mouseover="hover = true"
     @mouseout="hover = false"
     @click.native="!inPool(photo.photoId) ? addToPool(photo) : removeFromPool(photo.photoId)">
+    <q-observer v-if="showObserver" @intersect="load"/>
     <v-img
       :height="!inPool(photo.photoId) ? height : height - 32"
-      :src="photo.url_m"
+      :src="bigImg"
       :lazy-src="photo.url_sq"
       aspect-ratio="1"
       class="grey lighten-2 img"
@@ -81,8 +82,11 @@ const CacheModule = require('cache-service-cache-module')
 const cache = new CacheModule({ storage: 'session', defaultExpiration: 900 })
 const superagentCache = require('superagent-cache-plugin')(cache)
 
+import QObserver from './QObserver'
+
 export default {
   name: 'Photo',
+  components: { QObserver },
   props: {
     photo: {
       type: Object,
@@ -102,7 +106,8 @@ export default {
       groups: [],
       totalFavs: 0,
       hover: false,
-      isVisible: false
+      isVisible: false,
+      showObserver: true
     }
   },
   computed: {
@@ -115,27 +120,19 @@ export default {
     star() {
       return this.totalFavs > 0 ? 'star' : 'star_border'
     },
+    bigImg() {
+      if (!this.showObserver) {
+        return this.photo.url_m
+      } else {
+        return ''
+      }
+    },
     ...mapGetters({
       userId: 'user/userId',
       inPool: 'pool/inPool'
     })
   },
-  mounted() {
-    let flickr = new Flickr(process.env.VUE_APP_FLICKR_KEY)
-    flickr.photos
-      .getAllContexts({ photo_id: this.photo.photoId })
-      .use(superagentCache)
-      .then(({ body: { pool = [] } }) => {
-        this.groups = pool
-      })
 
-    flickr.photos
-      .getFavorites({ photo_id: this.photo.photoId })
-      .use(superagentCache)
-      .then(({ body: { photo: { total = 0 } } }) => {
-        this.totalFavs = parseInt(total)
-      })
-  },
   methods: {
     ...mapActions({
       addToPool: 'pool/add',
@@ -144,6 +141,24 @@ export default {
     }),
     sharePhoto() {
       this.share({ photos: [this.photo], selectedGroups: this.groups })
+    },
+    load() {
+      let flickr = new Flickr(process.env.VUE_APP_FLICKR_KEY)
+      flickr.photos
+        .getAllContexts({ photo_id: this.photo.photoId })
+        .use(superagentCache)
+        .then(({ body: { pool = [] } }) => {
+          this.groups = pool
+        })
+
+      flickr.photos
+        .getFavorites({ photo_id: this.photo.photoId })
+        .use(superagentCache)
+        .then(({ body: { photo: { total = 0 } } }) => {
+          this.totalFavs = parseInt(total)
+        })
+
+      this.showObserver = false
     }
   }
 }

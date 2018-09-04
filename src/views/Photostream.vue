@@ -17,6 +17,7 @@
           <photo :photo="photo"/>
         </v-flex>
         <v-flex>
+          <q-observer @intersect="showMore"/>
           <v-btn
             :disabled="!showMoreEnabled || $apolloData.loading === 1"
             block
@@ -65,17 +66,20 @@
 <script>
 import Photo from '../components/Photo'
 import Empty from '../components/Empty'
+import QObserver from '../components/QObserver'
 import MyFetch from '../components/MyFetch'
 import { mapState, mapGetters } from 'vuex'
 import STREAM_QUERY from '../graphql/photostream.gql'
 
 export default {
   name: 'Photos',
-  components: { Photo, Empty, MyFetch },
+  components: { Photo, Empty, MyFetch, QObserver },
   data() {
     return {
       userPhotos: [],
-      error: false
+      error: false,
+      offset: null,
+      showMoreEnabled: true
     }
   },
   computed: {
@@ -85,25 +89,33 @@ export default {
       }
       return '/search'
     },
+    itemsPerPage() {
+      switch (true) {
+        case this.$vuetify.breakpoint.xs:
+          return 3
+        case this.$vuetify.breakpoint.sm:
+          return 8
+        case this.$vuetify.breakpoint.md:
+          return 12
+        case this.$vuetify.breakpoint.lgAndUp:
+          return 15
+      }
+    },
     ...mapGetters({ userId: 'user/userId' }),
-    ...mapState({
-      search: ({ search }) => search,
-      itemsPerPage: ({ photostream }) => photostream.itemsPerPage,
-      offset: ({ photostream }) => photostream.offset,
-      showMoreEnabled: ({ photostream }) => photostream.showMoreEnabled
-    })
+    ...mapState({ search: ({ search }) => search })
+  },
+  mounted() {
+    this.offset = this.itemsPerPage
   },
   apollo: {
     userPhotos: {
       query: STREAM_QUERY,
       fetchPolicy: 'cache-and-network',
       variables() {
-        const count = this.offset !== 6 ? this.offset : this.itemsPerPage
-        const offset = this.offset !== 6 ? this.offset : this.itemsPerPage
         return {
           userId: this.userId,
-          offset,
-          count
+          offset: this.itemsPerPage,
+          count: this.itemsPerPage
         }
       },
       update: ({ userPhotos = [] }) => userPhotos,
@@ -114,19 +126,17 @@ export default {
   },
   methods: {
     showMore() {
-      //this.offset += this.itemsPerPage
-      this.$store.dispatch('showMore', { increment: this.itemsPerPage })
       // Fetch more data and transform the original result
+      this.offset += this.itemsPerPage
       this.$apollo.queries.userPhotos.fetchMore({
         variables: {
-          userId: this.userId,
-          count: this.itemsPerPage,
-          offset: this.offset
+          offset: this.offset,
+          count: this.itemsPerPage
         },
         // Transform the previous result with new data
         updateQuery: (previousResult, data) => {
           // const hasMore = fetchMoreResult.tagsPage.hasMore
-          this.$store.dispatch('showMoreButtonStatus', { length: data.fetchMoreResult.userPhotos.length })
+          this.showMoreEnabled = data.fetchMoreResult.userPhotos.length === 0
 
           return {
             __typename: previousResult.userPhotos.__typename,

@@ -100,14 +100,17 @@ export default {
   computed: {
     ...mapGetters({ userId: 'user/userId', poolLength: 'pool/length' }),
     ...mapState(['search']),
+    filteredGroups() {
+      return this.groups.filter(group => group.search(this.search))
+    },
     groupedGroups() {
-      return _groupBy(this.groups.filter(group => group.search(this.search)), 'legend')
+      return _groupBy(this.filteredGroups, 'legend')
     },
     listableGroups() {
       return this.groupedGroups[this.selLetter]
     },
     groupsList() {
-      return this.showAllGroups ? this.groups : this.listableGroups
+      return this.showAllGroups ? this.filteredGroups : this.listableGroups
     },
     title() {
       return `Sharing Pool (${this.poolLength} elements)`

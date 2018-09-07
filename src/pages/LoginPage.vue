@@ -8,6 +8,7 @@
         <v-dialog
           v-model="dialog"
           :fullscreen="$vuetify.breakpoint.xs"
+          persistent
           hide-overlay
           max-width="500"
           transition="dialog-bottom-transition">

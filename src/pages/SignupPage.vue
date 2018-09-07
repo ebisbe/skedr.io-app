@@ -9,6 +9,7 @@
         <v-dialog
           v-model="dialog"
           :fullscreen="$vuetify.breakpoint.xs"
+          persistent
           max-width="500"
           hide-overlay>
           <v-card class="elevation-12">

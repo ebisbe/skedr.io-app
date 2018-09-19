@@ -8,15 +8,20 @@
     <v-container fluid grid-list-md>
       <v-layout pa-0 fluid>
         <v-flex xs6>
-          <v-btn
-            :disabled="disable"
-            block
-            color="success"
-            small
-            outline
-            @click="share({photos:pool})">
-            <v-icon>share</v-icon>&nbsp;Sked
-          </v-btn>
+          <v-tooltip top>
+            <v-btn
+              slot="activator"
+              :disabled="disable"
+              block
+              color="success"
+              small
+              outline
+              @click="share({photos:pool})">
+              <v-icon>share</v-icon>&nbsp;Sked
+            </v-btn>
+            <span v-if="disable">Select 1 or more photos</span>
+            <span v-else>Share images</span>
+          </v-tooltip>
         </v-flex>
         <v-flex xs6>
           <v-btn

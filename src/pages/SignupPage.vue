@@ -115,7 +115,7 @@
               </v-stepper>
             </div>
             <p class="text-xs-center mb-0 grey--text subheading pb-2">Already have an account? <router-link :to="{name: 'Login'}">Log in</router-link></p>
-            <p class="text-xs-center mb-0 grey--text subheading pb-2">Or try our <router-link :to="{name:'Login'}">Demo Account</router-link></p>
+            <p class="text-xs-center mb-0 grey--text subheading pb-2">Or try our <router-link :to="{name:'Login', params: {demo: true}}">Demo Account</router-link></p>
           </v-card>
         </v-dialog>
       </v-layout>

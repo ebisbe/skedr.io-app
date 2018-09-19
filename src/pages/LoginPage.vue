@@ -94,6 +94,12 @@ export default {
       return this.form.validUsername && this.form.validPassword
     }
   },
+  mounted() {
+    const { demo = false } = this.$route.params
+    if (demo === true) {
+      this.setDemoAccount()
+    }
+  },
   methods: {
     ...mapActions({
       loginUser: 'user/loginUser'

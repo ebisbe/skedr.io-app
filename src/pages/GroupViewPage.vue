@@ -10,11 +10,11 @@
           flat
           @click.stop="$router.push({name: 'Group'})">
           <v-icon color="grey lighten-1">keyboard_arrow_left</v-icon>
-        </v-btn> <span v-html="$route.params.title"/>
+        </v-btn> <span v-html="title"/>
       </h1>
       <v-layout row wrap>
         <v-flex xs9>
-          <span v-if="autoimportTags.length">
+          <span v-if="selectedTags.length">
             <q-chip
               v-for="tag in selectedTags"
               :key="tag.value"
@@ -45,7 +45,7 @@
           slot-scope="props"
           :requests="constructPayload(props.selectedData)"
           style="margin-bottom: 56px"
-          @loaded="dialog = false"
+          @loaded="loaded"
         />
       </q-popup>
       <v-layout row wrap>
@@ -116,6 +116,15 @@ export default {
   },
   computed: {
     ...mapGetters({ userId: 'user/userId' }),
+    title() {
+      const { title = '' } = this.$route.params
+      if (title === '') {
+        return localStorage.getItem('groupViewPage')
+      } else {
+        localStorage.setItem('groupViewPage', title)
+        return title
+      }
+    },
     selectedTags() {
       return this.tags.filter(tag => this.autoimportTags.indexOf(tag.name) !== -1)
     }
@@ -136,6 +145,11 @@ export default {
     }
   },
   methods: {
+    loaded() {
+      this.$apollo.queries.photos.refetch()
+      this.$apollo.queries.autoimportTags.refetch()
+      this.dialog = false
+    },
     selected(name) {
       this.selectedTag = name
     },

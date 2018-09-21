@@ -96,7 +96,7 @@
               top
               right
               fab
-              color="secondary"
+              color="primary"
               @click="showList = false">
               <v-icon>send</v-icon>
             </v-btn>

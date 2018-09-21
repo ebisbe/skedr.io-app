@@ -123,10 +123,16 @@ export default {
       this.status = 1
       API.post(process.env.VUE_APP_API_NAME, '/suggestion', {
         body: this.feedback
-      }).then(() => {
-        this.status = 2
-        this.disabled = true
       })
+        .then(() => {
+          this.status = 2
+          this.disabled = true
+        })
+        .catch(({ response: { data: { error = 'Some error happened!' } } }) => {
+          this.$store.dispatch('message/add', error)
+          this.disabled = false
+          this.status = 0
+        })
     }
   }
 }

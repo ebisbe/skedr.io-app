@@ -85,7 +85,6 @@ const superagentCache = require('superagent-cache-plugin')(cache)
 import AppObserver from '@/components/common/AppObserver'
 
 export default {
-  name: 'Photo',
   components: { AppObserver },
   props: {
     photo: {
@@ -132,7 +131,15 @@ export default {
       inPool: 'pool/inPool'
     })
   },
-
+  watch: {
+    tag(selectedValue) {
+      if (!this.photo.tags.includes(selectedValue) || selectedValue === '') {
+        this.removeFromPool(this.photo.photoId)
+      } else {
+        this.addToPool(this.photo)
+      }
+    }
+  },
   methods: {
     ...mapActions({
       addToPool: 'pool/add',

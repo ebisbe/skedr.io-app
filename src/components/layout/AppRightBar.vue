@@ -24,26 +24,32 @@
           </v-tooltip>
         </v-flex>
         <v-flex xs6>
-          <v-btn
-            v-if="hasBackup"
-            :disabled="!hasBackup"
-            block
-            color="accent"
-            small
-            outline
-            @click="restoreBackup" >
-            <v-icon>restore_from_trash</v-icon>&nbsp;Restore
-          </v-btn>
-          <v-btn
-            v-else
-            :disabled="disable"
-            block
-            color="error"
-            small
-            outline
-            @click="clearPool" >
-            <v-icon>delete</v-icon>&nbsp;Clear
-          </v-btn>
+          <v-tooltip v-if="hasBackup" top>
+            <v-btn
+              slot="activator"
+              :disabled="!hasBackup"
+              block
+              color="accent"
+              small
+              outline
+              @click="restoreBackup" >
+              <v-icon>restore_from_trash</v-icon>&nbsp;Restore
+            </v-btn>
+            <span>Restore previous pool</span>
+          </v-tooltip>
+          <v-tooltip v-else top>
+            <v-btn
+              slot="activator"
+              :disabled="disable"
+              block
+              color="error"
+              small
+              outline
+              @click="clearPool" >
+              <v-icon>delete</v-icon>&nbsp;Clear
+            </v-btn>
+            <span>Clear pool</span>
+          </v-tooltip>
         </v-flex>
       </v-layout>
       <v-list subheader>

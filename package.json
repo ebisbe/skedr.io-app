@@ -50,7 +50,7 @@
     "lint-staged": "^7.2.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
-    "vue-cli-plugin-vuetify": "^0.1.4",
+    "vue-cli-plugin-vuetify": "^0.2.0",
     "vue-template-compiler": "^2.5.16",
     "webpack-bundle-analyzer": "^3.0.2"
   },

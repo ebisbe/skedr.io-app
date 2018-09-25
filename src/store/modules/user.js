@@ -1,4 +1,5 @@
 import { Auth, JS, API } from 'aws-amplify'
+import LogRocket from 'logrocket'
 
 export const state = {
   user: null,
@@ -42,12 +43,16 @@ export const actions = {
     API.post(process.env.VUE_APP_API_NAME, '/oauth/user', payload)
     return !JS.isEmpty(data.verified) ? true : false
   },
-  getAuthenticated: async ({ commit }, to) => {
+  getAuthenticated: async ({ commit, state }, to) => {
     try {
       const user = await Auth.currentAuthenticatedUser()
       const credentials = await Auth.currentCredentials()
       commit('setUser', user)
       commit('setUserId', credentials.identityId)
+      LogRocket.identify(state.username, {
+        name: user.attributes.name,
+        email: user.attributes.email
+      })
     } catch (err) {
       commit('setUser', null)
       if (to.matched.some(record => record.meta.requiresAuth)) {

@@ -25,10 +25,18 @@ const isProd = process.env.NODE_ENV === 'production'
 
 import Raven from 'raven-js'
 import RavenVue from 'raven-js/plugins/vue'
+import LogRocket from 'logrocket'
 if (isProd) {
+  LogRocket.init('zye3nm/skedrio-prod')
+
   Raven.config(process.env.VUE_APP_SENTRY)
     .addPlugin(RavenVue, Vue)
     .install()
+
+  Raven.setDataCallback(function(data) {
+    data.extra.sessionURL = LogRocket.sessionURL
+    return data
+  })
 }
 
 Vue.config.productionTip = false

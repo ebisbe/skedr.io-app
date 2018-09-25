@@ -3,10 +3,15 @@ import Vuex from 'vuex'
 
 import modules from './modules'
 Vue.use(Vuex)
+import LogRocket from 'logrocket'
+import createPlugin from 'logrocket-vuex'
 
+const logrocketPlugin = createPlugin(LogRocket)
 const debug = process.env.NODE_ENV !== 'production'
+
 const store = new Vuex.Store({
   modules,
+  plugins: [logrocketPlugin],
   strict: debug,
   state: {
     rightDrawer: window.innerWidth > 1260,

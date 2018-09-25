@@ -8,7 +8,7 @@ export const Auth = {
   },
   currentAuthenticatedUser() {
     if (this.error) throw new Error('Not authenticated')
-    else return Promise.resolve({ user: 'enric' })
+    else return Promise.resolve({ user: 'enric', attributes: { name: 'name', email: 'email' } })
   },
   currentCredentials() {
     return Promise.resolve({ identityId: '12345' })

@@ -59,9 +59,9 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "frontend": "decoralyte",
+  "frontend": "Skedr.io APP",
   "gitHooks": {
-    "pre-commit": "lint-staged"
+    "pre-commit": "yarn test:unit && lint-staged"
   },
   "lint-staged": {
     "*.js": [

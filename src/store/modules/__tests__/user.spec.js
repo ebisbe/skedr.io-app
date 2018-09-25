@@ -89,12 +89,18 @@ describe('Store user.js', () => {
 
     it('validates current user is still authenticated', async () => {
       const store = {
-        commit: jest.fn()
+        commit: jest.fn(),
+        state: {
+          username: 'username'
+        }
       }
       Auth.error = false
       const path = await actions.getAuthenticated(store, {})
       expect(store.commit).toHaveBeenCalledTimes(2)
-      expect(store.commit).toHaveBeenNthCalledWith(1, 'setUser', { user: 'enric' })
+      expect(store.commit).toHaveBeenNthCalledWith(1, 'setUser', {
+        attributes: { email: 'email', name: 'name' },
+        user: 'enric'
+      })
       expect(store.commit).toHaveBeenNthCalledWith(2, 'setUserId', '12345')
       expect(path).toBe(null)
     })

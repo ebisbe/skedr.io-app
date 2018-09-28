@@ -57,6 +57,7 @@
                       autocomplete="username"
                       prepend-icon="person"
                       min="1"
+                      class="data-hj-whitelist"
                       required
                     />
                     <v-text-field
@@ -93,6 +94,7 @@
                       :rules="[rules.numbers]"
                       label="Code"
                       counter="6"
+                      class="data-hj-whitelist"
                     />
                     <div
                       v-show="showResendButton"
@@ -242,7 +244,7 @@ export default {
       this.showResendButton = false
       this.protectedUI = true
       try {
-        await Auth.confirmSignUp(this.user, this.code)
+        await Auth.confirmSignUp(this.user, this.code.trim())
         await Auth.signIn(this.user, this.form.password)
         const payload = {
           body: { userId: this.userId, email: this.form.email.toLowerCase() }

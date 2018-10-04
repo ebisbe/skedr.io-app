@@ -1,7 +1,7 @@
 export const state = {
   stack: [],
   status: false,
-  value: null
+  value: ''
 }
 
 export const mutations = {

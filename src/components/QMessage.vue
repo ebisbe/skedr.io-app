@@ -1,17 +1,10 @@
 <template>
   <v-snackbar
     v-model="active"
-    :timeout="4000"
-    v-bind="$attrs">
+    :timeout="7000"
+    v-bind="$attrs"
+    :multi-line="message.length > 80">
     {{ message }}
-    <v-btn
-      dark
-      color="accent"
-      flat
-      @click="active = false"
-    >
-      Close
-    </v-btn>
   </v-snackbar>
 </template>
 

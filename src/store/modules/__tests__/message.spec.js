@@ -33,7 +33,7 @@ describe('Message store', () => {
     it('shifts a message from the stack', () => {
       const state = {
         stack: ['message1', 'message2'],
-        value: null
+        value: ''
       }
 
       mutations.shift(state)
@@ -43,18 +43,21 @@ describe('Message store', () => {
       expect(state.value).toBe('message2')
 
       mutations.shift(state)
-      expect(state.value).toBe(undefined)
+      expect(state.value).toBe('')
     })
 
     it('switch status', () => {
       const state = {
-        status: false
+        status: false,
+        value: 'Something'
       }
 
       mutations.switchStatus(state, true)
       expect(state.status).toBe(true)
+      expect(state.value).toBe('Something')
       mutations.switchStatus(state, false)
       expect(state.status).toBe(false)
+      expect(state.value).toBe('')
     })
   })
 

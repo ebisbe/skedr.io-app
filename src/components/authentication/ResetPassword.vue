@@ -99,8 +99,7 @@ export default {
     resetCode: async function() {
       let message
       try {
-        const response = await Auth.forgotPassword(this.form.username)
-        console.log(response)
+        await Auth.forgotPassword(this.form.username)
         message = 'Code sent to your email'
         this.firstPart = true
       } catch (err) {

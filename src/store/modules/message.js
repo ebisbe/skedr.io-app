@@ -10,10 +10,13 @@ export const mutations = {
       stack.push(message)
     }
   },
-  shift: state => (state.value = state.stack.shift()),
+  shift: state => {
+    const shiftedVal = state.stack.shift()
+    state.value = typeof shiftedVal === 'undefined' ? '' : shiftedVal
+  },
   switchStatus: (state, newStatus) => {
     state.status = newStatus
-    if (!newStatus) state.value = null
+    if (!newStatus) state.value = ''
   }
 }
 

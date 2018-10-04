@@ -61,7 +61,7 @@
   ],
   "frontend": "Skedr.io APP",
   "gitHooks": {
-    "pre-commit": "yarn test:unit && lint-staged"
+    "pre-commit": "lint-staged && yarn test:unit"
   },
   "lint-staged": {
     "*.js": [

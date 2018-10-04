@@ -131,7 +131,7 @@ export default {
     logout: async function() {
       try {
         await Auth.signOut()
-        this.$router.push('/login')
+        this.$router.push({ name: 'Login' })
       } catch (err) {
         this.$store.dispatch('message/add', err.message)
       }

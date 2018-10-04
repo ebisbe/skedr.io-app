@@ -19,6 +19,9 @@ export const validations = {
         numbers: value => {
           return /[0-9]+/.test(value) || message
         },
+        numeric: value => {
+          return /^[0-9]+$/.test(value) || 'Use only numbers.'
+        },
         specialCharacters: value => {
           return /[!@#$%^&*()_+={}[\]\\;:.,|]+/.test(value) || message
         },

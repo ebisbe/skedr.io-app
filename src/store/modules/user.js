@@ -43,7 +43,7 @@ export const actions = {
     API.post(process.env.VUE_APP_API_NAME, '/oauth/user', payload)
     return !JS.isEmpty(data.verified) ? true : false
   },
-  getAuthenticated: async ({ commit, state }, to) => {
+  currentAuthenticatedUser: async ({ commit, state }) => {
     try {
       const user = await Auth.currentAuthenticatedUser()
       const credentials = await Auth.currentCredentials()
@@ -55,10 +55,8 @@ export const actions = {
       })
     } catch (err) {
       commit('setUser', null)
-      if (to.matched.some(record => record.meta.requiresAuth)) {
-        return '/login'
-      }
+      return false
     }
-    return null
+    return true
   }
 }

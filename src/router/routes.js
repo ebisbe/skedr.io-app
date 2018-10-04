@@ -5,8 +5,10 @@ const RightBar = () => import(/* webpackChunkName: "bar" */ '@/components/layout
 
 const Group = () => import(/* webpackChunkName: "group" */ '../pages/GroupPage.vue')
 const GroupView = () => import(/* webpackChunkName: "group" */ '../pages/GroupViewPage.vue')
-const Login = () => import(/* webpackChunkName: "signin" */ '../pages/LoginPage.vue')
-const Signup = () => import(/* webpackChunkName: "signin" */ '../pages/SignupPage.vue')
+const LoginPage = () => import(/* webpackChunkName: "signin" */ '../pages/LoginPage.vue')
+const LoginUser = () => import(/* webpackChunkName: "signin" */ '../components/authentication/LoginUser.vue')
+const ResetPassword = () => import(/* webpackChunkName: "signin" */ '../components/authentication/ResetPassword.vue')
+const SignupUser = () => import(/* webpackChunkName: "signin" */ '../components/authentication/SignupUser.vue')
 const Scheduled = () => import(/* webpackChunkName: "scheduled" */ '../pages/ScheduledPage.vue')
 const Photostream = () => import(/* webpackChunkName: "photostream" */ '../pages/PhotostreamPage.vue')
 
@@ -64,21 +66,27 @@ export default [
     }
   },
   {
-    path: '/login',
-    name: 'Login',
+    path: '/auth',
+    children: [
+      {
+        path: 'login',
+        name: 'Login',
+        component: LoginUser
+      },
+      {
+        path: 'reset-password',
+        name: 'ResetPassword',
+        component: ResetPassword
+      },
+      {
+        path: 'sign-up',
+        name: 'Signup',
+        component: SignupUser
+      }
+    ],
+    redirect: { name: 'Login' },
     components: {
-      default: Login,
-      toolbar: null
-    },
-    meta: {
-      hash: colors.deepPurple.base
-    }
-  },
-  {
-    path: '/signup',
-    name: 'Signup',
-    components: {
-      default: Signup,
+      default: LoginPage,
       toolbar: null
     },
     meta: {
@@ -87,6 +95,6 @@ export default [
   },
   {
     path: '*',
-    redirect: '/login'
+    redirect: { name: 'Login' }
   }
 ]

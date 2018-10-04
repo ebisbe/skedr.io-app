@@ -63,28 +63,15 @@ describe('Store user.js', () => {
       expect(response).toEqual(true)
     })
 
-    it('validates current user is not authenticated and needs to redirect to /login', async () => {
-      const store = {
-        commit: jest.fn()
-      }
-      const to = { matched: [{ meta: { requiresAuth: true } }] }
-
-      const path = await actions.getAuthenticated(store, to)
-      expect(store.commit).toHaveBeenCalledTimes(1)
-      expect(store.commit).toHaveBeenCalledWith('setUser', null)
-      expect(path).toBe('/login')
-    })
-
     it('validates current user is not authenticated', async () => {
       const store = {
         commit: jest.fn()
       }
-      const to = { matched: [{ meta: { requiresAuth: false } }] }
 
-      const path = await actions.getAuthenticated(store, to)
+      const response = await actions.currentAuthenticatedUser(store)
       expect(store.commit).toHaveBeenCalledTimes(1)
       expect(store.commit).toHaveBeenCalledWith('setUser', null)
-      expect(path).toBe(null)
+      expect(response).toBe(false)
     })
 
     it('validates current user is still authenticated', async () => {
@@ -95,14 +82,14 @@ describe('Store user.js', () => {
         }
       }
       Auth.error = false
-      const path = await actions.getAuthenticated(store, {})
+      const response = await actions.currentAuthenticatedUser(store, {})
       expect(store.commit).toHaveBeenCalledTimes(2)
       expect(store.commit).toHaveBeenNthCalledWith(1, 'setUser', {
         attributes: { email: 'email', name: 'name' },
         user: 'enric'
       })
       expect(store.commit).toHaveBeenNthCalledWith(2, 'setUserId', '12345')
-      expect(path).toBe(null)
+      expect(response).toBe(true)
     })
   })
 })

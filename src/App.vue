@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     notLogged() {
-      return this.$route.name === 'Login' || this.$route.name === 'Signup'
+      return ['Login', 'Signup', 'ResetPassword'].filter(routeName => this.$route.name === routeName).length > 0
     }
   },
   watch: {

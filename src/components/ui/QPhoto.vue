@@ -47,7 +47,7 @@
                 {{ photo.views }}
               </a>
               <span>
-                <v-icon v-html="bookmark"/>
+                <v-icon>perm_media</v-icon>
                 {{ groups.length }}
               </span>
               <span>
@@ -112,9 +112,6 @@ export default {
   computed: {
     photoLink() {
       return `https://www.flickr.com/photos/${this.userId}/${this.photo.photoId}`
-    },
-    bookmark() {
-      return this.groups.length > 0 ? 'bookmark' : 'bookmark_border'
     },
     star() {
       return this.totalFavs > 0 ? 'star' : 'star_border'

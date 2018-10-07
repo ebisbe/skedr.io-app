@@ -127,6 +127,8 @@ export default {
         .then(() => {
           this.status = 2
           this.disabled = true
+          this.$store.dispatch('message/add', 'Messsage sent. Thanks for your feedback!')
+          this.$emit('close')
         })
         .catch(({ response: { data: { error = 'Some error happened!' } } }) => {
           this.$store.dispatch('message/add', error)

@@ -38,22 +38,32 @@
           <v-list-tile-content>
             <v-list-tile-title v-html="photo.title" />
             <v-list-tile-sub-title>
-              <a
-                :href="photoLink"
-                target="_blank"
-                class="white--text"
-                @click.stop>
-                <v-icon>visibility</v-icon>
-                {{ photo.views }}
-              </a>
-              <span>
-                <v-icon>perm_media</v-icon>
-                {{ groups.length }}
-              </span>
-              <span>
-                <v-icon v-html="star"/>
-                {{ totalFavs }}
-              </span>
+              <v-tooltip bottom>
+                <a
+                  slot="activator"
+                  :href="photoLink"
+                  target="_blank"
+                  class="white--text"
+                  @click.stop>
+                  <v-icon>visibility</v-icon>
+                  {{ photo.views }}
+                </a>
+                <span>Views</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <span slot="activator">
+                  <v-icon>perm_media</v-icon>
+                  {{ groups.length }}
+                </span>
+                <span>Groups added</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <span>Favorites</span>
+                <span slot="activator">
+                  <v-icon v-html="star"/>
+                  {{ totalFavs }}
+                </span>
+              </v-tooltip>
             </v-list-tile-sub-title>
           </v-list-tile-content>
           <v-list-tile-action>

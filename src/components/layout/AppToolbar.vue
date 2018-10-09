@@ -103,8 +103,8 @@ export default {
           name: 'Scheduled photos'
         },
         {
-          icon: 'view_day',
-          name: 'Group'
+          icon: 'perm_media',
+          name: 'Groups'
         }
       ]
     }

@@ -14,7 +14,7 @@ const Photostream = () => import(/* webpackChunkName: "photostream" */ '../pages
 
 export default [
   {
-    path: '/group',
+    path: '/groups',
     name: 'Group',
     components: {
       default: Group,
@@ -27,7 +27,7 @@ export default [
     }
   },
   {
-    path: '/group/:groupId',
+    path: '/groups/:groupId',
     name: 'Group View',
     components: {
       default: GroupView,

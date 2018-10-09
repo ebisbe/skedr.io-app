@@ -37,7 +37,7 @@
         <v-list-tile>
           <v-list-tile-content>
             <v-list-tile-title v-html="photo.title" />
-            <v-list-tile-sub-title>
+            <v-list-tile-sub-title style="display:flex">
               <v-tooltip bottom>
                 <a
                   slot="activator"
@@ -50,6 +50,7 @@
                 </a>
                 <span>Views</span>
               </v-tooltip>
+              <v-spacer/>
               <v-tooltip bottom>
                 <span slot="activator">
                   <v-icon>perm_media</v-icon>
@@ -57,6 +58,7 @@
                 </span>
                 <span>Groups added</span>
               </v-tooltip>
+              <v-spacer/>
               <v-tooltip bottom>
                 <span>Favorites</span>
                 <span slot="activator">

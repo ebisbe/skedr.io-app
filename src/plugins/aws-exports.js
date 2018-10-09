@@ -5,7 +5,9 @@ const awsmobile = {
       id: process.env.VUE_APP_API_ID,
       name: 'production-skedr-api',
       description: '',
-      endpoint: `https://${process.env.VUE_APP_API_ID}.execute-api.eu-west-1.amazonaws.com/production`,
+      endpoint: `https://${process.env.VUE_APP_API_ID}.execute-api.eu-west-1.amazonaws.com/${
+        process.env.VUE_APP_STAGE
+      }`,
       region: 'eu-west-1',
       paths: [
         '/graphiql',

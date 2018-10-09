@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 const Toolbar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/AppToolbar.vue')
 const RightBar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/AppRightBar.vue')
 
-const Group = () => import(/* webpackChunkName: "group" */ '../pages/GroupPage.vue')
+const Group = () => import(/* webpackChunkName: "group" */ '../pages/GroupListPage.vue')
 const GroupView = () => import(/* webpackChunkName: "group" */ '../pages/GroupViewPage.vue')
 const LoginPage = () => import(/* webpackChunkName: "signin" */ '../pages/LoginPage.vue')
 const LoginUser = () => import(/* webpackChunkName: "signin" */ '../components/authentication/LoginUser.vue')

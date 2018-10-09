@@ -2,11 +2,26 @@ import { shallowMount } from '@vue/test-utils'
 import Tag from '@/classes/Tag'
 import comp from '../GroupViewPage'
 import Vue from 'vue'
+import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 
 Vue.use(Vuetify)
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  modules: {
+    user: {
+      namespaced: true,
+      getters: {
+        userId: () => 'text'
+      }
+    }
+  }
+})
+
 const createCmp = propsData =>
   shallowMount(comp, {
+    store,
     propsData,
     mocks: {
       $route: {
@@ -17,7 +32,7 @@ const createCmp = propsData =>
     }
   })
 
-describe('GroupView.vue', () => {
+describe('GroupViewPage.vue', () => {
   describe('Watch', () => {
     it('gets tags from photos ', () => {
       const photos = [{ tags: 'tag2 tag1' }, { tags: 'tag1 tag3' }, { tags: 'tag1 tag3' }]
@@ -37,18 +52,6 @@ describe('GroupView.vue', () => {
       expect(wrapper.vm.tags[1].name).toBe('tag3')
       expect(wrapper.vm.tags[1].count).toBe(2)
       expect(wrapper.vm.tags[1].total).toBe(3)
-    })
-  })
-
-  describe('Computed Properties', () => {
-    it('filters tags with autoimported ones', () => {
-      const tags = [new Tag('tag1'), new Tag('tag2')]
-      const autoimportTags = ['tag1']
-      const wrapper = createCmp({})
-      wrapper.setData({ tags, autoimportTags })
-      expect(wrapper.vm.selectedTags.length).toBe(1)
-      expect(wrapper.vm.selectedTags[0]).toBeInstanceOf(Tag)
-      expect(wrapper.vm.selectedTags[0].name).toBe('tag1')
     })
   })
 })

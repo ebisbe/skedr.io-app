@@ -8,7 +8,7 @@
           icon
           ripple
           flat
-          @click.stop="$router.push({name: 'Group'})">
+          @click.stop="$router.push({name: 'Groups'})">
           <v-icon color="grey lighten-1">keyboard_arrow_left</v-icon>
         </v-btn> <span v-html="title"/>
       </h1>

@@ -81,7 +81,6 @@ import Group from '@/classes/Group'
 
 const itemsPerPage = 300
 export default {
-  name: 'Group',
   components: { GroupList, QEmpty, QPush },
   data() {
     return {

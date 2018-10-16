@@ -21,6 +21,20 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-divider/>
+        <v-subheader>Articles</v-subheader>
+        <v-list-tile
+          v-for="article in articles"
+          :key="article.name"
+          :href="article.link"
+          ripple
+          target="_blank">
+          <v-list-tile-action>
+            <v-icon>link</v-icon>
+          </v-list-tile-action> <v-list-tile-content >
+            <v-list-tile-title v-html="article.name"/>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-divider/>
         <v-list-tile ripple @click="suggestionDialog = true">
           <v-list-tile-action>
             <v-icon>announcement</v-icon>
@@ -105,6 +119,16 @@ export default {
         {
           icon: 'perm_media',
           name: 'Groups'
+        }
+      ],
+      articles: [
+        {
+          name: 'Sharing an existing photo',
+          link: 'https://skedr.io/articles/share-single-photo'
+        },
+        {
+          name: 'Group tagging',
+          link: 'https://skedr.io/articles/group-tagging'
         }
       ]
     }

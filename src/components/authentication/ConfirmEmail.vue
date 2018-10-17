@@ -1,14 +1,15 @@
 <template>
   <div>
     <v-toolbar dark color="primary">
-      <v-toolbar-title>Reset password</v-toolbar-title>
+      <v-toolbar-title>Confirm email</v-toolbar-title>
     </v-toolbar>
     <v-card-text>
+      <p v-show="!firstPart">To confirm your email we need your Flickr ID. You can go to <a href="https://www.flickr.com/services/api/explore/flickr.people.getInfo" target="_blank">https://www.flickr.com/services/api/explore/flickr.people.getInfo</a> and copy the value under 'Your user ID:'. <br>If you have any issue send us and email at <a href="mailto:info@skedr.io">info@skedr.io</a></p>
       <v-text-field
         v-model="form.username"
         :disabled="protectedUI || firstPart"
-        :rules="[rules.required, rules.email]"
-        label="Enter your email"
+        :rules="[rules.required, rules.flickrId]"
+        label="Enter your flickr ID"
         autocomplete="username"
         class="data-hj-whitelist"
         required
@@ -16,7 +17,7 @@
       />
       <transition name="fade">
         <div v-show="firstPart">
-          <p>We have sent you an email with a validation code. Please paste the code here to change your password. If you haven't received in a few minutes check your spam folder.</p>
+          <p>We have sent you an email with a validation code. Please paste the code here to confirm your account. If you haven't received in a few minutes check your spam folder.</p>
           <v-text-field
             v-model="form.code"
             :disabled="protectedUI"
@@ -28,30 +29,19 @@
             required
             @update:error="hasError('Code', $event)"
           />
-          <v-text-field
-            v-model="form.password"
-            :disabled="protectedUI"
-            :rules="[rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
-            :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
-            :type="passVisibility ? 'password' : 'text'"
-            autocomplete="password"
-            label="Enter your new password"
-            required
-            @click:append="() => (passVisibility = !passVisibility)"
-            @update:error="hasError('Password', $event)"
-          />
         </div>
       </transition>
     </v-card-text>
     <v-card-actions>
       <v-spacer/>
-      <v-btn :to="{name:'Login'}">cancel</v-btn>
+      <v-btn :to="{name:'Signup'}">cancel</v-btn>
       <v-btn
         :disabled="!formIsValid || protectedUI"
         text-xs-right
         color="primary"
         @click="submit">
-        Reset
+        <span v-if="!firstPart">Send</span>
+        <span v-else>Confirm</span>
       </v-btn>
     </v-card-actions>
   </div>
@@ -67,8 +57,6 @@ export default {
     const defaultForm = Object.freeze({
       username: '',
       validUsername: false,
-      password: '',
-      validPassword: false,
       code: '',
       validCode: false
     })
@@ -82,24 +70,24 @@ export default {
   },
   computed: {
     formIsValid() {
-      return (
-        (!this.firstPart && this.form.validUsername) ||
-        (this.firstPart && this.form.validPassword && this.form.validCode)
-      )
+      return (!this.firstPart && this.form.validUsername) || (this.firstPart && this.form.validCode)
+    },
+    username() {
+      return encodeURIComponent(this.form.username)
     }
   },
   methods: {
     submit() {
       if (this.firstPart) {
-        this.changePassword()
+        this.confirmAccount()
       } else {
-        this.resetCode()
+        this.confirmEmail()
       }
     },
-    resetCode: async function() {
+    confirmEmail: async function() {
       let message
       try {
-        await Auth.forgotPassword(this.form.username)
+        await Auth.resendSignUp(this.username)
         message = 'Code sent to your email'
         this.firstPart = true
       } catch (err) {
@@ -107,17 +95,14 @@ export default {
       }
       this.$store.dispatch('message/add', message)
     },
-    changePassword: async function() {
+    confirmAccount: async function() {
       let message
       try {
-        await Auth.forgotPasswordSubmit(this.form.username, this.form.code, this.form.password)
-        message = 'Password updated successfuly'
+        await Auth.confirmSignUp(this.username, this.form.code.trim())
+        message = 'Account has been confirmed'
         this.$router.push({ name: 'Login' })
       } catch (err) {
         message = err.message
-        if (err.code === 'ExpiredCodeException') {
-          this.firstPart = false
-        }
       }
       this.$store.dispatch('message/add', message)
     },

@@ -78,33 +78,24 @@
             <v-text-field
               v-model="code"
               :disabled="disableAllInputs"
-              :rules="[rules.numbers]"
+              :rules="[rules.numeric]"
               label="Code"
               counter="6"
               class="data-hj-whitelist"
             />
-            <div
-              v-show="showResendButton"
-              class="form-group">
-              <button
-                class="btn btn-sm btn-info"
-                @click.stop.prevent="resendCode">Resend
-                confirmation code
-              </button>
-            </div>
             <v-btn
               :disabled="protectedUI || disableAllInputs"
               type="submit"
               color="primary">
-              Confirm code
+              Confirm
             </v-btn>
-            <v-btn flat>Cancel</v-btn>
+            <v-btn color="primary" @click.stop.prevent="resendCode">Resend</v-btn>
           </v-form>
         </v-stepper-content>
       </v-stepper>
     </div>
-    <p class="text-xs-center mb-0 grey--text subheading pb-2">Already have an account? <router-link :to="{name: 'Login'}">Log in</router-link></p>
-    <p class="text-xs-center mb-0 grey--text subheading pb-2">Or try our <router-link :to="{name:'Login', params: {demo: true}}">Demo Account</router-link></p>
+    <p v-show="step === 1" class="text-xs-center mb-0 grey--text subheading pb-2"><router-link :to="{name: 'ConfirmEmail'}">Confirm Email</router-link> | Try our <router-link :to="{name:'Login', params: {demo: true}}">Demo Account</router-link></p>
+    <p v-show="step === 1" class="text-xs-center mb-0 grey--text subheading">Already have an account? <router-link :to="{name: 'Login'}">Log in</router-link></p>
   </div>
 
 </template>
@@ -133,7 +124,6 @@ export default {
       queryString: {},
       button: 'Connect',
       disableAllInputs: false,
-      showResendButton: false,
       dialog: true
     }
   },
@@ -224,7 +214,6 @@ export default {
       this.protectedUI = false
     },
     validateCode: async function() {
-      this.showResendButton = false
       this.protectedUI = true
       try {
         await Auth.confirmSignUp(this.user, this.code.trim())
@@ -238,20 +227,17 @@ export default {
       } catch (err) {
         this.$store.dispatch('message/add', err.message)
         this.protectedUI = false
-        // TODO: should it be checked for `CodeMismatchException`?
-        if (err.code === 'ExpiredCodeException') {
-          this.showResendButton = true
-        }
       }
     },
     resendCode: async function() {
+      let message
       try {
-        await Auth.resendSignUp(this.username)
-        this.showResendButton = false
-        this.$store.dispatch('message/add', 'Confirmation code has been successfuly sent')
+        await Auth.resendSignUp(this.user)
+        message = 'Confirmation code has been successfuly sent'
       } catch (err) {
-        this.$store.dispatch('message/add', err.message)
+        message = err
       }
+      this.$store.dispatch('message/add', message)
     }
   }
 }

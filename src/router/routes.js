@@ -7,8 +7,11 @@ const Group = () => import(/* webpackChunkName: "group" */ '../pages/GroupListPa
 const GroupView = () => import(/* webpackChunkName: "group" */ '../pages/GroupViewPage.vue')
 const LoginPage = () => import(/* webpackChunkName: "signin" */ '../pages/LoginPage.vue')
 const LoginUser = () => import(/* webpackChunkName: "signin" */ '../components/authentication/LoginUser.vue')
-const ResetPassword = () => import(/* webpackChunkName: "signin" */ '../components/authentication/ResetPassword.vue')
-const SignupUser = () => import(/* webpackChunkName: "signin" */ '../components/authentication/SignupUser.vue')
+const ResetPassword = () =>
+  import(/* webpackChunkName: "resetPassword" */ '../components/authentication/ResetPassword.vue')
+const SignupUser = () => import(/* webpackChunkName: "signup" */ '../components/authentication/SignupUser.vue')
+const ConfirmEmail = () =>
+  import(/* webpackChunkName: "confirmEmail" */ '../components/authentication/ConfirmEmail.vue')
 const Scheduled = () => import(/* webpackChunkName: "scheduled" */ '../pages/ScheduledPage.vue')
 const Photostream = () => import(/* webpackChunkName: "photostream" */ '../pages/PhotostreamPage.vue')
 
@@ -82,6 +85,11 @@ export default [
         path: 'sign-up',
         name: 'Signup',
         component: SignupUser
+      },
+      {
+        path: 'confirm-email',
+        name: 'ConfirmEmail',
+        component: ConfirmEmail
       }
     ],
     redirect: { name: 'Login' },

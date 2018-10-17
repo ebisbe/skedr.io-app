@@ -27,6 +27,9 @@ export const validations = {
         },
         length: value => {
           return value.length >= 8 || message
+        },
+        flickrId: value => {
+          return /[0-9]+@N[0-9]{2}/.test(value) || 'Incorrect Flickr ID. A Flickr Id is like: 123456789@N01'
         }
       }
     }

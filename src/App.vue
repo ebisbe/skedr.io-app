@@ -29,7 +29,10 @@ export default {
   },
   computed: {
     notLogged() {
-      return ['Login', 'Signup', 'ResetPassword'].filter(routeName => this.$route.name === routeName).length > 0
+      return (
+        ['Login', 'Signup', 'ResetPassword', 'ConfirmEmail'].filter(routeName => this.$route.name === routeName)
+          .length > 0
+      )
     }
   },
   watch: {
@@ -114,5 +117,14 @@ export default {
 
 .solid_hr_line {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

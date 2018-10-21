@@ -89,7 +89,7 @@
               color="primary">
               Confirm
             </v-btn>
-            <v-btn color="primary" @click.stop.prevent="resendCode">Resend</v-btn>
+            <v-btn @click.stop.prevent="resendCode">Resend</v-btn>
           </v-form>
         </v-stepper-content>
       </v-stepper>
@@ -139,7 +139,7 @@ export default {
       }
       this.protectedUI = true
       this.button = 'Validating account'
-      const myInit = {
+      const payload = {
         body: {
           userId: this.userId,
           oauthToken: oauth_token,
@@ -147,10 +147,10 @@ export default {
         }
       }
       try {
-        const { userId, firstName, lastName, email } = await API.post(
+        const { userId, firstName = '', lastName = '', email } = await API.post(
           process.env.VUE_APP_API_NAME,
           '/oauth/callback',
-          myInit
+          payload
         )
         this.userId = userId
         this.firstName = firstName
@@ -215,6 +215,7 @@ export default {
     },
     validateCode: async function() {
       this.protectedUI = true
+      let message
       try {
         await Auth.confirmSignUp(this.user, this.code.trim())
         await Auth.signIn(this.user, this.form.password)
@@ -222,12 +223,13 @@ export default {
           body: { userId: this.userId, email: this.form.email.toLowerCase() }
         }
         await API.post(process.env.VUE_APP_API_NAME, '/oauth/user', payload)
-        this.$store.dispatch('message/add', 'Code validated')
+        message = 'Code validated'
         this.$router.push({ name: 'Photostream' })
       } catch (err) {
-        this.$store.dispatch('message/add', err.message)
         this.protectedUI = false
+        message = err.message
       }
+      this.$store.dispatch('message/add', message)
     },
     resendCode: async function() {
       let message
@@ -235,7 +237,7 @@ export default {
         await Auth.resendSignUp(this.user)
         message = 'Confirmation code has been successfuly sent'
       } catch (err) {
-        message = err
+        message = err.message
       }
       this.$store.dispatch('message/add', message)
     }

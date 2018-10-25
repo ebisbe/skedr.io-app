@@ -1,0 +1,15 @@
+ query autoimportTagList($userId: ID!) {
+  autoimportTagList(userId: $userId) {
+    groupId
+    tags
+    group{
+      title
+      icon
+      poolCount
+      members
+      throttleMode
+      throttleCount
+      throttleRemaining
+    }
+  }
+}

@@ -1,10 +1,11 @@
 import colors from 'vuetify/es5/util/colors'
 
-const Toolbar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/AppToolbar.vue')
-const RightBar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/AppRightBar.vue')
+const toolbar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/AppToolbar.vue')
+const rightBar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/AppRightBar.vue')
 
 const Group = () => import(/* webpackChunkName: "group" */ '../pages/GroupListPage.vue')
 const GroupView = () => import(/* webpackChunkName: "group" */ '../pages/GroupViewPage.vue')
+const AutoimporTags = () => import(/* webpackChunkName: "autoimportTags" */ '../pages/AutoimportTagsPage.vue')
 const LoginPage = () => import(/* webpackChunkName: "signin" */ '../pages/LoginPage.vue')
 const LoginUser = () => import(/* webpackChunkName: "signin" */ '../components/authentication/LoginUser.vue')
 const ResetPassword = () =>
@@ -21,8 +22,21 @@ export default [
     name: 'Groups',
     components: {
       default: Group,
-      toolbar: Toolbar,
-      rightBar: RightBar
+      toolbar,
+      rightBar
+    },
+    meta: {
+      requiresAuth: true,
+      hash: colors.lightGreen.base
+    }
+  },
+  {
+    path: '/autoimport-tags',
+    name: 'AutoimportTags',
+    components: {
+      default: AutoimporTags,
+      toolbar,
+      rightBar
     },
     meta: {
       requiresAuth: true,
@@ -34,8 +48,8 @@ export default [
     name: 'Group View',
     components: {
       default: GroupView,
-      toolbar: Toolbar,
-      rightBar: RightBar
+      toolbar,
+      rightBar
     },
     meta: {
       requiresAuth: true,
@@ -47,8 +61,8 @@ export default [
     name: 'Scheduled photos',
     components: {
       default: Scheduled,
-      toolbar: Toolbar,
-      rightBar: RightBar
+      toolbar,
+      rightBar
     },
     meta: {
       requiresAuth: true,
@@ -60,8 +74,8 @@ export default [
     name: 'Photostream',
     components: {
       default: Photostream,
-      toolbar: Toolbar,
-      rightBar: RightBar
+      toolbar,
+      rightBar
     },
     meta: {
       requiresAuth: true,

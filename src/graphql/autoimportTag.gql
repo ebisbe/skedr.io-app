@@ -1,0 +1,5 @@
+ query autoimportTag($userId: ID!, $groupId: ID!) {
+  autoimportTag(groupId: $groupId, userId: $userId) {
+    tags
+  }
+}

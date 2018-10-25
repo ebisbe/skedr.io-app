@@ -8,9 +8,9 @@
           :tag="tag"
           @selectedTag="selected"/>
       </span>
-      <span 
-        v-else 
-        class="pa-2" 
+      <span
+        v-else
+        class="pa-2"
         style="display:block">
         You don't have any tag selected to autoimport photos to this group
       </span>
@@ -44,7 +44,7 @@ import QChip from '@/components/ui/QChip'
 import QPopup from '@/components/ui/QPopup'
 import QPush from '@/components/ui/QPush'
 import TagsDialogList from '@/components/dialog/TagsDialogList'
-import AUTOIMPORT_TAGS from '@/graphql/autoimportTags.gql'
+import AUTOIMPORT_TAG from '@/graphql/autoimportTag.gql'
 
 export default {
   components: { QChip, QPopup, QPush, TagsDialogList },
@@ -64,20 +64,19 @@ export default {
   },
   data: () => ({
     dialog: false,
-    autoimportTags: []
+    autoimportTag: {}
   }),
   apollo: {
-    autoimportTags: {
-      query: AUTOIMPORT_TAGS,
+    autoimportTag: {
+      query: AUTOIMPORT_TAG,
       variables() {
         return {
           userId: this.userId,
           groupId: this.groupId
         }
       },
-      update: function({ autoimportTags }) {
-        //TODO GraphQl query should be rethinked
-        const response = autoimportTags.length > 0 ? autoimportTags[0].tags : []
+      update: function({ autoimportTag }) {
+        const response = autoimportTag.tags
 
         this.tags.forEach(tag => {
           if (response.indexOf(tag.name) !== -1) {
@@ -90,7 +89,7 @@ export default {
   },
   computed: {
     selectedTags() {
-      return this.tags.filter(tag => this.autoimportTags.indexOf(tag.name) !== -1)
+      return this.tags.filter(tag => this.autoimportTag.indexOf(tag.name) !== -1)
     }
   },
   methods: {
@@ -106,7 +105,7 @@ export default {
     },
     loaded() {
       //this.$apollo.queries.photos.refetch()
-      this.$apollo.queries.autoimportTags.refetch()
+      this.$apollo.queries.autoimportTag.refetch()
       this.dialog = false
     },
     selected(name) {

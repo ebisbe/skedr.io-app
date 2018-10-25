@@ -5,6 +5,8 @@ const plugins = [new ContextReplacementPlugin(/moment[/\\]locale$/, /en/)]
 if (process.env.npm_config_report) {
   plugins.push(new BundleAnalyzerPlugin())
 }
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+plugins.push(new VuetifyLoaderPlugin())
 
 module.exports = {
   chainWebpack: config => {

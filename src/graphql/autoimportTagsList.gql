@@ -6,6 +6,7 @@
       title
       icon
       poolCount
+      photoLimitOptOut
       members
       throttleMode
       throttleCount

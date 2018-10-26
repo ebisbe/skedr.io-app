@@ -8,5 +8,6 @@ query groups($userId: ID!, $offset: Int) {
     throttleMode
     throttleCount
     throttleRemaining
+    photoLimitOptOut
   }
 }

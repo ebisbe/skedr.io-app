@@ -1,46 +1,90 @@
 <template>
   <v-content>
     <v-container
-      v-if="Object.keys(groupedGroups).length"
+      v-if="Object.keys(groups).length"
       fluid
       grid-list-lg>
-      <v-btn @click="showAllGroups = !showAllGroups"><span v-if="showAllGroups">Grouped Mode</span><span v-else>Full List</span></v-btn>
-      <v-flex v-if="!showAllGroups">
-        Total groups: {{ groups.length }}
-        <v-btn
-          :loading="$apolloData.loading === 1"
-          :disabled="$apolloData.loading === 1"
-          @click="showMore">Load more groups</v-btn>
-
-        <v-flex>
-          <v-chip
-            v-for="letter in letters"
-            :key="`selector-${letter}`"
-            :disabled="groupedGroups[letter] === undefined"
-            :color="groupedGroups[letter] ? 'accent' : 'grey'"
-            label
-            outline
-            @click="selLetter = groupedGroups[letter] ? letter : selLetter">
-            {{ letter }}
-          </v-chip>
-        </v-flex>
-      </v-flex>
       <v-layout row wrap>
         <v-flex xs12>
           <v-list
             two-line
             style="background-color: transparent;"
             dense>
-            <v-subheader
-              style="background-color: transparent;"
-              v-html="selLetter"/>
             <v-card>
-              <group-list
-                v-for="(group, i) in groupsList"
-                :group="group"
-                :last-item="groups.length - 1 === i"
-                :key="group.title"
-                @share="share"/>
+              <v-card-title>
+                <v-btn
+                  :loading="$apolloData.loading === 1"
+                  :disabled="$apolloData.loading === 1"
+                  @click="showMore">Load more groups</v-btn>
+                <v-spacer/>
+                <v-text-field
+                  v-model="filterTable"
+                  append-icon="search"
+                  label="Search"
+                  single-line
+                  hide-details
+                />
+              </v-card-title>
+              <v-data-table
+                :headers="headers"
+                :items="groups"
+                :search="filterTable"
+                :loading="loadingTable"
+              >
+                <v-progress-linear
+                  slot="progress"
+                  color="blue"
+                  height="2"
+                  indeterminate/>
+                <template slot="items" slot-scope="props">
+                  <td>
+                    <v-avatar size="30" >
+                      <img :src="props.item.icon" :alt="props.item.title">
+                    </v-avatar>
+                    &nbsp;
+                    <span v-html="props.item.title"/>
+                  </td>
+                  <td class="justify-center">
+                    <v-icon
+                      v-if="props.item.photoLimitOptOut"
+                      color="green"
+                      small>check</v-icon>
+                    <v-icon
+                      v-else
+                      small
+                      color="red">close</v-icon>
+                  </td>
+                  <td >{{ props.item.poolCount }}</td>
+                  <td >{{ props.item.members }}</td>
+                  <td>
+                    <span v-html="props.item.throttleText()"/>&nbsp;
+                    <strong>{{ props.item.throttleMode }}</strong>
+                  </td>
+                  <td >{{ props.item.dateAdded }}</td>
+                  <td class="">
+                    <v-icon
+                      small
+                      class="mr-2"
+                      @click="share(props.item)"
+                    >
+                      share
+                    </v-icon>
+                    <v-icon
+                      small
+                      @click="$router.push({name: 'Group View', params: { groupId: props.item.groupId, title: props.item.title} })"
+                    >
+                      arrow_forward
+                    </v-icon>
+                  </td>
+                </template>
+                <v-alert
+                  slot="no-results"
+                  :value="true"
+                  color="error"
+                  icon="warning">
+                  Your search for "{{ filterTable }}" found no results.
+                </v-alert>
+              </v-data-table>
             </v-card>
           </v-list>
         </v-flex>
@@ -68,70 +112,59 @@
 </template>
 
 <script>
-import GroupList from '@/components/group/GroupList'
 import QEmpty from '@/components/ui/QEmpty'
 import QPush from '@/components/ui/QPush'
-
-import _sortBy from 'lodash/sortBy'
-import _groupBy from 'lodash/groupBy'
 
 import { mapGetters, mapState } from 'vuex'
 import GROUPS_QUERY from '@/graphql/groupsLastPhoto.gql'
 import Group from '@/classes/Group'
+import groupsPayload from '@/mixins/groupsPayload'
 
 const itemsPerPage = 300
 export default {
-  components: { GroupList, QEmpty, QPush },
+  components: { QEmpty, QPush },
+  mixins: [groupsPayload],
   data() {
     return {
       groups: [],
-      letters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
-      selLetter: 'A',
-      savedLegend: '',
       payload: null,
       dialog: false,
       error: false,
       offset: itemsPerPage,
-      showAllGroups: true
+      filterTable: '',
+      loadingTable: false,
+      headers: [
+        {
+          text: 'Title',
+          value: 'title'
+        },
+        { text: 'OptOut', value: 'photoLimitText' },
+        { text: 'Pool', value: 'poolCount' },
+        { text: 'Members', value: 'members' },
+        { text: 'Throttle', sortable: false },
+        { text: 'Last Share', value: 'dateAddedValue', width: '10%' },
+        { text: 'Actions', sortable: false }
+      ]
     }
   },
 
   computed: {
     ...mapGetters({ userId: 'user/userId', poolLength: 'pool/length' }),
     ...mapState(['search']),
-    filteredGroups() {
-      return this.groups.filter(group => group.search(this.search))
-    },
-    groupedGroups() {
-      return _groupBy(this.filteredGroups, 'legend')
-    },
-    listableGroups() {
-      return this.groupedGroups[this.selLetter]
-    },
-    groupsList() {
-      return this.showAllGroups ? this.filteredGroups : this.listableGroups
-    },
     title() {
       return `Sharing Pool (${this.poolLength} elements)`
     }
   },
-  watch: {
-    groupedGroups(value) {
-      if (!value[this.selLetter]) {
-        this.selLetter = Object.keys(value)[0]
-      }
-    }
-  },
   methods: {
-    share({ payload }) {
-      this.payload = payload
+    share(group) {
+      this.payload = this.constructPayload([group])
       this.dialog = true
     },
     closePopUp() {
       this.dialog = false
     },
     showMore() {
-      this.$store.dispatch('message/add', 'Loading more groups...')
+      this.loadingTable = true
       this.offset += itemsPerPage
       // Fetch more data and transform the original result
       this.$apollo.queries.groups.fetchMore({
@@ -146,6 +179,7 @@ export default {
           if (data.fetchMoreResult.userGroups.length !== 0) {
             this.showMore()
           }
+          this.loadingTable = false
           return {
             __typename: previousResult.userGroups.__typename,
             userGroups: [...previousResult.userGroups, ...data.fetchMoreResult.userGroups]
@@ -164,8 +198,7 @@ export default {
           count: itemsPerPage
         }
       },
-      update: data =>
-        data.hasOwnProperty('userGroups') ? _sortBy(data.userGroups.map(group => new Group(group)), ['legend']) : [],
+      update: data => (data.hasOwnProperty('userGroups') ? data.userGroups.map(group => new Group(group)) : []),
       result() {
         //this.showMore()
       },

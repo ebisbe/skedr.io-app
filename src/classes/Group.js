@@ -27,14 +27,19 @@ export default class Group {
     const result = /([A-Z])/gi.exec(this.decodeHtmlEntity(this.title))
     this.legend = result ? result[0].toUpperCase() : 'A'
     this.link = `https://www.flickr.com/groups/${this.groupId}`
+    this.dateAddedValue = this.getLastMomentValue()
     this.dateAdded = this.getLastMoment()
     this.membersPunc = this.membersLadder()
     this.timePunc = this.timeLadder()
     this.punctuation = this.membersPunc + this.timePunc
+
+    this.photoLimitText = this.photoLimitOptOut ? 'OptOut' : 'OptIn'
+    this.photoLimitIcon = this.photoLimitOptOut ? 'create_new_folder' : 'folder'
   }
 
   search = word => {
-    switch (word) {
+    const lowerWord = word.toLowerCase()
+    switch (lowerWord) {
       case ':+2':
         return this.punctuation >= 25
       case ':+1':
@@ -45,10 +50,13 @@ export default class Group {
         return this.punctuation > 0 && this.punctuation < 7
       case ':-2':
         return this.punctuation <= 0
+      case ':optout':
+        return this.photoLimitOptOut === true
+      case ':optin':
+        return this.photoLimitOptOut === false
     }
 
     if (word.length < 3) return true
-    const lowerWord = word.toLowerCase()
     return this.title.toLowerCase().search(lowerWord) >= 0 || this.groupId.toLowerCase().search(lowerWord) >= 0
   }
 
@@ -70,7 +78,7 @@ export default class Group {
     if (!this.isDisabled()) this.selected = !this.selected
   }
 
-  getLastMoment = () => {
+  getLastMomentValue = () => {
     if (
       this.photos === undefined ||
       this.photos === null ||
@@ -79,9 +87,17 @@ export default class Group {
     ) {
       return '-'
     } else {
-      const date = Moment(this.photos[0].rawDateAdded)
-      return date.fromNow(true)
+      return this.photos[0].rawDateAdded
     }
+  }
+
+  getLastMoment = () => {
+    const value = this.getLastMomentValue()
+    if (value === '-') {
+      return '-'
+    }
+    const date = Moment(value)
+    return date.fromNow(true)
   }
 
   decodeHtmlEntity = encodedStr => {

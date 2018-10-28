@@ -12,80 +12,11 @@ describe('Group.js', () => {
     expect(group.title).toBe('group')
     expect(group.selected).toBe(false)
     expect(group.alreadyInGroup).toBe(false)
-    expect(group.legend).toBe('G')
     expect(group.members).toBe(1230000)
     expect(group.poolCount).toBe(1234)
     expect(group.link).toBe('https://www.flickr.com/groups/123456@N00')
     expect(group.icon).toBe('www.flickr.com')
     expect(group.dateAdded).toBe('-')
-  })
-
-  describe('search options and filters', () => {
-    it('has search()', () => {
-      const group = new Group(object)
-
-      expect(group.search('')).toBe(true)
-      expect(group.search('a')).toBe(true)
-      expect(group.search('ab')).toBe(true)
-      expect(group.search('gro')).toBe(true)
-      expect(group.search('@N00')).toBe(true)
-    })
-
-    it('search :-2', () => {
-      object.throttleMode = 'disabled'
-      const group = new Group(object)
-
-      expect(group.search(':-2')).toBe(true)
-      expect(group.search(':-1')).toBe(false)
-      expect(group.search(':0')).toBe(false)
-      expect(group.search(':+1')).toBe(false)
-      expect(group.search(':+2')).toBe(false)
-    })
-
-    it('search :-1', () => {
-      object.members = 1001
-      const group = new Group(object)
-
-      expect(group.search(':-2')).toBe(false)
-      expect(group.search(':-1')).toBe(true)
-      expect(group.search(':0')).toBe(false)
-      expect(group.search(':+1')).toBe(false)
-      expect(group.search(':+2')).toBe(false)
-    })
-
-    it('search :0', () => {
-      const group = new Group(object)
-
-      expect(group.search(':-2')).toBe(false)
-      expect(group.search(':-1')).toBe(false)
-      expect(group.search(':0')).toBe(true)
-      expect(group.search(':+1')).toBe(false)
-      expect(group.search(':+2')).toBe(false)
-    })
-
-    it('search :+1', () => {
-      object.members = 10000
-      object.photos = [{ rawDateAdded: Date.now() - 24 * 216000 }]
-      const group = new Group(object)
-
-      expect(group.search(':-2')).toBe(false)
-      expect(group.search(':-1')).toBe(false)
-      expect(group.search(':0')).toBe(false)
-      expect(group.search(':+1')).toBe(true)
-      expect(group.search(':+2')).toBe(false)
-    })
-
-    it('search :+2', () => {
-      object.members = 100000
-      object.photos = [{ rawDateAdded: Date.now() - 24 * 216000 }]
-      const group = new Group(object)
-
-      expect(group.search(':-2')).toBe(false)
-      expect(group.search(':-1')).toBe(false)
-      expect(group.search(':0')).toBe(false)
-      expect(group.search(':+1')).toBe(false)
-      expect(group.search(':+2')).toBe(true)
-    })
   })
 
   it('has throttleText() with "∞"', () => {
@@ -147,45 +78,6 @@ describe('Group.js', () => {
     const group = new Group(object)
 
     expect(group.dateAdded).toBe('1s')
-  })
-
-  describe('Defines values in legend', () => {
-    it('legend has a letter', () => {
-      expect(new Group({ title: 'a' }).legend).toBe('A')
-      expect(new Group({ title: 'b' }).legend).toBe('B')
-      expect(new Group({ title: 'c' }).legend).toBe('C')
-      expect(new Group({ title: 'd' }).legend).toBe('D')
-      expect(new Group({ title: 'e' }).legend).toBe('E')
-      expect(new Group({ title: 'f' }).legend).toBe('F')
-      expect(new Group({ title: 'g' }).legend).toBe('G')
-      expect(new Group({ title: 'h' }).legend).toBe('H')
-      expect(new Group({ title: 'i' }).legend).toBe('I')
-      expect(new Group({ title: 'j' }).legend).toBe('J')
-      expect(new Group({ title: 'k' }).legend).toBe('K')
-      expect(new Group({ title: 'l' }).legend).toBe('L')
-      expect(new Group({ title: 'm' }).legend).toBe('M')
-      expect(new Group({ title: 'n' }).legend).toBe('N')
-      expect(new Group({ title: 'o' }).legend).toBe('O')
-      expect(new Group({ title: 'p' }).legend).toBe('P')
-      expect(new Group({ title: 'q' }).legend).toBe('Q')
-      expect(new Group({ title: 'r' }).legend).toBe('R')
-      expect(new Group({ title: 's' }).legend).toBe('S')
-      expect(new Group({ title: 't' }).legend).toBe('T')
-      expect(new Group({ title: 'u' }).legend).toBe('U')
-      expect(new Group({ title: 'v' }).legend).toBe('V')
-      expect(new Group({ title: 'w' }).legend).toBe('W')
-      expect(new Group({ title: 'x' }).legend).toBe('X')
-      expect(new Group({ title: 'y' }).legend).toBe('Y')
-      expect(new Group({ title: 'z' }).legend).toBe('Z')
-    })
-
-    it('other starting parameters are ignored', () => {
-      expect(new Group({ title: '!a' }).legend).toBe('A')
-      expect(new Group({ title: '4a' }).legend).toBe('A')
-      expect(new Group({ title: ':' }).legend).toBe('A')
-      expect(new Group({ title: 'Ó' }).legend).toBe('A')
-      expect(new Group({ title: '&quot;Black' }).legend).toBe('B')
-    })
   })
 
   describe('Calculates Group value', () => {

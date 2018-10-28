@@ -24,8 +24,6 @@ export default class Group {
     const defaultProps = { title: '', selected: false, alreadyInGroup: false }
     Object.assign(this, defaultProps, group)
 
-    const result = /([A-Z])/gi.exec(this.decodeHtmlEntity(this.title))
-    this.legend = result ? result[0].toUpperCase() : 'A'
     this.link = `https://www.flickr.com/groups/${this.groupId}`
     this.dateAddedValue = this.getLastMomentValue()
     this.dateAdded = this.getLastMoment()
@@ -35,29 +33,6 @@ export default class Group {
 
     this.photoLimitText = this.photoLimitOptOut ? 'OptOut' : 'OptIn'
     this.photoLimitIcon = this.photoLimitOptOut ? 'create_new_folder' : 'folder'
-  }
-
-  search = word => {
-    const lowerWord = word.toLowerCase()
-    switch (lowerWord) {
-      case ':+2':
-        return this.punctuation >= 25
-      case ':+1':
-        return this.punctuation >= 18 && this.punctuation < 25
-      case ':0':
-        return this.punctuation >= 7 && this.punctuation < 18
-      case ':-1':
-        return this.punctuation > 0 && this.punctuation < 7
-      case ':-2':
-        return this.punctuation <= 0
-      case ':optout':
-        return this.photoLimitOptOut === true
-      case ':optin':
-        return this.photoLimitOptOut === false
-    }
-
-    if (word.length < 3) return true
-    return this.title.toLowerCase().search(lowerWord) >= 0 || this.groupId.toLowerCase().search(lowerWord) >= 0
   }
 
   throttleText = () => {

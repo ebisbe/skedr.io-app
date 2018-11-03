@@ -76,10 +76,10 @@ import { validations } from '@/mixins/validation'
 import { API } from 'aws-amplify'
 
 export default {
-  name: 'SuggestionDialog',
+  name: 'FeedbackDialog',
   mixins: [validations],
   props: {
-    suggestionDialog: {
+    feedbackDialog: {
       type: Boolean,
       default: false
     }
@@ -114,14 +114,14 @@ export default {
         this.disabled = false
       }
     },
-    suggestionDialog(value) {
+    feedbackDialog(value) {
       this.dialog = value
     }
   },
   methods: {
     send() {
       this.status = 1
-      API.post(process.env.VUE_APP_API_NAME, '/suggestion', {
+      API.post(process.env.VUE_APP_API_NAME, '/feedback', {
         body: this.feedback
       })
         .then(() => {

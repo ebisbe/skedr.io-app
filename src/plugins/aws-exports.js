@@ -17,7 +17,7 @@ const awsmobile = {
         '/oauth/user',
         '/pool',
         '/search',
-        '/suggestion',
+        '/feedback',
         '/tags'
       ]
     },

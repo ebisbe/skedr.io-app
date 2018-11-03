@@ -35,7 +35,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-divider/>
-        <v-list-tile ripple @click="suggestionDialog = true">
+        <v-list-tile ripple @click="feedbackDialog = true">
           <v-list-tile-action>
             <v-icon>announcement</v-icon>
           </v-list-tile-action>
@@ -53,9 +53,9 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-      <app-suggestion-popup
-        :suggestion-dialog="suggestionDialog"
-        @close="suggestionDialog = false"/>
+      <app-feedback-popup
+        :feedback-dialog="feedbackDialog"
+        @close="feedbackDialog = false"/>
     </v-navigation-drawer>
     <v-toolbar
       :dense="false"
@@ -94,18 +94,18 @@
 import { mapState } from 'vuex'
 import QFilter from '@/components/ui/QFilter.vue'
 import AppPoolBtn from './AppPoolBtn.vue'
-import AppSuggestionPopup from './AppSuggestionPopup'
+import AppFeedbackPopup from './AppFeedbackPopup'
 
 import { Auth } from 'aws-amplify'
 
 export default {
   name: 'Toolbar',
-  components: { QFilter, AppPoolBtn, AppSuggestionPopup },
+  components: { QFilter, AppPoolBtn, AppFeedbackPopup },
   data: () => {
     return {
       title: 'Layout',
       drawer: false,
-      suggestionDialog: false,
+      feedbackDialog: false,
       search: '',
       lists: [
         {

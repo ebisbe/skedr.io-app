@@ -1,5 +1,5 @@
-query userPhotos($userId: ID!, $offset: Int, $count: Int){
-  userPhotos(userId: $userId, count: $count, offset: $offset) {
+query userPhotos {
+  userPhotos(page: 1, perPage: 10, extras: "views,tags,url_m,url_sq") {
     id
     photoId
     secret

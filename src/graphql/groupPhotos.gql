@@ -1,12 +1,12 @@
- query photos($userId: ID!, $groupId: ID!) {
-  groupPhotos(groupId: $groupId, userId: $userId, first: 20) {
+ query photos($groupId: ID!) {
+  groupPhotos(groupId: $groupId, page: 1, perPage: 20, extras: "views,tags,url_m,url_sq") {
     id
     photoId
     secret
     title
     views
     tags
-    url_m
-    url_sq
+    urlM
+    urlSq
   }
 }

@@ -44,7 +44,7 @@ import QChip from '@/components/ui/QChip'
 import QPopup from '@/components/ui/QPopup'
 import QPush from '@/components/ui/QPush'
 import TagsDialogList from '@/components/dialog/TagsDialogList'
-import AUTOIMPORT_TAG from '@/graphql/autoimportTag.gql'
+import AUTOIMPORT_TAG from '@/graphql/groupTag.gql'
 
 export default {
   components: { QChip, QPopup, QPush, TagsDialogList },

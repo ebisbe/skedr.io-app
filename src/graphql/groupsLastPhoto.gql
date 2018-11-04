@@ -1,17 +1,21 @@
-query groups($userId: ID!, $offset: Int, $count: Int) {
-  userGroups(userId: $userId, count: $count, offset: $offset) {
-    title
-    groupId
-    icon
-    poolCount
-    members
-    throttleMode
-    throttleCount
-    throttleRemaining
-    photoLimitOptOut
-    photos(first: 1) {
-      rawDateAdded
-      dateAdded
+query userGroup {
+  userGroups(page: 1, perPage: 10) {
+    page
+    perPage
+    total
+    groups {
+      name
+      groupId
+      icon
+      poolCount
+      members
+      throttleMode
+      throttleCount
+      throttleRemaining
+      photoLimitOptOut
+      photos(perPage: 1, page: 1) {
+        dateAdded
+      }
     }
   }
 }

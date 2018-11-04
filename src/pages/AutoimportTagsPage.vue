@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import AUTOIMPORT_TAGS_LIST from '@/graphql/autoimportTagsList.gql'
+import AUTOIMPORT_TAGS_LIST from '@/graphql/groupTagsList.gql'
 import { mapGetters } from 'vuex'
 
 export default {

@@ -10,7 +10,7 @@
     <v-img
       :height="!inPool(photo.photoId) ? height : height - 32"
       :src="bigImg"
-      :lazy-src="photo.url_sq"
+      :lazy-src="photo.urlSq"
       aspect-ratio="1"
       class="grey lighten-2 img"
     >
@@ -36,7 +36,7 @@
       <v-list two-line dark>
         <v-list-tile>
           <v-list-tile-content>
-            <v-list-tile-title v-html="photo.title" />
+            <v-list-tile-title v-html="photo.name" />
             <v-list-tile-sub-title style="display:flex">
               <v-tooltip bottom>
                 <a
@@ -78,7 +78,7 @@
                 @click.stop="sharePhoto">
                 <v-icon>share</v-icon>
               </v-btn>
-              <span>Sked <br>'{{ photo.title }}'</span>
+              <span>Sked <br>'{{ photo.name }}'</span>
             </v-tooltip>
           </v-list-tile-action>
         </v-list-tile>
@@ -130,7 +130,7 @@ export default {
     },
     bigImg() {
       if (!this.showObserver) {
-        return this.photo.url_m
+        return this.photo.urlM
       } else {
         return ''
       }

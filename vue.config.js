@@ -17,6 +17,7 @@ module.exports = {
       .loader('graphql-tag/loader')
   },
   configureWebpack: {
-    plugins
+    plugins,
+    devtool: 'source-map'
   }
 }

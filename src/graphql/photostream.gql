@@ -7,7 +7,7 @@ query userPhotos($page: Int!, $perPage: Int!) {
     photos {
       photoId
       secret
-      name
+      title
       views
       urlM
       urlSq

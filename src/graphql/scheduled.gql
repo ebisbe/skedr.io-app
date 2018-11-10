@@ -1,5 +1,5 @@
-query scheduled($userId: ID!) {
-  scheduledPhotos(userId: $userId) {
+query scheduledPhotos($scheduledAt: Int!) {
+  scheduledPhotos(scheduledAt: $scheduledAt) {
     userId
     groupId
     photoId

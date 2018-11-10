@@ -36,7 +36,7 @@
       <v-list two-line dark>
         <v-list-tile>
           <v-list-tile-content>
-            <v-list-tile-title v-html="photo.name" />
+            <v-list-tile-title v-html="photo.title" />
             <v-list-tile-sub-title style="display:flex">
               <v-tooltip bottom>
                 <a
@@ -78,7 +78,7 @@
                 @click.stop="sharePhoto">
                 <v-icon>share</v-icon>
               </v-btn>
-              <span>Sked <br>'{{ photo.name }}'</span>
+              <span>Sked <br>'{{ photo.title }}'</span>
             </v-tooltip>
           </v-list-tile-action>
         </v-list-tile>

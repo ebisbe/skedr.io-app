@@ -52,9 +52,8 @@
 <script>
 import PhotoScheduled from '@/components/scheduled/PhotoScheduled'
 import QEmpty from '@/components/ui/QEmpty'
-import { mapGetters } from 'vuex'
 import _groupBy from 'lodash/groupBy'
-import * as moment from 'moment'
+import Moment from 'moment'
 import SCHEDULED_QUERY from '../graphql/scheduled.gql'
 
 export default {
@@ -66,14 +65,11 @@ export default {
       error: false
     }
   },
-  computed: {
-    ...mapGetters({ userId: 'user/userId' })
-  },
   methods: {
     scheduled(data) {
       const format = 'D <br> ddd'
       const mappedData = data.map(photo => {
-        photo.headerDate = moment.utc(photo.scheduledAt).calendar(null, {
+        photo.headerDate = Moment.utc(photo.scheduledAt).calendar(null, {
           nextDay: format,
           nextWeek: format,
           sameElse: format,
@@ -96,7 +92,10 @@ export default {
       fetchPolicy: 'cache-and-network',
       variables() {
         return {
-          userId: this.userId
+          scheduledAt: new Moment()
+            .utc()
+            .startOf(`day`)
+            .unix()
         }
       },
       update: data =>

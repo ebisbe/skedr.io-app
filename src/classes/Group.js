@@ -36,7 +36,7 @@ export default class Group {
   }
 
   throttleText = () => {
-    if (this.throttleRemaining === undefined) {
+    if (this.throttleRemaining === null) {
       return '∞'
     }
     if (this.throttleCount === 0) {

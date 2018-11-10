@@ -1,7 +1,7 @@
 <template>
   <v-content>
     <v-container
-      v-if="Object.keys(groups).length"
+      v-if="userGroups.groups.length"
       fluid
       grid-list-lg>
       <v-layout row wrap>
@@ -27,7 +27,7 @@
               </v-card-title>
               <v-data-table
                 :headers="headers"
-                :items="groups"
+                :items="userGroups.groups"
                 :search="filterTable"
                 :loading="loadingTable"
               >
@@ -120,17 +120,17 @@ import GROUPS_QUERY from '@/graphql/groupsLastPhoto.gql'
 import Group from '@/classes/Group'
 import groupsPayload from '@/mixins/groupsPayload'
 
-const itemsPerPage = 300
 export default {
   components: { QEmpty, QPush },
   mixins: [groupsPayload],
   data() {
     return {
-      groups: [],
+      userGroups: { groups: [] },
       payload: null,
       dialog: false,
       error: false,
-      offset: itemsPerPage,
+      page: 1,
+      perPage: 30,
       filterTable: '',
       loadingTable: false,
       headers: [
@@ -149,10 +149,31 @@ export default {
   },
 
   computed: {
-    ...mapGetters({ userId: 'user/userId', poolLength: 'pool/length' }),
+    ...mapGetters({ poolLength: 'pool/length' }),
     ...mapState(['search']),
     title() {
       return `Sharing Pool (${this.poolLength} elements)`
+    }
+  },
+  apollo: {
+    userGroups: {
+      query: GROUPS_QUERY,
+      variables() {
+        return {
+          page: 1,
+          perPage: this.perPage
+        }
+      },
+      update: ({ userGroups }) => {
+        userGroups.groups = userGroups.groups.map(group => new Group(group))
+        return userGroups
+      },
+      result() {
+        //this.showMore()
+      },
+      error() {
+        this.error = true
+      }
     }
   },
   methods: {
@@ -165,46 +186,23 @@ export default {
     },
     showMore() {
       this.loadingTable = true
-      this.offset += itemsPerPage
-      // Fetch more data and transform the original result
-      this.$apollo.queries.groups.fetchMore({
-        // New variables
+      this.$apollo.queries.userGroups.fetchMore({
         variables: {
-          userId: this.userId,
-          offset: this.offset,
-          count: itemsPerPage
+          page: ++this.page,
+          perPage: this.perPage
         },
-        // Transform the previous result with new data
-        updateQuery: (previousResult, data) => {
-          if (data.fetchMoreResult.userGroups.length !== 0) {
+        updateQuery: ({ userGroups: { groups: prevGroups } }, { fetchMoreResult: { userGroups } }) => {
+          this.loadingTable = false
+          if (userGroups.page < userGroups.pages) {
             this.showMore()
           }
-          this.loadingTable = false
+          userGroups.groups = [...prevGroups, ...userGroups.groups.map(group => new Group(group))]
           return {
-            __typename: previousResult.userGroups.__typename,
-            userGroups: [...previousResult.userGroups, ...data.fetchMoreResult.userGroups]
+            __typename: userGroups.__typename,
+            userGroups
           }
         }
       })
-    }
-  },
-  apollo: {
-    groups: {
-      query: GROUPS_QUERY,
-      variables() {
-        return {
-          userId: this.userId,
-          offset: itemsPerPage,
-          count: itemsPerPage
-        }
-      },
-      update: data => (data.hasOwnProperty('userGroups') ? data.userGroups.map(group => new Group(group)) : []),
-      result() {
-        //this.showMore()
-      },
-      error() {
-        this.error = true
-      }
     }
   }
 }

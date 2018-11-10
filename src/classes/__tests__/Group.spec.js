@@ -20,7 +20,7 @@ describe('Group.js', () => {
   })
 
   it('has throttleText() with "∞"', () => {
-    const object = { throttleRemaining: undefined }
+    const object = { throttleRemaining: null }
     const group = new Group(object)
 
     expect(group.throttleText()).toBe('∞')

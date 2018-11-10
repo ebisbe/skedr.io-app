@@ -1,10 +1,10 @@
- query userGroup {
-  userGroups(page:2, perPage: 10){
+query userGroups($page: Int!, $perPage: Int!) {
+  userGroups(page: $page, perPage: $perPage) {
     page
     perPage
     total
-    groups{
-    	name
+    groups {
+      title
       groupId
       icon
       poolCount

@@ -1,7 +1,7 @@
 <template>
   <v-content>
     <v-container
-      v-if="userPhotos.length"
+      v-if="userPhotos.photos.length"
       fluid
       grid-list-md >
       <v-layout
@@ -9,7 +9,7 @@
         row
         wrap >
         <v-flex
-          v-for="photo in userPhotos"
+          v-for="photo in userPhotos.photos"
           :key="photo.id"
           md4
           sm6
@@ -76,9 +76,9 @@ export default {
   components: { QPhoto, QEmpty, MyFetch, AppObserver },
   data() {
     return {
-      userPhotos: [],
+      userPhotos: { photos: [] },
       error: false,
-      offset: null,
+      page: 1,
       showMoreEnabled: true
     }
   },
@@ -89,7 +89,7 @@ export default {
       }
       return '/search'
     },
-    itemsPerPage() {
+    perPage() {
       switch (true) {
         case this.$vuetify.breakpoint.xs:
           return 3
@@ -104,21 +104,16 @@ export default {
     ...mapGetters({ userId: 'user/userId' }),
     ...mapState({ search: ({ search }) => search })
   },
-  mounted() {
-    this.offset = this.itemsPerPage
-  },
   apollo: {
     userPhotos: {
       query: STREAM_QUERY,
-      fetchPolicy: 'cache-and-network',
       variables() {
         return {
-          userId: this.userId,
-          offset: this.itemsPerPage,
-          count: this.itemsPerPage
+          page: 1,
+          perPage: this.perPage
         }
       },
-      update: ({ userPhotos = [] }) => userPhotos,
+      update: ({ userPhotos }) => userPhotos,
       error() {
         this.error = true
       }
@@ -126,21 +121,20 @@ export default {
   },
   methods: {
     showMore() {
-      // Fetch more data and transform the original result
-      this.offset += this.itemsPerPage
+      //Fetch more data and transform the original result
       this.$apollo.queries.userPhotos.fetchMore({
         variables: {
-          offset: this.offset,
-          count: this.itemsPerPage
+          page: ++this.page,
+          perPage: this.perPage
         },
         // Transform the previous result with new data
-        updateQuery: (previousResult, data) => {
-          // const hasMore = fetchMoreResult.tagsPage.hasMore
-          this.showMoreEnabled = data.fetchMoreResult.userPhotos.length !== 0
+        updateQuery: ({ userPhotos: { photos: prevPhotos } }, { fetchMoreResult: { userPhotos } }) => {
+          this.showMoreEnabled = userPhotos.page !== userPhotos.pages
 
+          userPhotos.photos = [...prevPhotos, ...userPhotos.photos]
           return {
-            __typename: previousResult.userPhotos.__typename,
-            userPhotos: [...previousResult.userPhotos, ...data.fetchMoreResult.userPhotos]
+            __typename: userPhotos.__typename,
+            userPhotos
           }
         }
       })

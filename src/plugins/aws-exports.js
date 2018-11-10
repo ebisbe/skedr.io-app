@@ -9,17 +9,7 @@ const awsmobile = {
         process.env.VUE_APP_STAGE
       }`,
       region: 'eu-west-1',
-      paths: [
-        '/graphiql',
-        '/graphql',
-        '/oauth',
-        '/oauth/callback',
-        '/oauth/user',
-        '/pool',
-        '/search',
-        '/feedback',
-        '/tags'
-      ]
+      paths: ['/oauth', '/oauth/callback', '/oauth/user', '/pool', '/search', '/feedback', '/tags']
     },
     {
       name: 'test',
@@ -33,7 +23,8 @@ const awsmobile = {
   aws_cognito_region: 'eu-west-1',
   aws_user_pools: 'enable',
   aws_user_pools_id: process.env.VUE_APP_POOL_ID,
-  aws_user_pools_web_client_id: process.env.VUE_APP_POOL_WEB_CLIENT_ID
+  aws_user_pools_web_client_id: process.env.VUE_APP_POOL_WEB_CLIENT_ID,
+  aws_appsync_graphqlEndpoint: `https://${process.env.VUE_APP_APPSYNC}.appsync-api.eu-west-1.amazonaws.com/graphql`
 }
 
 export default awsmobile

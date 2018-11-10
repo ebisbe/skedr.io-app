@@ -10,7 +10,7 @@
     <v-img
       :height="!inPool(photo.photoId) ? height : height - 32"
       :src="bigImg"
-      :lazy-src="photo.url_sq"
+      :lazy-src="photo.urlSq"
       aspect-ratio="1"
       class="grey lighten-2 img"
     >
@@ -130,7 +130,7 @@ export default {
     },
     bigImg() {
       if (!this.showObserver) {
-        return this.photo.url_m
+        return this.photo.urlM
       } else {
         return ''
       }

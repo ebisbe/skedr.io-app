@@ -17,7 +17,7 @@ describe('ShareDialogList.vue', () => {
 
   describe('Computed Properties', () => {
     it("throttles text is '∞'", () => {
-      const wrapper = createCmp({ group: new Group({ throttleRemaining: undefined }) })
+      const wrapper = createCmp({ group: new Group({ throttleRemaining: null }) })
       expect(wrapper.vm.throttleText).toBe('∞')
     })
 

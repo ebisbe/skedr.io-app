@@ -1,0 +1,5 @@
+ query autoimportTag($groupId: String!) {
+  groupTag(groupId: $groupId) {
+    tags
+  }
+}

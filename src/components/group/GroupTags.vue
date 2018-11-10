@@ -44,7 +44,7 @@ import QChip from '@/components/ui/QChip'
 import QPopup from '@/components/ui/QPopup'
 import QPush from '@/components/ui/QPush'
 import TagsDialogList from '@/components/dialog/TagsDialogList'
-import AUTOIMPORT_TAG from '@/graphql/autoimportTag.gql'
+import AUTOIMPORT_TAG from '@/graphql/groupTag.gql'
 
 export default {
   components: { QChip, QPopup, QPush, TagsDialogList },
@@ -64,19 +64,18 @@ export default {
   },
   data: () => ({
     dialog: false,
-    autoimportTag: {}
+    autoimportTag: []
   }),
   apollo: {
     autoimportTag: {
       query: AUTOIMPORT_TAG,
       variables() {
         return {
-          userId: this.userId,
           groupId: this.groupId
         }
       },
-      update: function({ autoimportTag }) {
-        const response = autoimportTag.tags
+      update: function({ groupTag }) {
+        const response = groupTag.tags
 
         this.tags.forEach(tag => {
           if (response.indexOf(tag.name) !== -1) {

@@ -22,7 +22,7 @@
       </v-card>
       <v-layout row wrap>
         <v-flex
-          v-for="photo in photos"
+          v-for="photo in groupPhotos.photos"
           :key="photo.id"
           md4
           sm6
@@ -47,17 +47,15 @@ export default {
   components: { QPhoto, GroupTags },
   data() {
     return {
-      photos: [],
-      tags: [],
+      groupPhotos: { photos: [] },
       selectedTag: ''
     }
   },
   apollo: {
-    photos: {
+    groupPhotos: {
       query: GROUP_PHOTOS,
       variables() {
         return {
-          userId: this.userId,
           groupId: this.$route.params.groupId
         }
       },
@@ -74,19 +72,19 @@ export default {
         localStorage.setItem('groupViewPage', title)
         return title
       }
-    }
-  },
-  watch: {
-    photos(photos) {
+    },
+    tags() {
       const tagsArr = new Object()
-      photos.forEach(({ tags }) => {
-        tags.split(' ').forEach(tagName => {
-          let tag = !tagsArr.hasOwnProperty(tagName) ? new Tag(tagName, 0, this.photos.length) : tagsArr[tagName]
+      this.groupPhotos.photos.forEach(({ tags }) => {
+        tags.forEach(tagName => {
+          let tag = !tagsArr.hasOwnProperty(tagName)
+            ? new Tag(tagName, 0, this.groupPhotos.photos.length)
+            : tagsArr[tagName]
           tag.add()
           tagsArr[tagName] = tag
         })
       })
-      this.tags = _sortBy(tagsArr, ['count']).reverse()
+      return _sortBy(tagsArr, ['count']).reverse()
     }
   },
   methods: {

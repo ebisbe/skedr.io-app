@@ -1,11 +1,16 @@
-query userPhotos($userId: ID!, $offset: Int, $count: Int){
-  userPhotos(userId: $userId, count: $count, offset: $offset) {
-    id
-    photoId
-    secret
-    title
-    views
-    url_m
-    url_sq
+query userPhotos($page: Int!, $perPage: Int!) {
+  userPhotos(page: $page, perPage: $perPage, extras: "views,tags,url_m,url_sq") {
+    total
+    pages
+    page
+    perPage
+    photos {
+      photoId
+      secret
+      title
+      views
+      urlM
+      urlSq
+    }
   }
 }

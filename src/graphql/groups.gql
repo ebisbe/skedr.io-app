@@ -1,13 +1,18 @@
-query groups($userId: ID!, $offset: Int) {
-  userGroups(userId: $userId, count: 300, offset: $offset) {
-    title
-    groupId
-    icon
-    poolCount
-    members
-    throttleMode
-    throttleCount
-    throttleRemaining
-    photoLimitOptOut
+query userGroups($page: Int!, $perPage: Int!) {
+  userGroups(page: $page, perPage: $perPage) {
+    page
+    perPage
+    total
+    groups {
+      title
+      groupId
+      icon
+      poolCount
+      members
+      throttleMode
+      throttleCount
+      throttleRemaining
+      photoLimitOptOut
+    }
   }
 }

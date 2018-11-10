@@ -1,6 +1,6 @@
 <template>
   <q-popup
-    :data="groups"
+    :data="userGroups.groups"
     :toolbar-title="title"
     :loading="$apolloData.loading === 1"
     :dialog="dialog"
@@ -38,12 +38,11 @@ export default {
   mixins: [groupsPayload],
   data() {
     return {
-      groups: []
+      userGroups: { groups: [] }
     }
   },
   computed: {
     ...mapGetters({
-      userId: 'user/userId',
       dialog: 'sharedPool/hasItems'
     }),
     ...mapState('sharedPool', {
@@ -68,17 +67,18 @@ export default {
     }
   },
   apollo: {
-    groups: {
+    userGroups: {
       query: GROUPS_QUERY,
       skip() {
         return !this.dialog
       },
       variables() {
         return {
-          userId: this.userId
+          page: 1,
+          perPage: 200
         }
       },
-      update: data => _sortBy(data.userGroups.map(group => new Group(group)), ['legend'])
+      update: data => _sortBy(data.userGroups.groups.map(group => new Group(group)), ['legend'])
     }
   },
   mounted() {
@@ -104,8 +104,8 @@ export default {
       }
     },
     setAlreadyInGroup() {
-      this.groups.forEach(group => {
-        if (this.selectedGroups.indexOf(group.title) !== -1) {
+      this.userGroups.groups.forEach(group => {
+        if (this.selectedGroups.indexOf(group.name) !== -1) {
           group.alreadyInGroup = true
         }
       })

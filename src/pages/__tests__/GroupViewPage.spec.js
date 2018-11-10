@@ -33,11 +33,13 @@ const createCmp = propsData =>
   })
 
 describe('GroupViewPage.vue', () => {
-  describe('Watch', () => {
+  describe('Computed Property', () => {
     it('gets tags from photos ', () => {
-      const photos = [{ tags: 'tag2 tag1' }, { tags: 'tag1 tag3' }, { tags: 'tag1 tag3' }]
+      const groupPhotos = {
+        photos: [{ tags: ['tag2', 'tag1'] }, { tags: ['tag1', 'tag3'] }, { tags: ['tag1', 'tag3'] }]
+      }
       const wrapper = createCmp({})
-      wrapper.setData({ photos })
+      wrapper.setData({ groupPhotos })
 
       expect(wrapper.vm.tags.length).toBe(3)
       expect(wrapper.vm.tags[0]).toBeInstanceOf(Tag)

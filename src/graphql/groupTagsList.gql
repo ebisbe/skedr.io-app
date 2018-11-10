@@ -1,5 +1,5 @@
- query autoimportTagList($userId: ID!) {
-  autoimportTagList(userId: $userId) {
+ query autoimportTagList {
+  groupTagsList {
     groupId
     tags
     group{

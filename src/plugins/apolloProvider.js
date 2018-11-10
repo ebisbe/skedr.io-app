@@ -1,20 +1,31 @@
 import { InMemoryCache } from 'apollo-cache-inmemory/lib/index'
 import { HttpLink } from 'apollo-link-http/lib/index'
+import { setContext } from 'apollo-link-context'
 import { ApolloClient } from 'apollo-client/index'
 import VueApollo from 'vue-apollo'
 import Vue from 'vue'
-
+import { Auth } from 'aws-amplify'
 import exports from './aws-exports'
-const uri = exports.aws_cloud_logic_custom.filter(({ name }) => name === process.env.VUE_APP_API_NAME).pop().endpoint
+const uri = exports.aws_appsync_graphqlEndpoint
 
 const httpLink = new HttpLink({
   // You should use an absolute URL here
-  uri: uri + '/graphql'
+  uri: uri
+})
+
+const authLink = setContext(async (_, { headers }) => {
+  const token = (await Auth.currentAuthenticatedUser()).signInUserSession.accessToken.jwtToken
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? token : ''
+    }
+  }
 })
 
 // Create the apollo client
 const apolloClient = new ApolloClient({
-  link: httpLink,
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
   connectToDevTools: true
 })

@@ -24,7 +24,7 @@ const awsmobile = {
   aws_user_pools: 'enable',
   aws_user_pools_id: process.env.VUE_APP_POOL_ID,
   aws_user_pools_web_client_id: process.env.VUE_APP_POOL_WEB_CLIENT_ID,
-  aws_appsync_graphqlEndpoint: 'https://qha37fbmzjh37lkbcecmo5ri44.appsync-api.eu-west-1.amazonaws.com/graphql'
+  aws_appsync_graphqlEndpoint: `https://${process.env.VUE_APP_APPSYNC}.appsync-api.eu-west-1.amazonaws.com/graphql`
 }
 
 export default awsmobile

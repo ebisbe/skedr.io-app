@@ -14,7 +14,6 @@
       </h1>
       <v-card class="mb-3">
         <group-tags
-          v-if="tags.length > 1"
           :user-id="userId"
           :group-id="$route.params.groupId"
           :tags="tags"
@@ -48,7 +47,8 @@ export default {
   data() {
     return {
       groupPhotos: { photos: [] },
-      selectedTag: ''
+      selectedTag: '',
+      tags: []
     }
   },
   apollo: {
@@ -72,19 +72,24 @@ export default {
         localStorage.setItem('groupViewPage', title)
         return title
       }
-    },
-    tags() {
-      const tagsArr = new Object()
-      this.groupPhotos.photos.forEach(({ tags }) => {
-        tags.forEach(tagName => {
-          let tag = !tagsArr.hasOwnProperty(tagName)
-            ? new Tag(tagName, 0, this.groupPhotos.photos.length)
-            : tagsArr[tagName]
-          tag.add()
-          tagsArr[tagName] = tag
+    }
+  },
+  watch: {
+    groupPhotos: {
+      handler(groupPhotos) {
+        const tagsArr = new Object()
+        groupPhotos.photos.forEach(({ tags }) => {
+          tags.forEach(tagName => {
+            let tag = !tagsArr.hasOwnProperty(tagName)
+              ? new Tag(tagName, 0, this.groupPhotos.photos.length)
+              : tagsArr[tagName]
+            tag.add()
+            tagsArr[tagName] = tag
+          })
         })
-      })
-      return _sortBy(tagsArr, ['count']).reverse()
+        this.tags = _sortBy(tagsArr, ['count']).reverse()
+      },
+      deep: true
     }
   },
   methods: {

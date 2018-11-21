@@ -68,7 +68,7 @@ import QPhoto from '@/components/ui/QPhoto'
 import QEmpty from '@/components/ui/QEmpty'
 import AppObserver from '@/components/common/AppObserver'
 import MyFetch from '@/components/common/MyFetch'
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import STREAM_QUERY from '@/graphql/photostream.gql'
 
 export default {
@@ -101,7 +101,6 @@ export default {
           return 15
       }
     },
-    ...mapGetters({ userId: 'user/userId' }),
     ...mapState({ search: ({ search }) => search })
   },
   apollo: {

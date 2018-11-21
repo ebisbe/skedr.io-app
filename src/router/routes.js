@@ -1,5 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
-
 const toolbar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/AppToolbar.vue')
 const rightBar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/AppRightBar.vue')
 
@@ -26,8 +24,7 @@ export default [
       rightBar
     },
     meta: {
-      requiresAuth: true,
-      hash: colors.lightGreen.base
+      requiresAuth: true
     }
   },
   {
@@ -39,8 +36,7 @@ export default [
       rightBar
     },
     meta: {
-      requiresAuth: true,
-      hash: colors.lightGreen.base
+      requiresAuth: true
     }
   },
   {
@@ -52,8 +48,7 @@ export default [
       rightBar
     },
     meta: {
-      requiresAuth: true,
-      hash: colors.lightGreen.base
+      requiresAuth: true
     }
   },
   {
@@ -65,8 +60,7 @@ export default [
       rightBar
     },
     meta: {
-      requiresAuth: true,
-      hash: colors.lightBlue.base
+      requiresAuth: true
     }
   },
   {
@@ -78,8 +72,7 @@ export default [
       rightBar
     },
     meta: {
-      requiresAuth: true,
-      hash: colors.deepPurple.base
+      requiresAuth: true
     }
   },
   {
@@ -110,9 +103,6 @@ export default [
     components: {
       default: LoginPage,
       toolbar: null
-    },
-    meta: {
-      hash: colors.deepPurple.base
     }
   },
   {

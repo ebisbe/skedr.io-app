@@ -21,7 +21,8 @@ const store = new Vuex.Store({
     },
     pageTitle: '',
     token: '',
-    search: ''
+    search: '',
+    loading: 0
   },
   mutations: {
     updateRightDrawer(state, message) {
@@ -36,6 +37,9 @@ const store = new Vuex.Store({
     window({ window }, payload) {
       window.width = payload.width
       window.height = payload.height
+    },
+    setLoading(state, value) {
+      state.loading = value
     }
   },
   actions: {

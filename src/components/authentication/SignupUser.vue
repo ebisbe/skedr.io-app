@@ -102,7 +102,7 @@
 
 <script>
 import { API } from 'aws-amplify'
-import { validations } from '@/mixins/validation'
+import { validations } from '@/mixins'
 
 import { Auth } from 'aws-amplify'
 

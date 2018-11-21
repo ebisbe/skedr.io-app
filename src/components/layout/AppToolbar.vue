@@ -68,7 +68,7 @@
       clipped-left
       clipped-right>
       <v-toolbar-side-icon @click.stop="toggle"/>
-      <v-toolbar-title style="width: 300px" v-text="pageTitle" />
+      <v-toolbar-title v-text="pageTitle" />
       <v-flex
         :slot="useExtended ? 'extension' : ''"
         class="pa-1">
@@ -77,15 +77,18 @@
           placeholder="Search ..."
           @search="searchText"/>
       </v-flex>
-      <v-spacer />
+      <v-spacer/>
       <v-text-field
         v-model="search"
-        prepend-icon="search"
-        color="white"
+        :loading="loading"
+        prepend-inner-icon="search"
+        solo-inverted
+        flat
         hide-details
         clearable
-        class="py-2"
-        placeholder="Search ..."/>
+        label="Search"
+      />
+      <v-spacer/>
       <app-pool-btn/>
     </v-toolbar>
   </div>
@@ -109,16 +112,16 @@ export default {
       search: '',
       lists: [
         {
+          icon: 'perm_media',
+          name: 'AutoimportTags'
+        },
+        {
           icon: 'photo',
           name: 'Photostream'
         },
         {
           icon: 'access_time',
           name: 'Scheduled photos'
-        },
-        {
-          icon: 'perm_media',
-          name: 'Groups'
         }
       ],
       articles: [
@@ -134,7 +137,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['pageTitle']),
+    ...mapState({ pageTitle: state => state.pageTitle, loading: state => (state.loading ? 'accent' : false) }),
     useExtended() {
       return this.showSearch && this.$vuetify.breakpoint.xsOnly
     }

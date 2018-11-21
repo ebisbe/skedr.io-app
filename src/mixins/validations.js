@@ -1,4 +1,4 @@
-export const validations = {
+export default {
   data: () => {
     const message =
       'Use at least 8 characters. Include both lower and upper case letters, a number and a special character.'

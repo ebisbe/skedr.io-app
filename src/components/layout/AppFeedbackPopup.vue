@@ -72,7 +72,7 @@
   </v-dialog>
 </template>
 <script>
-import { validations } from '@/mixins/validation'
+import { validations } from '@/mixins'
 import { API } from 'aws-amplify'
 
 export default {

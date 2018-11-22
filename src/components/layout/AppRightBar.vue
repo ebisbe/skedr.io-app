@@ -59,9 +59,9 @@
               v-if="key !== 0"
               :key="key"
               inset />
-            <v-list-tile :key="photo.id" avatar>
+            <v-list-tile :key="photo.photoId" avatar>
               <v-list-tile-avatar>
-                <img :src="photo.url_sq">
+                <img :src="photo.urlSq">
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title v-html="photo.title"/>

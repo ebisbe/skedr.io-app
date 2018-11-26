@@ -1,0 +1,18 @@
+mutation joinGroup($groupId: String!, $acceptRules: Boolean, $message: String) {
+  joinGroup(input: { groupId: $groupId, acceptRules: $acceptRules, message: $message }) {
+    groupId
+    title
+    icon
+    poolCount
+    photoLimitOptOut
+    members
+    throttleMode
+    throttleCount
+    throttleRemaining
+    isMember
+    rules
+    groupTag {
+      tags
+    }
+  }
+}

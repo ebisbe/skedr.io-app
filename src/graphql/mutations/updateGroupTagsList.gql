@@ -3,11 +3,14 @@ mutation updateGroupTagsList($groupId: String!, $tags: [String!]) {
     groupId
     tags
     group {
+      groupId
       title
       icon
       poolCount
       photoLimitOptOut
       members
+      isMember
+      rules
       throttleMode
       throttleCount
       throttleRemaining

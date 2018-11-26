@@ -137,7 +137,7 @@ export default {
     }
   },
   computed: {
-    ...mapState({ pageTitle: state => state.pageTitle, loading: state => (state.loading ? 'accent' : false) }),
+    ...mapState({ pageTitle: state => state.pageTitle, loading: state => (state.loading > 0 ? 'accent' : false) }),
     useExtended() {
       return this.showSearch && this.$vuetify.breakpoint.xsOnly
     }

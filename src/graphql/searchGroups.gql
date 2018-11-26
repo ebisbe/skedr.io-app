@@ -12,6 +12,7 @@ query searchGroups($text: String!, $page: Int!, $perPage: Int!, $userId: String)
       throttleCount
       throttleRemaining
       isMember
+      rules
       groupTag {
         tags
       }

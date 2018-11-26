@@ -28,7 +28,7 @@ describe('Empty.vue', () => {
       }
 
       const wrapper = createCmp(propsData)
-      expect(wrapper.text()).toContain('Ups! Some error happened fetching your data...')
+      expect(wrapper.text()).toContain('Oops! Some error happened fetching your data...')
     })
 
     it('it shows error with default error text', () => {
@@ -37,7 +37,7 @@ describe('Empty.vue', () => {
       }
 
       const wrapper = createCmp(propsData)
-      expect(wrapper.text()).toContain('Ups! Some error happened fetching your data...')
+      expect(wrapper.text()).toContain('Oops! Some error happened fetching your data...')
     })
 
     it('it shows message with text_icon', () => {

@@ -73,7 +73,7 @@ export default {
           activePromise = null
           res.status = 'error'
           res.data = null
-          res.error = 'Ops! we had an error...'
+          res.error = 'Oops! we had an error...'
         })
     }, 300)
 

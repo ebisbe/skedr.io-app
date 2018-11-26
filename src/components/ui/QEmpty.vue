@@ -47,7 +47,7 @@ export default {
   computed: {
     desc() {
       if (this.error) {
-        return 'Ups! Some error happened fetching your data...'
+        return 'Oops! Some error happened fetching your data...'
       } else {
         return this.description
       }

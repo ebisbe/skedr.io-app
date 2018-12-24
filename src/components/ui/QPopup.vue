@@ -13,24 +13,6 @@
         </v-btn>
         <v-toolbar-title v-html="toolbarTitle"/>
         <v-spacer/>
-        <v-toolbar-items>
-          <!-- <v-btn flat @click="dialog3 = !dialog3">
-            <v-icon>add</v-icon> Add
-          </v-btn>
-          <v-dialog v-model="dialog3" max-width="500px">
-            <v-card>
-              <v-card-title>
-                <span>Dialog 3</span>
-              </v-card-title>
-              <v-card-actions>
-                <v-btn
-                  color="primary"
-                  flat
-                  @click.stop="dialog3=false">Close</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog> -->
-        </v-toolbar-items>
         <v-flex
           :slot="showList ? 'extension' : false"
           class="pa-1">
@@ -151,8 +133,7 @@ export default {
   data() {
     return {
       filterWord: '',
-      showList: true,
-      dialog3: false
+      showList: true
     }
   },
   computed: {

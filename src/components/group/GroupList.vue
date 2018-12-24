@@ -4,49 +4,76 @@
     <v-list-tile
       :key="group.groupId"
       avatar
-      @click.stop=""
     >
       <v-list-tile-avatar>
         <a
           :href="`https://www.flickr.com/groups/${group.groupId}`"
-          target="_blank">
-          <img :src="group.icon" :alt="group.title">
+          target="_blank"
+        >
+          <img
+            :src="group.icon"
+            :alt="group.title"
+          >
         </a>
       </v-list-tile-avatar>
       <v-list-tile-content>
-        <v-list-tile-title >
+        <v-list-tile-title>
           <span>
             <v-tooltip
               v-if="group.photoLimitOptOut"
               top
-              lazy>
-              <v-icon slot="activator" color="green">check</v-icon>
+              lazy
+            >
+              <v-icon
+                slot="activator"
+                color="green"
+              >check</v-icon>
               <span>This group doesn't care how many other groups a photo is in</span>
             </v-tooltip>
             <v-tooltip
               v-else
               top
-              lazy>
-              <v-icon slot="activator" color="red">clear</v-icon>
-              <span>This group will count toward the photo's limit <br>(60 for Pro members, 30 for free members)</span>
+              lazy
+            >
+              <v-icon
+                slot="activator"
+                color="red"
+              >clear</v-icon>
+              <span>This group will count toward the photo's limit
+                <br>(60 for Pro members, 30 for free members)
+              </span>
             </v-tooltip>
           </span>
-          <strong v-html="group.title"/>
+          <strong v-html="group.title" />
         </v-list-tile-title>
         <v-list-tile-sub-title>
           <v-layout>
-            <v-flex class="text-xs-left" xs2><v-icon>photo</v-icon>{{ group.poolCount | parseNumber }}</v-flex>
-            <v-flex class="text-xs-left" xs2><v-icon>group</v-icon> {{ group.members | parseNumber }}</v-flex>
+            <v-flex
+              class="text-xs-left"
+              xs2
+            >
+              <v-icon>photo</v-icon>
+              {{ group.poolCount | parseNumber }}
+            </v-flex>
+            <v-flex
+              class="text-xs-left"
+              xs2
+            >
+              <v-icon>group</v-icon>
+              {{ group.members | parseNumber }}
+            </v-flex>
             <v-flex
               class="text-xs-left pt-1"
               xs2
-              v-html="throttleText(group)"/>
+              v-html="throttleText(group)"
+            />
             <v-flex class="text-xs-right">
               <v-chip
                 v-for="tag in tags"
                 :key="tag"
                 small
-                label>{{ tag }}</v-chip>
+                label
+              >{{ tag }}</v-chip>
             </v-flex>
           </v-layout>
         </v-list-tile-sub-title>
@@ -56,21 +83,37 @@
           <v-btn
             ripple
             color="grey lighten-3"
-            icon>
-            <v-tooltip top lazy>
-              <v-icon slot="activator" color="primary">settings</v-icon>
+            icon
+          >
+            <v-tooltip
+              top
+              lazy
+            >
+              <v-icon
+                slot="activator"
+                color="primary"
+                @click="manageTags = true"
+              >settings</v-icon>
               <span>Manage tags</span>
             </v-tooltip>
           </v-btn>
         </slot>
       </v-list-tile-action>
+      <group-tag-dialog
+        :title="group.title"
+        :manage-tags="manageTags"
+        :tags="tags"
+        @update="$emit('update', $event)"
+        @close="manageTags = false"/>
     </v-list-tile>
   </div>
 </template>
 <script>
 import { throttleText, filters } from '@/mixins'
+import GroupTagDialog from '@/components/group/GroupTagDialog'
 
 export default {
+  components: { GroupTagDialog },
   mixins: [throttleText, filters],
   props: {
     group: {
@@ -84,6 +127,14 @@ export default {
     useDivider: {
       type: Boolean,
       default: false
+    }
+  },
+  data: () => ({
+    manageTags: false
+  }),
+  watch: {
+    tags() {
+      this.manageTags = false
     }
   }
 }

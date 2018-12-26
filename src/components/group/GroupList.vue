@@ -71,9 +71,15 @@
               <v-chip
                 v-for="tag in tags"
                 :key="tag"
+                :selected="tagsFilter[tag]"
                 small
                 label
-              >{{ tag }}</v-chip>
+                @click="$store.commit('tagsFilter/upsert', tag)"
+              ><v-icon
+                :color="tagsFilter[tag] ? 'accent' : undefined"
+                small
+                left
+                class="mr-1">label</v-icon>{{ tag }}</v-chip>
             </v-flex>
           </v-layout>
         </v-list-tile-sub-title>
@@ -111,6 +117,7 @@
 <script>
 import { throttleText, filters } from '@/mixins'
 import GroupTagDialog from '@/components/group/GroupTagDialog'
+import { mapState } from 'vuex'
 
 export default {
   components: { GroupTagDialog },
@@ -132,6 +139,11 @@ export default {
   data: () => ({
     manageTags: false
   }),
+  computed: {
+    ...mapState('tagsFilter', {
+      tagsFilter: state => state.items
+    })
+  },
   watch: {
     tags() {
       this.manageTags = false

@@ -5,6 +5,10 @@
     label
     small
   >
+    <v-icon
+      small
+      left
+      class="mr-1">label</v-icon>
     <span class="pr-1">
       {{ tag }}
     </span>

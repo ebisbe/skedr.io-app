@@ -94,12 +94,13 @@
       <v-card>
         <v-list two-line class="py-0">
           <group-list
-            v-for="( {group, tags}, index ) in groupTagsList"
-            :key="group.groupId"
+            v-for="( {group, tags, groupId}, index ) in groupTagsList"
+            v-show="tagsFilter[tags[0]] || isEmpty"
+            :key="groupId"
             :group="group"
             :use-divider="index!==0"
             :tags="tags"
-            @update="updateGroupTagsList({groupId: group.groupId, tags: $event, group})"/>
+            @update="updateGroupTagsList({groupId, tags: $event, group})"/>
         </v-list>
       </v-card>
     </v-container>
@@ -119,7 +120,7 @@ import UPDATE_GROUP_TAGS_LIST from '@/graphql/mutations/updateGroupTagsList.gql'
 import JOIN_GROUP from '@/graphql/mutations/joinGroup.gql'
 import SEARCH_GROUPS from '@/graphql/searchGroups.gql'
 import GroupList from '@/components/group/GroupList'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { throttleText, loadingGraphql, filters } from '@/mixins'
 import _keyBy from 'lodash/keyBy'
 
@@ -129,6 +130,7 @@ export default {
   data: () => ({
     joinedGroups: true,
     groupTagsList: [],
+    filterTags: '',
     searchGroups: { groups: [] },
     joiningGroup: '',
     acceptGroupRulesDialog: false,
@@ -136,7 +138,11 @@ export default {
   }),
   computed: {
     ...mapState({ search: state => state.search }),
-    ...mapState('user', ['userId'])
+    ...mapState('user', ['userId']),
+    ...mapState('tagsFilter', {
+      tagsFilter: state => state.items
+    }),
+    ...mapGetters({ isEmpty: 'tagsFilter/isEmpty' })
   },
   watch: {
     search(newValue) {

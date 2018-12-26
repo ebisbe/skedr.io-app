@@ -93,7 +93,6 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import ShareDialog from '@/components/dialog/ShareDialog'
 
 export default {
-  name: 'RightBar',
   components: { ShareDialog },
   computed: {
     ...mapState('pool', {

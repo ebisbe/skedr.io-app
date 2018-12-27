@@ -116,6 +116,10 @@ export default {
           name: 'AutoimportTags'
         },
         {
+          icon: 'perm_media',
+          name: 'Groups'
+        },
+        {
           icon: 'photo',
           name: 'Photostream'
         },

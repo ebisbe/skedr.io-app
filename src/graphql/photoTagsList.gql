@@ -1,0 +1,12 @@
+query photoTagsList($tags: [String!]) {
+  photoTagsList(tags: $tags) {
+    photoId
+    secret
+    photo {
+      title
+      farm
+      server
+      tags
+    }
+  }
+}

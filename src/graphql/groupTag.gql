@@ -1,4 +1,4 @@
- query autoimportTag($groupId: String!) {
+query autoimportTag($groupId: String!) {
   groupTag(groupId: $groupId) {
     tags
   }

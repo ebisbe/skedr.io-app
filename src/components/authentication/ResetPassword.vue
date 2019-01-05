@@ -59,7 +59,7 @@
 
 <script>
 import { Auth } from 'aws-amplify'
-import { validations } from '@/mixins/validation'
+import { validations } from '@/mixins'
 
 export default {
   mixins: [validations],

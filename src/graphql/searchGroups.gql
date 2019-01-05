@@ -1,0 +1,21 @@
+query searchGroups($text: String!, $page: Int!, $perPage: Int!, $userId: String) {
+  searchGroups(text: $text, page: $page, perPage: $perPage, userId: $userId) {
+    page
+    groups {
+      groupId
+      title
+      icon
+      poolCount
+      photoLimitOptOut
+      members
+      throttleMode
+      throttleCount
+      throttleRemaining
+      isMember
+      rules
+      groupTag {
+        tags
+      }
+    }
+  }
+}

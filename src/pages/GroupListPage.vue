@@ -118,7 +118,7 @@ import QPush from '@/components/ui/QPush'
 import { mapGetters, mapState } from 'vuex'
 import GROUPS_QUERY from '@/graphql/groupsLastPhoto.gql'
 import Group from '@/classes/Group'
-import groupsPayload from '@/mixins/groupsPayload'
+import { groupsPayload } from '@/mixins'
 
 export default {
   components: { QEmpty, QPush },

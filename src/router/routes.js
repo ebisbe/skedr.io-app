@@ -1,7 +1,6 @@
-import colors from 'vuetify/es5/util/colors'
-
 const toolbar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/AppToolbar.vue')
-const rightBar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/AppRightBar.vue')
+const shareImageBar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/ShareImageBar.vue')
+const tagListBar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/TagListBar.vue')
 
 const Group = () => import(/* webpackChunkName: "group" */ '../pages/GroupListPage.vue')
 const GroupView = () => import(/* webpackChunkName: "group" */ '../pages/GroupViewPage.vue')
@@ -23,11 +22,10 @@ export default [
     components: {
       default: Group,
       toolbar,
-      rightBar
+      rightBar: shareImageBar
     },
     meta: {
-      requiresAuth: true,
-      hash: colors.lightGreen.base
+      requiresAuth: true
     }
   },
   {
@@ -36,11 +34,10 @@ export default [
     components: {
       default: AutoimporTags,
       toolbar,
-      rightBar
+      rightBar: tagListBar
     },
     meta: {
-      requiresAuth: true,
-      hash: colors.lightGreen.base
+      requiresAuth: true
     }
   },
   {
@@ -49,11 +46,10 @@ export default [
     components: {
       default: GroupView,
       toolbar,
-      rightBar
+      rightBar: shareImageBar
     },
     meta: {
-      requiresAuth: true,
-      hash: colors.lightGreen.base
+      requiresAuth: true
     }
   },
   {
@@ -62,11 +58,10 @@ export default [
     components: {
       default: Scheduled,
       toolbar,
-      rightBar
+      rightBar: shareImageBar
     },
     meta: {
-      requiresAuth: true,
-      hash: colors.lightBlue.base
+      requiresAuth: true
     }
   },
   {
@@ -75,11 +70,10 @@ export default [
     components: {
       default: Photostream,
       toolbar,
-      rightBar
+      rightBar: shareImageBar
     },
     meta: {
-      requiresAuth: true,
-      hash: colors.deepPurple.base
+      requiresAuth: true
     }
   },
   {
@@ -110,9 +104,6 @@ export default [
     components: {
       default: LoginPage,
       toolbar: null
-    },
-    meta: {
-      hash: colors.deepPurple.base
     }
   },
   {

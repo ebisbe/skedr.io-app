@@ -1,5 +1,5 @@
-query autoimportTagList {
-  groupTagsList {
+mutation updateGroupTagsList($groupId: String!, $tags: [String!]) {
+  updateGroupTagsList(input: { groupId: $groupId, tags: $tags }) {
     groupId
     tags
     group {
@@ -10,6 +10,7 @@ query autoimportTagList {
       photoLimitOptOut
       members
       isMember
+      rules
       throttleMode
       throttleCount
       throttleRemaining

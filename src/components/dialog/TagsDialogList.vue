@@ -2,7 +2,7 @@
   <v-list-tile
     :class="{selected: tag.selected}"
     avatar
-    @click="select">
+    @click.native="select">
     <v-list-tile-action>
       <v-checkbox
         v-model="tag.selected"

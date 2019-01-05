@@ -8,7 +8,7 @@
     <v-container fluid grid-list-md>
       <v-layout pa-0 fluid>
         <v-flex xs6>
-          <v-tooltip top>
+          <v-tooltip top lazy>
             <v-btn
               slot="activator"
               :disabled="disable"
@@ -24,7 +24,10 @@
           </v-tooltip>
         </v-flex>
         <v-flex xs6>
-          <v-tooltip v-if="hasBackup" top>
+          <v-tooltip
+            v-if="hasBackup"
+            top
+            lazy>
             <v-btn
               slot="activator"
               :disabled="!hasBackup"
@@ -37,7 +40,10 @@
             </v-btn>
             <span>Restore previous pool</span>
           </v-tooltip>
-          <v-tooltip v-else top>
+          <v-tooltip
+            v-else
+            top
+            lazy>
             <v-btn
               slot="activator"
               :disabled="disable"
@@ -87,7 +93,6 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import ShareDialog from '@/components/dialog/ShareDialog'
 
 export default {
-  name: 'RightBar',
   components: { ShareDialog },
   computed: {
     ...mapState('pool', {

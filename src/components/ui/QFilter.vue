@@ -6,7 +6,6 @@
     clearable
     solo
     class="mx-auto data-hj-whitelist"
-    prepend-icon="search"
     style="max-width: 500px; min-width: 128px"
     @click:append="clearText"
     @keyup.exact.esc="clearText"

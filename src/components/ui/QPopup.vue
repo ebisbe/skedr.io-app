@@ -5,7 +5,7 @@
     :fullscreen="$vuetify.breakpoint.xsOnly"
     scrollable
     transition="dialog-bottom-transition"
-    max-width="500px">
+    max-width="550px">
     <v-card>
       <v-toolbar dark color="primary">
         <v-btn icon @click.native="closePopUp">

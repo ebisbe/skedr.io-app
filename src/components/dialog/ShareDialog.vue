@@ -62,7 +62,7 @@ export default {
         this.setAlreadyInGroup()
       }
     },
-    groups() {
+    userGroups() {
       this.setAlreadyInGroup()
     }
   },
@@ -109,7 +109,7 @@ export default {
     },
     setAlreadyInGroup() {
       this.userGroups.forEach(group => {
-        if (this.selectedGroups.indexOf(group.name) !== -1) {
+        if (this.selectedGroups.indexOf(group.title) !== -1) {
           group.alreadyInGroup = true
         }
       })

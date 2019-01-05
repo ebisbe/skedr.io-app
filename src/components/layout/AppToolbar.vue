@@ -30,7 +30,8 @@
           target="_blank">
           <v-list-tile-action>
             <v-icon>link</v-icon>
-          </v-list-tile-action> <v-list-tile-content >
+          </v-list-tile-action>
+          <v-list-tile-content >
             <v-list-tile-title v-html="article.name"/>
           </v-list-tile-content>
         </v-list-tile>

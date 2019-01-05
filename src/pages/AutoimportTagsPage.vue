@@ -1,10 +1,10 @@
 <template>
   <v-content>
-    <v-container v-if="searchGroups.groups.length">
+    <v-container v-if="search !== ''">
       <v-switch
         v-model="joinedGroups"
         color="primary"
-        label="Joined Groups Only"
+        label="Show joined groups only"
       />
       <v-card>
         <v-list two-line class="py-0">
@@ -95,7 +95,7 @@
         <v-list two-line class="py-0">
           <group-list
             v-for="( {group, tags, groupId}, index ) in groupTagsList"
-            v-show="tagsFilter[tags[0]] || isEmpty"
+            v-show="filteredTags.some(tag => tags.indexOf(tag) > -1) || isEmpty"
             :key="groupId"
             :group="group"
             :use-divider="index!==0"
@@ -142,7 +142,10 @@ export default {
     ...mapState('tagsFilter', {
       tagsFilter: state => state.items
     }),
-    ...mapGetters({ isEmpty: 'tagsFilter/isEmpty' })
+    ...mapGetters({ isEmpty: 'tagsFilter/isEmpty' }),
+    filteredTags() {
+      return Object.entries(this.tagsFilter).filter(object => object[1]).map(object => object[0])
+    }
   },
   watch: {
     search(newValue) {

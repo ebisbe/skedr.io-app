@@ -66,7 +66,7 @@
           color="primary"
           style="position: absolute; bottom:0">
           <div
-            style="overflow: hidden; hieght: 12px;"
+            style="overflow: hidden;"
             class="ellipsis mx-3"
             v-html="selectedDataList"/>
           <v-fab-transition>

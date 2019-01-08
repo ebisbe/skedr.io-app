@@ -3,21 +3,26 @@
   <v-dialog
     v-model="manageTags"
     lazy
+    persistent
     width="500"
     scrollable
   >
     <v-card>
       <v-toolbar dark color="primary">
+        <v-btn icon @click.native="$emit('close')">
+          <v-icon>close</v-icon>
+        </v-btn>
         <v-toolbar-title>
-          Manage Tags '<strong v-html="title"/>'
+          Manage Tags
         </v-toolbar-title>
         <v-spacer/>
       </v-toolbar>
       <div class="pa-3">
+        <div class="xs12 flex headline">{{ title }}</div>
         <v-combobox
           v-model="comboTags"
           multiple
-          label="Add a tag"
+          label="Tags"
           hide-details
           @keyup.shift.enter="save"
         >

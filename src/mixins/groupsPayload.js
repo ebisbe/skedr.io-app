@@ -14,8 +14,7 @@ export default {
             body: {
               photoId: photo.photoId,
               userId: this.userId,
-              groupId: group.groupId,
-              secret: photo.secret
+              groupId: group.groupId
             }
           }
           requests.push({ path: '/pool', payload })

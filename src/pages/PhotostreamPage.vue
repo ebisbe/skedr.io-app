@@ -1,94 +1,85 @@
 <template>
   <v-content>
-    <v-container
-      v-if="userPhotos.photos.length"
-      fluid
-      grid-list-md >
-      <v-layout
-        v-if="searchImages === ''"
-        row
-        wrap >
-        <v-flex
-          v-for="photo in userPhotos.photos"
-          :key="photo.id"
-          md4
-          sm6
-          xs12>
-          <q-photo :photo="photo"/>
-        </v-flex>
-        <v-flex xs12>
-          <app-observer @intersect="showMore"/>
-          <v-btn
-            :disabled="!showMoreEnabled || $apolloData.loading === 1"
-            block
-            color="accent"
-            @click="showMore">
-            <v-progress-circular
-              v-if="$apolloData.loading"
-              indeterminate
-              color="grey"/>
-            <span v-else>
-              &nbsp;Load more photos...
-            </span>
-          </v-btn>
-        </v-flex>
-      </v-layout>
-      <v-layout v-else>
-        <my-fetch
-          :url="searchImages"
-          :data="{text: search}"
-          method="post">
-          <transition-group
-            slot-scope="data"
-            name="list"
-            tag="div"
-            class="layout wrap">
+    <ApolloQuery
+      :query="require('@/graphql/photostream.gql')"
+      :variables="{
+        page: 1,
+        perPage
+      }"
+      tag=""
+    >
+      <template slot-scope="{ result: { error, data } , isLoading, query}">
+        <!-- Loading -->
+        <q-empty
+          v-if="isLoading && data === null"
+          :loading="true"/>
+
+        <!-- Error -->
+        <q-empty
+          v-else-if="error"
+          :error="true"
+          icon="photo"/>
+
+        <!-- Result -->
+        <v-container
+          v-else-if="data"
+          fluid
+          grid-list-md >
+          <v-layout
+            row
+            wrap >
             <v-flex
-              v-for="photo in data.photo"
+              v-for="photo in data.userPhotos.photos"
               :key="photo.id"
-              md3
+              md4
               sm6
               xs12>
               <q-photo :photo="photo"/>
             </v-flex>
-          </transition-group>
-        </my-fetch>
-      </v-layout>
-    </v-container>
-    <q-empty
-      v-else
-      :loading="$apolloData.loading === 1"
-      :error="error"
-      description="You don't have any photo yet"
-      icon="photo"/>
+            <v-flex xs12>
+              <app-observer @intersect="showMore(query)"/>
+              <v-btn
+                :disabled="!showMoreEnabled || isLoading === 1"
+                block
+                color="accent"
+                @click="showMore">
+                <v-progress-circular
+                  v-if="isLoading"
+                  indeterminate
+                  color="grey"/>
+                <span v-else>
+                  &nbsp;Load more photos...
+                </span>
+              </v-btn>
+            </v-flex>
+          </v-layout>
+        </v-container>
+
+        <!-- No result -->
+        <q-empty
+          v-else
+          description="Your Photostream is empty. Upload some photos in Flickr"
+          icon="photo"/>
+      </template>
+    </ApolloQuery>
   </v-content>
 </template>
 <script>
 import QPhoto from '@/components/ui/QPhoto'
 import QEmpty from '@/components/ui/QEmpty'
 import AppObserver from '@/components/common/AppObserver'
-import MyFetch from '@/components/common/MyFetch'
 import { mapState } from 'vuex'
-import STREAM_QUERY from '@/graphql/photostream.gql'
 
 export default {
   name: 'Photos',
-  components: { QPhoto, QEmpty, MyFetch, AppObserver },
+  components: { QPhoto, QEmpty, AppObserver },
   data() {
     return {
-      userPhotos: { photos: [] },
-      error: false,
       page: 1,
       showMoreEnabled: true
     }
   },
   computed: {
-    searchImages() {
-      if (this.search === '') {
-        return ''
-      }
-      return '/search'
-    },
     perPage() {
       switch (true) {
         case this.$vuetify.breakpoint.xs:
@@ -103,25 +94,10 @@ export default {
     },
     ...mapState({ search: ({ search }) => search })
   },
-  apollo: {
-    userPhotos: {
-      query: STREAM_QUERY,
-      variables() {
-        return {
-          page: 1,
-          perPage: this.perPage
-        }
-      },
-      update: ({ userPhotos }) => userPhotos,
-      error() {
-        this.error = true
-      }
-    }
-  },
   methods: {
-    showMore() {
+    showMore(query) {
       //Fetch more data and transform the original result
-      this.$apollo.queries.userPhotos.fetchMore({
+      query.fetchMore({
         variables: {
           page: ++this.page,
           perPage: this.perPage

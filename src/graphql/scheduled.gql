@@ -3,9 +3,7 @@ query scheduledPhotos($scheduledAt: Int!) {
     userId
     groupId
     photoId
-    secret
     scheduledAt
-    message
     photo {
       title
       server

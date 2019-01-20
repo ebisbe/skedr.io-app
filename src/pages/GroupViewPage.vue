@@ -2,7 +2,8 @@
   <v-content>
     <v-container
       fluid
-      grid-list-md>
+      grid-list-md
+      pb-0>
       <h1>
         <v-btn
           icon
@@ -12,58 +13,61 @@
           <v-icon color="grey lighten-1">keyboard_arrow_left</v-icon>
         </v-btn> <span v-html="title"/>
       </h1>
-      <v-card class="mb-3">
-        <group-tags
-          :user-id="userId"
-          :group-id="$route.params.groupId"
-          :tags="tags"
-          @selectedTag="selected"/>
-      </v-card>
-      <v-layout row wrap>
-        <v-flex
-          v-for="photo in groupPhotos.photos"
-          :key="photo.id"
-          md4
-          sm6
-          xs12>
-          <q-photo :photo="photo" :tag="selectedTag"/>
-        </v-flex>
-      </v-layout>
     </v-container>
+    <ApolloQuery
+      :query="require('@/graphql/groupPhotos.gql')"
+      :variables="{
+        groupId: $route.params.groupId
+      }"
+      tag=""
+    >
+      <template slot-scope="{ result: { error, data } , isLoading, query}">
+        <!-- Loading -->
+        <q-empty
+          v-if="isLoading && data === null"
+          :loading="true"/>
+
+        <!-- Error -->
+        <q-empty
+          v-else-if="error"
+          :error="true"
+          icon="perm_media"/>
+
+        <!-- Result -->
+        <v-container
+          v-else-if="data.groupPhotos.photos.length"
+          fluid
+          grid-list-md>
+
+          <v-layout row wrap>
+            <v-flex
+              v-for="photo in data.groupPhotos.photos"
+              :key="photo.id"
+              md4
+              sm6
+              xs12>
+              <q-photo :photo="photo" />
+            </v-flex>
+          </v-layout>
+        </v-container>
+
+        <!-- No result -->
+        <q-empty
+          v-else
+          description="You don't have any photo added in this group"
+          icon="perm_media"/>
+      </template>
+    </ApolloQuery>
+
   </v-content>
 </template>
 <script>
-import { mapGetters } from 'vuex'
-
 import QPhoto from '@/components/ui/QPhoto'
-import GroupTags from '@/components/group/GroupTags'
-import Tag from '@/classes/Tag'
-import GROUP_PHOTOS from '@/graphql/groupPhotos.gql'
-import _sortBy from 'lodash/sortBy'
+import QEmpty from '@/components/ui/QEmpty'
 
 export default {
-  name: 'GroupViewPage',
-  components: { QPhoto, GroupTags },
-  data() {
-    return {
-      groupPhotos: { photos: [] },
-      selectedTag: '',
-      tags: []
-    }
-  },
-  apollo: {
-    groupPhotos: {
-      query: GROUP_PHOTOS,
-      variables() {
-        return {
-          groupId: this.$route.params.groupId
-        }
-      },
-      update: ({ groupPhotos }) => groupPhotos
-    }
-  },
+  components: { QPhoto, QEmpty },
   computed: {
-    ...mapGetters({ userId: 'user/userId' }),
     title() {
       const { title = '' } = this.$route.params
       if (title === '') {
@@ -72,29 +76,6 @@ export default {
         localStorage.setItem('groupViewPage', title)
         return title
       }
-    }
-  },
-  watch: {
-    groupPhotos: {
-      handler(groupPhotos) {
-        const tagsArr = new Object()
-        groupPhotos.photos.forEach(({ tags }) => {
-          tags.forEach(tagName => {
-            let tag = !tagsArr.hasOwnProperty(tagName)
-              ? new Tag(tagName, 0, this.groupPhotos.photos.length)
-              : tagsArr[tagName]
-            tag.add()
-            tagsArr[tagName] = tag
-          })
-        })
-        this.tags = _sortBy(tagsArr, ['count']).reverse()
-      },
-      deep: true
-    }
-  },
-  methods: {
-    selected(name) {
-      this.selectedTag = name
     }
   }
 }

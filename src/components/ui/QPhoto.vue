@@ -103,10 +103,6 @@ export default {
       type: Object,
       required: true
     },
-    tag: {
-      type: String,
-      default: ''
-    },
     height: {
       type: Number,
       default: 205
@@ -139,15 +135,6 @@ export default {
       userId: 'user/userId',
       inPool: 'pool/inPool'
     })
-  },
-  watch: {
-    tag(selectedValue) {
-      if (!this.photo.tags.includes(selectedValue) || selectedValue === '') {
-        this.removeFromPool(this.photo.photoId)
-      } else {
-        this.addToPool(this.photo)
-      }
-    }
   },
   methods: {
     ...mapActions({

@@ -22,7 +22,7 @@
 
         <!-- Result -->
         <v-container
-          v-else-if="data"
+          v-else-if="data.userPhotos.photos"
           fluid
           grid-list-md >
           <v-layout

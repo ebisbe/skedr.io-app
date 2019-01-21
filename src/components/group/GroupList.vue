@@ -108,8 +108,8 @@
       <group-tag-dialog
         :title="group.title"
         :manage-tags="manageTags"
+        :group-id="group.groupId"
         :tags="tags"
-        @update="$emit('update', $event)"
         @close="manageTags = false"/>
     </v-list-tile>
   </div>

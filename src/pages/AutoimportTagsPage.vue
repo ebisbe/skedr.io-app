@@ -1,116 +1,49 @@
 <template>
   <v-content>
-    <v-container v-if="search !== ''">
-      <v-switch
-        v-model="joinedGroups"
-        color="primary"
-        label="Show joined groups only"
-      />
-      <v-card>
-        <v-list two-line class="py-0">
-          <group-list
-            v-for="(group, index) in searchGroups.groups"
-            :key="group.groupId"
-            :group="group"
-            :use-divider="index!==0"
-            :tags="group.groupTag !== null ? group.groupTag.tags : []"
-            @update="updateGroupTagsList({groupId: group.groupId, tags: $event, group})"
-          >
-            <v-btn
-              v-if="!group.isMember"
-              slot="action"
-              :disabled="joiningGroup === group.groupId"
-              ripple
-              color="grey lighten-3"
-              icon
-              @click="bindGroup(group)">
-              <v-tooltip top lazy>
-                <v-progress-circular
-                  v-if="joiningGroup === group.groupId"
-                  slot="activator"
-                  :width="2"
-                  :size="28"
-                  color="accent"
-                  indeterminate
-                />
-                <v-icon
-                  v-else
-                  slot="activator"
-                  color="accent">create_new_folder</v-icon>
-                <span>Join Flickr group</span>
-              </v-tooltip>
+    <ApolloQuery
+      :query="require('@/graphql/groupTagsList.gql')"
+      tag=""
+    >
+      <template slot-scope="{ result: { error, data } , isLoading, query}">
+        <!-- Loading -->
+        <q-empty
+          v-if="isLoading && data === null"
+          :loading="true"/>
 
-              <v-dialog
-                v-model="acceptGroupRulesDialog"
-                lazy
-                width="500"
-              >
-                <v-card>
-                  <v-toolbar dark color="primary">
-                    <v-toolbar-title>
-                      Accept group rules ?
-                    </v-toolbar-title>
-                    <v-spacer/>
-                  </v-toolbar>
-                  <v-card-text style="white-space: pre-line;" v-html="rules"/>
-                  <v-divider/>
+        <!-- Error -->
+        <q-empty
+          v-else-if="error"
+          :error="true"
+          icon="photo"/>
 
-                  <v-card-actions>
-                    <v-spacer/>
-                    <v-btn
-                      color="primary"
-                      flat
-                      @click="acceptGroupRulesDialog = false"
-                    >
-                      do not accept
-                    </v-btn>
-                    <v-btn
-                      color="primary"
-                      @click="bindGroup(group, true)"
-                    >
-                      accept
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
-            </v-btn>
-            <v-btn
-              v-else-if="group.isMember && group.groupTag === null"
-              slot="action"
-              ripple
-              icon
-              color="grey lighten-3"
-              @click.stop="updateGroupTagsList({groupId: group.groupId, tags: [], group})">
-              <v-tooltip top lazy>
-                <v-icon slot="activator" color="secondary">add</v-icon>
-                <span>Add tags</span>
-              </v-tooltip>
-            </v-btn>
-          </group-list>
-        </v-list>
-      </v-card>
-    </v-container>
-    <v-container v-else-if="groupTagsList.length">
-      <v-card>
-        <v-list two-line class="py-0">
-          <group-list
-            v-for="( {group, tags, groupId}, index ) in groupTagsList"
-            v-show="filteredTags.some(tag => tags.indexOf(tag) > -1) || isEmpty"
-            :key="groupId"
-            :group="group"
-            :use-divider="index!==0"
-            :tags="tags"
-            @update="updateGroupTagsList({groupId, tags: $event, group})"/>
-        </v-list>
-      </v-card>
-    </v-container>
-    <v-container v-else>
-      <ol>
-        <li>You don't have binded any group with tags. To do so search through your groups or find new groups with the Search bar</li>
-        <li>Add tags ( preferably just one tag ) that matches the group essence. ( add examples )</li>
-        <li>Once the tag/s has binded to the group all your photos with that tag will be shared to that group automatically. New photos you upload will be added too.</li>
-      </ol>
-    </v-container>
+        <!-- Result -->
+        <v-container
+          v-else-if="data.groupTagsList"
+        >
+          <v-card>
+            <v-list two-line class="py-0">
+              <group-list
+                v-for="( {group, tags, groupId}, index ) in data.groupTagsList"
+                v-show="filteredTags.some(tag => tags.indexOf(tag) > -1) || isEmpty"
+                :key="groupId"
+                :group="group"
+                :use-divider="index!==0"
+                :tags="tags"/>
+            </v-list>
+          </v-card>
+        </v-container>
+
+        <!-- No result -->
+        <v-container v-else>
+          <ol>
+            <li>You don't have binded any group with tags. To do so search through your groups or find new groups with the Search bar</li>
+            <li>Add tags ( preferably just one tag ) that matches the group essence. ( add examples )</li>
+            <li>Once the tag/s has binded to the group all your photos with that tag will be shared to that group automatically. New photos you upload will be added too.</li>
+          </ol>
+        </v-container>
+      </template>
+    </ApolloQuery>
+
   </v-content>
 </template>
 
@@ -124,8 +57,10 @@ import { mapState, mapGetters } from 'vuex'
 import { throttleText, loadingGraphql, filters } from '@/mixins'
 import _keyBy from 'lodash/keyBy'
 
+import QEmpty from '@/components/ui/QEmpty'
+
 export default {
-  components: { GroupList },
+  components: { GroupList, QEmpty },
   mixins: [throttleText, loadingGraphql, filters],
   data: () => ({
     joinedGroups: true,
@@ -144,37 +79,14 @@ export default {
     }),
     ...mapGetters({ isEmpty: 'tagsFilter/isEmpty' }),
     filteredTags() {
-      return Object.entries(this.tagsFilter).filter(object => object[1]).map(object => object[0])
+      return Object.entries(this.tagsFilter)
+        .filter(object => object[1])
+        .map(object => object[0])
     }
   },
   watch: {
     search(newValue) {
       if (newValue === '') this.searchGroups = { groups: [] }
-    }
-  },
-  apollo: {
-    groupTagsList: {
-      query: GROUP_TAGS_LIST,
-      fetchPolicy: 'cache-and-network',
-      update: ({ groupTagsList }) => groupTagsList
-    },
-    searchGroups: {
-      query: SEARCH_GROUPS,
-      fetchPolicy: 'cache-and-network',
-      loadingKey: 'loadingGraphql',
-      update: ({ searchGroups }) => searchGroups,
-      variables() {
-        return {
-          text: this.search,
-          page: 1,
-          perPage: 10,
-          userId: this.joinedGroups ? this.userId : undefined
-        }
-      },
-      debounce: 500,
-      skip() {
-        return this.search === ''
-      }
     }
   },
   methods: {

@@ -1,4 +1,4 @@
-import { InMemoryCache } from 'apollo-cache-inmemory/lib/index'
+import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory/lib/index'
 import { HttpLink } from 'apollo-link-http/lib/index'
 import { setContext } from 'apollo-link-context'
 import { ApolloClient } from 'apollo-client/index'
@@ -26,7 +26,12 @@ const authLink = setContext(async (_, { headers }) => {
 // Create the apollo client
 const apolloClient = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    dataIdFromObject: object => {
+      if (process.env.NODE_ENV !== 'production') object.id = `${process.env.NODE_ENV}-${object.id}`
+      return defaultDataIdFromObject(object)
+    }
+  }),
   connectToDevTools: true
 })
 

@@ -1,0 +1,22 @@
+query notifications($count: Int!, $nextToken: String) {
+  notifications(count: $count, nextToken: $nextToken) {
+    notifications {
+      photoId
+      groupId
+      message
+      userId
+      createdAt
+      photo {
+        photoId
+        title
+        secret
+        farm
+        server
+      }
+      group {
+        title
+      }
+    }
+    nextToken
+  }
+}

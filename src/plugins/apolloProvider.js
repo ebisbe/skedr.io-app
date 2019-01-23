@@ -10,7 +10,7 @@ const uri = exports.aws_appsync_graphqlEndpoint
 
 const httpLink = new HttpLink({
   // You should use an absolute URL here
-  uri: uri
+  uri
 })
 
 const authLink = setContext(async (_, { headers }) => {

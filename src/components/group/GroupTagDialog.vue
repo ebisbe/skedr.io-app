@@ -41,7 +41,7 @@
         /> -->
       </div>
       <v-card-text v-if="comboTags">
-        <v-expansion-panel popout>
+        <v-expansion-panel>
           <ApolloQuery
             v-for="tag in comboTags"
             :key="tag"
@@ -54,7 +54,7 @@
             <template slot-scope="{ result: { loading, error, data }, isLoading }">
               <v-expansion-panel-content
               >
-                <div slot="header">{{ tag }} [{{ data.photoTagsList.length }}]</div>
+                <div slot="header">{{ tag }} <span v-if="data">[{{ data.photoTagsList.length }}]</span></div>
                 <v-card>
                   <v-card-text>
                     <v-container

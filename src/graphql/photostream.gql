@@ -5,6 +5,7 @@ query userPhotos($page: Int!, $perPage: Int!) {
     page
     perPage
     photos {
+      id
       photoId
       secret
       title

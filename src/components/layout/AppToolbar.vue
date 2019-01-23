@@ -60,7 +60,6 @@
     </v-navigation-drawer>
     <v-toolbar
       :dense="false"
-      :extended="useExtended"
       app
       fixed
       color="primary"
@@ -70,14 +69,6 @@
       clipped-right>
       <v-toolbar-side-icon @click.stop="toggle"/>
       <v-toolbar-title v-text="pageTitle" />
-      <v-flex
-        :slot="useExtended ? 'extension' : ''"
-        class="pa-1">
-        <q-filter
-          solo-inverted
-          placeholder="Search ..."
-          @search="searchText"/>
-      </v-flex>
       <v-spacer/>
       <v-text-field
         v-model="search"
@@ -88,37 +79,71 @@
         hide-details
         clearable
         label="Search"
+        @keyup.enter="$router.push({name: 'AutoimportTagsSearch'})"
+        @click:clear="$router.push({name: 'AutoimportTagsList'})"
       />
       <v-spacer/>
+      <v-btn
+        color="primary"
+        icon
+        @click="() => {
+          notificationDrawer = true
+          showBadge = false
+        }"
+      >
+        <!-- <v-badge
+          v-model="showBadge"
+          color="red"
+          right
+          overlap
+        >
+          <span slot="badge" >!</span> -->
+        <v-icon medium>
+          notifications
+        </v-icon>
+        <!-- </v-badge> -->
+      </v-btn>
+      <!-- <ApolloQuery
+        :query="require('@/graphql/notifications.gql')"
+        tag=""
+      >
+        <template slot-scope="{ result: { loading, error, data }, isLoading }">
+          <span v-if="data" >
+            <ApolloSubscribeToMore
+              :document="require('@/graphql/subscriptions/onPublishPhoto.gql')"
+              :variables="{}"
+              :update-query="onMessageAdded"
+            />
+          </span>
+        </template>
+      </apolloquery> -->
       <app-pool-btn/>
     </v-toolbar>
+    <app-notification-list :drawer="notificationDrawer" @updated="notificationDrawer = $event"/>
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
-import QFilter from '@/components/ui/QFilter.vue'
 import AppPoolBtn from './AppPoolBtn.vue'
 import AppFeedbackPopup from './AppFeedbackPopup'
+import AppNotificationList from './AppNotificationList'
 
 import { Auth } from 'aws-amplify'
 
 export default {
   name: 'Toolbar',
-  components: { QFilter, AppPoolBtn, AppFeedbackPopup },
+  components: { AppPoolBtn, AppFeedbackPopup, AppNotificationList },
   data: () => {
     return {
       title: 'Layout',
       drawer: false,
+      showBadge: true,
+      notificationDrawer: false,
       feedbackDialog: false,
-      search: '',
       lists: [
         {
           icon: 'perm_media',
           name: 'AutoimportTags'
-        },
-        {
-          icon: 'perm_media',
-          name: 'Groups'
         },
         {
           icon: 'photo',
@@ -142,15 +167,20 @@ export default {
     }
   },
   computed: {
-    ...mapState({ pageTitle: state => state.pageTitle, loading: state => (state.loading > 0 ? 'accent' : false) }),
-    useExtended() {
-      return this.showSearch && this.$vuetify.breakpoint.xsOnly
-    }
-  },
-  watch: {
-    search(newVal) {
-      newVal = newVal === null ? '' : newVal
-      this.$store.commit('updateSearch', newVal)
+    ...mapState({
+      pageTitle: state => state.pageTitle,
+      loading: state => (state.loading > 0 ? 'accent' : false)
+    }),
+    search: {
+      get() {
+        return this.$store.state.search
+      },
+      set(value) {
+        if (value === null) {
+          value = ''
+        }
+        this.$store.commit('updateSearch', value)
+      }
     }
   },
   mounted() {
@@ -167,10 +197,22 @@ export default {
       } catch (err) {
         this.$store.dispatch('message/add', err.message)
       }
-    },
-    searchText(value) {
-      this.$store.commit('updateSearch', value)
     }
+    // onMessageAdded(previousResult, { subscriptionData }) {
+    //   console.log(previousResult, subscriptionData)
+    //   // The previous result is immutable
+    //   const newResult = {
+    //     __typename: previousResult.notifications.__typename,
+    //     nextToken: previousResult.notifications.nextToken,
+    //     notifications: [...previousResult.notifications.notifications]
+    //   }
+    //   // Add the question to the list
+    //   if (subscriptionData.data.onPublishPhoto !== null)
+    //     newResult.notifications.push(...subscriptionData.data.onPublishPhoto)
+    //   console.log(newResult)
+    //   this.showBadge = true
+    //   return { notifications: newResult }
+    // }
   }
 }
 </script>

@@ -38,7 +38,7 @@
           <v-list-tile-content>
             <v-list-tile-title v-html="photo.title" />
             <v-list-tile-sub-title style="display:flex">
-              <v-tooltip bottom>
+              <v-tooltip bottom lazy>
                 <a
                   slot="activator"
                   :href="photoLink"
@@ -51,7 +51,7 @@
                 <span>Views</span>
               </v-tooltip>
               <v-spacer/>
-              <v-tooltip bottom>
+              <v-tooltip bottom lazy>
                 <span slot="activator">
                   <v-icon>perm_media</v-icon>
                   {{ groups.length }}
@@ -59,7 +59,7 @@
                 <span>Groups added</span>
               </v-tooltip>
               <v-spacer/>
-              <v-tooltip bottom>
+              <v-tooltip bottom lazy>
                 <span>Favorites</span>
                 <span slot="activator">
                   <v-icon v-html="star"/>
@@ -69,17 +69,11 @@
             </v-list-tile-sub-title>
           </v-list-tile-content>
           <v-list-tile-action>
-            <v-tooltip top class="ma-0">
-              <v-btn
-                slot="activator"
-                icon
-                flat
-                class="mx-1"
-                @click.stop="sharePhoto">
-                <v-icon>share</v-icon>
-              </v-btn>
-              <span>Sked <br>'{{ photo.title }}'</span>
-            </v-tooltip>
+            <share-dialog
+              :photos="[photo.id]"
+              flat
+              class="mx-1"
+              icon/>
           </v-list-tile-action>
         </v-list-tile>
       </v-list>
@@ -95,9 +89,10 @@ const cache = new CacheModule({ storage: 'session', defaultExpiration: 900 })
 const superagentCache = require('superagent-cache-plugin')(cache)
 
 import AppObserver from '@/components/common/AppObserver'
+import ShareDialog from '@/components/dialog/ShareDialog'
 
 export default {
-  components: { AppObserver },
+  components: { AppObserver, ShareDialog },
   props: {
     photo: {
       type: Object,

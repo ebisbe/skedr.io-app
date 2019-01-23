@@ -1,7 +1,9 @@
 query searchGroups($text: String!, $page: Int!, $perPage: Int!, $userId: String) {
   searchGroups(text: $text, page: $page, perPage: $perPage, userId: $userId) {
     page
+    pages
     groups {
+      id
       groupId
       title
       icon
@@ -14,6 +16,7 @@ query searchGroups($text: String!, $page: Int!, $perPage: Int!, $userId: String)
       isMember
       rules
       groupTag {
+        id
         tags
       }
     }

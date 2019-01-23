@@ -1,0 +1,19 @@
+mutation($input: [PublishPhotoInput]) {
+  publishPhoto(input: $input) {
+    photoId
+    groupId
+    message
+    userId
+    createdAt
+    photo {
+      photoId
+      title
+      secret
+      farm
+      server
+    }
+    group {
+      title
+    }
+  }
+}

@@ -48,7 +48,7 @@
                   indeterminate
                   color="grey"/>
                 <span v-else>
-                  &nbsp;Load more photos...
+                  &nbsp;Load more photos
                 </span>
               </v-btn>
             </v-flex>
@@ -102,10 +102,8 @@ export default {
           page: ++this.page,
           perPage: this.perPage
         },
-        // Transform the previous result with new data
         updateQuery: ({ userPhotos: { photos: prevPhotos } }, { fetchMoreResult: { userPhotos } }) => {
           this.showMoreEnabled = userPhotos.page !== userPhotos.pages
-
           userPhotos.photos = [...prevPhotos, ...userPhotos.photos]
           return {
             __typename: userPhotos.__typename,

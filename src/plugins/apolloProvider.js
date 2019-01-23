@@ -26,12 +26,7 @@ const authLink = setContext(async (_, { headers }) => {
 // Create the apollo client
 const apolloClient = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache({
-    dataIdFromObject: object => {
-      if (process.env.NODE_ENV !== 'production') object.id = `${process.env.NODE_ENV}-${object.id}`
-      return defaultDataIdFromObject(object)
-    }
-  }),
+  cache: new InMemoryCache(),
   connectToDevTools: true
 })
 

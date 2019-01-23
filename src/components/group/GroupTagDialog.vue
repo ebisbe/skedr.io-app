@@ -30,6 +30,7 @@
             slot="selection"
             slot-scope="{ item }"
             :tag="item"
+            @click="remove(item)"
           />
         </v-combobox>
         <!-- <v-switch
@@ -171,6 +172,11 @@ export default {
   },
   created() {
     this.comboTags = this.tags.slice()
+  },
+  methods: {
+    remove(tagToRemove){
+      this.comboTags = this.comboTags.filter(tags => tags !== tagToRemove)
+    }
   }
 }
 </script>

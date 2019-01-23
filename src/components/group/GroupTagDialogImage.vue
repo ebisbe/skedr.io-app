@@ -20,7 +20,7 @@
 export default {
   props: {
     photoId: {
-      type: Number,
+      type: String,
       required: true
     },
     secret: {

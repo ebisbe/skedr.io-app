@@ -4,6 +4,7 @@ mutation updateGroupTagsList($groupId: String!, $tags: [String!]) {
     groupId
     tags
     group {
+      id
       groupId
       title
       icon

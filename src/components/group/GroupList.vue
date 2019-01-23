@@ -18,32 +18,7 @@
       </v-list-tile-avatar>
       <v-list-tile-content>
         <v-list-tile-title>
-          <span>
-            <v-tooltip
-              v-if="group.photoLimitOptOut"
-              top
-              lazy
-            >
-              <v-icon
-                slot="activator"
-                color="green"
-              >check</v-icon>
-              <span>This group doesn't care how many other groups a photo is in</span>
-            </v-tooltip>
-            <v-tooltip
-              v-else
-              top
-              lazy
-            >
-              <v-icon
-                slot="activator"
-                color="red"
-              >clear</v-icon>
-              <span>This group will count toward the photo's limit
-                <br>(60 for Pro members, 30 for free members)
-              </span>
-            </v-tooltip>
-          </span>
+          <photo-limit-opt-out-message :opt-out="group.photoLimitOptOut"/>
           <strong v-html="group.title" />
         </v-list-tile-title>
         <v-list-tile-sub-title>
@@ -108,8 +83,8 @@
       <group-tag-dialog
         :title="group.title"
         :manage-tags="manageTags"
+        :group-id="group.groupId"
         :tags="tags"
-        @update="$emit('update', $event)"
         @close="manageTags = false"/>
     </v-list-tile>
   </div>
@@ -117,10 +92,11 @@
 <script>
 import { throttleText, filters } from '@/mixins'
 import GroupTagDialog from '@/components/group/GroupTagDialog'
+import PhotoLimitOptOutMessage from '@/components/group/PhotoLimitOptOutMessage'
 import { mapState } from 'vuex'
 
 export default {
-  components: { GroupTagDialog },
+  components: { GroupTagDialog, PhotoLimitOptOutMessage },
   mixins: [throttleText, filters],
   props: {
     group: {

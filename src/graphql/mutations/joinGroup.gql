@@ -1,5 +1,6 @@
 mutation joinGroup($groupId: String!, $acceptRules: Boolean, $message: String) {
   joinGroup(input: { groupId: $groupId, acceptRules: $acceptRules, message: $message }) {
+    id
     groupId
     title
     icon
@@ -12,6 +13,7 @@ mutation joinGroup($groupId: String!, $acceptRules: Boolean, $message: String) {
     isMember
     rules
     groupTag {
+      id
       tags
     }
   }

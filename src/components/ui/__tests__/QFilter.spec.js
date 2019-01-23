@@ -16,9 +16,9 @@ describe('QFilter.vue', () => {
   })
 
   describe('Computed', () => {
-    it("doesn't show icon", () => {
+    it("shows search icon", () => {
       const wrapper = createCmp()
-      expect(wrapper.vm.icon).toBe('')
+      expect(wrapper.vm.icon).toBe('search')
     })
 
     it('shows clear icon', () => {

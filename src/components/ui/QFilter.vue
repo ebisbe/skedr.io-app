@@ -2,13 +2,16 @@
   <v-text-field
     v-model="search"
     :placeholder="placeholder"
+    v-bind="$listeners"
     solo-inverted
     clearable
     solo
     class="mx-auto data-hj-whitelist"
     style="max-width: 500px; min-width: 128px"
+    prepend-inner-icon="search"
     @click:append="clearText"
     @keyup.exact.esc="clearText"
+    @keyup.enter="enter"
     @keyup.ctrl.enter="ctrlEnter"
     @keyup.exact.ctrl.esc="ctrlEsc"
   />
@@ -30,11 +33,14 @@ export default {
   },
   computed: {
     icon() {
-      return this.search.length === 0 ? '' : 'clear'
+      return this.search.length === 0 ? 'search' : 'clear'
     }
   },
   watch: {
     search(value) {
+      if (value === null) {
+        this.$emit('clear')
+      }
       value = value === null ? '' : value
       this.$emit('search', value)
     }
@@ -45,6 +51,10 @@ export default {
   methods: {
     clearText() {
       this.search = ''
+      this.$emit('clear')
+    },
+    enter() {
+      this.$emit('enter', this.search)
     },
     ctrlEnter() {
       this.$emit('ctrlEnter')

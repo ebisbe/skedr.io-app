@@ -1,8 +1,10 @@
 query autoimportTagList {
   groupTagsList {
+    id
     groupId
     tags
     group {
+      id
       groupId
       title
       icon

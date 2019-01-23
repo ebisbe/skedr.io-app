@@ -5,28 +5,31 @@
     fixed
     app
     right>
-    <v-container fluid grid-list-md>
-      <v-layout pa-0 fluid>
+    <v-container
+      fluid
+      grid-list-md
+      pa-0>
+      <v-layout
+        py-2
+        px-3
+        fluid>
         <v-flex xs6>
-          <v-tooltip top lazy>
-            <v-btn
-              slot="activator"
-              :disabled="disable"
-              block
-              color="success"
-              small
-              outline
-              @click="share({photos:pool})">
-              <v-icon>share</v-icon>&nbsp;Sked
-            </v-btn>
-            <span v-if="disable">Select 1 or more photos</span>
-            <span v-else>Share images</span>
-          </v-tooltip>
+          <share-dialog
+            :photos="pool.map(({id}) => id)"
+            :disabled="disable"
+            :tooltip-text="disable ? 'Select 1 or more photos' : 'Share images'"
+            tooltip-position="bottom"
+            color="success"
+            block
+            small
+            outline
+            button-text="&nbsp;Sked"
+            @click="share({photos:pool})"/>
         </v-flex>
         <v-flex xs6>
           <v-tooltip
             v-if="hasBackup"
-            top
+            bottom
             lazy>
             <v-btn
               slot="activator"
@@ -42,7 +45,7 @@
           </v-tooltip>
           <v-tooltip
             v-else
-            top
+            bottom
             lazy>
             <v-btn
               slot="activator"
@@ -58,13 +61,13 @@
           </v-tooltip>
         </v-flex>
       </v-layout>
-      <v-list subheader>
+      <v-list>
         <transition-group name="list">
           <template v-for="(photo, key) in pool">
             <v-divider
               v-if="key !== 0"
               :key="key"
-              inset />
+            />
             <v-list-tile :key="photo.photoId" avatar>
               <v-list-tile-avatar>
                 <img :src="photo.urlSq">
@@ -85,7 +88,6 @@
         </transition-group>
       </v-list>
     </v-container>
-    <share-dialog/>
   </v-navigation-drawer>
 </template>
 <script>

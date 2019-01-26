@@ -10,10 +10,10 @@ describe('PhotoScheduled.vue', () => {
 
   const photo = {
     photoId: 'photoId',
-    secret: 'secret',
     message: 'Some message',
     photo: {
       title: 'Some title',
+      secret: 'secret',
       server: 'server',
       farm: 'farm'
     }
@@ -31,23 +31,10 @@ describe('PhotoScheduled.vue', () => {
   })
 
   describe('Computed Properties', () => {
-    it('returns error message', () => {
-      const wrapper = createComp({ photo: {} })
-      expect(wrapper.vm.title).toBe('Error loading image')
-    })
-
     it('returns the url for a photo at flickr', () => {
       const wrapper = createComp({ photo })
       const url = 'https://farmfarm.staticflickr.com/server/photoId_secret.jpg'
       expect(wrapper.vm.url).toBe(url)
-    })
-
-    it('returns the url for an unkwon photo', () => {
-      const emptyPhoto = {}
-      const wrapper = createComp({ photo: emptyPhoto })
-      const url = 'https://fakeurl.com'
-      expect(wrapper.vm.url).toBe(url)
-      expect(wrapper.text()).toContain('Error loading image')
     })
   })
 

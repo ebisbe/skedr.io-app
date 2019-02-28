@@ -28,7 +28,7 @@
             slot="extension"
             class="pa-1">
             <q-filter
-              placeholder="Group name..."
+              placeholder="Search group..."
               @enter="val => {
                 search = val.toLowerCase()
                 showMoreEnabled = true
@@ -113,7 +113,6 @@
           style="min-height:400px;">
           <v-list
             v-if="Object.keys(groups).length"
-            :style="style"
             subheader
             two-line>
             <v-subheader>Selected groups</v-subheader>
@@ -129,10 +128,49 @@
               />
             </div>
           </v-list>
-          <q-empty
-            v-else
-            description="Search in your groups"
-            icon="search"/>
+          <ApolloQuery
+            :query="require('@/graphql/photoGroups.gql')"
+            :variables="{
+              photoId: photos[0],
+            }"
+            tag=""
+          >
+            <template slot-scope="{ result: { loading, error, data }, isLoading, query }">
+              <!-- Loading -->
+              <q-empty
+                v-if="isLoading === 1 && !fetchingMore"
+                class="py-5 my-5"
+                loading/>
+
+              <!-- Error -->
+              <q-empty
+                v-else-if="error"
+                description="No results found..."
+                icon="search"/>
+
+              <!-- Result -->
+              <v-list
+                v-else-if="data"
+                :style="style"
+                two-line>
+                <v-subheader>Shared groups</v-subheader>
+                <div
+                  v-for="(group, index) in data.photoGroups"
+                  :key="group.id">
+                  <v-divider v-if="index !== 0"/>
+                  <share-dialog-list
+                    :group="group"
+                    @remove="remove(group.id)"/>
+                </div>
+              </v-list>
+
+              <!-- No result -->
+              <q-empty
+                v-else
+                description="No results found..."
+                icon="search"/>
+            </template>
+          </ApolloQuery>
         </v-card-text>
 
         <v-toolbar

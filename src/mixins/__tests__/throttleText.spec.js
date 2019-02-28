@@ -1,5 +1,10 @@
 import throttleText from '../throttleText'
 describe('Mixin throttle text', () => {
+  it('there is no data -> return empty', () => {
+    const group = {}
+    const response = throttleText.methods.throttleText(group)
+    expect(response).toBe('')
+  })
   it('is member -> 5/10 day', () => {
     const group = {
       isMember: 1,

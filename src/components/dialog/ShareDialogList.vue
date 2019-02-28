@@ -16,12 +16,13 @@
     </v-list-tile-avatar>
     <v-list-tile-content>
       <v-list-tile-title >
-        <photo-limit-opt-out-message :opt-out="group.photoLimitOptOut"/>
+        <photo-limit-opt-out-message v-if="group.photoLimitOptOut !== undefined" :opt-out="group.photoLimitOptOut"/>
         <strong v-html="group.title"/>
         &nbsp;
         <a
           :href="`https://www.flickr.com/groups/${group.id}`"
           target="_blank"
+          style="text-decoration:none;"
           @click.stop>
           <v-icon small>open_in_new</v-icon>
         </a>

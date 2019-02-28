@@ -29,8 +29,10 @@
             class="pa-1">
             <q-filter
               placeholder="Group name..."
-              @enter="val => { search = val.toLowerCase()
-                               page= 1 }"
+              @enter="val => {
+                search = val.toLowerCase()
+                showMoreEnabled = true
+                page= 1 }"
               @clear="search = ''"/>
           </v-flex>
         </v-toolbar>
@@ -44,7 +46,7 @@
               text: search,
               page: 1,
               perPage,
-              userId
+              userId: username
             }"
             tag=""
           >
@@ -78,8 +80,21 @@
                       @remove="remove(group.id)"/>
                   </div>
                 </transition-group>
-                <v-flex v-if="showMoreEnabled">
-                  <app-observer @intersect="showMore(query)"/>
+                <v-flex class="px-2">
+                  <app-observer v-if="showMoreEnabled" @intersect="showMore(query)"/>
+                  <v-btn
+                    :disabled="!showMoreEnabled || isLoading === 1"
+                    block
+                    color="accent"
+                    @click="showMore(query)">
+                    <v-progress-circular
+                      v-if="isLoading"
+                      indeterminate
+                      color="grey"/>
+                    <span v-else>
+                      &nbsp;Load more groups
+                    </span>
+                  </v-btn>
                 </v-flex>
               </v-list>
 
@@ -203,7 +218,7 @@ export default {
     groups: {}
   }),
   computed: {
-    ...mapState('user', ['userId']),
+    ...mapState('user', ['username']),
     hasItemsSelected() {
       return Object.keys(this.groups).length > 0
     },
@@ -238,7 +253,7 @@ export default {
           text: this.search,
           page: ++this.page,
           perPage: this.perPage,
-          userId: '144521588@N08'
+          userId: this.username
         },
         updateQuery: ({ searchGroups: { groups: prev } }, { fetchMoreResult: { searchGroups } }) => {
           this.fetchingMore = false

@@ -18,6 +18,13 @@
       <v-list-tile-title >
         <photo-limit-opt-out-message :opt-out="group.photoLimitOptOut"/>
         <strong v-html="group.title"/>
+        &nbsp;
+        <a
+          :href="`https://www.flickr.com/groups/${group.id}`"
+          target="_blank"
+          @click.stop>
+          <v-icon small>open_in_new</v-icon>
+        </a>
       </v-list-tile-title>
       <v-list-tile-sub-title>
         <!-- <v-layout

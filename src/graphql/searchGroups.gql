@@ -1,4 +1,4 @@
-query searchGroups($text: String!, $page: Int!, $perPage: Int!, $userId: String) {
+query searchGroups($text: String!, $page: Int!, $perPage: Int!, $userId: String, $photoId: String!) {
   searchGroups(text: $text, page: $page, perPage: $perPage, userId: $userId) {
     page
     pages
@@ -20,5 +20,8 @@ query searchGroups($text: String!, $page: Int!, $perPage: Int!, $userId: String)
         tags
       }
     }
+  }
+  photoGroups(photoId: $photoId) {
+    id
   }
 }

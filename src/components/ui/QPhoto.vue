@@ -71,6 +71,7 @@
           <v-list-tile-action>
             <share-dialog
               :photos="[photo.id]"
+              :toolbar-title="`Sharing: '${photo.title}'`"
               flat
               class="mx-1"
               icon/>

@@ -87,7 +87,7 @@ export default {
         case this.$vuetify.breakpoint.sm:
           return 8
         case this.$vuetify.breakpoint.md:
-          return 12
+          return 15
         case this.$vuetify.breakpoint.lgAndUp:
           return 15
       }

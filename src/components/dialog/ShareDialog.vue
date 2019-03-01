@@ -46,7 +46,8 @@
               text: search,
               page: 1,
               perPage,
-              userId: username
+              userId: username,
+              photoId: sharesOneImage ? photos[0] : ''
             }"
             tag=""
           >
@@ -75,12 +76,13 @@
                     <v-divider v-if="index !== 0"/>
                     <share-dialog-list
                       :group="group"
+                      :already-in-group="data.photoGroups.findIndex(({id}) => group.id===id) > -1"
                       :selected="groups[group.id] !== undefined"
                       @select="add(group)"
                       @remove="remove(group.id)"/>
                   </div>
                 </transition-group>
-                <v-flex class="px-2">
+                <v-flex v-if="showMoreEnabled" class="px-2">
                   <app-observer v-if="showMoreEnabled" @intersect="showMore(query)"/>
                   <v-btn
                     :disabled="!showMoreEnabled || isLoading === 1"
@@ -112,12 +114,12 @@
           class="pa-0"
           style="min-height:400px;">
           <v-list
-            v-if="Object.keys(groups).length"
+            v-if="totalSelectedGroups"
             subheader
             two-line>
-            <v-subheader>Selected groups</v-subheader>
+            <v-subheader>{{ totalSelectedGroups }} {{ totalSelectedGroups > 1 ? 'groups' : 'group' }} selected</v-subheader>
             <div
-              v-for="(group, index) in Object.values(groups)"
+              v-for="(group, index) in orderedSelectedGroups"
               :key="group.id">
               <v-divider v-if="index !== 0"/>
               <share-dialog-list
@@ -129,6 +131,7 @@
             </div>
           </v-list>
           <ApolloQuery
+            v-if="sharesOneImage"
             :query="require('@/graphql/photoGroups.gql')"
             :variables="{
               photoId: photos[0],
@@ -153,7 +156,7 @@
                 v-else-if="data"
                 :style="style"
                 two-line>
-                <v-subheader>Shared groups</v-subheader>
+                <v-subheader>Shared in {{ data.photoGroups.length }} {{ data.photoGroups.length > 1 ? 'groups' : 'group' }}</v-subheader>
                 <div
                   v-for="(group, index) in data.photoGroups"
                   :key="group.id">
@@ -171,6 +174,10 @@
                 icon="search"/>
             </template>
           </ApolloQuery>
+          <q-empty
+            v-else
+            description="Search groups to share your images"
+            icon="search"/>
         </v-card-text>
 
         <v-toolbar
@@ -219,10 +226,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import QFilter from '@/components/ui/QFilter'
-import QEmpty from '@/components/ui/QEmpty'
-import ShareDialogList from '@/components/dialog/ShareDialogList'
-import AppObserver from '@/components/common/AppObserver'
+import _sortBy from 'lodash/sortBy'
+import QFilter from '@/components/ui/QFilter.vue'
+import QEmpty from '@/components/ui/QEmpty.vue'
+import ShareDialogList from '@/components/dialog/ShareDialogList.vue'
+import AppObserver from '@/components/common/AppObserver.vue'
 
 export default {
   components: { QFilter, ShareDialogList, QEmpty, AppObserver },
@@ -242,10 +250,13 @@ export default {
     tooltipPosition: {
       type: String,
       default: 'top'
+    },
+    toolbarTitle: {
+      type: String,
+      default: 'Share images'
     }
   },
   data: () => ({
-    toolbarTitle: 'Share images',
     search: '',
     sharePhoto: false,
     page: 1,
@@ -267,6 +278,18 @@ export default {
     },
     style() {
       return { width: '100%', 'padding-bottom': this.hasItemsSelected ? '73px' : '0px' }
+    },
+    orderedSelectedGroups() {
+      return _sortBy(this.groups, [({ title }) => title.replace(/[\W]/g, '').toLowerCase()])
+    },
+    totalSelectedGroups() {
+      return Object.keys(this.groups).length
+    },
+    groupString() {
+      return this.totalSelectedGroups > 1 ? 'groups' : 'group'
+    },
+    sharesOneImage() {
+      return this.photos.length === 1
     }
   },
   methods: {
@@ -293,7 +316,7 @@ export default {
           perPage: this.perPage,
           userId: this.username
         },
-        updateQuery: ({ searchGroups: { groups: prev } }, { fetchMoreResult: { searchGroups } }) => {
+        updateQuery: ({ searchGroups: { groups: prev } }, { fetchMoreResult: { searchGroups, photoGroups } }) => {
           this.fetchingMore = false
           if (searchGroups.groups.length === 0) {
             this.showMoreEnabled = false
@@ -302,7 +325,8 @@ export default {
           searchGroups.groups = [...prev, ...searchGroups.groups]
           return {
             __typename: searchGroups.__typename,
-            searchGroups
+            searchGroups,
+            photoGroups
           }
         }
       })

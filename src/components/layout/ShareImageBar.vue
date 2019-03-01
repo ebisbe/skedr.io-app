@@ -17,7 +17,8 @@
           <share-dialog
             :photos="pool.map(({id}) => id)"
             :disabled="disable"
-            :tooltip-text="disable ? 'Select 1 or more photos' : 'Share images'"
+            :tooltip-text="disable ? 'Select 1 or more photos' : toolbarTitle"
+            :toolbar-title="toolbarTitle"
             tooltip-position="bottom"
             color="success"
             block
@@ -111,6 +112,9 @@ export default {
       set(value) {
         this.$store.commit('updateRightDrawer', value)
       }
+    },
+    toolbarTitle() {
+      return `Share ${this.pool.length} images`
     }
   },
   methods: {

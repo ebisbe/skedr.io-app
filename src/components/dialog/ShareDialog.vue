@@ -14,6 +14,7 @@
       v-model="sharePhoto"
       :fullscreen="$vuetify.breakpoint.xsOnly"
       lazy
+      persistent
       width="500"
       scrollable
     >

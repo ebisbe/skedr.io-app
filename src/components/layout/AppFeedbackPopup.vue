@@ -1,6 +1,8 @@
 <template>
   <v-dialog
     v-model="dialog"
+    lazy
+    persistent
     max-width="500px">
     <v-card>
       <v-toolbar

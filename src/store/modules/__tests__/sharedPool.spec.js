@@ -17,6 +17,14 @@ describe('sharedPool', () => {
 
       expect(getters.hasItems(state)).toBe(true)
     })
+
+    it('retuns photos ids only', () => {
+      const state = {
+        photos: [{ id: 1 }, { id: 2 }]
+      }
+
+      expect(getters.photoIds(state)).toMatchObject([1, 2])
+    })
   })
 
   describe('mutations', () => {
@@ -30,28 +38,14 @@ describe('sharedPool', () => {
       expect(state.photos.length).toBe(1)
     })
 
-    it('adds a group', () => {
-      const state = {
-        selectedGroups: []
-      }
-
-      expect(state.selectedGroups.length).toBe(0)
-      mutations.addToGroup(state, { title: 'group 1' })
-      expect(state.selectedGroups.length).toBe(1)
-      expect(state.selectedGroups[0]).toBe('group 1')
-    })
-
     it('clears the state', () => {
       const state = {
-        photos: [1, 2, 3],
-        selectedGroups: [1, 2, 3]
+        photos: [1, 2, 3]
       }
 
       expect(state.photos.length).toBe(3)
-      expect(state.selectedGroups.length).toBe(3)
       mutations.clear(state)
       expect(state.photos.length).toBe(0)
-      expect(state.selectedGroups.length).toBe(0)
     })
   })
 
@@ -59,20 +53,17 @@ describe('sharedPool', () => {
     it('loads a shared pool', () => {
       const state = {
         photos: [],
-        selectedGroups: [],
         commit: jest.fn()
       }
 
       actions.share(state, {
-        photos: [{ photoId: 1 }, { photoId: 2 }],
-        selectedGroups: [{ groupId: 1 }, { groupId: 2 }]
+        photos: [{ photoId: 1 }, { photoId: 2 }]
       })
 
-      expect(state.commit).toHaveBeenCalledTimes(4)
-      expect(state.commit).toHaveBeenNthCalledWith(1, 'add', { photoId: 1 })
-      expect(state.commit).toHaveBeenNthCalledWith(2, 'add', { photoId: 2 })
-      expect(state.commit).toHaveBeenNthCalledWith(3, 'addToGroup', { groupId: 1 })
-      expect(state.commit).toHaveBeenNthCalledWith(4, 'addToGroup', { groupId: 2 })
+      expect(state.commit).toHaveBeenCalledTimes(3)
+      expect(state.commit).toHaveBeenNthCalledWith(1, 'clear')
+      expect(state.commit).toHaveBeenNthCalledWith(2, 'add', { photoId: 1 })
+      expect(state.commit).toHaveBeenNthCalledWith(3, 'add', { photoId: 2 })
     })
 
     it('clears the pool', () => {

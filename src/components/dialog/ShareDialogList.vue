@@ -1,8 +1,8 @@
 <template>
   <v-list-tile
-    :class="{ selected }"
+    :class="{ selected, alreadyInGroup, disabled }"
     avatar
-    @click="selectGroup">
+    v-on="!disabled && !alreadyInGroup ? { click: selectGroup } : {}">
     <v-list-tile-avatar>
       <v-badge
         :color="badgeColor"
@@ -16,24 +16,26 @@
     </v-list-tile-avatar>
     <v-list-tile-content>
       <v-list-tile-title >
-        <photo-limit-opt-out-message :opt-out="group.photoLimitOptOut"/>
+        <photo-limit-opt-out-message v-if="group.photoLimitOptOut !== undefined" :opt-out="group.photoLimitOptOut"/>
         <strong v-html="group.title"/>
         &nbsp;
         <a
           :href="`https://www.flickr.com/groups/${group.id}`"
           target="_blank"
+          style="text-decoration:none;"
           @click.stop>
           <v-icon small>open_in_new</v-icon>
         </a>
       </v-list-tile-title>
       <v-list-tile-sub-title>
-        <!-- <v-layout
-          v-if="group.alreadyInGroup===true"
+        <v-layout
+          v-if="alreadyInGroup"
           row
           wrap>
           Photo already in this group
-        </v-layout> -->
+        </v-layout>
         <v-layout
+          v-else
           row
           wrap>
           <v-flex
@@ -91,6 +93,10 @@ export default {
     allowRemoveAction: {
       type: Boolean,
       default: false
+    },
+    alreadyInGroup: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -104,12 +110,12 @@ export default {
       return this.group.throttleMode === 'disabled' ? 'clear' : 'check'
     },
     useBadge() {
-      return this.selected || this.disabled
+      return this.selected || this.disabled || this.alreadyInGroup
     }
   },
   methods: {
     selectGroup() {
-      if (this.disabled) return
+      if (this.disabled || this.alreadyInGroup) return
       return this.selected ? this.$emit('remove') : this.$emit('select')
     }
   }
@@ -117,6 +123,12 @@ export default {
 </script>
 <style lang="css">
 .selected {
-  background: #f5f5f5;
+  background: #EEEEEE;
+}
+.alreadyInGroup {
+  background: #F1F8E9;
+}
+.disabled {
+  background: #FFEBEE;
 }
 </style>

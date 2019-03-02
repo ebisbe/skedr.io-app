@@ -1,14 +1,14 @@
 <template>
   <v-card
-    :class="{'pa-3 selected': inPool(photo.photoId)}"
+    :class="{'pa-3 selected': isPhotoInPool}"
     flat
     class="grey lighten-3 q-photo"
     @mouseover="hover = true"
     @mouseout="hover = false"
-    @click.native="!inPool(photo.photoId) ? addToPool(photo) : removeFromPool(photo.photoId)">
+    @click.native="!isPhotoInPool ? addToPool(photo) : removeFromPool(photo.photoId)">
     <app-observer v-if="showObserver" @intersect="load"/>
     <v-img
-      :height="!inPool(photo.photoId) ? height : height - 32"
+      :height="heightImg"
       :src="bigImg"
       :lazy-src="photo.urlSq"
       aspect-ratio="1"
@@ -25,7 +25,7 @@
       </v-layout>
     </v-img>
     <v-icon
-      v-if="inPool(photo.photoId)"
+      v-if="isPhotoInPool"
       class="q-checkCircle"
       color="accent">check_circle</v-icon>
     <v-icon
@@ -69,11 +69,19 @@
             </v-list-tile-sub-title>
           </v-list-tile-content>
           <v-list-tile-action>
-            <share-dialog
-              :photos="[photo.id]"
-              flat
-              class="mx-1"
-              icon/>
+            <v-tooltip
+              top
+              lazy>
+              <v-btn
+                slot="activator"
+                flat
+                class="mx-1"
+                icon
+                @click.stop="sharePhoto">
+                <v-icon>share</v-icon>
+              </v-btn>
+              <span>Sked image</span>
+            </v-tooltip>
           </v-list-tile-action>
         </v-list-tile>
       </v-list>
@@ -89,10 +97,9 @@ const cache = new CacheModule({ storage: 'session', defaultExpiration: 900 })
 const superagentCache = require('superagent-cache-plugin')(cache)
 
 import AppObserver from '@/components/common/AppObserver'
-import ShareDialog from '@/components/dialog/ShareDialog'
 
 export default {
-  components: { AppObserver, ShareDialog },
+  components: { AppObserver },
   props: {
     photo: {
       type: Object,
@@ -120,11 +127,13 @@ export default {
       return this.totalFavs > 0 ? 'star' : 'star_border'
     },
     bigImg() {
-      if (!this.showObserver) {
-        return this.photo.urlM
-      } else {
-        return ''
-      }
+      return !this.showObserver ? this.photo.urlM : ''
+    },
+    isPhotoInPool() {
+      return this.inPool(this.photo.photoId)
+    },
+    heightImg() {
+      return !this.isPhotoInPool ? this.height : this.height - 32
     },
     ...mapGetters({
       userId: 'user/userId',
@@ -138,7 +147,7 @@ export default {
       share: 'sharedPool/share'
     }),
     sharePhoto() {
-      this.share({ photos: [this.photo], selectedGroups: this.groups })
+      this.share({ photos: [this.photo] })
     },
     load() {
       let flickr = new Flickr(process.env.VUE_APP_FLICKR_KEY)

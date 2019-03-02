@@ -1,0 +1,9 @@
+query photoGroups($photoId: String!) {
+  photoGroups(photoId: $photoId) {
+    id
+    title
+    icon
+    members
+    poolCount
+  }
+}

@@ -14,18 +14,23 @@
         px-3
         fluid>
         <v-flex xs6>
-          <share-dialog
-            :photos="pool.map(({id}) => id)"
-            :disabled="disable"
-            :tooltip-text="disable ? 'Select 1 or more photos' : toolbarTitle"
-            :toolbar-title="toolbarTitle"
-            tooltip-position="bottom"
-            color="success"
-            block
-            small
-            outline
-            button-text="&nbsp;Sked"
-            @click="share({photos:pool})"/>
+          <v-tooltip
+            bottom
+            lazy>
+            <v-btn
+              slot="activator"
+              v-bind="$attrs"
+              :disabled="disable"
+              color="success"
+              block
+              small
+              outline
+              @click.stop="share({photos: pool})">
+              <v-icon>share</v-icon><span>&nbsp;Sked</span>
+            </v-btn>
+            <span>{{ disable ? 'Select 1 or more photos' : toolbarTitle }}</span>
+          </v-tooltip>
+          <share-dialog />
         </v-flex>
         <v-flex xs6>
           <v-tooltip

@@ -69,12 +69,19 @@
             </v-list-tile-sub-title>
           </v-list-tile-content>
           <v-list-tile-action>
-            <share-dialog
-              :photos="[photo.id]"
-              :toolbar-title="`Sharing: '${photo.title}'`"
-              flat
-              class="mx-1"
-              icon/>
+            <v-tooltip
+              top
+              lazy>
+              <v-btn
+                slot="activator"
+                flat
+                class="mx-1"
+                icon
+                @click.stop="sharePhoto">
+                <v-icon>share</v-icon>
+              </v-btn>
+              <span>Sked image</span>
+            </v-tooltip>
           </v-list-tile-action>
         </v-list-tile>
       </v-list>
@@ -90,10 +97,9 @@ const cache = new CacheModule({ storage: 'session', defaultExpiration: 900 })
 const superagentCache = require('superagent-cache-plugin')(cache)
 
 import AppObserver from '@/components/common/AppObserver'
-import ShareDialog from '@/components/dialog/ShareDialog'
 
 export default {
-  components: { AppObserver, ShareDialog },
+  components: { AppObserver },
   props: {
     photo: {
       type: Object,
@@ -139,7 +145,7 @@ export default {
       share: 'sharedPool/share'
     }),
     sharePhoto() {
-      this.share({ photos: [this.photo], selectedGroups: this.groups })
+      this.share({ photos: [this.photo] })
     },
     load() {
       let flickr = new Flickr(process.env.VUE_APP_FLICKR_KEY)

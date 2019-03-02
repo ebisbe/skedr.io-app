@@ -1,14 +1,14 @@
 <template>
   <v-card
-    :class="{'pa-3 selected': inPool(photo.photoId)}"
+    :class="{'pa-3 selected': isPhotoInPool}"
     flat
     class="grey lighten-3 q-photo"
     @mouseover="hover = true"
     @mouseout="hover = false"
-    @click.native="!inPool(photo.photoId) ? addToPool(photo) : removeFromPool(photo.photoId)">
+    @click.native="!isPhotoInPool ? addToPool(photo) : removeFromPool(photo.photoId)">
     <app-observer v-if="showObserver" @intersect="load"/>
     <v-img
-      :height="!inPool(photo.photoId) ? height : height - 32"
+      :height="heightImg"
       :src="bigImg"
       :lazy-src="photo.urlSq"
       aspect-ratio="1"
@@ -25,7 +25,7 @@
       </v-layout>
     </v-img>
     <v-icon
-      v-if="inPool(photo.photoId)"
+      v-if="isPhotoInPool"
       class="q-checkCircle"
       color="accent">check_circle</v-icon>
     <v-icon
@@ -127,11 +127,13 @@ export default {
       return this.totalFavs > 0 ? 'star' : 'star_border'
     },
     bigImg() {
-      if (!this.showObserver) {
-        return this.photo.urlM
-      } else {
-        return ''
-      }
+      return !this.showObserver ? this.photo.urlM : ''
+    },
+    isPhotoInPool() {
+      return this.inPool(this.photo.photoId)
+    },
+    heightImg() {
+      return !this.isPhotoInPool ? this.height : this.height - 32
     },
     ...mapGetters({
       userId: 'user/userId',

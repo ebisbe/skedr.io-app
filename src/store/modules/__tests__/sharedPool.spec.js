@@ -17,6 +17,14 @@ describe('sharedPool', () => {
 
       expect(getters.hasItems(state)).toBe(true)
     })
+
+    it('retuns photos ids only', () => {
+      const state = {
+        photos: [{ id: 1 }, { id: 2 }]
+      }
+
+      expect(getters.photoIds(state)).toMatchObject([1, 2])
+    })
   })
 
   describe('mutations', () => {
@@ -32,7 +40,7 @@ describe('sharedPool', () => {
 
     it('clears the state', () => {
       const state = {
-        photos: [1, 2, 3],
+        photos: [1, 2, 3]
       }
 
       expect(state.photos.length).toBe(3)
@@ -49,7 +57,7 @@ describe('sharedPool', () => {
       }
 
       actions.share(state, {
-        photos: [{ photoId: 1 }, { photoId: 2 }],
+        photos: [{ photoId: 1 }, { photoId: 2 }]
       })
 
       expect(state.commit).toHaveBeenCalledTimes(3)

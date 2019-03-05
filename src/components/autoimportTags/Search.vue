@@ -14,7 +14,8 @@
         text: search,
         page: 1,
         perPage,
-        userId: joinedGroups ? userId : undefined
+        userId: joinedGroups ? userId : undefined,
+        photoId: ''
       }"
       fetch-policy="cache-and-network"
       tag=""
@@ -141,8 +142,10 @@ export default {
     showMoreEnabled: true
   }),
   computed: {
-    ...mapState({ search: state => state.search }),
-    ...mapState('user', ['userId'])
+    ...mapState({
+      userId: state => state.user.username,
+      search: state => state.search
+    })
   },
   methods: {
     fetchMore(query) {

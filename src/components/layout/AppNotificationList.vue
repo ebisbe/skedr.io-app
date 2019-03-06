@@ -1,29 +1,51 @@
 <template>
-  <ApolloQuery
-    :query="require('@/graphql/notifications.gql')"
-    :variables="{ count }"
-    :poll-interval="poll"
-    tag=""
+  <v-navigation-drawer
+    v-model="rightDrawer"
+    fixed
+    temporary
+    right
   >
-    <template slot-scope="{ result: { error, data }, isLoading, query }">
-      <v-navigation-drawer
-        v-model="rightDrawer"
-        fixed
-        app
-        temporary
-        right
-      >
+    <ApolloQuery
+      :query="require('@/graphql/notifications.gql')"
+      :variables="{ count }"
+      tag=""
+    >
+      <template slot-scope="{ result: { error, data }, isLoading, query, gqlError }">
         <v-container fluid pa-0>
           <!-- Loading -->
-          <div v-if="isLoading && data === null" class="loading apollo">Loading...</div>
+          <v-btn
+            v-if="isLoading && data === null"
+            :loading="isLoading === 1"
+            block
+            small
+            class="ma-0"
+            outline>Loading</v-btn>
 
           <!-- Error -->
-          <div v-else-if="error" class="error apollo">An error occured</div>
+          <div v-else-if="error" class="error apollo">An error occured: [{{ gqlError }}]</div>
 
           <!-- Result -->
           <template v-else-if="data && data.notifications.notifications.length">
+            <v-layout
+              v-if="refetchData"
+              py-2
+              px-3>
+              <v-flex>
+                <v-btn
+                  :loading="isLoading === 1"
+                  block
+                  small
+                  class="ma-0"
+                  outline
+                  @click="query.refetch()">Update</v-btn>
+                <app-observer
+                  @intersect="() => {
+                    query.refetch()
+                    refetchData = false
+                }"/>
+              </v-flex>
+            </v-layout>
             <v-list three-line >
-
               <template
                 v-for="(item, index) in data.notifications.notifications"
               >
@@ -45,22 +67,35 @@
                   </v-list-tile-content>
                 </v-list-tile>
               </template>
-              <v-list-tile v-if="isLoading">
+            </v-list>
+            <v-layout
+              v-if="showMoreEnabled"
+              py-2
+              px-3>
+              <v-flex>
                 <v-btn
                   :loading="isLoading === 1"
+                  :disabled="data.notifications.nextToken === null"
                   block
-                  disabled>Loading</v-btn>
-              </v-list-tile>
-            </v-list>
-            <app-observer v-if="showMoreEnabled" @intersect="showMore(query, data.notifications.nextToken)"/>
+                  small
+                  outline
+                  class="px-0 ma-0"
+                  @click="showMore(query, data.notifications.nextToken)">Load more</v-btn>
+                  <!-- <app-observer v-if="showMoreEnabled" @intersect="showMore(query, data.notifications.nextToken)"/> -->
+              </v-flex>
+            </v-layout>
           </template>
 
           <!-- No result -->
-          <v-list v-else class="no-result apollo"><v-list-tile>You don't have new notifications.</v-list-tile></v-list>
+          <v-list v-else class="no-result apollo">
+            <v-list-tile>
+              You don't have new notifications.
+            </v-list-tile>
+          </v-list>
         </v-container>
-      </v-navigation-drawer>
-    </template>
-  </ApolloQuery>
+      </template>
+    </ApolloQuery>
+  </v-navigation-drawer>
 </template>
 
 <script>
@@ -75,15 +110,17 @@ export default {
       required: true
     }
   },
-  data: () => ({ poll: 0, count: 10, showMoreEnabled: true }),
+  data: () => ({ count: 15, showMoreEnabled: true, refetchData: false }),
   computed: {
     rightDrawer: {
       get() {
         return this.drawer
       },
       set(value) {
-        if (value) this.poll = 0
-        else this.poll = 0
+        if (value) {
+          this.showMoreEnabled = true
+          this.refetchData = true
+        }
         this.$emit('updated', value)
       }
     }
@@ -96,15 +133,17 @@ export default {
       return `https://farm${farm}.staticflickr.com/${server}/${photoId}_${secret}_s.jpg`
     },
     showMore(query, nextToken) {
+      console.log('show more has been called')
+      if (nextToken === null) return
       //Fetch more data and transform the original result
       query.fetchMore({
         variables: {
           count: this.count,
           nextToken
         },
-        updateQuery: ({ notifications: { notifications: prevPhotos } }, { fetchMoreResult: { notifications } }) => {
+        updateQuery: ({ notifications: { notifications: prevNot } }, { fetchMoreResult: { notifications } }) => {
           this.showMoreEnabled = notifications.nextToken !== null
-          notifications.notifications = [...prevPhotos, ...notifications.notifications]
+          notifications.notifications = [...prevNot, ...notifications.notifications]
           return {
             __typename: notifications.__typename,
             notifications

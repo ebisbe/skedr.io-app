@@ -11,16 +11,17 @@ const router = new Router({
 })
 
 router.beforeEach(async (to, from, next) => {
-  if (to.meta.hash) {
-    Vue.prototype.$vuetify.theme.primary = to.meta.hash
-  }
   Store.commit('setPageTitle', to.name)
   if (to.meta.requiresAuth === true) {
     const isAuthenticated = await Store.dispatch('user/currentAuthenticatedUser', to)
-    if (!isAuthenticated) next({ name: 'Login' })
+    if (!isAuthenticated) {
+      next({ name: 'Login' })
+    } else {
+      next()
+    }
+  } else {
+    next()
   }
-
-  next()
 })
 
 export default router

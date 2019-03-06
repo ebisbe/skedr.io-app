@@ -117,8 +117,10 @@ export default {
         return this.drawer
       },
       set(value) {
-        this.refetchData = true
-        this.showMoreEnabled = true
+        if (value) {
+          this.showMoreEnabled = true
+          this.refetchData = true
+        }
         this.$emit('updated', value)
       }
     }

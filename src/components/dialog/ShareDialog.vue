@@ -184,6 +184,7 @@
           <ApolloMutation
             :mutation="require('@/graphql/mutations/publishPhoto.gql')"
             :variables="{ input: publishPhoto() }"
+            :update="updateAfterMutation"
             tag=""
             @done="closeDialog"
           >
@@ -271,6 +272,21 @@ export default {
     ...mapActions({
       clearSharedPool: 'sharedPool/clear'
     }),
+    updateAfterMutation(
+      store,
+      {
+        data: { publishPhoto }
+      }
+    ) {
+      // Read the data from our cache for this query.
+      const query = { query: require('@/graphql/notifications.gql'), variables: { count: 15 } }
+      const data = store.readQuery(query)
+      // Add our tag from the mutation to the end
+      data.notifications.notifications.unshift(...publishPhoto)
+      query.data = data
+      // Write our data back to the cache.
+      store.writeQuery(query)
+    },
     closeDialog() {
       this.clearSharedPool()
       this.search = ''

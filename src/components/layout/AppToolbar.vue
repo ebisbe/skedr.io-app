@@ -91,32 +91,18 @@
           showBadge = false
         }"
       >
-        <!-- <v-badge
+        <v-badge
           v-model="showBadge"
           color="red"
           right
           overlap
         >
-          <span slot="badge" >!</span> -->
-        <v-icon medium>
-          notifications
-        </v-icon>
-        <!-- </v-badge> -->
+          <span slot="badge" >!</span>
+          <v-icon medium>
+            notifications
+          </v-icon>
+        </v-badge>
       </v-btn>
-      <!-- <ApolloQuery
-        :query="require('@/graphql/notifications.gql')"
-        tag=""
-      >
-        <template slot-scope="{ result: { loading, error, data }, isLoading }">
-          <span v-if="data" >
-            <ApolloSubscribeToMore
-              :document="require('@/graphql/subscriptions/onPublishPhoto.gql')"
-              :variables="{}"
-              :update-query="onMessageAdded"
-            />
-          </span>
-        </template>
-      </apolloquery> -->
       <app-pool-btn/>
     </v-toolbar>
     <app-notification-list :drawer="notificationDrawer" @updated="notificationDrawer = $event"/>
@@ -137,7 +123,7 @@ export default {
     return {
       title: 'Layout',
       drawer: false,
-      showBadge: true,
+      showBadge: false,
       notificationDrawer: false,
       feedbackDialog: false,
       lists: [
@@ -198,21 +184,6 @@ export default {
         this.$store.dispatch('message/add', err.message)
       }
     }
-    // onMessageAdded(previousResult, { subscriptionData }) {
-    //   console.log(previousResult, subscriptionData)
-    //   // The previous result is immutable
-    //   const newResult = {
-    //     __typename: previousResult.notifications.__typename,
-    //     nextToken: previousResult.notifications.nextToken,
-    //     notifications: [...previousResult.notifications.notifications]
-    //   }
-    //   // Add the question to the list
-    //   if (subscriptionData.data.onPublishPhoto !== null)
-    //     newResult.notifications.push(...subscriptionData.data.onPublishPhoto)
-    //   console.log(newResult)
-    //   this.showBadge = true
-    //   return { notifications: newResult }
-    // }
   }
 }
 </script>

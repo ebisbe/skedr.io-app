@@ -33,8 +33,8 @@ describe('PhotoScheduled.vue', () => {
   describe('Computed Properties', () => {
     it('returns the url for a photo at flickr', () => {
       const wrapper = createComp({ photo })
-      const url = 'https://farmfarm.staticflickr.com/server/photoId_secret.jpg'
-      expect(wrapper.vm.url).toBe(url)
+      const url = 'https://farmfarm.staticflickr.com/server/photoId_secret_sq.jpg'
+      expect(wrapper.vm.url_sq).toBe(url)
     })
   })
 

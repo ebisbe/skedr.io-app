@@ -154,6 +154,7 @@
                 <v-divider v-if="index !== 0"/>
                 <share-dialog-list
                   :group="group"
+                  :selectable="false"
                   @remove="remove(group.id)"/>
               </div>
             </v-list>

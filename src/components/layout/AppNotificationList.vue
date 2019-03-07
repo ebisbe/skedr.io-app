@@ -133,7 +133,6 @@ export default {
       return `https://farm${farm}.staticflickr.com/${server}/${photoId}_${secret}_s.jpg`
     },
     showMore(query, nextToken) {
-      console.log('show more has been called')
       if (nextToken === null) return
       //Fetch more data and transform the original result
       query.fetchMore({

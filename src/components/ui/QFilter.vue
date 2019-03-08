@@ -1,5 +1,6 @@
 <template>
   <v-text-field
+    ref="input"
     v-model="search"
     :placeholder="placeholder"
     v-bind="$listeners"
@@ -23,6 +24,10 @@ export default {
     placeholder: {
       type: String,
       default: 'Search'
+    },
+    dontFocus: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -46,6 +51,9 @@ export default {
     }
   },
   mounted() {
+    if (!this.dontFocus) {
+      this.$refs.input.focus()
+    }
     this.search = ''
   },
   methods: {

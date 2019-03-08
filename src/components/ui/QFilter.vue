@@ -43,11 +43,10 @@ export default {
   },
   watch: {
     search(value) {
-      if (value === null) {
+      if (value === null || value === '') {
         this.$emit('clear')
       }
-      value = value === null ? '' : value
-      this.$emit('search', value)
+      this.$emit('search', value === null ? '' : value)
     }
   },
   mounted() {

@@ -2,7 +2,7 @@
   <v-list-tile
     :class="{ selected, alreadyInGroup, disabled }"
     avatar
-    v-on="!disabled && !alreadyInGroup ? { click: selectGroup } : {}">
+    v-on="clickable ? { click: selectGroup } : {}">
     <v-list-tile-avatar>
       <v-badge
         :color="badgeColor"
@@ -97,6 +97,10 @@ export default {
     alreadyInGroup: {
       type: Boolean,
       default: false
+    },
+    selectable: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
@@ -111,11 +115,13 @@ export default {
     },
     useBadge() {
       return this.selected || this.disabled || this.alreadyInGroup
+    },
+    clickable() {
+      return !this.disabled && !this.alreadyInGroup && this.selectable
     }
   },
   methods: {
     selectGroup() {
-      if (this.disabled || this.alreadyInGroup) return
       return this.selected ? this.$emit('remove') : this.$emit('select')
     }
   }
@@ -123,12 +129,12 @@ export default {
 </script>
 <style lang="css">
 .selected {
-  background: #EEEEEE;
+  background: #eeeeee;
 }
 .alreadyInGroup {
-  background: #F1F8E9;
+  background: #f1f8e9;
 }
 .disabled {
-  background: #FFEBEE;
+  background: #ffebee;
 }
 </style>

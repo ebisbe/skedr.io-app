@@ -1,4 +1,3 @@
-
 <template>
   <v-dialog
     v-model="manageTags"
@@ -174,7 +173,7 @@ export default {
     this.comboTags = this.tags.slice()
   },
   methods: {
-    remove(tagToRemove){
+    remove(tagToRemove) {
       this.comboTags = this.comboTags.filter(tags => tags !== tagToRemove)
     }
   }

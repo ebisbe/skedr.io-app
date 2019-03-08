@@ -47,6 +47,15 @@ describe('QFilter.vue', () => {
       expect(wrapper.emitted().search[0][0]).toBe('')
       expect(wrapper.emitted().clear).toBeTruthy()
     })
+    // https://github.com/vuejs/vue-test-utils/issues/1173
+    // it("emits '' event when value is ''", () => {
+    //   const wrapper = createCmp()
+    //   wrapper.setData({ search: '' })
+    //   wrapper.vm.$emit('hola')
+    //   expect(wrapper.emitted()).toBe([])
+    //   expect(wrapper.emitted().search[0][0]).toBe('')
+    //   expect(wrapper.emitted().clear).toBeTruthy()
+    // })
   })
 
   describe('Methods', () => {

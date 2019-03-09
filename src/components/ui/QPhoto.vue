@@ -32,6 +32,17 @@
       v-else-if="hover"
       class="q-checkCircle white--text">check_circle</v-icon>
     <v-icon v-else class="q-checkCircle white--text">radio_button_unchecked</v-icon>
+    <v-tooltip
+      v-if="!photo.isPublic"
+      class="q-non-public"
+      lazy
+      left>
+      <v-icon
+        slot="activator"
+        x-large
+        class="warning--text">lock</v-icon>
+      <span>Private image</span>
+    </v-tooltip>
     <v-container>
       <v-list two-line dark>
         <v-list-tile>

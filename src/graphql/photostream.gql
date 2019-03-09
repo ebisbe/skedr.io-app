@@ -12,6 +12,7 @@ query userPhotos($page: Int!, $perPage: Int!) {
       views
       urlM
       urlSq
+      isPublic
     }
   }
 }

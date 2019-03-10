@@ -6,13 +6,14 @@ query userPhotos($page: Int!, $perPage: Int!) {
     perPage
     photos {
       id
-      photoId
       secret
       title
       views
       urlM
       urlSq
       isPublic
+      sharedGroups
+      totalFavs
     }
   }
 }

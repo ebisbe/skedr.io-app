@@ -5,8 +5,8 @@
     class="grey lighten-3 q-photo"
     @mouseover="hover = true"
     @mouseout="hover = false"
-    @click.native="!isPhotoInPool ? addToPool(photo) : removeFromPool(photo.photoId)">
-    <app-observer v-if="showObserver" @intersect="load"/>
+    @click.native="!isPhotoInPool ? addToPool(photo) : removeFromPool(photo.id)">
+    <app-observer v-if="showObserver" @intersect="showObserver = false"/>
     <v-img
       :height="heightImg"
       :src="bigImg"
@@ -65,7 +65,7 @@
               <v-tooltip bottom lazy>
                 <span slot="activator">
                   <v-icon>perm_media</v-icon>
-                  {{ groups.length }}
+                  {{ photo.sharedGroups }}
                 </span>
                 <span>Groups added</span>
               </v-tooltip>
@@ -74,7 +74,7 @@
                 <span>Favorites</span>
                 <span slot="activator">
                   <v-icon v-html="star"/>
-                  {{ totalFavs }}
+                  {{ photo.totalFavs }}
                 </span>
               </v-tooltip>
             </v-list-tile-sub-title>
@@ -123,8 +123,6 @@ export default {
   },
   data() {
     return {
-      groups: [],
-      totalFavs: 0,
       hover: false,
       isVisible: false,
       showObserver: true
@@ -132,16 +130,16 @@ export default {
   },
   computed: {
     photoLink() {
-      return `https://www.flickr.com/photos/${this.userId}/${this.photo.photoId}`
+      return `https://www.flickr.com/photos/${this.userId}/${this.photo.id}`
     },
     star() {
-      return this.totalFavs > 0 ? 'star' : 'star_border'
+      return this.photo.totalFavs > 0 ? 'star' : 'star_border'
     },
     bigImg() {
       return !this.showObserver ? this.photo.urlM : ''
     },
     isPhotoInPool() {
-      return this.inPool(this.photo.photoId)
+      return this.inPool(this.photo.id)
     },
     heightImg() {
       return !this.isPhotoInPool ? this.height : this.height - 32
@@ -159,24 +157,6 @@ export default {
     }),
     sharePhoto() {
       this.share({ photos: [this.photo] })
-    },
-    load() {
-      let flickr = new Flickr(process.env.VUE_APP_FLICKR_KEY)
-      flickr.photos
-        .getAllContexts({ photo_id: this.photo.photoId })
-        .use(superagentCache)
-        .then(({ body: { pool = [] } }) => {
-          this.groups = pool
-        })
-
-      flickr.photos
-        .getFavorites({ photo_id: this.photo.photoId })
-        .use(superagentCache)
-        .then(({ body: { photo: { total = 0 } } }) => {
-          this.totalFavs = parseInt(total)
-        })
-
-      this.showObserver = false
     }
   }
 }

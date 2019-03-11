@@ -31,18 +31,17 @@ const createCmp = (propsData, photos = []) => shallowMount(comp, { propsData, st
 describe('QPhoto.vue', () => {
   describe('Computed Properties', () => {
     it('generate correct link to the photo', () => {
-      const wrapper = createCmp({ photo: { photoId: 'myId' } })
+      const wrapper = createCmp({ photo: { id: 'myId' } })
       expect(wrapper.vm.photoLink).toBe('https://www.flickr.com/photos/username/myId')
     })
 
     it('prints a half star', () => {
-      const wrapper = createCmp({ photo: { photoId: 'myId' } })
+      const wrapper = createCmp({ photo: { id: 'myId' } })
       expect(wrapper.vm.star).toBe('star_border')
     })
 
     it('prints a full star', () => {
-      const wrapper = createCmp({ photo: { photoId: 'myId' } })
-      wrapper.vm.totalFavs = 1
+      const wrapper = createCmp({ photo: { id: 'myId', totalFavs: 1 } })
       expect(wrapper.vm.star).toBe('star')
     })
 
@@ -58,17 +57,17 @@ describe('QPhoto.vue', () => {
     })
 
     it('checks if the current photo is in the pool', () => {
-      const wrapper = createCmp({ photo: { photoId: 'myId' } }, [{ photoId: 'myId' }])
+      const wrapper = createCmp({ photo: { id: 'myId' } }, [{ photoId: 'myId' }])
       expect(wrapper.vm.isPhotoInPool).toBe(true)
     })
 
     it('returns full image height when photo is not in the pool', () => {
-      const wrapper = createCmp({ photo: { photoId: 'myId' } })
+      const wrapper = createCmp({ photo: { id: 'myId' } })
       expect(wrapper.vm.heightImg).toBe(205)
     })
 
     it('returns less height of the image when photo is in the pool', () => {
-      const wrapper = createCmp({ photo: { photoId: 'myId' } }, [{ photoId: 'myId' }])
+      const wrapper = createCmp({ photo: { id: 'myId' } }, [{ photoId: 'myId' }])
       expect(wrapper.vm.heightImg).toBe(173)
     })
   })

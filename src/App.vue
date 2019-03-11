@@ -87,6 +87,12 @@ export default {
   left: 8px;
 }
 
+.q-non-public {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
 .q-photo {
   padding: 0;
   transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);

@@ -57,7 +57,7 @@
 
             <!-- Result -->
             <v-list
-              v-else-if="data"
+              v-else-if="data && data.searchGroups.groups.length > 0"
               :style="style"
               two-line>
               <transition-group name="whatsapp">
@@ -68,15 +68,15 @@
                   <share-dialog-list
                     :group="group"
                     :already-in-group="data.photoGroups.findIndex(({id}) => group.id===id) > -1"
-                    :selected="groups[group.id] !== undefined"
+                    :selected="inPool(group.id)"
                     @select="add(group)"
                     @remove="remove(group.id)"/>
                 </div>
               </transition-group>
-              <v-flex v-if="showMoreEnabled" class="px-2">
-                <app-observer v-if="showMoreEnabled" @intersect="showMore(query)"/>
+              <v-flex v-if="showMoreEnabled && data.searchGroups.groups.length >= perPage" class="px-2">
+                <app-observer @intersect="showMore(query)"/>
                 <v-btn
-                  :disabled="!showMoreEnabled || isLoading === 1"
+                  :disabled="isLoading === 1"
                   block
                   color="accent"
                   @click="showMore(query)">
@@ -94,7 +94,7 @@
             <!-- No result -->
             <q-empty
               v-else
-              description="No results found..."
+              :description="`There are no results for '${search}'`"
               icon="search"/>
           </template>
         </ApolloQuery>
@@ -115,7 +115,6 @@
             <v-divider v-if="index !== 0"/>
             <share-dialog-list
               :group="group"
-              :group-pool="groups"
               allow-remove-action
               @remove="remove(group.id)"
             />
@@ -184,7 +183,7 @@
         <v-fab-transition>
           <ApolloMutation
             :mutation="require('@/graphql/mutations/publishPhoto.gql')"
-            :variables="{ input: publishPhoto() }"
+            :variables="{ input: publishPhoto }"
             :update="updateAfterMutation"
             tag=""
             @done="closeDialog"
@@ -215,8 +214,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex'
-import _sortBy from 'lodash/sortBy'
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import QFilter from '@/components/ui/QFilter.vue'
 import QEmpty from '@/components/ui/QEmpty.vue'
 import ShareDialogList from '@/components/dialog/ShareDialogList.vue'
@@ -227,11 +225,10 @@ export default {
   data: () => ({
     search: '',
     page: 1,
-    perPage: 10,
+    perPage: 12,
     showList: true,
     showMoreEnabled: true,
-    fetchingMore: false,
-    groups: {}
+    fetchingMore: false
   }),
   computed: {
     ...mapState({
@@ -240,24 +237,15 @@ export default {
     }),
     ...mapGetters({
       sharePhoto: 'sharedPool/hasItems',
-      photos: 'sharedPool/photoIds'
+      photos: 'sharedPool/photoIds',
+      totalSelectedGroups: 'groupsPool/total',
+      orderedSelectedGroups: 'groupsPool/orderByTitle',
+      hasItemsSelected: 'groupsPool/hasItems',
+      groupList: 'groupsPool/list',
+      inPool: 'groupsPool/inPool'
     }),
-    hasItemsSelected() {
-      return Object.keys(this.groups).length > 0
-    },
-    groupList() {
-      return Object.values(this.groups)
-        .map(({ title }) => title)
-        .join(', ')
-    },
     style() {
       return { width: '100%', 'padding-bottom': this.hasItemsSelected ? '73px' : '0px' }
-    },
-    orderedSelectedGroups() {
-      return _sortBy(this.groups, [({ title }) => title.replace(/[\W]/g, '').toLowerCase()])
-    },
-    totalSelectedGroups() {
-      return Object.keys(this.groups).length
     },
     groupString() {
       return this.totalSelectedGroups > 1 ? 'groups' : 'group'
@@ -267,11 +255,23 @@ export default {
     },
     toolbarTitle() {
       return !this.sharesOneImage ? 'Share images' : `Sharing: '${this.photoList[0].title}'`
+    },
+    publishPhoto() {
+      const payload = []
+      this.photos.forEach(photoId => {
+        Object.values(this.orderedSelectedGroups).forEach(({ id: groupId }) => payload.push({ photoId, groupId }))
+      })
+      return payload
     }
   },
   methods: {
     ...mapActions({
       clearSharedPool: 'sharedPool/clear'
+    }),
+    ...mapMutations({
+      add: 'groupsPool/add',
+      remove: 'groupsPool/remove',
+      clearGroupPool: 'groupsPool/clear'
     }),
     updateAfterMutation(
       store,
@@ -290,20 +290,8 @@ export default {
     },
     closeDialog() {
       this.clearSharedPool()
+      this.clearGroupPool()
       this.search = ''
-    },
-    add(group) {
-      this.$set(this.groups, group.id, group)
-    },
-    remove(id) {
-      this.$delete(this.groups, id)
-    },
-    publishPhoto() {
-      const payload = []
-      this.photos.forEach(photoId => {
-        Object.keys(this.groups).forEach(groupId => payload.push({ photoId, groupId }))
-      })
-      return payload
     },
     showMore(query) {
       //Fetch more data and transform the original result
@@ -317,7 +305,7 @@ export default {
         },
         updateQuery: ({ searchGroups: { groups: prev } }, { fetchMoreResult: { searchGroups, photoGroups } }) => {
           this.fetchingMore = false
-          if (searchGroups.groups.length === 0) {
+          if (searchGroups.groups.length < this.perPage) {
             this.showMoreEnabled = false
           }
           this.searchGroups = searchGroups.page !== searchGroups.pages

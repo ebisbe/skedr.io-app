@@ -6,7 +6,6 @@
     v-bind="$listeners"
     solo-inverted
     clearable
-    solo
     class="mx-auto data-hj-whitelist"
     style="max-width: 500px; min-width: 128px"
     prepend-inner-icon="search"
@@ -72,3 +71,9 @@ export default {
   }
 }
 </script>
+<style>
+.data-hj-whitelist input:focus::placeholder {
+  color: #616161 !important;
+}
+</style>
+

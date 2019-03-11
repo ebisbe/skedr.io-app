@@ -5,16 +5,10 @@ export const state = {
 }
 
 export const getters = {
-  isEmpty({ items }) {
-    return Object.values(items).indexOf(true) === -1
-  }
+  isEmpty: ({ items }) => Object.values(items).indexOf(true) === -1
 }
 
 export const mutations = {
-  upsert({ items }, tag) {
-    Vue.set(items, tag, !items[tag])
-  },
-  clear(state) {
-    state.items = {}
-  }
+  upsert: ({ items }, tag) => Vue.set(items, tag, !items[tag]),
+  clear: state => (state.items = {})
 }

@@ -50,7 +50,7 @@
   </v-content>
 </template>
 <script>
-import PhotoScheduled from '@/components/scheduled/PhotoScheduled'
+import PhotoScheduled from '@/components/photo/PhotoScheduled'
 import QEmpty from '@/components/ui/QEmpty'
 import _groupBy from 'lodash/groupBy'
 import Moment from 'moment'

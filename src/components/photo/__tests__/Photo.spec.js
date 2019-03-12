@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils'
 import Vuetify from 'vuetify'
 import Vue from 'vue'
-import comp from '../QPhoto'
+import comp from '../Photo'
 import Vuex from 'vuex'
 Vue.use(Vuetify)
 Vue.use(Vuex)
@@ -28,47 +28,47 @@ const createStore = (photos = []) =>
     }
   })
 const createCmp = (propsData, photos = []) => shallowMount(comp, { propsData, store: createStore(photos) })
-describe('QPhoto.vue', () => {
+describe('Photo.vue', () => {
   describe('Computed Properties', () => {
     it('generate correct link to the photo', () => {
-      const wrapper = createCmp({ photo: { id: 'myId' } })
+      const wrapper = createCmp({ photo: { id: 'myId', urlSq: '' } })
       expect(wrapper.vm.photoLink).toBe('https://www.flickr.com/photos/username/myId')
     })
 
     it('prints a half star', () => {
-      const wrapper = createCmp({ photo: { id: 'myId' } })
+      const wrapper = createCmp({ photo: { id: 'myId', urlSq: '' } })
       expect(wrapper.vm.star).toBe('star_border')
     })
 
     it('prints a full star', () => {
-      const wrapper = createCmp({ photo: { id: 'myId', totalFavs: 1 } })
+      const wrapper = createCmp({ photo: { id: 'myId', totalFavs: 1, urlSq: '' } })
       expect(wrapper.vm.star).toBe('star')
     })
 
     it('hides urlM when the component is not visible', () => {
-      const wrapper = createCmp({ photo: {} })
+      const wrapper = createCmp({ photo: { urlSq: '' } })
       expect(wrapper.vm.bigImg).toBe('')
     })
 
     it('prints urlM when the component is visible', () => {
-      const wrapper = createCmp({ photo: { urlM: 'urlM' } })
+      const wrapper = createCmp({ photo: { urlM: 'urlM', urlSq: '' } })
       wrapper.vm.showObserver = false
       expect(wrapper.vm.bigImg).toBe('urlM')
     })
 
     it('checks if the current photo is in the pool', () => {
-      const wrapper = createCmp({ photo: { id: 'myId' } }, [{ photoId: 'myId' }])
+      const wrapper = createCmp({ photo: { id: 'myId', urlSq: '' } }, [{ photoId: 'myId', urlSq: '' }])
       expect(wrapper.vm.isPhotoInPool).toBe(true)
     })
 
     it('returns full image height when photo is not in the pool', () => {
-      const wrapper = createCmp({ photo: { id: 'myId' } })
-      expect(wrapper.vm.heightImg).toBe(205)
+      const wrapper = createCmp({ photo: { id: 'myId', urlSq: '' } })
+      expect(wrapper.vm.realHeight).toBe(205)
     })
 
     it('returns less height of the image when photo is in the pool', () => {
-      const wrapper = createCmp({ photo: { id: 'myId' } }, [{ photoId: 'myId' }])
-      expect(wrapper.vm.heightImg).toBe(173)
+      const wrapper = createCmp({ photo: { id: 'myId', urlSq: '' } }, [{ photoId: 'myId', urlSq: '' }])
+      expect(wrapper.vm.realHeight).toBe(173)
     })
   })
 })

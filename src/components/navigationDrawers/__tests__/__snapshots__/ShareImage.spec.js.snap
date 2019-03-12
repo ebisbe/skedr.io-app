@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ShareImage has no images and has backup 1`] = `
+<v-navigation-drawer-stub fixed="true" app="true" clipped="true" height="100%" minivariantwidth="80" mobilebreakpoint="1264" right="true" width="300">
+  <v-container-stub tag="div" fluid="" grid-list-md="" pa-0="">
+    <v-layout-stub tag="div" py-2="" px-3="" fluid="">
+      <v-flex-stub tag="div" xs6="">
+        <v-tooltip-stub opendelay="200" closedelay="200" lazy="true" contentclass="" bottom="true" fixed="true" maxwidth="auto" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" debounce="0" tag="span">
+          <v-btn-stub color="success" activeclass="v-btn--active" disabled="true" tag="button" block="true" outline="true" small="true" type="button">
+            <v-icon-stub>share</v-icon-stub><span>&nbsp;Sked</span>
+          </v-btn-stub> <span>Select 1 or more photos</span>
+        </v-tooltip-stub>
+        <share-dialog-stub></share-dialog-stub>
+      </v-flex-stub>
+      <v-flex-stub tag="div" xs6="">
+        <v-tooltip-stub opendelay="200" closedelay="200" lazy="true" contentclass="" bottom="true" fixed="true" maxwidth="auto" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" debounce="0" tag="span">
+          <v-btn-stub color="accent" activeclass="v-btn--active" tag="button" block="true" outline="true" small="true" type="button">
+            <v-icon-stub>restore_from_trash</v-icon-stub>&nbsp;Restore
+          </v-btn-stub> <span>Restore previous pool</span>
+        </v-tooltip-stub>
+      </v-flex-stub>
+    </v-layout-stub>
+    <v-list-stub><span name="list"><!----> <share-image-list-stub photo="[object Object]"></share-image-list-stub></span></v-list-stub>
+  </v-container-stub>
+</v-navigation-drawer-stub>
+`;
+
+exports[`ShareImage has one image 1`] = `
+<v-navigation-drawer-stub fixed="true" app="true" clipped="true" height="100%" minivariantwidth="80" mobilebreakpoint="1264" right="true" width="300">
+  <v-container-stub tag="div" fluid="" grid-list-md="" pa-0="">
+    <v-layout-stub tag="div" py-2="" px-3="" fluid="">
+      <v-flex-stub tag="div" xs6="">
+        <v-tooltip-stub opendelay="200" closedelay="200" lazy="true" contentclass="" bottom="true" fixed="true" maxwidth="auto" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" debounce="0" tag="span">
+          <v-btn-stub color="success" activeclass="v-btn--active" tag="button" block="true" outline="true" small="true" type="button">
+            <v-icon-stub>share</v-icon-stub><span>&nbsp;Sked</span>
+          </v-btn-stub> <span>Share 1 images</span>
+        </v-tooltip-stub>
+        <share-dialog-stub></share-dialog-stub>
+      </v-flex-stub>
+      <v-flex-stub tag="div" xs6="">
+        <v-tooltip-stub opendelay="200" closedelay="200" lazy="true" contentclass="" bottom="true" fixed="true" maxwidth="auto" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" debounce="0" tag="span">
+          <v-btn-stub color="error" activeclass="v-btn--active" tag="button" block="true" outline="true" small="true" type="button">
+            <v-icon-stub>delete</v-icon-stub>&nbsp;Clear
+          </v-btn-stub> <span>Clear pool</span>
+        </v-tooltip-stub>
+      </v-flex-stub>
+    </v-layout-stub>
+    <v-list-stub><span name="list"><!----> <share-image-list-stub photo="[object Object]"></share-image-list-stub></span></v-list-stub>
+  </v-container-stub>
+</v-navigation-drawer-stub>
+`;

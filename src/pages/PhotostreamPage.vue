@@ -34,7 +34,7 @@
               md4
               sm6
               xs12>
-              <q-photo :photo="photo"/>
+              <photo :photo="photo"/>
             </v-flex>
             <v-flex xs12>
               <app-observer @intersect="showMore(query)"/>
@@ -65,14 +65,14 @@
   </v-content>
 </template>
 <script>
-import QPhoto from '@/components/ui/QPhoto'
+import Photo from '@/components/photo/Photo'
 import QEmpty from '@/components/ui/QEmpty'
 import AppObserver from '@/components/common/AppObserver'
 import { mapState } from 'vuex'
 
 export default {
   name: 'Photos',
-  components: { QPhoto, QEmpty, AppObserver },
+  components: { Photo, QEmpty, AppObserver },
   data() {
     return {
       page: 1,

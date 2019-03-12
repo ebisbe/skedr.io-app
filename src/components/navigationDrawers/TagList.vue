@@ -47,8 +47,10 @@
 <script>
 import GROUP_TAGS_LIST from '@/graphql/groupTagsList.gql'
 import { mapState, mapGetters } from 'vuex'
+import { rightDrawer } from '@/mixins'
 
 export default {
+  mixins: [rightDrawer],
   data: () => ({
     groupTagsList: []
   }),
@@ -64,14 +66,6 @@ export default {
       tagsFilter: state => state.items
     }),
     ...mapGetters({ isEmpty: 'tagsFilter/isEmpty' }),
-    rightDrawer: {
-      get() {
-        return this.$store.state.rightDrawer
-      },
-      set(value) {
-        this.$store.commit('updateRightDrawer', value)
-      }
-    },
     tagsName() {
       const tags = {}
       this.groupTagsList.forEach(groupTag =>

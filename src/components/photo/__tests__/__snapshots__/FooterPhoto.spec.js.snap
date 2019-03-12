@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FooterPhoto renders title and subtitle properties 1`] = `
+<v-container-stub tag="div" class="footer">
+  <v-list-stub dark="true" twoline="true">
+    <v-list-tile-stub activeclass="primary--text">
+      <v-list-tile-content-stub>
+        <v-list-tile-title-stub>
+          My title
+        </v-list-tile-title-stub>
+        <v-list-tile-sub-title-stub>
+          My subtitle
+        </v-list-tile-sub-title-stub>
+      </v-list-tile-content-stub>
+    </v-list-tile-stub>
+  </v-list-stub>
+</v-container-stub>
+`;
+
+exports[`FooterPhoto renders title and subtitle slots 1`] = `
+<v-container-stub tag="div" class="footer">
+  <v-list-stub dark="true" twoline="true">
+    <v-list-tile-stub activeclass="primary--text">
+      <v-list-tile-content-stub>
+        <v-list-tile-title-stub><span>Slot title</span></v-list-tile-title-stub> <span>Slot subtitle</span>
+      </v-list-tile-content-stub> <span>Slot action</span>
+    </v-list-tile-stub>
+  </v-list-stub>
+</v-container-stub>
+`;

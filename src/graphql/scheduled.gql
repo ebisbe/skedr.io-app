@@ -9,6 +9,7 @@ query scheduledPhotos($scheduledAt: Int!) {
       server
       secret
       farm
+      isPublic
     }
     group {
       title

@@ -38,14 +38,8 @@ describe('PhotoScheduled.vue', () => {
     })
   })
 
-  describe('Rendered Component', () => {
-    it('shows the title', () => {
-      const wrapper = createComp({ photo })
-      expect(wrapper.text()).toContain('Some title')
-    })
-    it('shows the message', () => {
-      const wrapper = createComp({ photo })
-      expect(wrapper.text()).toContain('Some message')
-    })
+  it('matches snapshot', () => {
+    const wrapper = createComp({ photo })
+    expect(wrapper).toMatchSnapshot()
   })
 })

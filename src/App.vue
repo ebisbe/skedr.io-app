@@ -81,45 +81,6 @@ export default {
   width: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
   width: stretch;
 }
-.q-checkCircle {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-}
-
-.q-non-public {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-}
-
-.q-photo {
-  padding: 0;
-  transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.q-photo:hover {
-  cursor: pointer;
-}
-.q-photo .container {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: inherit;
-}
-.q-photo .container .v-list {
-  padding: 0;
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
-  background-color: rgba(66, 66, 66, 0.5) !important;
-}
-.q-photo .container .v-list .white--text {
-  text-decoration: none;
-}
-.q-photo .img {
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
-  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
 
 .solid_hr_line {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);

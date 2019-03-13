@@ -7,7 +7,7 @@ describe('QFilter.vue', () => {
   Vue.use(Vuetify)
 
   const createCmp = (propsData, stubs = { 'v-text-field': { methods: { focus: () => {} }, render: () => {} } }) =>
-    shallowMount(comp, { propsData, attrs: { search: 'Flickr' }, stubs })
+    shallowMount(comp, { propsData, stubs })
 
   describe('Properties', () => {
     it("has a placeholder property with default to 'Search'", () => {
@@ -46,16 +46,10 @@ describe('QFilter.vue', () => {
       wrapper.setData({ search: null })
       expect(wrapper.emitted().search[0][0]).toBe('')
       expect(wrapper.emitted().clear).toBeTruthy()
+      wrapper.setData({ search: '' })
+      expect(wrapper.emitted().search[1][0]).toBe('')
+      expect(wrapper.emitted().clear).toBeTruthy()
     })
-    // https://github.com/vuejs/vue-test-utils/issues/1173
-    // it("emits '' event when value is ''", () => {
-    //   const wrapper = createCmp()
-    //   wrapper.setData({ search: '' })
-    //   wrapper.vm.$emit('hola')
-    //   expect(wrapper.emitted()).toBe([])
-    //   expect(wrapper.emitted().search[0][0]).toBe('')
-    //   expect(wrapper.emitted().clear).toBeTruthy()
-    // })
   })
 
   describe('Methods', () => {

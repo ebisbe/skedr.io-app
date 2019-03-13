@@ -9,17 +9,11 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { rightDrawer } from '@/mixins'
 
 export default {
+  mixins: [rightDrawer],
   computed: {
-    rightDrawer: {
-      get() {
-        return this.$store.state.rightDrawer
-      },
-      set(value) {
-        this.$store.dispatch('updateRightDrawer', value)
-      }
-    },
     ...mapGetters({
       length: 'pool/length'
     }),

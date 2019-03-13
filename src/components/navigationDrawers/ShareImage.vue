@@ -74,22 +74,7 @@
               v-if="key !== 0"
               :key="key"
             />
-            <v-list-tile :key="photo.photoId" avatar>
-              <v-list-tile-avatar>
-                <img :src="photo.urlSq">
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title v-html="photo.title"/>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-btn
-                  icon
-                  ripple
-                  @click.native.stop="remove(photo.photoId)">
-                  <v-icon>close</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
+            <share-image-list :photo="photo" :key="photo.photoId"/>
           </template>
         </transition-group>
       </v-list>
@@ -98,33 +83,25 @@
 </template>
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
-import ShareDialog from '@/components/dialog/ShareDialog'
+import ShareDialog from '@/components/dialog/ShareDialog.vue'
+import ShareImageList from '@/components/navigationDrawers/ShareImageList.vue'
+import { rightDrawer } from '@/mixins'
 
 export default {
-  components: { ShareDialog },
+  components: { ShareDialog, ShareImageList },
+  mixins: [rightDrawer],
   computed: {
-    ...mapState('pool', {
-      pool: state => state.photos
-    }),
+    ...mapState({ pool: state => state.pool.photos }),
     ...mapGetters({
       disable: 'pool/isEmpty',
       hasBackup: 'pool/hasBackup'
     }),
-    rightDrawer: {
-      get() {
-        return this.$store.state.rightDrawer
-      },
-      set(value) {
-        this.$store.commit('updateRightDrawer', value)
-      }
-    },
     toolbarTitle() {
       return `Share ${this.pool.length} images`
     }
   },
   methods: {
     ...mapActions({
-      remove: 'pool/remove',
       clearPool: 'pool/clearPool',
       restoreBackup: 'pool/restoreBackup',
       share: 'sharedPool/share'
@@ -148,5 +125,10 @@ export default {
 
 .list-leave-to {
   opacity: 0;
+}
+
+.v-list__tile__avatar .v-badge {
+  width: 40px;
+  height: 40px;
 }
 </style>

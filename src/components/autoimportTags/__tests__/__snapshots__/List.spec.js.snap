@@ -3,7 +3,7 @@
 exports[`List.vue has 3 results one is filtered 1`] = `
 <v-content-stub tag="main">
   <v-container-stub tag="div">
-    <v-card-stub tag="div" elevation="2">
+    <v-card-stub tag="div">
       <v-list-stub twoline="true" class="py-0">
         <group-list-stub group="[object Object]" tags="tag1,tag2"></group-list-stub>
         <group-list-stub group="[object Object]" tags="tag1,tag2" usedivider="true"></group-list-stub>

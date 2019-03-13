@@ -1,7 +1,7 @@
 ignore:
-  - 'plugins'
-  - 'router'
+  - 'src/plugins/*'
+  - 'src/router/*'
   - '.eslintrc.js'
-  - 'main.js'
-  - 'store/index.js'
-  - 'store/modules/index.js'
+  - 'src/main.js'
+  - 'src/store/index.js'
+  - 'src/store/modules/index.js'

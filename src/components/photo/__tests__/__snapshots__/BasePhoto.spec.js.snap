@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BasePhoto component prints base component 1`] = `
-<v-sheet-stub tag="div"><span>header slot</span>
-  <v-img-stub height="205" aspectratio="1" src="url1" lazysrc="url1" position="center center" transition="fade-transition" class="grey lighten-2 img">
+<v-sheet-stub tag="div" class="grey lighten-2"><span>header slot</span>
+  <v-img-stub height="205" aspectratio="1" src="url1" lazysrc="url1" position="center center" transition="fade-transition" class="img">
     <v-layout-stub tag="div" fill-height="" align-center="" justify-center="" ma-0="">
       <v-progress-circular-stub color="grey lighten-5" indeterminate="true" rotate="0" size="32" width="4" value="0"></v-progress-circular-stub>
     </v-layout-stub>

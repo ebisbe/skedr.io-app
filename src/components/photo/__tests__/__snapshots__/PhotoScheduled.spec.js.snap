@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PhotoScheduled.vue matches snapshot 1`] = `
-<div class="v-sheet theme--light">
-  <div class="v-responsive v-image grey lighten-2 img" style="height: 205px;">
+<div class="grey lighten-2 v-sheet theme--light">
+  <div class="v-responsive v-image img" style="height: 205px;">
     <div class="v-responsive__sizer" style="padding-bottom: 100%;"></div>
     <div class="v-image__image v-image__image--preload v-image__image--cover" style="background-image: url(https://farmfarm.staticflickr.com/server/photoId_secret.jpg); background-position: center center;" name="fade-transition" mode="in-out"></div>
     <div class="v-image__placeholder" name="fade-transition">

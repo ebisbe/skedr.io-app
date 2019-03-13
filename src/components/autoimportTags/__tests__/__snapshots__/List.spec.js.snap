@@ -5,9 +5,9 @@ exports[`List.vue has 3 results one is filtered 1`] = `
   <v-container-stub tag="div">
     <v-card-stub tag="div">
       <v-list-stub twoline="true" class="py-0">
-        <group-list-stub group="[object Object]" tags="tag1,tag2"></group-list-stub>
-        <group-list-stub group="[object Object]" tags="tag1,tag2" usedivider="true"></group-list-stub>
-        <group-list-stub group="[object Object]" tags="tag1" usedivider="true" style="display: none;"></group-list-stub>
+        <group-list-stub group="[object Object]" tags="tag2,tagA"></group-list-stub>
+        <group-list-stub group="[object Object]" tags="taga" usedivider="true" style="display: none;"></group-list-stub>
+        <group-list-stub group="[object Object]" tags="tag2,tagB" usedivider="true"></group-list-stub>
       </v-list-stub>
     </v-card-stub>
   </v-container-stub>
@@ -24,7 +24,7 @@ exports[`List.vue has no results 1`] = `
 <v-content-stub tag="main">
   <v-container-stub tag="div">
     <ol>
-      <li>You don't have binded any group with tags. To do so search through your groups or find new groups with the Search bar</li>
+      <li>You don't have binded group with tags. To do so search through your groups or find new groups with the Search bar</li>
       <li>Add tags ( preferably just one tag ) that matches the group essence. ( add examples )</li>
       <li>Once the tag/s has binded to the group all your photos with that tag will be shared to that group automatically. New photos you upload will be added too.</li>
     </ol>

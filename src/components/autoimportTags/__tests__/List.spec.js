@@ -79,9 +79,9 @@ describe('List.vue', () => {
     const wrapper = createCmp({ mocks, store })
     wrapper.setData({
       groupTagsList: [
-        { group: {}, tags: ['tag1', 'tag2'], groupId: 'groupId1' },
-        { group: {}, tags: ['tag1', 'tag2'], groupId: 'groupId2' },
-        { group: {}, tags: ['tag1'], groupId: 'groupId3' }
+        { group: { title: 'B' }, tags: ['tag2', 'tagB'], groupId: 'groupId1' },
+        { group: { title: 'A' }, tags: ['tag2', 'tagA'], groupId: 'groupId2' },
+        { group: { title: ':a' }, tags: ['taga'], groupId: 'groupId3' }
       ]
     })
     expect(wrapper).toMatchSnapshot()

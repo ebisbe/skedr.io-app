@@ -1,23 +1,15 @@
 
 <template>
-  <v-img
-    :src="urlQ"
-    :lazy-src="urlS"
-    height="75px"
-  >
-    <v-layout
-      slot="placeholder"
-      fill-height
-      align-center
-      justify-center
-      ma-0
-    >
-      <v-progress-circular indeterminate color="primary"/>
-    </v-layout>
-  </v-img>
+  <base-photo
+    :url="urlQ"
+    :lazy-url="urlS"
+    :height="75"/>
 </template>
 <script>
+import BasePhoto from '@/components/photo/BasePhoto.vue'
+
 export default {
+  components: { BasePhoto },
   props: {
     photoId: {
       type: String,

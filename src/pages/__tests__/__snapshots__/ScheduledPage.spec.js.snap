@@ -1,0 +1,203 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ScheduledPage has an error 1`] = `
+<main class="v-content" style="padding: 0px 0px 0px 0px;">
+  <div class="v-content__wrap">
+    <div class="container fill-height">
+      <div class="layout align-center">
+        <div class="flex xs12">
+          <div class="text-xs-center"><i aria-hidden="true" class="v-icon text-xs-center material-icons theme--light primary--text" style="font-size: 120px;">access_time</i></div>
+          <h1 class="text-xs-center headline">Oops! Some error happened fetching your data...</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+`;
+
+exports[`ScheduledPage is loading 1`] = `
+<main class="v-content" style="padding: 0px 0px 0px 0px;">
+  <div class="v-content__wrap">
+    <div class="container fill-height">
+      <div class="layout align-center">
+        <div class="flex xs12">
+          <div class="text-xs-center">
+            <div role="progressbar" aria-valuemin="0" aria-valuemax="100" class="v-progress-circular v-progress-circular--indeterminate accent--text" style="height: 50px; width: 50px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="21.73913043478261 21.73913043478261 43.47826086956522 43.47826086956522" style="transform: rotate(0deg);">
+                <circle fill="transparent" cx="43.47826086956522" cy="43.47826086956522" r="20" stroke-width="3.4782608695652177" stroke-dasharray="125.664" stroke-dashoffset="125.66370614359172px" class="v-progress-circular__overlay"></circle>
+              </svg>
+              <div class="v-progress-circular__info"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+`;
+
+exports[`ScheduledPage shows some results 1`] = `
+<main class="v-content" style="padding: 0px 0px 0px 0px;">
+  <div class="v-content__wrap">
+    <div class="container pt-0 q-schedule fluid grid-list-md">
+      <div class="layout pb-3">
+        <div class="flex headline xs2 sm1"><span class="date">14 <br> Thu</span></div>
+        <div class="flex pt-0 xs10 sm11">
+          <h2 class="title">enricbgtest</h2>
+          <div class="layout row wrap">
+            <div class="flex xs12 sm4">
+              <div class="grey lighten-2 v-sheet theme--light">
+                <div class="v-responsive v-image img" style="height: 150px;">
+                  <div class="v-responsive__sizer" style="padding-bottom: 100%;"></div>
+                  <div class="v-image__image v-image__image--preload v-image__image--cover" style="background-image: url(https://farmundefined.staticflickr.com/undefined/undefined_undefined.jpg); background-position: center center;" name="fade-transition" mode="in-out"></div>
+                  <div class="v-image__placeholder" name="fade-transition">
+                    <div class="layout fill-height align-center justify-center ma-0">
+                      <div role="progressbar" aria-valuemin="0" aria-valuemax="100" class="v-progress-circular v-progress-circular--indeterminate grey--text text--lighten-5" style="height: 32px; width: 32px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="22.857142857142858 22.857142857142858 45.714285714285715 45.714285714285715" style="transform: rotate(0deg);">
+                          <circle fill="transparent" cx="45.714285714285715" cy="45.714285714285715" r="20" stroke-width="5.714285714285714" stroke-dasharray="125.664" stroke-dashoffset="125.66370614359172px" class="v-progress-circular__overlay"></circle>
+                        </svg>
+                        <div class="v-progress-circular__info"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="v-responsive__content"></div>
+                </div> <span class="v-tooltip non-public v-tooltip--left"><div class="v-tooltip__content" style="left: 12px; max-width: auto; opacity: 0; top: 12px; z-index: 0; display: none;"></div><span><i aria-hidden="true" class="v-icon warning--text material-icons theme--light" style="font-size: 36px;">lock</i></span></span>
+                <div class="container footer">
+                  <div role="list" class="v-list v-list--two-line theme--dark">
+                    <div role="listitem">
+                      <div class="v-list__tile theme--dark">
+                        <div class="v-list__tile__content">
+                          <div class="v-list__tile__title">
+                            2p71y2bsfyg21
+                          </div>
+                          <div class="v-list__tile__sub-title">
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h2 class="title">enricbgtest2</h2>
+          <div class="layout row wrap">
+            <div class="flex xs12 sm4">
+              <div class="grey lighten-2 v-sheet theme--light">
+                <div class="v-responsive v-image img" style="height: 150px;">
+                  <div class="v-responsive__sizer" style="padding-bottom: 100%;"></div>
+                  <div class="v-image__image v-image__image--preload v-image__image--cover" style="background-image: url(https://farmundefined.staticflickr.com/undefined/undefined_undefined.jpg); background-position: center center;" name="fade-transition" mode="in-out"></div>
+                  <div class="v-image__placeholder" name="fade-transition">
+                    <div class="layout fill-height align-center justify-center ma-0">
+                      <div role="progressbar" aria-valuemin="0" aria-valuemax="100" class="v-progress-circular v-progress-circular--indeterminate grey--text text--lighten-5" style="height: 32px; width: 32px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="22.857142857142858 22.857142857142858 45.714285714285715 45.714285714285715" style="transform: rotate(0deg);">
+                          <circle fill="transparent" cx="45.714285714285715" cy="45.714285714285715" r="20" stroke-width="5.714285714285714" stroke-dasharray="125.664" stroke-dashoffset="125.66370614359172px" class="v-progress-circular__overlay"></circle>
+                        </svg>
+                        <div class="v-progress-circular__info"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="v-responsive__content"></div>
+                </div> <span class="v-tooltip non-public v-tooltip--left"><div class="v-tooltip__content" style="left: 12px; max-width: auto; opacity: 0; top: 12px; z-index: 0; display: none;"></div><span><i aria-hidden="true" class="v-icon warning--text material-icons theme--light" style="font-size: 36px;">lock</i></span></span>
+                <div class="container footer">
+                  <div role="list" class="v-list v-list--two-line theme--dark">
+                    <div role="listitem">
+                      <div class="v-list__tile theme--dark">
+                        <div class="v-list__tile__content">
+                          <div class="v-list__tile__title">
+                            2p71y2bsfyg21
+                          </div>
+                          <div class="v-list__tile__sub-title">
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layout pb-3">
+        <div class="flex headline xs2 sm1"><span class="date">15 <br> Fri</span></div>
+        <div class="flex pt-0 xs10 sm11">
+          <h2 class="title">enricbgtest</h2>
+          <div class="layout row wrap">
+            <div class="flex xs12 sm4">
+              <div class="grey lighten-2 v-sheet theme--light">
+                <div class="v-responsive v-image img" style="height: 150px;">
+                  <div class="v-responsive__sizer" style="padding-bottom: 100%;"></div>
+                  <div class="v-image__image v-image__image--preload v-image__image--cover" style="background-image: url(https://farmundefined.staticflickr.com/undefined/undefined_undefined.jpg); background-position: center center;" name="fade-transition" mode="in-out"></div>
+                  <div class="v-image__placeholder" name="fade-transition">
+                    <div class="layout fill-height align-center justify-center ma-0">
+                      <div role="progressbar" aria-valuemin="0" aria-valuemax="100" class="v-progress-circular v-progress-circular--indeterminate grey--text text--lighten-5" style="height: 32px; width: 32px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="22.857142857142858 22.857142857142858 45.714285714285715 45.714285714285715" style="transform: rotate(0deg);">
+                          <circle fill="transparent" cx="45.714285714285715" cy="45.714285714285715" r="20" stroke-width="5.714285714285714" stroke-dasharray="125.664" stroke-dashoffset="125.66370614359172px" class="v-progress-circular__overlay"></circle>
+                        </svg>
+                        <div class="v-progress-circular__info"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="v-responsive__content"></div>
+                </div> <span class="v-tooltip non-public v-tooltip--left"><div class="v-tooltip__content" style="left: 12px; max-width: auto; opacity: 0; top: 12px; z-index: 0; display: none;"></div><span><i aria-hidden="true" class="v-icon warning--text material-icons theme--light" style="font-size: 36px;">lock</i></span></span>
+                <div class="container footer">
+                  <div role="list" class="v-list v-list--two-line theme--dark">
+                    <div role="listitem">
+                      <div class="v-list__tile theme--dark">
+                        <div class="v-list__tile__content">
+                          <div class="v-list__tile__title">
+                            2p71y2bsfyg21
+                          </div>
+                          <div class="v-list__tile__sub-title">
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h2 class="title">enricbgtest2</h2>
+          <div class="layout row wrap">
+            <div class="flex xs12 sm4">
+              <div class="grey lighten-2 v-sheet theme--light">
+                <div class="v-responsive v-image img" style="height: 150px;">
+                  <div class="v-responsive__sizer" style="padding-bottom: 100%;"></div>
+                  <div class="v-image__image v-image__image--preload v-image__image--cover" style="background-image: url(https://farmundefined.staticflickr.com/undefined/undefined_undefined.jpg); background-position: center center;" name="fade-transition" mode="in-out"></div>
+                  <div class="v-image__placeholder" name="fade-transition">
+                    <div class="layout fill-height align-center justify-center ma-0">
+                      <div role="progressbar" aria-valuemin="0" aria-valuemax="100" class="v-progress-circular v-progress-circular--indeterminate grey--text text--lighten-5" style="height: 32px; width: 32px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="22.857142857142858 22.857142857142858 45.714285714285715 45.714285714285715" style="transform: rotate(0deg);">
+                          <circle fill="transparent" cx="45.714285714285715" cy="45.714285714285715" r="20" stroke-width="5.714285714285714" stroke-dasharray="125.664" stroke-dashoffset="125.66370614359172px" class="v-progress-circular__overlay"></circle>
+                        </svg>
+                        <div class="v-progress-circular__info"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="v-responsive__content"></div>
+                </div> <span class="v-tooltip non-public v-tooltip--left"><div class="v-tooltip__content" style="left: 12px; max-width: auto; opacity: 0; top: 12px; z-index: 0; display: none;"></div><span><i aria-hidden="true" class="v-icon warning--text material-icons theme--light" style="font-size: 36px;">lock</i></span></span>
+                <div class="container footer">
+                  <div role="list" class="v-list v-list--two-line theme--dark">
+                    <div role="listitem">
+                      <div class="v-list__tile theme--dark">
+                        <div class="v-list__tile__content">
+                          <div class="v-list__tile__title">
+                            2p71y2bsfyg21
+                          </div>
+                          <div class="v-list__tile__sub-title">
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+`;

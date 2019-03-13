@@ -1,12 +1,23 @@
 <template>
   <v-content>
+    <!-- Loading -->
+    <q-empty
+      v-if="$apollo.queries.scheduledPhotos.loading"
+      :loading="true"/>
+
+    <!-- Error -->
+    <q-empty
+      v-else-if="$apollo.error"
+      :error="true"
+      icon="access_time"/>
+
     <v-container
-      v-if="scheduledPhotos.length"
+      v-else-if="scheduledPhotos.length"
       fluid
       class="pt-0 q-schedule"
       grid-list-md>
       <v-layout
-        v-for="(item, index) in scheduled(scheduledPhotos)"
+        v-for="(item, index) in scheduled"
         :key="index+item"
         class="pb-3">
         <v-flex
@@ -23,7 +34,7 @@
             <h2
               :key="title+index"
               class="title"
-              v-html="subheader(group[0].group)"/>
+              v-html="group[0].group.title"/>
             <v-layout
               :key="title+index+'layout'"
               row
@@ -43,8 +54,6 @@
     </v-container>
     <q-empty
       v-else
-      :loading="$apolloData.loading === 1"
-      :error="error"
       icon="access_time"
       description="You don't have any photos scheduled"/>
   </v-content>
@@ -54,7 +63,6 @@ import PhotoScheduled from '@/components/photo/PhotoScheduled'
 import QEmpty from '@/components/ui/QEmpty'
 import _groupBy from 'lodash/groupBy'
 import Moment from 'moment'
-import SCHEDULED_QUERY from '../graphql/scheduled.gql'
 
 export default {
   name: 'Scheduled',
@@ -65,30 +73,31 @@ export default {
       error: false
     }
   },
-  methods: {
-    scheduled(data) {
+  computed: {
+    scheduled() {
       const format = 'D <br> ddd'
-      const mappedData = data.map(photo => {
-        photo.headerDate = Moment.utc(photo.scheduledAt).calendar(null, {
-          nextDay: format,
-          nextWeek: format,
-          sameElse: format,
-          sameDay: format
-        })
+      const mappedData = this.scheduledPhotos.map(photo => {
+        photo.headerDate = Moment.unix(photo.scheduledAt)
+          .utc()
+          .calendar(null, {
+            nextDay: format,
+            nextWeek: format,
+            sameElse: format,
+            sameDay: format
+          })
         return photo
       })
       return _groupBy(mappedData, 'headerDate')
-    },
+    }
+  },
+  methods: {
     groups(data) {
       return _groupBy(data, 'group.title')
-    },
-    subheader(group) {
-      return group.title
     }
   },
   apollo: {
     scheduledPhotos: {
-      query: SCHEDULED_QUERY,
+      query: require('@/graphql/scheduled.gql'),
       fetchPolicy: 'cache-and-network',
       variables() {
         return {
@@ -97,13 +106,6 @@ export default {
             .startOf(`day`)
             .unix()
         }
-      },
-      update: data =>
-        data.hasOwnProperty('scheduledPhotos')
-          ? data.scheduledPhotos.map(photo => Object.assign({ headerDate: '' }, photo))
-          : [],
-      error() {
-        this.error = true
       }
     }
   }

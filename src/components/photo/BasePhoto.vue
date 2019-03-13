@@ -1,12 +1,12 @@
 <template>
-  <v-sheet v-bind="$attrs">
+  <v-sheet v-bind="$attrs" class="grey lighten-2">
     <slot name="header"/>
     <v-img
       :height="height"
       :src="url"
       :lazy-src="url"
       aspect-ratio="1"
-      class="grey lighten-2 img">
+      class="img">
       <v-layout
         slot="placeholder"
         fill-height

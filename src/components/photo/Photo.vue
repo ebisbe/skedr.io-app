@@ -7,7 +7,7 @@
     :class="{'pa-3 selected': isPhotoInPool}"
     class="photostream"
     @mouseover="hover = true"
-    @mouseout="hover = false"
+    @mouseleave="hover = false"
     @click.native="!isPhotoInPool ? addToPool(photo) : removeFromPool(photo.id)"
   >
     <template v-slot:header>
@@ -150,4 +150,3 @@ export default {
   text-decoration: none;
 }
 </style>
-

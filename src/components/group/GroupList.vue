@@ -1,20 +1,27 @@
 <template>
-  <div>
+  <div
+    @mouseover="hover = true"
+    @mouseleave="hover = false">
     <v-divider v-if="useDivider" />
     <v-list-tile
       :key="group.groupId"
       avatar
-    >
+      @click.stop>
       <v-list-tile-avatar>
-        <a
-          :href="`https://www.flickr.com/groups/${group.groupId}`"
-          target="_blank"
-        >
-          <img
-            :src="group.icon"
-            :alt="group.title"
-          >
-        </a>
+        <v-badge
+          v-model="hover"
+          class="external-link"
+          color="grey"
+          overlap>
+          <a
+            slot="badge"
+            :href="`https://www.flickr.com/groups/${group.groupId}`"
+            style="text-decoration: none;"
+            target="_blank">
+            <v-icon color="white">open_in_new</v-icon>
+          </a>
+          <img :src="group.icon">
+        </v-badge>
       </v-list-tile-avatar>
       <v-list-tile-content>
         <v-list-tile-title>
@@ -50,11 +57,14 @@
                 small
                 label
                 @click="$store.commit('tagsFilter/upsert', tag)"
-              ><v-icon
-                :color="tagsFilter[tag] ? 'accent' : undefined"
-                small
-                left
-                class="mr-1">label</v-icon>{{ tag }}</v-chip>
+              >
+                <v-icon
+                  :color="tagsFilter[tag] ? 'accent' : undefined"
+                  small
+                  left
+                  class="mr-1">label</v-icon>
+                {{ tag }}
+              </v-chip>
             </v-flex>
           </v-layout>
         </v-list-tile-sub-title>
@@ -94,6 +104,7 @@ import { throttleText, filters } from '@/mixins'
 import GroupTagDialog from '@/components/group/GroupTagDialog'
 import PhotoLimitOptOutMessage from '@/components/group/PhotoLimitOptOutMessage'
 import { mapState } from 'vuex'
+import { clearTimeout } from 'timers'
 
 export default {
   components: { GroupTagDialog, PhotoLimitOptOutMessage },
@@ -113,7 +124,8 @@ export default {
     }
   },
   data: () => ({
-    manageTags: false
+    manageTags: false,
+    hover: false
   }),
   computed: {
     ...mapState('tagsFilter', {

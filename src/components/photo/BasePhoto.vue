@@ -1,5 +1,8 @@
 <template>
-  <v-sheet v-bind="$attrs" class="grey lighten-2">
+  <v-sheet
+    v-bind="$attrs"
+    class="grey lighten-2"
+    v-on="$listeners">
     <slot name="header"/>
     <v-img
       :height="height"

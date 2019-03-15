@@ -80,10 +80,12 @@ export default {
         photo.headerDate = Moment.unix(photo.scheduledAt)
           .utc()
           .calendar(null, {
+            sameDay: format,
             nextDay: format,
             nextWeek: format,
-            sameElse: format,
-            sameDay: format
+            lastDay: format,
+            lastWeek: format,
+            sameElse: format
           })
         return photo
       })

@@ -1,6 +1,5 @@
 query autoimportTagList {
   groupTagsList {
-    id
     groupId
     tags
     group {

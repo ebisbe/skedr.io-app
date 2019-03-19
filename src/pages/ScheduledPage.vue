@@ -100,7 +100,6 @@ export default {
   apollo: {
     scheduledPhotos: {
       query: require('@/graphql/scheduled.gql'),
-      fetchPolicy: 'cache-and-network',
       variables() {
         return {
           scheduledAt: new Moment()

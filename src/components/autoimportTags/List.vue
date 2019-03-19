@@ -3,18 +3,18 @@
 
     <!-- Loading -->
     <q-empty
-      v-if="$apollo.queries.groupTagsList.loading"
+      v-if="$apollo.queries.groupTagsList.loading && groupTagsList === undefined"
       :loading="true"/>
 
     <!-- Error -->
     <q-empty
-      v-else-if="$apollo.error"
+      v-else-if="error"
       :error="true"
       icon="photo"/>
 
     <!-- Result -->
     <v-container
-      v-else-if="groupTagsList.length"
+      v-else-if="groupTagsList"
     >
       <v-card>
         <v-list two-line class="py-0">
@@ -49,7 +49,7 @@ import { mapState, mapGetters } from 'vuex'
 
 export default {
   components: { GroupList, QEmpty },
-  data: () => ({ groupTagsList: [] }),
+  data: () => ({ groupTagsList: undefined, error: null }),
   computed: {
     ...mapState({ tagsFilter: state => state.tagsFilter.items }),
     ...mapGetters({ isEmpty: 'tagsFilter/isEmpty' }),
@@ -65,7 +65,9 @@ export default {
   apollo: {
     groupTagsList: {
       query: require('@/graphql/groupTagsList.gql'),
-      fetchPolicy: 'cache-and-network'
+      error(error) {
+        this.error = error
+      }
     }
   }
 }

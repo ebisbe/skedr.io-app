@@ -17,13 +17,12 @@
         userId: joinedGroups ? userId : undefined,
         photoId: ''
       }"
-      fetch-policy="cache-and-network"
       tag=""
     >
       <template slot-scope="{ result: { error, data, loading }, query }">
         <!-- Loading -->
         <q-empty
-          v-if="loading && data === null"
+          v-if="loading && data === undefined"
           :loading="true"/>
 
         <!-- Error -->

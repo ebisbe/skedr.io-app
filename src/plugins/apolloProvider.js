@@ -31,7 +31,13 @@ const apolloClient = new ApolloClient({
 })
 
 const apolloProvider = new VueApollo({
-  defaultClient: apolloClient
+  defaultClient: apolloClient,
+  defaultOptions: {
+    $query: {
+      loadingKey: 'loading',
+      fetchPolicy: 'cache-and-network'
+    }
+  }
 })
 
 // Install the vue plugin

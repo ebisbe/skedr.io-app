@@ -1,8 +1,9 @@
 require('intersection-observer')
-
 import Vue from 'vue'
+const isProd = process.env.NODE_ENV === 'production'
 
 import './plugins/vuetify'
+import './plugins/errorLoggin'
 import apolloProvider from './plugins/apolloProvider'
 import aws_exports from './plugins/aws-exports'
 
@@ -14,29 +15,12 @@ import VueAnalytics from 'vue-analytics'
 import Amplify, { Auth, Logger } from 'aws-amplify'
 
 Amplify.configure(aws_exports)
-Amplify.Logger.LOG_LEVEL = process.env.NODE_ENV === 'production' ? '' : '' // use DEBUG to show detailed logs from Amplify library
+Amplify.Logger.LOG_LEVEL = isProd ? '' : '' // use DEBUG to show detailed logs from Amplify library
 const logger = new Logger('main')
 Auth.currentUserInfo()
   .then(user => logger.debug(user))
   .catch(err => logger.debug(err))
 
-const isProd = process.env.NODE_ENV === 'production'
-
-import Raven from 'raven-js'
-import RavenVue from 'raven-js/plugins/vue'
-import LogRocket from 'logrocket'
-if (isProd) {
-  LogRocket.init('zye3nm/skedrio-prod')
-
-  Raven.config(process.env.VUE_APP_SENTRY)
-    .addPlugin(RavenVue, Vue)
-    .install()
-
-  Raven.setDataCallback(function(data) {
-    data.extra.sessionURL = LogRocket.sessionURL
-    return data
-  })
-}
 
 Vue.config.productionTip = false
 Vue.use(VueAnalytics, {

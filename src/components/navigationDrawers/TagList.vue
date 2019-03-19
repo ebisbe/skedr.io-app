@@ -57,7 +57,6 @@ export default {
   apollo: {
     groupTagsList: {
       query: GROUP_TAGS_LIST,
-      fetchPolicy: 'cache-and-network',
       update: ({ groupTagsList }) => groupTagsList
     }
   },

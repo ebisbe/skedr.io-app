@@ -36,12 +36,18 @@ export default [
       {
         path: 'list',
         name: 'AutoimportTagsList',
-        component: AutoimporTagsList
+        component: AutoimporTagsList,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: 'search',
         name: 'AutoimportTagsSearch',
-        component: AutoimporTagsSearch
+        component: AutoimporTagsSearch,
+        meta: {
+          requiresAuth: true
+        }
       }
     ]
   },

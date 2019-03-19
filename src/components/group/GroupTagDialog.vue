@@ -66,7 +66,7 @@
                         <div v-if="isLoading && data === null" class="loading apollo">Loading...</div>
 
                         <!-- Error -->
-                        <div v-else-if="error" class="error apollo">An error occured</div>
+                        <div v-else-if="error" class="error apollo">We couldn't fetch your data.</div>
 
                         <!-- Result -->
                         <v-flex
@@ -85,7 +85,7 @@
                         </v-flex>
 
                         <!-- No result -->
-                        <div v-else class="no-result apollo">No result :(</div>
+                        <div v-else class="no-result apollo">You don't have photos with '{{ tag }}' tag.</div>
                       </v-layout>
                     </v-container>
                   </v-card-text>
@@ -119,12 +119,13 @@
             <v-btn
               ref="saveBtn"
               :disabled="!canSave || loading"
+              :loading="loading"
               color="primary"
               @click="mutate()"
             >
               save
             </v-btn>
-            <p v-if="error">An error occured: {{ error }}</p>
+            <p v-if="error">We couldn't fetch your data.</p>
           </template>
         </ApolloMutation>
 

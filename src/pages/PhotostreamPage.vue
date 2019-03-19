@@ -8,10 +8,10 @@
       }"
       tag=""
     >
-      <template slot-scope="{ result: { error, data } , isLoading, query}">
+      <template slot-scope="{ result: { error, data, loading }, query}">
         <!-- Loading -->
         <q-empty
-          v-if="isLoading && data === null"
+          v-if="loading && data === undefined"
           :loading="true"/>
 
         <!-- Error -->
@@ -22,7 +22,7 @@
 
         <!-- Result -->
         <v-container
-          v-else-if="data.userPhotos.photos"
+          v-else-if="data"
           fluid
           grid-list-md >
           <v-layout
@@ -39,12 +39,12 @@
             <v-flex xs12>
               <app-observer @intersect="showMore(query)"/>
               <v-btn
-                :disabled="!showMoreEnabled || isLoading === 1"
+                :disabled="!showMoreEnabled || loading"
                 block
                 color="accent"
-                @click="showMore">
+                @click="showMore(query)">
                 <v-progress-circular
-                  v-if="isLoading"
+                  v-if="loading"
                   indeterminate
                   color="grey"/>
                 <span v-else>

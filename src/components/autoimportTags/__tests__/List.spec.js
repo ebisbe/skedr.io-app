@@ -37,7 +37,6 @@ describe('List.vue', () => {
   it('has an error', () => {
     const mocks = {
       $apollo: {
-        error: true,
         queries: {
           groupTagsList: {
             loading: false
@@ -46,13 +45,13 @@ describe('List.vue', () => {
       }
     }
     const wrapper = createCmp({ mocks })
+    wrapper.setData({ error: true })
     expect(wrapper).toMatchSnapshot()
   })
 
   it('has no results', () => {
     const mocks = {
       $apollo: {
-        error: false,
         queries: {
           groupTagsList: {
             loading: false

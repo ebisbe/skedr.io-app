@@ -44,6 +44,18 @@
             <v-list-tile-title>Send feedback</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile
+          ripple
+          class="triggerChangelog"
+          @click.stop
+        >
+          <v-list-tile-action>
+            <v-icon class="changelog" >notification_important</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Changelog</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
         <v-divider/>
         <v-list-tile ripple @click.stop="logout">
           <v-list-tile-action>
@@ -171,6 +183,12 @@ export default {
   },
   mounted() {
     this.drawer = this.$vuetify.breakpoint.lgAndpUp
+    const config = {
+      selector: '.changelog', // CSS selector where to inject the badge
+      account: 'yZ6Dpy',
+      trigger: '.triggerChangelog .v-list__tile'
+    }
+    Headway.init(config)
   },
   methods: {
     toggle() {

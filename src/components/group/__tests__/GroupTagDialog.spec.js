@@ -13,7 +13,8 @@ describe('GroupTagDialog component', () => {
     })
     it('adds a tag', () => {
       const wrapper = createComp({ title: '', groupId: '123@N08', tags: ['firstTag'], manageTags: true })
-      wrapper.vm.comboTags.push('something')
+      wrapper.vm.comboTags = ['firstTag', 'firstTag 1AA!@#$%']
+      expect(wrapper.vm.comboTags).toMatchObject(['firsttag', 'firsttag1aa'])
       expect(wrapper.vm.canSave).toBe(true)
     })
     it('adds a new tag and deletes the previous one', () => {
@@ -30,7 +31,7 @@ describe('GroupTagDialog component', () => {
   describe('Methods', () => {
     it('removes a tag from the comboTags', () => {
       const wrapper = createComp({ title: '', groupId: '123@N08', tags: ['firstTag'], manageTags: true })
-      wrapper.vm.remove('firstTag')
+      wrapper.vm.remove('firsttag')
       expect(wrapper.vm.comboTags).toMatchObject([])
     })
   })

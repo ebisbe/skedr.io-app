@@ -1,4 +1,7 @@
 export default {
+  methods: {
+    sanitize: tag => tag.toLowerCase().replace(/[\W_]/g, '')
+  },
   filters: {
     parseNumber(value) {
       const int = parseInt(value)
@@ -9,5 +12,8 @@ export default {
         return parseInt(int / 1000) + 'K'
       }
     }
+    // sanitize(tag) {
+    //   return this.sanitize(tag)
+    // }
   }
 }

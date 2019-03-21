@@ -26,7 +26,7 @@ describe('GroupList.vue', () => {
           groupId: 'groupId',
           title: 'Group Title',
           poolCount: 1000000000,
-          members: 2000000,
+          members: 200,
           photoLimitOptOut: true
         }
       }

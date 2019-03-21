@@ -46,9 +46,11 @@ import GroupList from '@/components/group/GroupList'
 import QEmpty from '@/components/ui/QEmpty'
 import _sortBy from 'lodash/sortBy'
 import { mapState, mapGetters } from 'vuex'
+import { filters } from '@/mixins'
 
 export default {
   components: { GroupList, QEmpty },
+  mixins: [filters],
   data: () => ({ groupTagsList: undefined, error: null }),
   computed: {
     ...mapState({ tagsFilter: state => state.tagsFilter.items }),
@@ -59,7 +61,7 @@ export default {
         .map(object => object[0])
     },
     orderByTitle() {
-      return _sortBy(this.groupTagsList, ({ group }) => group.title.replace(/[\W]/g, '').toLowerCase())
+      return _sortBy(this.groupTagsList, ({ group }) => this.sanitize(group.title))
     }
   },
   apollo: {

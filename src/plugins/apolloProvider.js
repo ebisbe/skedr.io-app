@@ -35,7 +35,8 @@ const apolloProvider = new VueApollo({
   defaultOptions: {
     $query: {
       loadingKey: 'loading',
-      fetchPolicy: 'cache-and-network'
+      fetchPolicy: 'cache-and-network',
+      errorPolicy: 'all'
     }
   }
 })

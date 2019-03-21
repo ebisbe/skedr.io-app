@@ -17,12 +17,12 @@
         <v-spacer/>
       </v-toolbar>
       <div class="pa-3">
-        <div class="xs12 flex headline">{{ title }}</div>
+        <div class="xs12 flex headline" v-html="title"/>
         <v-combobox
           v-model="comboTags"
           multiple
           label="Tags"
-          hide-details
+          hint="Use lowercase letters and numbers."
           @keyup.shift.enter="() => { if(canSave) { $refs.saveBtn.click({}) } }"
         >
           <group-tag-dialog-chip
@@ -51,9 +51,8 @@
             }"
             tag=""
           >
-            <template slot-scope="{ result: { loading, error, data }, isLoading }">
-              <v-expansion-panel-content
-              >
+            <template slot-scope="{ result: { loading, error, data } }">
+              <v-expansion-panel-content>
                 <div slot="header">{{ tag }} <span v-if="data">[{{ data.photoTagsList.length }}]</span></div>
                 <v-card>
                   <v-card-text>
@@ -63,7 +62,7 @@
                       pa-0>
                       <v-layout row wrap>
                         <!-- Loading -->
-                        <div v-if="isLoading && data === null" class="loading apollo">Loading...</div>
+                        <div v-if="loading && data === undefined" class="loading apollo">Loading...</div>
 
                         <!-- Error -->
                         <div v-else-if="error" class="error apollo">We couldn't fetch your data.</div>
@@ -71,7 +70,7 @@
                         <!-- Result -->
                         <v-flex
                           v-for="{photoId, photo: {secret, farm, server}} in data.photoTagsList"
-                          v-else-if="data.photoTagsList.length"
+                          v-else-if="data && data.photoTagsList.length"
                           :key="secret"
                           xs2
                         >
@@ -135,9 +134,11 @@
 </template>
 <script>
 import { GroupTagDialogChip, GroupTagDialogImage } from '@/components/group'
+import { filters } from '@/mixins'
 
 export default {
   components: { GroupTagDialogChip, GroupTagDialogImage },
+  mixins: [filters],
   props: {
     groupId: {
       type: String,
@@ -157,13 +158,24 @@ export default {
     }
   },
   data: () => ({
-    comboTags: [],
+    comboTagsReal: [],
     newPhotosOnly: false
   }),
   computed: {
+    comboTags: {
+      set(value) {
+        this.comboTagsReal = value.map(val => this.sanitize(val)).slice()
+      },
+      get() {
+        return this.comboTagsReal
+      }
+    },
     canSave() {
-      const set = new Set(this.tags)
-      this.comboTags.forEach(tag => (!set.has(tag) ? set.add(tag) : null))
+      const set = new Set(this.tags.map(tag => this.sanitize(tag)))
+      this.comboTags.forEach(tag => {
+        const sanitizedTag = this.sanitize(tag)
+        !set.has(sanitizedTag) ? set.add(sanitizedTag) : null
+      })
       return (
         this.comboTags.length !== this.tags.length ||
         (this.comboTags.length === this.tags.length && set.size > this.comboTags.length)

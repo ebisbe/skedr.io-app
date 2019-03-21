@@ -32,7 +32,7 @@
           icon="photo"/>
 
         <!-- Result -->
-        <v-container v-else-if="data">
+        <v-container v-else-if="data && data.searchGroups.groups.length">
           <v-card >
             <v-card-text class="pa-0">
               <v-list two-line class="py-0">

@@ -21,7 +21,7 @@ exports[`GroupList.vue shows a group 1`] = `
           </v-flex-stub>
           <v-flex-stub tag="div" xs2="" class="text-xs-left">
             <v-icon-stub>group</v-icon-stub>
-            2M
+            200
           </v-flex-stub>
           <v-flex-stub tag="div" xs2="" class="text-xs-left pt-1"></v-flex-stub>
           <v-flex-stub tag="div" class="text-xs-right">

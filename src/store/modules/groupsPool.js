@@ -1,5 +1,6 @@
 import _sortBy from 'lodash/sortBy'
 import Vue from 'vue'
+import { filters } from '@/mixins'
 
 export const state = {
   groups: {}
@@ -7,7 +8,7 @@ export const state = {
 
 export const getters = {
   total: ({ groups }) => Object.keys(groups).length,
-  orderByTitle: ({ groups }) => _sortBy(groups, [({ title }) => title.replace(/[\W]/g, '').toLowerCase()]),
+  orderByTitle: ({ groups }) => _sortBy(groups, [({ title }) => filters.methods.sanitize(title)]),
   hasItems: (state, getters) => getters.total > 0,
   list: (state, getters) => getters.orderByTitle.map(({ title }) => title).join(', '),
   inPool: ({ groups }) => id => groups[id] !== undefined

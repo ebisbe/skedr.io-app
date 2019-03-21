@@ -8,20 +8,10 @@
       avatar
       @click.stop>
       <v-list-tile-avatar>
-        <v-badge
-          v-model="hover"
-          class="external-link"
-          color="grey"
-          overlap>
-          <a
-            slot="badge"
-            :href="`https://www.flickr.com/groups/${group.groupId}`"
-            style="text-decoration: none;"
-            target="_blank">
-            <v-icon color="white">open_in_new</v-icon>
-          </a>
-          <img :src="group.icon">
-        </v-badge>
+        <external-link-badge
+          :hover="hover"
+          :group-id="group.groupId"
+          :icon="group.icon"/>
       </v-list-tile-avatar>
       <v-list-tile-content>
         <v-list-tile-title>
@@ -103,11 +93,12 @@
 import { throttleText, filters } from '@/mixins'
 import GroupTagDialog from '@/components/group/GroupTagDialog'
 import PhotoLimitOptOutMessage from '@/components/group/PhotoLimitOptOutMessage'
+import ExternalLinkBadge from '@/components/common/ExternalLinkBadge'
 import { mapState } from 'vuex'
 import { clearTimeout } from 'timers'
 
 export default {
-  components: { GroupTagDialog, PhotoLimitOptOutMessage },
+  components: { GroupTagDialog, PhotoLimitOptOutMessage, ExternalLinkBadge },
   mixins: [throttleText, filters],
   props: {
     group: {

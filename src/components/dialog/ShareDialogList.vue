@@ -2,30 +2,19 @@
   <v-list-tile
     :class="{ selected, alreadyInGroup, disabled }"
     avatar
-    v-on="clickable ? { click: selectGroup } : {}">
+    @mouseover="hover = true"
+    @mouseleave="hover = false"
+    v-on="clickable ? { click: selectGroup } : { click: () => ({})}">
     <v-list-tile-avatar>
-      <v-badge
-        :color="badgeColor"
-        v-model="useBadge"
-        overlap>
-        <span slot="badge">
-          <v-icon color="white">{{ badgeType }}</v-icon>
-        </span>
-        <img :src="group.icon">
-      </v-badge>
+      <external-link-badge
+        :hover="hover"
+        :group-id="group.groupId"
+        :icon="group.icon"/>
     </v-list-tile-avatar>
     <v-list-tile-content>
       <v-list-tile-title >
         <photo-limit-opt-out-message v-if="group.photoLimitOptOut !== undefined" :opt-out="group.photoLimitOptOut"/>
         <strong v-html="group.title"/>
-        &nbsp;
-        <a
-          :href="`https://www.flickr.com/groups/${group.id}`"
-          target="_blank"
-          style="text-decoration:none;"
-          @click.stop>
-          <v-icon small>open_in_new</v-icon>
-        </a>
       </v-list-tile-title>
       <v-list-tile-sub-title>
         <v-layout
@@ -60,7 +49,7 @@
         </v-layout>
       </v-list-tile-sub-title>
     </v-list-tile-content>
-    <v-list-tile-action v-if="allowRemoveAction">
+    <v-list-tile-action v-if="allowRemoveAction || ( selected && hover ) ">
       <v-btn
         icon
         ripple
@@ -71,15 +60,24 @@
         </v-tooltip>
       </v-btn>
     </v-list-tile-action>
+    <v-list-tile-action v-else-if="useBadge">
+      <v-btn
+        :color="badgeColor"
+        icon
+        ripple>
+        <v-icon color="white">{{ badgeType }}</v-icon>
+      </v-btn>
+    </v-list-tile-action>
   </v-list-tile>
 </template>
 
 <script>
 import { throttleText, filters } from '@/mixins/'
 import PhotoLimitOptOutMessage from '@/components/group/PhotoLimitOptOutMessage'
+import ExternalLinkBadge from '@/components/common/ExternalLinkBadge'
 
 export default {
-  components: { PhotoLimitOptOutMessage },
+  components: { PhotoLimitOptOutMessage, ExternalLinkBadge },
   mixins: [throttleText, filters],
   props: {
     group: {
@@ -103,6 +101,7 @@ export default {
       default: true
     }
   },
+  data: () => ({ hover: false }),
   computed: {
     disabled() {
       return this.group.throttleMode === 'disabled'

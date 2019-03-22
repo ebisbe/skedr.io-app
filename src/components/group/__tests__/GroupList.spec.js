@@ -27,6 +27,7 @@ describe('GroupList.vue', () => {
           title: 'Group Title',
           poolCount: 1000000000,
           members: 200,
+          icon: '',
           photoLimitOptOut: true
         }
       }
@@ -46,7 +47,7 @@ describe('GroupList.vue', () => {
           }
         }
       }),
-      propsData: { group: { groupId: 'groupId', title: 'Group Title', photoLimitOptOut: true } }
+      propsData: { group: { groupId: 'groupId', title: 'Group Title', photoLimitOptOut: true, icon: '' } }
     })
     wrapper.vm.manageTags = true
     expect(wrapper.vm.manageTags).toBe(true)
@@ -56,7 +57,7 @@ describe('GroupList.vue', () => {
 
   it('hovers over the element to show the link', done => {
     const wrapper = mount(Comp, {
-      propsData: { group: { groupId: 'groupId', title: 'Group Title', photoLimitOptOut: true } }
+      propsData: { group: { groupId: 'groupId', title: 'Group Title', photoLimitOptOut: true, icon: '' } }
     })
     expect(wrapper.vm.hover).toBe(false)
     wrapper.find('div > div').trigger('mouseover')

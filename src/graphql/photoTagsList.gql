@@ -1,5 +1,5 @@
-query photoTagsList($tags: [String!]) {
-  photoTagsList(tags: $tags) {
+query photoTagsList($tags: [String!], $count: Int) {
+  photoTagsList(tags: $tags, count: $count) {
     photoId
     photo {
       id

@@ -4,7 +4,6 @@ import * as Sentry from '@sentry/browser'
 
 Sentry.init({
   dsn: process.env.VUE_APP_SENTRY,
-  release: process.env.VUE_APP_RELEASE_VERSION,
   integrations: [
     new Sentry.Integrations.Vue({
       Vue,

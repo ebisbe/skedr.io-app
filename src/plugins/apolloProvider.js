@@ -1,4 +1,4 @@
-import { InMemoryCache, defaultDataIdFromObject } from 'apollo-cache-inmemory/lib/index'
+import { InMemoryCache } from 'apollo-cache-inmemory/lib/index'
 import { HttpLink } from 'apollo-link-http/lib/index'
 import { setContext } from 'apollo-link-context'
 import { ApolloClient } from 'apollo-client/index'

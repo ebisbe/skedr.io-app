@@ -1,4 +1,4 @@
-query scheduledPhotos($scheduledAt: Int!) {
+query scheduledPhotos($scheduledAt: String) {
   scheduledPhotos(scheduledAt: $scheduledAt) {
     userId
     groupId

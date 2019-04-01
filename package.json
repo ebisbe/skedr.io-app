@@ -20,7 +20,6 @@
     "apollo-link-http": "^1.5.4",
     "aws-amplify": "^1.0.0",
     "cache-service-cache-module": "^2.0.0",
-    "flickr-sdk": "^3.7.0",
     "graphql": "^14.0.0",
     "graphql-tag": "^2.9.2",
     "greenkeeper-lockfile": "^1.15.1",

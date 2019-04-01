@@ -41,36 +41,41 @@
         /> -->
       </div>
       <v-card-text v-if="comboTags">
-        <v-expansion-panel>
-          <ApolloQuery
-            v-for="tag in comboTags"
-            :key="tag"
-            :query="require('@/graphql/photoTagsList.gql')"
-            :variables="{
-              tags: [tag]
-            }"
-            tag=""
-          >
-            <template slot-scope="{ result: { loading, error, data } }">
-              <v-expansion-panel-content>
-                <div slot="header">{{ tag }} <span v-if="data">[{{ data.photoTagsList.length }}]</span></div>
-                <v-card>
-                  <v-card-text>
-                    <v-container
-                      grid-list-xs
-                      fluid
-                      pa-0>
-                      <v-layout row wrap>
-                        <!-- Loading -->
-                        <div v-if="loading && data === undefined" class="loading apollo">Loading...</div>
+        <v-expansion-panel v-model="openedPanel">
+          <v-expansion-panel-content
+            v-for="(tag, i) in comboTags"
+            :key="tag">
+            <div slot="header">{{ tag }}</div>
+            <v-card>
+              <v-card-text>
+                <v-container
+                  grid-list-xs
+                  fluid
+                  pa-0>
+                  <ApolloQuery
+                    v-if="openedPanel === i"
+                    :query="require('@/graphql/photoTagsList.gql')"
+                    :variables="{
+                      tags: [tag],
+                      count: 50
+                    }"
+                    tag=""
+                  >
+                    <template slot-scope="{ result: { loading, error, data } }">
+                      <!-- Loading -->
+                      <div v-if="loading && data === undefined" class="loading apollo">Loading...</div>
 
-                        <!-- Error -->
-                        <div v-else-if="error" class="error apollo">We couldn't fetch your data.</div>
+                      <!-- Error -->
+                      <div v-else-if="error" class="error apollo">We couldn't fetch your data.</div>
 
-                        <!-- Result -->
+                      <!-- Result -->
+                      <v-layout
+                        v-else-if="data && data.photoTagsList.length"
+                        row
+                        wrap
+                      >
                         <v-flex
                           v-for="{photoId, photo: {secret, farm, server}} in data.photoTagsList"
-                          v-else-if="data && data.photoTagsList.length"
                           :key="secret"
                           xs2
                         >
@@ -82,16 +87,16 @@
                               :server="server"/>
                           </v-card>
                         </v-flex>
-
-                        <!-- No result -->
-                        <div v-else class="no-result apollo">You don't have photos with '{{ tag }}' tag.</div>
                       </v-layout>
-                    </v-container>
-                  </v-card-text>
-                </v-card>
-              </v-expansion-panel-content>
-            </template>
-          </ApolloQuery>
+
+                      <!-- No result -->
+                      <div v-else class="no-result apollo">You don't have photos with '{{ tag }}' tag.</div>
+                    </template>
+                  </ApolloQuery>
+                </v-container>
+              </v-card-text>
+            </v-card>
+          </v-expansion-panel-content>
         </v-expansion-panel>
       </v-card-text>
       <v-divider/>
@@ -159,7 +164,8 @@ export default {
   },
   data: () => ({
     comboTagsReal: [],
-    newPhotosOnly: false
+    newPhotosOnly: false,
+    openedPanel: null
   }),
   computed: {
     comboTags: {

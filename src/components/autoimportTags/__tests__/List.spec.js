@@ -60,6 +60,9 @@ describe('List.vue', () => {
       }
     }
     const wrapper = createCmp({ mocks })
+    wrapper.setData({
+      groupTagsList: []
+    })
     expect(wrapper).toMatchSnapshot()
   })
 

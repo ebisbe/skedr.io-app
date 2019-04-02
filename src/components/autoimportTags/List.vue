@@ -14,7 +14,7 @@
 
     <!-- Result -->
     <v-container
-      v-else-if="groupTagsList"
+      v-else-if="groupTagsList && groupTagsList.length"
     >
       <v-card>
         <v-list two-line class="py-0">
@@ -32,9 +32,17 @@
     <!-- No result -->
     <v-container v-else>
       <ol>
-        <li>You don't have binded group with tags. To do so search through your groups or find new groups with the Search bar</li>
-        <li>Add tags ( preferably just one tag ) that matches the group essence. ( add examples )</li>
-        <li>Once the tag/s has binded to the group all your photos with that tag will be shared to that group automatically. New photos you upload will be added too.</li>
+        <li>You don't have any tag linked to a group. To start linking tags search through your groups or find new groups with the Search bar.</li>
+        <li>Add tags with the <v-icon>settings</v-icon> icon of any group. For example:
+          <ul>
+            <li><a href="https://www.flickr.com/groups/flickr10photowalks/">Flickr Worldwide Photowalks</a> use the <group-tag-dialog-chip tag="photowalk"/> tag.</li>
+            <li><a href="https://www.flickr.com/groups/peopleandpersons/">People and Persons</a> use the <group-tag-dialog-chip tag="people"/>, <group-tag-dialog-chip tag="person"/>, <group-tag-dialog-chip tag="woman"/> and/or <group-tag-dialog-chip tag="man"/> tag.</li>
+            <li><a href="https://www.flickr.com/groups/catchy/">!Catchy Colors</a> use the <group-tag-dialog-chip tag="color"/> or <group-tag-dialog-chip tag="colour"/> tag.</li>
+            <li><a href="https://www.flickr.com/groups/minimally_less_is_more/">Less Is More...</a> use the <group-tag-dialog-chip tag="minimalism"/> tag.</li>
+            <li><a href="https://www.flickr.com/groups/blackandwhite/">Black and White</a> use the <group-tag-dialog-chip tag="b&w"/> tag.</li>
+          </ul>
+        </li>
+        <li>Once the tag/s has been linked to the group all your previous photos with that tag will be shared to that group automatically. New photos you upload will be added too.</li>
       </ol>
     </v-container>
 
@@ -44,12 +52,13 @@
 <script>
 import GroupList from '@/components/group/GroupList'
 import QEmpty from '@/components/ui/QEmpty'
+import GroupTagDialogChip from '@/components/group/GroupTagDialogChip'
 import _sortBy from 'lodash/sortBy'
 import { mapState, mapGetters } from 'vuex'
 import { filters } from '@/mixins'
 
 export default {
-  components: { GroupList, QEmpty },
+  components: { GroupList, QEmpty, GroupTagDialogChip },
   mixins: [filters],
   data: () => ({ groupTagsList: undefined, error: null }),
   computed: {

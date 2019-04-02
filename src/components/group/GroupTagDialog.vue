@@ -42,26 +42,26 @@
       </div>
       <v-card-text v-if="comboTags">
         <v-expansion-panel v-model="openedPanel">
-          <v-expansion-panel-content
-            v-for="(tag, i) in comboTags"
-            :key="tag">
-            <div slot="header">{{ tag }}</div>
-            <v-card>
-              <v-card-text>
-                <v-container
-                  grid-list-xs
-                  fluid
-                  pa-0>
-                  <ApolloQuery
-                    v-if="openedPanel === i"
-                    :query="require('@/graphql/photoTagsList.gql')"
-                    :variables="{
-                      tags: [tag],
-                      count: 50
-                    }"
-                    tag=""
-                  >
-                    <template slot-scope="{ result: { loading, error, data } }">
+          <ApolloQuery
+            v-for="tag in comboTags"
+            :key="tag"
+            :query="require('@/graphql/searchPhotos.gql')"
+            :variables="{
+              tags: tag,
+              perPage,
+              page
+            }"
+            tag=""
+          >
+            <template slot-scope="{ result: { loading, error, data } }">
+              <v-expansion-panel-content>
+                <div slot="header">{{ tag }} <span v-if="data">[{{ data.searchPhotos.total }}]</span></div>
+                <v-card>
+                  <v-card-text class="grey lighten-4">
+                    <v-container
+                      grid-list-xs
+                      fluid
+                      pa-0>
                       <!-- Loading -->
                       <div v-if="loading && data === undefined" class="loading apollo">Loading...</div>
 
@@ -70,12 +70,12 @@
 
                       <!-- Result -->
                       <v-layout
-                        v-else-if="data && data.photoTagsList.length"
+                        v-else-if="data && data.searchPhotos.photos.length"
                         row
                         wrap
                       >
                         <v-flex
-                          v-for="{photoId, photo: {secret, farm, server}} in data.photoTagsList"
+                          v-for="{photoId, secret, farm, server} in data.searchPhotos.photos"
                           :key="secret"
                           xs2
                         >
@@ -87,16 +87,23 @@
                               :server="server"/>
                           </v-card>
                         </v-flex>
+                        <v-flex class="text-xs-center xs12">
+                          <v-pagination
+                            v-model="page"
+                            :length="Math.ceil(data.searchPhotos.total / perPage)"
+                            total-visible="6"
+                          />
+                        </v-flex>
                       </v-layout>
 
                       <!-- No result -->
                       <div v-else class="no-result apollo">You don't have photos with '{{ tag }}' tag.</div>
-                    </template>
-                  </ApolloQuery>
-                </v-container>
-              </v-card-text>
-            </v-card>
-          </v-expansion-panel-content>
+                    </v-container>
+                  </v-card-text>
+                </v-card>
+              </v-expansion-panel-content>
+            </template>
+          </ApolloQuery>
         </v-expansion-panel>
       </v-card-text>
       <v-divider/>
@@ -165,7 +172,9 @@ export default {
   data: () => ({
     comboTagsReal: [],
     newPhotosOnly: false,
-    openedPanel: null
+    openedPanel: null,
+    perPage: 18,
+    page: 1
   }),
   computed: {
     comboTags: {

@@ -1,0 +1,11 @@
+query searchPhotos($perPage: Int!, $page: Int!, $tags: String) {
+  searchPhotos(perPage: $perPage, page: $page, tags: $tags) {
+    total
+    photos {
+      photoId
+      secret
+      farm
+      server
+    }
+  }
+}

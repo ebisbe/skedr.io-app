@@ -101,10 +101,10 @@
 </template>
 
 <script>
-import { API } from 'aws-amplify'
+import API from '@aws-amplify/api'
 import { validations } from '@/mixins'
 
-import { Auth } from 'aws-amplify'
+import Auth from '@aws-amplify/auth'
 
 export default {
   mixins: [validations],

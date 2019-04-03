@@ -1,6 +1,5 @@
 const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-
 const plugins = [new ContextReplacementPlugin(/moment[/\\]locale$/, /en/)]
 if (process.env.npm_config_report) {
   plugins.push(new BundleAnalyzerPlugin())
@@ -18,6 +17,12 @@ module.exports = {
   },
   configureWebpack: {
     plugins,
-    devtool: 'source-map'
+    devtool: 'source-map',
+    optimization: {
+      runtimeChunk: 'single',
+      splitChunks: {
+        chunks: 'all'
+      }
+    }
   }
 }

@@ -4,7 +4,7 @@ import { setContext } from 'apollo-link-context'
 import { ApolloClient } from 'apollo-client/index'
 import VueApollo from 'vue-apollo'
 import Vue from 'vue'
-import { Auth } from 'aws-amplify'
+import Auth from '@aws-amplify/auth'
 import exports from './aws-exports'
 const uri = exports.aws_appsync_graphqlEndpoint
 

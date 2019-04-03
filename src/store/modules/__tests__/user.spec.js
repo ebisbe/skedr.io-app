@@ -1,5 +1,25 @@
 import { getters, mutations, actions } from '@/store/modules/user'
-import { Auth } from 'aws-amplify'
+import Auth from '@aws-amplify/auth'
+
+jest.mock('@aws-amplify/auth', () => ({
+  error: true,
+  signIn(email, password) {
+    return Promise.resolve({ user: `User-${email}`, password })
+  },
+  verifiedContact(user) {
+    return Promise.resolve({ verified: { email: `Verified-${user.user}` } })
+  },
+  currentAuthenticatedUser() {
+    if (this.error) throw new Error('Not authenticated')
+    else return Promise.resolve({ user: 'enric', attributes: { name: 'name', email: 'email' } })
+  },
+  currentCredentials() {
+    return Promise.resolve({ identityId: '12345' })
+  }
+}))
+jest.mock('@aws-amplify/api', () => ({
+  post() {}
+}))
 
 describe('Store user.js', () => {
   describe('getters', () => {

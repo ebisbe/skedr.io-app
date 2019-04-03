@@ -12,16 +12,9 @@ import router from './router'
 import store from './store'
 import './libs/storage'
 import VueAnalytics from 'vue-analytics'
-import Amplify, { Auth, Logger } from 'aws-amplify'
+import Amplify from '@aws-amplify/core';
 
 Amplify.configure(aws_exports)
-Amplify.Logger.LOG_LEVEL = isProd ? '' : '' // use DEBUG to show detailed logs from Amplify library
-const logger = new Logger('main')
-Auth.currentUserInfo()
-  .then(user => logger.debug(user))
-  .catch(err => logger.debug(err))
-
-
 Vue.config.productionTip = false
 Vue.use(VueAnalytics, {
   id: process.env.VUE_APP_GA,

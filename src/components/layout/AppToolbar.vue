@@ -126,7 +126,7 @@ import AppPoolBtn from './AppPoolBtn.vue'
 import AppFeedbackPopup from './AppFeedbackPopup'
 import AppNotificationList from './AppNotificationList'
 
-import { Auth } from 'aws-amplify'
+import Auth from '@aws-amplify/auth';
 
 export default {
   name: 'Toolbar',

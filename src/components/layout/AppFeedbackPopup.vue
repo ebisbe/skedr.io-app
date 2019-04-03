@@ -75,7 +75,7 @@
 </template>
 <script>
 import { validations } from '@/mixins'
-import { API } from 'aws-amplify'
+import API  from '@aws-amplify/api'
 
 export default {
   name: 'FeedbackDialog',

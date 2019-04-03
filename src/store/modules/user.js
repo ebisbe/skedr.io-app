@@ -1,4 +1,5 @@
-import { Auth, JS, API } from 'aws-amplify'
+import API from '@aws-amplify/api'
+import Auth from '@aws-amplify/auth'
 import LogRocket from 'logrocket'
 
 export const state = {
@@ -41,7 +42,7 @@ export const actions = {
       body: { userId: state.username, email: username }
     }
     API.post(process.env.VUE_APP_API_NAME, '/oauth/user', payload)
-    return !JS.isEmpty(data.verified) ? true : false
+    return Object.keys(data.verified).length !== 0 ? true : false
   },
   currentAuthenticatedUser: async ({ commit, state }) => {
     try {

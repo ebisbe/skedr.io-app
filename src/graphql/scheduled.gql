@@ -1,18 +1,21 @@
-query scheduledPhotos($scheduledAt: String) {
-  scheduledPhotos(scheduledAt: $scheduledAt) {
-    userId
-    groupId
-    photoId
-    scheduledAt
-    photo {
-      title
-      server
-      secret
-      farm
-      isPublic
+query scheduledPhotos($scheduledAt: Int!, $count: Int!, $nextToken: String) {
+  scheduledPhotos(scheduledAt: $scheduledAt, count: $count, nextToken: $nextToken) {
+    scheduledPhotos {
+      userId
+      groupId
+      photoId
+      scheduledAt
+      photo {
+        title
+        server
+        secret
+        farm
+        isPublic
+      }
+      group {
+        title
+      }
     }
-    group {
-      title
-    }
+    nextToken
   }
 }

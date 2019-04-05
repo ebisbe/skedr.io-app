@@ -1,9 +1,3 @@
-<template>
-  <div>
-    <slot :result="result" name="result" />
-  </div>
-</template>
-
 <script>
 import apolloClient from '@/plugins/apolloClient'
 import * as Sentry from '@sentry/browser'
@@ -21,6 +15,10 @@ export default {
     options: {
       type: Object,
       default: () => ({})
+    },
+    tag: {
+      type: String,
+      default: null
     }
   },
   data() {
@@ -67,6 +65,21 @@ export default {
           Sentry.captureException(error);
         })
     }
-  }
+  },
+  render (h) {
+    let result = this.$scopedSlots.default({
+      result: this.result,
+      //times: this.times,
+      // query: this.$apollo.queries.query,
+      // isLoading: this.$apolloData.loading,
+      // gqlError: this.result && this.result.error && this.result.error.gqlError,
+    })
+    // if (Array.isArray(result)) {
+    //   result = result.concat(this.$slots.default)
+    // } else {
+    //   result = [result].concat(this.$slots.default)
+    // }
+    return this.tag ? h(this.tag, result) : result[0]
+  },
 }
 </script>

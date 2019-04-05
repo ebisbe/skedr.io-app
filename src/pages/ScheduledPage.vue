@@ -1,25 +1,32 @@
 <template>
   <v-content>
-    <ApolloQuery :query="require('@/graphql/scheduled.gql')" :variables="{ scheduled: '2019-03-29'}">
-      <template #result="{ result: { data, loading, error } }">
+    <ApolloQuery
+      :query="require('@/graphql/scheduled.gql')"
+      :variables="{
+        count,
+        scheduledAt
+      }"
+      tag="">
+      <template slot-scope="{ result: { data, loading, error }, query }" >
         <!-- Loading -->
         <q-empty
-          v-if="loading"
+          v-if="loading && data === undefined"
           :loading="true"/>
 
         <!-- Error -->
         <q-empty
           v-else-if="error"
           :error="true"
+          :description="error"
           icon="access_time"/>
 
         <v-container
-          v-else-if="data.length"
+          v-else-if="data && data.scheduledPhotos.scheduledPhotos.length"
           fluid
           class="pt-0 q-schedule"
           grid-list-md>
           <v-layout
-            v-for="(item, index) in scheduled"
+            v-for="(item, index) in scheduled(data.scheduledPhotos.scheduledPhotos)"
             :key="index+item"
             class="pb-3">
             <v-flex
@@ -54,6 +61,22 @@
               </template>
             </v-flex>
           </v-layout>
+          <v-flex v-if="showMoreEnabled" xs12>
+            <app-observer @intersect="showMore(query, data.scheduledPhotos.nextToken)"/>
+            <v-btn
+              :disabled="!showMoreEnabled || loading"
+              block
+              color="accent"
+              @click="showMore(query, data.scheduledPhotos.nextToken)">
+              <v-progress-circular
+                v-if="loading"
+                indeterminate
+                color="grey"/>
+              <span v-else>
+                &nbsp;Load future dates
+              </span>
+            </v-btn>
+          </v-flex>
         </v-container>
         <q-empty
           v-else
@@ -65,24 +88,32 @@
 </template>
 <script>
 import PhotoScheduled from '@/components/photo/PhotoScheduled'
-import ApolloQuery from '@/components/common/ApolloQuery'
 import QEmpty from '@/components/ui/QEmpty'
+import AppObserver from '@/components/common/AppObserver'
 import _groupBy from 'lodash/groupBy'
 import Moment from 'moment'
+import * as Sentry from '@sentry/browser'
 
 export default {
   name: 'Scheduled',
-  components: { PhotoScheduled, QEmpty, ApolloQuery },
+  components: { PhotoScheduled, QEmpty, AppObserver },
   data() {
     return {
-      scheduledPhotos: [],
-      error: null
+      count: 15,
+      showMoreEnabled: true
     }
   },
   computed: {
-    scheduled() {
+    scheduledAt() {
+      return Moment()
+        .utc()
+        .unix()
+    }
+  },
+  methods: {
+    scheduled(data) {
       const format = 'D <br> ddd'
-      const mappedData = this.scheduledPhotos.map(photo => {
+      const mappedData = data.map(photo => {
         photo.dayOfYear = Moment.unix(photo.scheduledAt)
           .utc()
           .dayOfYear()
@@ -99,27 +130,32 @@ export default {
         return photo
       })
       return _groupBy(mappedData, 'dayOfYear')
-    }
-  },
-  methods: {
+    },
     groups(data) {
       return _groupBy(data, 'group.title')
+    },
+    showMore(query, nextToken) {
+      //Fetch more data and transform the original result
+      query.fetchMore({
+        variables: {
+          count: this.count,
+          scheduledAt: this.scheduledAt,
+          nextToken
+        },
+        updateQuery: (
+          { scheduledPhotos: { scheduledPhotos: prevPhotos } },
+          { fetchMoreResult: { scheduledPhotos } }
+        ) => {
+          this.showMoreEnabled = scheduledPhotos.nextToken !== null
+          scheduledPhotos.scheduledPhotos = [...prevPhotos, ...scheduledPhotos.scheduledPhotos]
+          return {
+            __typename: scheduledPhotos.__typename,
+            scheduledPhotos
+          }
+        }
+      })
     }
   }
-  // apollo: {
-  //   scheduledPhotos: {
-  //     query: require('@/graphql/scheduled.gql'),
-  //     variables() {
-  //       return {
-  //         scheduled: new Moment().add(1, 'day').format('YYYY-MM-DD')
-  //       }
-  //     },
-  //     error(error) {
-  //       console.log('error', error)
-  //       this.error = error
-  //     }
-  //   }
-  // }
 }
 </script>
 <style lang="css">

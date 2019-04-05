@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import * as Sentry from '@sentry/browser'
+
 export default {
   name: 'Empty',
   props: {
@@ -32,7 +34,7 @@ export default {
       default: ''
     },
     description: {
-      type: String,
+      type: String | Object,
       default: ''
     },
     loading: {
@@ -47,6 +49,7 @@ export default {
   computed: {
     desc() {
       if (this.error) {
+        Sentry.captureException(this.description.graphQLErrors)
         return 'Oops! Some error happened fetching your data...'
       } else {
         return this.description

@@ -1,82 +1,122 @@
 <template>
   <v-content>
-    <!-- Loading -->
-    <q-empty
-      v-if="$apollo.queries.scheduledPhotos.loading"
-      :loading="true"/>
+    <ApolloQuery
+      :query="require('@/graphql/scheduled.gql')"
+      :variables="{
+        count,
+        scheduledAt
+      }"
+      tag="">
+      <template slot-scope="{ result: { data, loading, error }, query }" >
+        <!-- Loading -->
+        <q-empty
+          v-if="loading && data === undefined"
+          :loading="true"/>
 
-    <!-- Error -->
-    <q-empty
-      v-else-if="$apollo.error"
-      :error="true"
-      icon="access_time"/>
+        <!-- Error -->
+        <q-empty
+          v-else-if="error"
+          :error="true"
+          :description="error"
+          icon="access_time"/>
 
-    <v-container
-      v-else-if="scheduledPhotos.length"
-      fluid
-      class="pt-0 q-schedule"
-      grid-list-md>
-      <v-layout
-        v-for="(item, index) in scheduled"
-        :key="index+item"
-        class="pb-3">
-        <v-flex
-          xs2
-          sm1
-          class="headline">
-          <span class="date" v-html="index" />
-        </v-flex>
-        <v-flex
-          xs10
-          sm11
-          class="pt-0">
-          <template v-for="(group, title) in groups(item)">
-            <h2
-              :key="title+index"
-              class="title"
-              v-html="group[0].group.title"/>
-            <v-layout
-              :key="title+index+'layout'"
-              row
-              wrap>
-              <v-flex
-                v-for="(photo, iteration) in group"
-                :key="title+iteration+photo.photoId"
-                :xs6="group.length !== 1"
-                :xs12="group.length === 1"
-                sm4>
-                <photo-scheduled :photo="photo" :height="150" />
-              </v-flex>
-            </v-layout>
-          </template>
-        </v-flex>
-      </v-layout>
-    </v-container>
-    <q-empty
-      v-else
-      icon="access_time"
-      description="You don't have any photos scheduled"/>
+        <v-container
+          v-else-if="data && data.scheduledPhotos.scheduledPhotos.length"
+          fluid
+          class="pt-0 q-schedule"
+          grid-list-md>
+          <v-layout
+            v-for="(item, index) in scheduled(data.scheduledPhotos.scheduledPhotos)"
+            :key="index+item"
+            class="pb-3">
+            <v-flex
+              xs2
+              sm1
+              class="headline">
+              <span class="date" v-html="item[0].headerDate" />
+            </v-flex>
+            <v-flex
+              xs10
+              sm11
+              class="pt-0">
+              <template v-for="(group, title) in groups(item)">
+                <h2
+                  v-if="group"
+                  :key="title+index"
+                  class="title"
+                  v-html="`${group[0].group.title} (${group.length})`"/>
+                <v-layout
+                  :key="title+index+'layout'"
+                  row
+                  wrap>
+                  <v-flex
+                    v-for="(photo, iteration) in group"
+                    :key="title+iteration+photo.photoId"
+                    :xs6="group.length !== 1"
+                    :xs12="group.length === 1"
+                    sm4>
+                    <photo-scheduled :photo="photo" :height="150" />
+                  </v-flex>
+                </v-layout>
+              </template>
+            </v-flex>
+          </v-layout>
+          <v-flex v-if="showMoreEnabled" xs12>
+            <app-observer @intersect="showMore(query, data.scheduledPhotos.nextToken)"/>
+            <v-btn
+              :disabled="!showMoreEnabled || loading"
+              block
+              color="accent"
+              @click="showMore(query, data.scheduledPhotos.nextToken)">
+              <v-progress-circular
+                v-if="loading"
+                indeterminate
+                color="grey"/>
+              <span v-else>
+                &nbsp;Load future dates
+              </span>
+            </v-btn>
+          </v-flex>
+        </v-container>
+        <q-empty
+          v-else
+          icon="access_time"
+          description="You don't have any photos scheduled"/>
+      </template>
+    </ApolloQuery>
   </v-content>
 </template>
 <script>
 import PhotoScheduled from '@/components/photo/PhotoScheduled'
 import QEmpty from '@/components/ui/QEmpty'
+import AppObserver from '@/components/common/AppObserver'
 import _groupBy from 'lodash/groupBy'
 import Moment from 'moment'
+import * as Sentry from '@sentry/browser'
 
 export default {
   name: 'Scheduled',
-  components: { PhotoScheduled, QEmpty },
+  components: { PhotoScheduled, QEmpty, AppObserver },
   data() {
     return {
-      scheduledPhotos: [],
-      error: false
+      count: 15,
+      showMoreEnabled: true
     }
   },
   computed: {
-    scheduled() {
+    scheduledAt() {
+      return Moment()
+        .utc()
+        .unix()
+    }
+  },
+  methods: {
+    scheduled(data) {
       const format = 'D <br> ddd'
-      const mappedData = this.scheduledPhotos.map(photo => {
+      const mappedData = data.map(photo => {
+        photo.dayOfYear = Moment.unix(photo.scheduledAt)
+          .utc()
+          .dayOfYear()
         photo.headerDate = Moment.unix(photo.scheduledAt)
           .utc()
           .calendar(null, {
@@ -89,25 +129,31 @@ export default {
           })
         return photo
       })
-      return _groupBy(mappedData, 'headerDate')
-    }
-  },
-  methods: {
+      return _groupBy(mappedData, 'dayOfYear')
+    },
     groups(data) {
       return _groupBy(data, 'group.title')
-    }
-  },
-  apollo: {
-    scheduledPhotos: {
-      query: require('@/graphql/scheduled.gql'),
-      variables() {
-        return {
-          scheduledAt: new Moment()
-            .utc()
-            .startOf(`day`)
-            .unix()
+    },
+    showMore(query, nextToken) {
+      //Fetch more data and transform the original result
+      query.fetchMore({
+        variables: {
+          count: this.count,
+          scheduledAt: this.scheduledAt,
+          nextToken
+        },
+        updateQuery: (
+          { scheduledPhotos: { scheduledPhotos: prevPhotos } },
+          { fetchMoreResult: { scheduledPhotos } }
+        ) => {
+          this.showMoreEnabled = scheduledPhotos.nextToken !== null
+          scheduledPhotos.scheduledPhotos = [...prevPhotos, ...scheduledPhotos.scheduledPhotos]
+          return {
+            __typename: scheduledPhotos.__typename,
+            scheduledPhotos
+          }
         }
-      }
+      })
     }
   }
 }

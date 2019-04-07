@@ -32,13 +32,13 @@
             @click="remove(item)"
           />
         </v-combobox>
-        <!-- <v-switch
-          v-model="newPhotosOnly"
-          :hint="newPhotosOnly ? `Only new photos from your photostream will be added.` : `All photos with the chosen tags will be added.`"
+        <v-switch
+          v-model="preventTrigger"
+          :hint="hint"
           color="primary"
           label="Import only new photos"
           persistent-hint
-        /> -->
+        />
       </div>
       <v-card-text v-if="comboTags">
         <v-expansion-panel v-model="openedPanel">
@@ -121,7 +121,8 @@
           :mutation="require('@/graphql/mutations/updateGroupTagsList.gql')"
           :variables="{
             groupId: groupId,
-            tags: comboTags
+            tags: comboTags,
+            preventTrigger
           }"
           tag=""
           @done="$emit('close')"
@@ -171,12 +172,17 @@ export default {
   },
   data: () => ({
     comboTagsReal: [],
-    newPhotosOnly: false,
+    preventTrigger: true,
     openedPanel: null,
     perPage: 18,
     page: 1
   }),
   computed: {
+    hint() {
+      return this.preventTrigger
+        ? `Adds only new photos from your photostream. If you want to add all your current photos matching <strong>[${this.comboTags}]</strong> disable this option.`
+        : `All photos matching <strong>[${this.comboTags}]</strong> will be added. You can review which photos will be added below.`
+    },
     comboTags: {
       set(value) {
         this.comboTagsReal = value.map(val => this.sanitize(val)).slice()

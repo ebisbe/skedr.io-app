@@ -1,5 +1,5 @@
-mutation updateGroupTagsList($groupId: String!, $tags: [String!]) {
-  updateGroupTagsList(input: { groupId: $groupId, tags: $tags }) {
+mutation updateGroupTagsList($groupId: String!, $tags: [String!], $preventTrigger: Boolean!) {
+  updateGroupTagsList(input: { groupId: $groupId, tags: $tags, preventTrigger: $preventTrigger }) {
     id
     groupId
     tags

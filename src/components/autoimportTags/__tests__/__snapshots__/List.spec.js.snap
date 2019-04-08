@@ -24,7 +24,7 @@ exports[`List.vue has no results 1`] = `
 <v-content-stub tag="main">
   <v-container-stub tag="div">
     <ol>
-      <li>You don't have any tag linked to a group. To start linking tags search through your groups or find new groups with the Search bar.</li>
+      <li>You don't have any tag linked to a group. To start linking tags search through your groups or find new groups with the <v-icon-stub>search</v-icon-stub>Search.</li>
       <li>Add tags with the <v-icon-stub>settings</v-icon-stub> icon of any group. For example:
         <ul>
           <li><a href="https://www.flickr.com/groups/flickr10photowalks/">Flickr Worldwide Photowalks</a> use the <group-tag-dialog-chip-stub tag="photowalk"></group-tag-dialog-chip-stub> tag.</li>

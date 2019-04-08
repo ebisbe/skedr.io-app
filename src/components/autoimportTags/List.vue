@@ -32,7 +32,7 @@
     <!-- No result -->
     <v-container v-else>
       <ol>
-        <li>You don't have any tag linked to a group. To start linking tags search through your groups or find new groups with the Search bar.</li>
+        <li>You don't have any tag linked to a group. To start linking tags search through your groups or find new groups with the <v-icon>search</v-icon>Search.</li>
         <li>Add tags with the <v-icon>settings</v-icon> icon of any group. For example:
           <ul>
             <li><a href="https://www.flickr.com/groups/flickr10photowalks/">Flickr Worldwide Photowalks</a> use the <group-tag-dialog-chip tag="photowalk"/> tag.</li>

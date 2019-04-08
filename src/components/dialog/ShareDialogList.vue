@@ -8,8 +8,9 @@
     <v-list-tile-avatar>
       <external-link-badge
         :hover="hover"
-        :group-id="group.groupId"
-        :icon="group.icon"/>
+        :group-id="group.id">
+        <img :src="group.icon">
+      </external-link-badge>
     </v-list-tile-avatar>
     <v-list-tile-content>
       <v-list-tile-title >

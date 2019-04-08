@@ -4,14 +4,15 @@
     @mouseleave="hover = false">
     <v-divider v-if="useDivider" />
     <v-list-tile
-      :key="group.groupId"
+      :key="group.id"
       avatar
       @click.stop>
       <v-list-tile-avatar>
         <external-link-badge
           :hover="hover"
-          :group-id="group.groupId"
-          :icon="group.icon"/>
+          :group-id="group.id">
+          <img :src="group.icon">
+        </external-link-badge>
       </v-list-tile-avatar>
       <v-list-tile-content>
         <v-list-tile-title>
@@ -83,7 +84,7 @@
       <group-tag-dialog
         :title="group.title"
         :manage-tags="manageTags"
-        :group-id="group.groupId"
+        :group-id="group.id"
         :tags="tags"
         @close="manageTags = false"/>
     </v-list-tile>

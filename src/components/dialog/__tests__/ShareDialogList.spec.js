@@ -6,7 +6,7 @@ import Vuetify from 'vuetify'
 Vue.use(Vuetify)
 
 const createCmp = propsData => shallowMount(comp, { propsData })
-const baseGroup = { groupId: 'groupId', icon: 'icon' }
+const baseGroup = { id: 'groupId', icon: 'icon' }
 describe('ShareDialogList component', () => {
   describe('Computed properties', () => {
     it('is disabled', () => {

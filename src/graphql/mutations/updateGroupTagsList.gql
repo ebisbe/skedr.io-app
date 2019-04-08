@@ -5,7 +5,6 @@ mutation updateGroupTagsList($groupId: String!, $tags: [String!], $preventTrigge
     tags
     group {
       id
-      groupId
       title
       icon
       poolCount

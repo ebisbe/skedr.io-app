@@ -7,7 +7,10 @@ Vue.use(Vuetify)
 
 describe('ExternalLinkBadge component', () => {
   it('has a snapshot', () => {
-    const wrapper = mount(Comp, { propsData: { hover: false, icon: 'icon', groupId: 'groupId' } })
+    const wrapper = mount(Comp, {
+      propsData: { hover: false, groupId: 'groupId' },
+      slots: { default: 'Default icon text' }
+    })
     expect(wrapper).toMatchSnapshot()
   })
 })

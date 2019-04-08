@@ -4,7 +4,6 @@ query searchGroups($text: String!, $page: Int!, $perPage: Int!, $userId: String,
     pages
     groups {
       id
-      groupId
       title
       icon
       poolCount

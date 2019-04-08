@@ -11,7 +11,7 @@
       target="_blank">
       <v-icon color="white">open_in_new</v-icon>
     </a>
-    <img :src="icon">
+    <slot />
   </v-badge>
 </template>
 <script>
@@ -24,12 +24,13 @@ export default {
     groupId: {
       type: String,
       required: true
-    },
-    icon: {
-      type: String,
-      required: true
     }
   }
 }
 </script>
+<style scoped>
+.external-link:hover {
+  cursor: pointer;
+}
+</style>
 

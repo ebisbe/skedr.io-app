@@ -54,6 +54,14 @@ export const actions = {
         name: user.attributes.name,
         email: user.attributes.email
       })
+      LogRocket.getSessionURL(sessionURL => {
+        const indentifyUser = {
+          name: user.attributes.name,
+          email: user.attributes.email,
+          sessionURL: sessionURL
+        }
+        window.Beacon('identify', indentifyUser)
+      })
     } catch (err) {
       commit('setUser', null)
       return false

@@ -23,10 +23,35 @@
   </head>
 
   <body>
+    <script type="text/javascript">
+      !(function(e, t, n) {
+        function a() {
+          var e = t.getElementsByTagName('script')[0],
+            n = t.createElement('script')
+          ;(n.type = 'text/javascript'),
+            (n.async = !0),
+            (n.src = 'https://beacon-v2.helpscout.net'),
+            e.parentNode.insertBefore(n, e)
+        }
+        if (
+          ((e.Beacon = n = function(t, n, a) {
+            e.Beacon.readyQueue.push({ method: t, options: n, data: a })
+          }),
+          (n.readyQueue = []),
+          'complete' === t.readyState)
+        )
+          return a()
+        e.attachEvent ? e.attachEvent('onload', a) : e.addEventListener('load', a, !1)
+      })(window, document, window.Beacon || function() {})
+    </script>
+    <script type="text/javascript">
+      console.log('Init beacon')
+      window.Beacon('init', '9d640825-f226-46b1-9a92-dbed14392554')
+    </script>
     <noscript>
-      <strong
-        >We're sorry but app doesn't work properly without JavaScript enabled. Please enable it to continue.</strong
-      >
+      <strong>
+        We're sorry but app doesn't work properly without JavaScript enabled. Please enable it to continue.
+      </strong>
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->

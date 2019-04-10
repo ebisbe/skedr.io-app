@@ -60,7 +60,7 @@ export const actions = {
           email: user.attributes.email,
           sessionURL: sessionURL
         }
-        window.Beacon('identify', indentifyUser)
+        Beacon('identify', indentifyUser)
       })
     } catch (err) {
       commit('setUser', null)

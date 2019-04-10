@@ -26,7 +26,16 @@ const authLink = setContext(async (_, { headers }) => {
 // Create the apollo client
 const apolloClient = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    dataIdFromObject: object => {
+      switch (object.__typename) {
+        case 'GroupTag':
+          return `${object.userId}-${object.groupId}`
+        default:
+          return object.id || object._id
+      }
+    }
+  }),
   connectToDevTools: true
 })
 

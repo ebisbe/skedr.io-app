@@ -15,7 +15,8 @@ query searchGroups($text: String!, $page: Int!, $perPage: Int!, $userId: String,
       isMember
       rules
       groupTag {
-        id
+        userId
+        groupId
         tags
       }
     }

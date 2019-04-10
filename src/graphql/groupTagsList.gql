@@ -1,7 +1,7 @@
 query autoimportTagList {
   groupTagsList {
-    id
     groupId
+    userId
     tags
     group {
       id

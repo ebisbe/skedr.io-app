@@ -1,6 +1,6 @@
 mutation updateGroupTagsList($groupId: String!, $tags: [String!], $preventTrigger: Boolean!) {
   updateGroupTagsList(input: { groupId: $groupId, tags: $tags, preventTrigger: $preventTrigger }) {
-    id
+    userId
     groupId
     tags
     group {

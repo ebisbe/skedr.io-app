@@ -9,7 +9,7 @@ const awsmobile = {
         process.env.VUE_APP_STAGE
       }`,
       region: 'eu-west-1',
-      paths: ['/oauth', '/oauth/callback', '/oauth/user', '/pool', '/search', '/feedback', '/tags']
+      paths: ['/oauth', '/oauth/callback', '/oauth/user']
     },
     {
       name: 'test',

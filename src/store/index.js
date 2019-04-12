@@ -32,7 +32,8 @@ const store = new Vuex.Store({
       state.search = value.toLowerCase()
     },
     setPageTitle(state, value) {
-      state.pageTitle = `${value}`
+      state.pageTitle = value
+      document.title = `${value} - Skedr.io`
     },
     window({ window }, payload) {
       window.width = payload.width

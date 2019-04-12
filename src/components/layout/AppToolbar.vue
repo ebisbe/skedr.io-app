@@ -36,7 +36,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <v-divider/>
-        <v-list-tile ripple @click="feedbackDialog = true">
+        <v-list-tile ripple @click="openBeacon">
           <v-list-tile-action>
             <v-icon>announcement</v-icon>
           </v-list-tile-action>
@@ -66,9 +66,6 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-      <app-feedback-popup
-        :feedback-dialog="feedbackDialog"
-        @close="feedbackDialog = false"/>
     </v-navigation-drawer>
     <v-toolbar
       :dense="false"
@@ -123,21 +120,19 @@
 <script>
 import { mapState } from 'vuex'
 import AppPoolBtn from './AppPoolBtn.vue'
-import AppFeedbackPopup from './AppFeedbackPopup'
 import AppNotificationList from './AppNotificationList'
 
-import Auth from '@aws-amplify/auth';
+import Auth from '@aws-amplify/auth'
 
 export default {
   name: 'Toolbar',
-  components: { AppPoolBtn, AppFeedbackPopup, AppNotificationList },
+  components: { AppPoolBtn, AppNotificationList },
   data: () => {
     return {
       title: 'Layout',
       drawer: false,
       showBadge: false,
       notificationDrawer: false,
-      feedbackDialog: false,
       lists: [
         {
           icon: 'perm_media',
@@ -191,6 +186,9 @@ export default {
     Headway.init(config)
   },
   methods: {
+    openBeacon() {
+      Beacon('toggle')
+    },
     toggle() {
       this.drawer = !this.drawer
     },

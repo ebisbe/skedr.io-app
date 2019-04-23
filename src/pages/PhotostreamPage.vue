@@ -37,12 +37,12 @@
               <photo :photo="photo"/>
             </v-flex>
             <v-flex xs12>
-              <app-observer @intersect="showMore(query)"/>
               <v-btn
                 :disabled="!showMoreEnabled || loading"
                 block
                 color="accent"
                 @click="showMore(query)">
+                <app-observer @intersect="showMore(query)"/>
                 <v-progress-circular
                   v-if="loading"
                   indeterminate

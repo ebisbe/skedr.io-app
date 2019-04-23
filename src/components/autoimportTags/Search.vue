@@ -92,10 +92,11 @@
             <v-divider />
             <v-card-actions>
               <v-btn
-                :disabled="!showMoreEnabled || loading === 1"
-                flat
+                :disabled="!showMoreEnabled || loading"
                 block
+                color="accent"
                 @click="fetchMore(query)">
+                <app-observer @intersect="fetchMore(query)"/>
                 <v-progress-circular
                   v-if="loading"
                   indeterminate
@@ -131,13 +132,14 @@ import GroupList from '@/components/group/GroupList'
 import ConfirmDialog from '@/components/autoimportTags/ConfirmDialog'
 import QEmpty from '@/components/ui/QEmpty'
 import { mapState, mapGetters } from 'vuex'
+import AppObserver from '@/components/common/AppObserver.vue'
 
 export default {
-  components: { GroupList, QEmpty, ConfirmDialog },
+  components: { GroupList, QEmpty, ConfirmDialog, AppObserver },
   data: () => ({
     joinedGroups: true,
     page: 1,
-    perPage: 10,
+    perPage: 15,
     showMoreEnabled: true
   }),
   computed: {

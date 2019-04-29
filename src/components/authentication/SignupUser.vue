@@ -222,7 +222,6 @@ export default {
         const payload = {
           body: { userId: this.userId, email: this.form.email.toLowerCase() }
         }
-        await API.post(process.env.VUE_APP_API_NAME, '/oauth/user', payload)
         message = 'Code validated'
         this.$router.push({ name: 'Photostream' })
       } catch (err) {

@@ -41,7 +41,6 @@ export const actions = {
     const payload = {
       body: { userId: state.username, email: username }
     }
-    API.post(process.env.VUE_APP_API_NAME, '/oauth/user', payload)
     return Object.keys(data.verified).length !== 0 ? true : false
   },
   currentAuthenticatedUser: async ({ commit, state }) => {

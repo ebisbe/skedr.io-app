@@ -1,0 +1,7 @@
+query suggestedTags($groupId: String!) {
+  suggestedTags(groupId: $groupId) {
+    name
+    count
+    total
+  }
+}

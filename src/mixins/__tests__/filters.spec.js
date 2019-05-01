@@ -13,4 +13,7 @@ describe('Filters.js', () => {
   it('parsers another number', () => {
     expect(filters.filters.parseNumber(1000)).toBe('1K')
   })
+  it('ucFirst a word', () => {
+    expect(filters.filters.ucFirst('hola')).toBe('Hola')
+  })
 })

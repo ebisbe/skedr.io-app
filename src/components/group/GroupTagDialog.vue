@@ -5,6 +5,7 @@
     persistent
     width="500"
     scrollable
+    no-click-animation
   >
     <v-card>
       <v-toolbar dark color="primary">
@@ -20,6 +21,10 @@
         <div class="xs12 flex headline" v-html="title"/>
         <v-combobox
           v-model="comboTags"
+          :items="suggestedTags"
+          item-text="name"
+          hide-selected
+          persistent-hint
           multiple
           label="Tags"
           hint="Use lowercase letters and numbers."
@@ -28,9 +33,37 @@
           <group-tag-dialog-chip
             slot="selection"
             slot-scope="{ item }"
-            :tag="item"
+            :tag="typeof item === 'object' ? item.name : item"
             @click="remove(item)"
           />
+          <template v-slot:item="{ index, item }">
+            <v-list-tile-content>
+              {{ item.name | ucFirst }}
+            </v-list-tile-content>
+            <v-list-tile-action>
+              <v-tooltip left>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    icon
+                    v-on="on">
+                    {{ parseInt(item.count / item.total * 100) }}%
+                  </v-btn>
+                </template>
+                <span>
+                  {{ item.count }} / {{ item.total }} photos have the '{{ item.name }}' tag.
+                </span>
+              </v-tooltip>
+            </v-list-tile-action>
+          </template>
+          <template v-slot:no-data>
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  We couldn't suggest tags. Press <kbd>enter</kbd> to add one.
+                </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </template>
         </v-combobox>
         <v-switch
           v-model="preventTrigger"
@@ -175,17 +208,25 @@ export default {
     preventTrigger: true,
     openedPanel: null,
     perPage: 18,
-    page: 1
+    page: 1,
+    suggestedTags: []
   }),
   computed: {
     hint() {
       return this.preventTrigger
-        ? `Adds only new photos from your photostream. If you want to add all your current photos matching <strong>[${this.comboTags}]</strong> disable this option.`
-        : `All photos matching <strong>[${this.comboTags}]</strong> will be added. You can review which photos will be added below.`
+        ? `Adds only new photos from your photostream. If you want to add all your current photos matching <strong>[${
+            this.comboTags
+          }]</strong> disable this option.`
+        : `All photos matching <strong>[${
+            this.comboTags
+          }]</strong> will be added. You can review which photos will be added below.`
     },
     comboTags: {
       set(value) {
-        this.comboTagsReal = value.map(val => this.sanitize(val)).slice()
+        this.comboTagsReal = value
+          .map(val => (typeof val === 'object' ? val.name : val))
+          .map(val => this.sanitize(val))
+          .slice()
       },
       get() {
         return this.comboTagsReal
@@ -205,6 +246,16 @@ export default {
   },
   created() {
     this.comboTags = this.tags.slice()
+  },
+  apollo: {
+    suggestedTags: {
+      query: require('@/graphql/suggestedTags.gql'),
+      variables() {
+        return {
+          groupId: this.groupId
+        }
+      }
+    }
   },
   methods: {
     remove(tagToRemove) {

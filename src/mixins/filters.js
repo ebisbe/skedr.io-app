@@ -11,6 +11,9 @@ export default {
       } else {
         return parseInt(int / 1000) + 'K'
       }
+    },
+    ucFirst(text) {
+      return text[0].toUpperCase() + text.substring(1)
     }
     // sanitize(tag) {
     //   return this.sanitize(tag)

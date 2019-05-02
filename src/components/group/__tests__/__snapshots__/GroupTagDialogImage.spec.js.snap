@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GroupTagDialogImage snapshopt 1`] = `<base-photo-stub height="75" url="https://farm1.staticflickr.com/12/photoId_secret_q.jpg" lazyurl="https://farm1.staticflickr.com/12/photoId_secret_s.jpg" externallink="https://www.flickr.com/photos/userId/photoId"></base-photo-stub>`;

@@ -5,7 +5,7 @@ exports[`GroupList.vue shows a group 1`] = `
   <!---->
   <v-list-tile-stub activeclass="primary--text" avatar="true">
     <v-list-tile-avatar-stub size="40">
-      <external-link-badge-stub groupid="groupId"><img src=""></external-link-badge-stub>
+      <external-link-badge-stub href="https://www.flickr.com/groups/groupId"><img src=""></external-link-badge-stub>
     </v-list-tile-avatar-stub>
     <v-list-tile-content-stub>
       <v-list-tile-title-stub>

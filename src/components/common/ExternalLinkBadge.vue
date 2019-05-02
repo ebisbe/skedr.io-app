@@ -6,7 +6,7 @@
     overlap>
     <a
       slot="badge"
-      :href="`https://www.flickr.com/groups/${groupId}`"
+      :href="href"
       style="text-decoration: none;"
       target="_blank">
       <v-icon color="white">open_in_new</v-icon>
@@ -21,7 +21,7 @@ export default {
       type: Boolean,
       required: true
     },
-    groupId: {
+    href: {
       type: String,
       required: true
     }

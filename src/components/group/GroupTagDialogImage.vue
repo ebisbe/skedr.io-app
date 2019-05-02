@@ -2,11 +2,13 @@
 <template>
   <base-photo
     :url="urlQ"
+    :external-link="`https://www.flickr.com/photos/${userId}/${photoId}`"
     :lazy-url="urlS"
     :height="75"/>
 </template>
 <script>
 import BasePhoto from '@/components/photo/BasePhoto.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: { BasePhoto },
@@ -29,6 +31,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      userId: 'user/userId'
+    }),
     urlQ() {
       return this.url('q')
     },

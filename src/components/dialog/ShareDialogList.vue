@@ -8,7 +8,7 @@
     <v-list-tile-avatar>
       <external-link-badge
         :hover="hover"
-        :group-id="group.id">
+        :href="`https://www.flickr.com/groups/${group.id}`">
         <img :src="group.icon">
       </external-link-badge>
     </v-list-tile-avatar>

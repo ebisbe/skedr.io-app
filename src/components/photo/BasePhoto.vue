@@ -2,23 +2,30 @@
   <v-sheet
     v-bind="$attrs"
     class="grey lighten-2"
+    @mouseover="hover = externalLink !== '' ? true : false"
+    @mouseleave="hover = false"
     v-on="$listeners">
     <slot name="header"/>
-    <v-img
-      :height="height"
-      :src="url"
-      :lazy-src="url"
-      aspect-ratio="1"
-      class="img">
-      <v-layout
-        slot="placeholder"
-        fill-height
-        align-center
-        justify-center
-        ma-0>
-        <v-progress-circular indeterminate color="grey lighten-5"/>
-      </v-layout>
-    </v-img>
+    <external-link-badge
+      :hover="hover"
+      :href="externalLink"
+      style="display:block !important;">
+      <v-img
+        :height="height"
+        :src="url"
+        :lazy-src="url"
+        aspect-ratio="1"
+        class="img">
+        <v-layout
+          slot="placeholder"
+          fill-height
+          align-center
+          justify-center
+          ma-0>
+          <v-progress-circular indeterminate color="grey lighten-5"/>
+        </v-layout>
+      </v-img>
+    </external-link-badge>
     <v-tooltip
       v-if="isPrivate"
       class="non-public"
@@ -34,7 +41,10 @@
   </v-sheet>
 </template>
 <script>
+import ExternalLinkBadge from '@/components/common/ExternalLinkBadge'
+
 export default {
+  components: { ExternalLinkBadge },
   props: {
     height: {
       type: Number,
@@ -51,8 +61,13 @@ export default {
     isPrivate: {
       type: Boolean,
       default: false
+    },
+    externalLink: {
+      type: String,
+      default: ''
     }
-  }
+  },
+  data: () => ({ hover: false })
 }
 </script>
 <style scoped>

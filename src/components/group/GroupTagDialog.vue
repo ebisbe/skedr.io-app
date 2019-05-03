@@ -254,6 +254,9 @@ export default {
         return {
           groupId: this.groupId
         }
+      },
+      skip() {
+        return !this.manageTags
       }
     }
   },

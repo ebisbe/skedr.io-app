@@ -64,7 +64,6 @@
         <slot name="action">
           <v-btn
             ripple
-            color="grey lighten-3"
             icon
           >
             <v-tooltip
@@ -73,9 +72,8 @@
             >
               <v-icon
                 slot="activator"
-                color="primary"
                 @click="manageTags = true"
-              >settings</v-icon>
+              >more_vert</v-icon>
               <span>Manage tags</span>
             </v-tooltip>
           </v-btn>

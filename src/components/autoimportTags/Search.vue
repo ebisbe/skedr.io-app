@@ -36,7 +36,7 @@
           <v-card >
             <v-card-text class="pa-0">
               <v-list two-line class="py-0">
-                <group-list
+                <group-tag-list
                   v-for="(group, index) in data.searchGroups.groups"
                   :key="group.groupId"
                   :group="group"
@@ -86,7 +86,7 @@
                     </template>
                   </ApolloMutation>
 
-                </group-list>
+                </group-tag-list>
               </v-list>
             </v-card-text>
             <v-divider />
@@ -128,14 +128,14 @@
 </template>
 
 <script>
-import GroupList from '@/components/group/GroupList'
+import GroupTagList from '@/components/group/GroupTagList'
 import ConfirmDialog from '@/components/autoimportTags/ConfirmDialog'
 import QEmpty from '@/components/ui/QEmpty'
 import { mapState, mapGetters } from 'vuex'
 import AppObserver from '@/components/common/AppObserver.vue'
 
 export default {
-  components: { GroupList, QEmpty, ConfirmDialog, AppObserver },
+  components: { GroupTagList, QEmpty, ConfirmDialog, AppObserver },
   data: () => ({
     joinedGroups: true,
     page: 1,

@@ -57,7 +57,7 @@ export default {
   apollo: {
     groupTagsList: {
       query: GROUP_TAGS_LIST,
-      update: ({ groupTagsList }) => groupTagsList
+      update: ({ groupTagsList }) => groupTagsList.groupTags
     }
   },
   computed: {

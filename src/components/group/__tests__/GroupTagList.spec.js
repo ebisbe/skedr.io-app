@@ -2,12 +2,12 @@ import { shallowMount, mount } from '@vue/test-utils'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
-import Comp from '../GroupList.vue'
+import Comp from '../GroupTagList.vue'
 
 Vue.use(Vuetify)
 Vue.use(Vuex)
 
-describe('GroupList.vue', () => {
+describe('GroupTagList.vue', () => {
   it('shows a group', () => {
     const wrapper = shallowMount(Comp, {
       store: new Vuex.Store({

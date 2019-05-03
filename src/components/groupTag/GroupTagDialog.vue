@@ -41,7 +41,7 @@
               {{ item.name | ucFirst }}
             </v-list-tile-content>
             <v-list-tile-action>
-              <v-tooltip left>
+              <v-tooltip left lazy>
                 <template v-slot:activator="{ on }">
                   <v-btn
                     icon
@@ -179,7 +179,7 @@
   </v-dialog>
 </template>
 <script>
-import { GroupTagDialogChip, GroupTagDialogImage } from '@/components/group'
+import { GroupTagDialogChip, GroupTagDialogImage } from '@/components/groupTag'
 import { filters } from '@/mixins'
 
 export default {

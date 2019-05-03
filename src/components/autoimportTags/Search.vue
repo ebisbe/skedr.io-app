@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import GroupTagList from '@/components/group/GroupTagList'
+import GroupTagList from '@/components/groupTag/GroupTagList'
 import ConfirmDialog from '@/components/autoimportTags/ConfirmDialog'
 import QEmpty from '@/components/ui/QEmpty'
 import { mapState, mapGetters } from 'vuex'

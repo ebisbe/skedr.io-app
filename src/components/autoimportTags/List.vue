@@ -81,10 +81,10 @@
 </template>
 
 <script>
-import GroupTagList from '@/components/group/GroupTagList'
+import GroupTagList from '@/components/groupTag/GroupTagList'
 import QEmpty from '@/components/ui/QEmpty'
 import AppObserver from '@/components/common/AppObserver'
-import GroupTagDialogChip from '@/components/group/GroupTagDialogChip'
+import GroupTagDialogChip from '@/components/groupTag/GroupTagDialogChip'
 import _sortBy from 'lodash/sortBy'
 import { mapState, mapGetters } from 'vuex'
 import { filters } from '@/mixins'

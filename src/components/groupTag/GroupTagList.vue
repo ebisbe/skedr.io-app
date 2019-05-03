@@ -40,7 +40,9 @@
               xs2
               v-html="throttleText(group)"
             />
-            <v-flex class="text-xs-right">
+            <v-flex
+              v-if="tags.length"
+              class="text-xs-right">
               <v-chip
                 v-for="tag in tags"
                 :key="tag"
@@ -62,21 +64,61 @@
       </v-list-tile-content>
       <v-list-tile-action>
         <slot name="action">
-          <v-btn
-            ripple
-            icon
-          >
-            <v-tooltip
-              top
-              lazy
-            >
-              <v-icon
-                slot="activator"
+          <v-menu
+            :close-on-content-click="false"
+            bottom
+            lazy
+            left>
+            <template v-slot:activator="{ on: mainMenu }">
+              <v-btn
+                icon
+                @click="suggestTags = true"
+                v-on="mainMenu"
+              >
+                <v-icon>more_vert</v-icon>
+              </v-btn>
+            </template>
+
+            <v-list>
+              <v-list-tile
                 @click="manageTags = true"
-              >more_vert</v-icon>
-              <span>Manage tags</span>
-            </v-tooltip>
-          </v-btn>
+              >
+                <v-list-tile-action><v-icon>settings</v-icon></v-list-tile-action>
+                <v-list-tile-title>Manage tags</v-list-tile-title>
+              </v-list-tile>
+              <v-menu
+                bottom
+                left
+                offset-x
+                lazy>
+                <template v-slot:activator="{ on }">
+                  <v-list-tile
+                    v-on="on"
+                  >
+                    <v-list-tile-action><v-icon>highlight</v-icon></v-list-tile-action>
+                    <v-list-tile-title>Suggested tags</v-list-tile-title>
+                  </v-list-tile>
+                </template>
+                <v-list style="max-width:285px">
+                  <!-- <v-list-tile>Add directly tags from your photos</v-list-tile> -->
+                  <v-list-tile
+                    v-for="tag in suggestedTags"
+                    :key="tag.name">
+                    <v-list-tile-avatar><v-icon>label</v-icon></v-list-tile-avatar>
+                    <v-list-tile-title>{{ tag.name }}</v-list-tile-title>
+                    <v-list-tile-action>
+                      <v-list-tile-action-text>
+                        {{ parseInt(tag.count / tag.total * 100) }}%
+                      </v-list-tile-action-text>
+                      <v-list-tile-action-text>
+                        {{ tag.count }} / {{ tag.total }}
+                      </v-list-tile-action-text>
+                    </v-list-tile-action>
+                  </v-list-tile>
+                </v-list>
+              </v-menu>
+            </v-list>
+          </v-menu>
         </slot>
       </v-list-tile-action>
       <group-tag-dialog
@@ -90,8 +132,8 @@
 </template>
 <script>
 import { throttleText, filters } from '@/mixins'
-import GroupTagDialog from '@/components/group/GroupTagDialog'
-import PhotoLimitOptOutMessage from '@/components/group/PhotoLimitOptOutMessage'
+import GroupTagDialog from '@/components/groupTag/GroupTagDialog'
+import PhotoLimitOptOutMessage from '@/components/groupTag/PhotoLimitOptOutMessage'
 import ExternalLinkBadge from '@/components/common/ExternalLinkBadge'
 import { mapState } from 'vuex'
 import { clearTimeout } from 'timers'
@@ -115,12 +157,27 @@ export default {
   },
   data: () => ({
     manageTags: false,
+    suggestTags: false,
+    suggestedTags: undefined,
     hover: false
   }),
   computed: {
     ...mapState('tagsFilter', {
       tagsFilter: state => state.items
     })
+  },
+  apollo: {
+    suggestedTags: {
+      query: require('@/graphql/suggestedTags.gql'),
+      variables() {
+        return {
+          groupId: this.group.groupId
+        }
+      },
+      skip() {
+        return !this.suggestTags
+      }
+    }
   },
   watch: {
     tags() {

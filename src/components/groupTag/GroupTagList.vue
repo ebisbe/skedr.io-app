@@ -75,7 +75,7 @@
                     small
                     class="ma-0"
                     @click="getSuggestTagsData"
-                  ><v-icon>highlight</v-icon>&nbsp;suggested tags</v-btn>
+                  ><v-icon>highlight</v-icon>&nbsp;suggest tags</v-btn>
                 </template>
                 <div>
                   <v-list v-if="suggestedTags && suggestedTags.length">

@@ -244,6 +244,11 @@ export default {
       )
     }
   },
+  watch: {
+    tags(tags) {
+      this.comboTagsReal = tags
+    }
+  },
   created() {
     this.comboTags = this.tags.slice()
   },

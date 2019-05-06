@@ -15,8 +15,5 @@ export default {
     ucFirst(text) {
       return text[0].toUpperCase() + text.substring(1)
     }
-    // sanitize(tag) {
-    //   return this.sanitize(tag)
-    // }
   }
 }

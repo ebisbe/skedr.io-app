@@ -28,7 +28,7 @@
               :use-divider="index!==0"
               :tags="tags"/>
             <app-observer
-              v-if="groupTagsList.groupTags.length - 10 === index"
+              v-if="showMoreEnabled && groupTagsList.groupTags.length - 10 === index"
               :key="`observer-${groupId}`"
               @intersect="fetchMore()"/>
           </template>

@@ -179,7 +179,7 @@
         <div
           style="overflow: hidden;"
           class="ellipsis mx-3"
-          v-html="groupList"/>
+          v-html="groupTagList"/>
         <v-fab-transition>
           <ApolloMutation
             :mutation="require('@/graphql/mutations/publishPhoto.gql')"
@@ -241,7 +241,7 @@ export default {
       totalSelectedGroups: 'groupsPool/total',
       orderedSelectedGroups: 'groupsPool/orderByTitle',
       hasItemsSelected: 'groupsPool/hasItems',
-      groupList: 'groupsPool/list',
+      groupTagList: 'groupsPool/list',
       inPool: 'groupsPool/inPool'
     }),
     style() {

@@ -74,7 +74,7 @@
 
 <script>
 import { throttleText, filters } from '@/mixins/'
-import PhotoLimitOptOutMessage from '@/components/group/PhotoLimitOptOutMessage'
+import PhotoLimitOptOutMessage from '@/components/groupTag/PhotoLimitOptOutMessage'
 import ExternalLinkBadge from '@/components/common/ExternalLinkBadge'
 
 export default {

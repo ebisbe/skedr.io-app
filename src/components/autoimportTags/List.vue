@@ -14,19 +14,43 @@
 
     <!-- Result -->
     <v-container
-      v-else-if="groupTagsList && groupTagsList.length"
+      v-else-if="groupTagsList && groupTagsList.groupTags && groupTagsList.groupTags.length"
     >
       <v-card>
         <v-list two-line class="py-0">
-          <group-list
-            v-for="( {group, tags, groupId}, index ) in orderByTitle"
-            v-show="filteredTags.some(tag => tags.indexOf(tag) > -1) || isEmpty"
-            :key="groupId"
-            :group="group"
-            :use-divider="index!==0"
-            :tags="tags"/>
+          <template
+            v-for="( {group, tags, groupId}, index ) in groupTagsList.groupTags"
+          >
+            <group-tag-list
+              v-show="filteredTags.some(tag => tags.indexOf(tag) > -1) || isEmpty"
+              :key="groupId"
+              :group="group"
+              :use-divider="index!==0"
+              :tags="tags"/>
+            <app-observer
+              v-if="groupTagsList.groupTags.length - 10 === index"
+              :key="`observer-${groupId}`"
+              @intersect="fetchMore()"/>
+          </template>
         </v-list>
       </v-card>
+
+      <v-card-actions v-if="showMoreEnabled">
+        <v-btn
+          :disabled="$apollo.queries.groupTagsList.loading "
+          block
+          color="accent"
+          @click="fetchMore()">
+
+          <v-progress-circular
+            v-if="$apollo.queries.groupTagsList.loading "
+            indeterminate
+            color="grey"/>
+          <span v-else>
+            &nbsp;Load more groups
+          </span>
+        </v-btn>
+      </v-card-actions>
     </v-container>
 
     <!-- No result -->
@@ -57,17 +81,18 @@
 </template>
 
 <script>
-import GroupList from '@/components/group/GroupList'
+import GroupTagList from '@/components/groupTag/GroupTagList'
 import QEmpty from '@/components/ui/QEmpty'
-import GroupTagDialogChip from '@/components/group/GroupTagDialogChip'
+import AppObserver from '@/components/common/AppObserver'
+import GroupTagDialogChip from '@/components/groupTag/GroupTagDialogChip'
 import _sortBy from 'lodash/sortBy'
 import { mapState, mapGetters } from 'vuex'
 import { filters } from '@/mixins'
 
 export default {
-  components: { GroupList, QEmpty, GroupTagDialogChip },
+  components: { GroupTagList, QEmpty, GroupTagDialogChip, AppObserver },
   mixins: [filters],
-  data: () => ({ groupTagsList: undefined, error: null }),
+  data: () => ({ groupTagsList: undefined, error: null, count: 25, showMoreEnabled: true }),
   computed: {
     ...mapState({ tagsFilter: state => state.tagsFilter.items }),
     ...mapGetters({ isEmpty: 'tagsFilter/isEmpty' }),
@@ -75,17 +100,38 @@ export default {
       return Object.entries(this.tagsFilter)
         .filter(object => object[1])
         .map(object => object[0])
-    },
-    orderByTitle() {
-      return _sortBy(this.groupTagsList, ({ group }) => this.sanitize(group.title))
     }
   },
   apollo: {
     groupTagsList: {
       query: require('@/graphql/groupTagsList.gql'),
+      variables() {
+        return {
+          count: this.count
+        }
+      },
       error(error) {
         this.error = error
       }
+    }
+  },
+  methods: {
+    fetchMore() {
+      const nextToken = this.groupTagsList.nextToken
+      this.$apollo.queries.groupTagsList.fetchMore({
+        variables: {
+          count: this.count,
+          nextToken
+        },
+        updateQuery: ({ groupTagsList: { groupTags: prevNot } }, { fetchMoreResult: { groupTagsList } }) => {
+          this.showMoreEnabled = groupTagsList.nextToken !== null
+          groupTagsList.groupTags = [...prevNot, ...groupTagsList.groupTags]
+          return {
+            __typename: groupTagsList.__typename,
+            groupTagsList
+          }
+        }
+      })
     }
   }
 }

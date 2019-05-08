@@ -64,7 +64,7 @@ export default [
     }
   },
   {
-    path: '/',
+    path: '/photostream',
     name: 'Photostream',
     components: {
       default: Photostream,
@@ -104,6 +104,10 @@ export default [
       default: LoginPage,
       toolbar: null
     }
+  },
+  {
+    path: '/',
+    redirect: { name: 'AutoimportTags' }
   },
   {
     path: '*',

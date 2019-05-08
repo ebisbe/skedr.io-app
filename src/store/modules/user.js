@@ -50,12 +50,12 @@ export const actions = {
       commit('setUser', user)
       commit('setUserId', credentials.identityId)
       LogRocket.identify(state.username, {
-        name: user.attributes.name,
+        name: `${user.attributes.name} ${user.attributes.family_name}`,
         email: user.attributes.email
       })
       LogRocket.getSessionURL(sessionURL => {
         const indentifyUser = {
-          name: user.attributes.name,
+          name: `${user.attributes.name} ${user.attributes.family_name}`,
           email: user.attributes.email,
           sessionURL: sessionURL
         }

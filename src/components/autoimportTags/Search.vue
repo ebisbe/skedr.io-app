@@ -35,7 +35,10 @@
         <v-container v-else-if="data && data.searchGroups.groups.length">
           <v-card >
             <v-card-text class="pa-0">
-              <v-list two-line class="py-0">
+              <v-list
+                :three-line="$vuetify.breakpoint.name === 'xs'"
+                :two-line="$vuetify.breakpoint.name !== 'xs'"
+                class="py-0">
                 <group-tag-list
                   v-for="(group, index) in data.searchGroups.groups"
                   :key="group.groupId"

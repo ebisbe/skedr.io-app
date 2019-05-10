@@ -17,7 +17,10 @@
       v-else-if="groupTagsList && groupTagsList.groupTags && groupTagsList.groupTags.length"
     >
       <v-card>
-        <v-list two-line class="py-0">
+        <v-list
+          :three-line="$vuetify.breakpoint.name === 'xs'"
+          :two-line="$vuetify.breakpoint.name !== 'xs'"
+          class="py-0">
           <template
             v-for="( {group, tags, groupId}, index ) in groupTagsList.groupTags"
           >

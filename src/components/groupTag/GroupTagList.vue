@@ -20,28 +20,33 @@
           <strong v-html="group.title" />
         </v-list-tile-title>
         <v-list-tile-sub-title>
-          <v-layout>
+          <v-layout row wrap>
             <v-flex
               class="text-xs-left"
-              xs2
+              xs4
+              sm2
             >
               <v-icon>photo</v-icon>
               {{ group.poolCount | parseNumber }}
             </v-flex>
             <v-flex
               class="text-xs-left"
-              xs2
+              xs4
+              sm2
             >
               <v-icon>group</v-icon>
               {{ group.members | parseNumber }}
             </v-flex>
             <v-flex
               class="text-xs-left pt-1"
-              xs2
+              xs4
+              sm2
               v-html="throttleText(group)"
             />
             <v-flex
               v-if="tags.length"
+              xs12
+              sm6
               class="text-xs-right">
               <v-chip
                 v-for="tag in tags"

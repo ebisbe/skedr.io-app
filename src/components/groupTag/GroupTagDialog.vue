@@ -205,7 +205,7 @@ export default {
   },
   data: () => ({
     comboTagsReal: [],
-    preventTrigger: true,
+    preventTrigger: false,
     openedPanel: null,
     perPage: 18,
     page: 1,
@@ -214,7 +214,7 @@ export default {
   computed: {
     hint() {
       return this.preventTrigger
-        ? `Adds only new photos from your photostream. If you want to add all your current photos matching <strong>[${
+        ? `Only your new photos from your photostream with the selected tags will be added. If you want to add all your current photos matching <strong>[${
             this.comboTags
           }]</strong> disable this option.`
         : `All photos matching <strong>[${

@@ -91,7 +91,7 @@
                       :variables="{
                         groupId: group.id,
                         tags: [tag.name],
-                        preventTrigger: true
+                        preventTrigger: false
                       }"
                       tag=""
                       @done="$emit('close')"
@@ -114,16 +114,6 @@
                             </v-list-tile-action-text>
                           </v-list-tile-action>
                         </v-list-tile>
-                        <!-- <v-btn
-                          ref="saveBtn"
-                          :disabled="!canSave || loading"
-                          :loading="loading"
-                          color="primary"
-                          @click="mutate()"
-                        >
-                          save
-                        </v-btn>
-                        <p v-if="error">Error adding the tag</p>-->
                       </template>
                     </ApolloMutation>
                   </v-list>

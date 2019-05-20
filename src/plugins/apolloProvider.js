@@ -31,6 +31,8 @@ const apolloClient = new ApolloClient({
       switch (object.__typename) {
         case 'GroupTag':
           return `${object.userId}-${object.groupId}`
+        case 'ScheduledPhoto':
+          return `${object.groupId}-${object.photoId}`
         default:
           return object.id || object._id
       }

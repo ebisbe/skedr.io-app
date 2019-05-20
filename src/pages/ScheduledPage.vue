@@ -91,23 +91,18 @@ import PhotoScheduled from '@/components/photo/PhotoScheduled'
 import QEmpty from '@/components/ui/QEmpty'
 import AppObserver from '@/components/common/AppObserver'
 import _groupBy from 'lodash/groupBy'
+import { scheduledAt } from '@/mixins'
 import Moment from 'moment'
 import * as Sentry from '@sentry/browser'
 
 export default {
   name: 'Scheduled',
   components: { PhotoScheduled, QEmpty, AppObserver },
+  mixins: [scheduledAt],
   data() {
     return {
       count: 15,
       showMoreEnabled: true
-    }
-  },
-  computed: {
-    scheduledAt() {
-      return Moment()
-        .utc()
-        .unix()
     }
   },
   methods: {

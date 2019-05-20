@@ -1,6 +1,5 @@
-query scheduledPhotos($scheduledAt: Int!, $count: Int!, $nextToken: String) {
-  scheduledPhotos(scheduledAt: $scheduledAt, count: $count, nextToken: $nextToken) {
-    scheduledPhotos {
+mutation deleteScheduledPhoto($groupId: String!, $photoId: String!) {
+  deleteScheduledPhoto(groupId: $groupId, photoId: $photoId) {
       userId
       groupId
       photoId
@@ -17,6 +16,4 @@ query scheduledPhotos($scheduledAt: Int!, $count: Int!, $nextToken: String) {
         title
       }
     }
-    nextToken
-  }
 }

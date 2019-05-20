@@ -14,6 +14,9 @@ exports[`PhotoScheduled.vue matches snapshot 1`] = `
 
             </div>
           </div>
+          <div class="v-list__tile__action">
+            <apollomutation mutation="[object Object]" variables="[object Object]" tag=""></apollomutation>
+          </div>
         </div>
       </div>
     </div>

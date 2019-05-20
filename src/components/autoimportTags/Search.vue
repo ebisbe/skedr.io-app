@@ -59,21 +59,13 @@
                       <v-btn
                         v-if="group.rules === ''"
                         :disabled="loading"
+                        :loading="loading"
                         ripple
                         color="grey lighten-3"
                         icon
                         @click="mutate()">
                         <v-tooltip top lazy>
-                          <v-progress-circular
-                            v-if="loading"
-                            slot="activator"
-                            :width="2"
-                            :size="28"
-                            color="accent"
-                            indeterminate
-                          />
                           <v-icon
-                            v-else
                             slot="activator"
                             color="accent">create_new_folder</v-icon>
                           <span>Join Flickr group</span>
@@ -83,7 +75,7 @@
                       <confirm-dialog
                         v-else
                         :rules="group.rules"
-                        :loading="loading"
+                        :loading="loading === 1"
                         @mutate="mutate()" />
                       <p v-if="error">An error occured: {{ error }}</p>
                     </template>

@@ -8,6 +8,7 @@
     <v-btn
       slot="activator"
       :disabled="loading"
+      :loading="loading"
       ripple
       color="grey lighten-3"
       icon>
@@ -38,9 +39,11 @@
           do not accept
         </v-btn>
         <v-btn
-          :loading="loading"
           color="primary"
-          @click="$emit('mutate')"
+          @click="() => {
+            modal = false
+            $emit('mutate')
+          }"
         >
           accept
         </v-btn>

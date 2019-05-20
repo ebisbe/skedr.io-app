@@ -25,34 +25,39 @@
       <footer-photo :title="photo.title">
         <template v-slot:subtitle>
           <v-list-tile-sub-title style="display:flex;">
-            <v-tooltip bottom lazy>
-              <a
-                slot="activator"
-                :href="photoLink"
-                target="_blank"
-                class="white--text"
-                @click.stop>
-                <v-icon>visibility</v-icon>
-                {{ photo.views }}
-              </a>
-              <span>Views</span>
-            </v-tooltip>
-            <v-spacer/>
-            <v-tooltip bottom lazy>
-              <span slot="activator">
-                <v-icon>perm_media</v-icon>
-                {{ photo.sharedGroups }}
-              </span>
-              <span>Groups added</span>
-            </v-tooltip>
-            <v-spacer/>
-            <v-tooltip bottom lazy>
-              <span>Favorites</span>
-              <span slot="activator">
-                <v-icon v-html="star"/>
-                {{ photo.totalFavs }}
-              </span>
-            </v-tooltip>
+            <v-layout
+              align-center
+              class="pl-1 my-1"
+            >
+              <v-tooltip bottom lazy>
+                <a
+                  slot="activator"
+                  :href="photoLink"
+                  target="_blank"
+                  class="white--text"
+                  @click.stop>
+                  <v-icon class="mr-1">visibility</v-icon>
+                  <span class="subheading mr-2 font-weight-bold" v-html="photo.views"/>
+                </a>
+                <span>Views</span>
+              </v-tooltip>
+              <span class="mr-1">·</span>
+              <v-tooltip bottom lazy>
+                <span slot="activator">
+                  <v-icon class="mr-1">perm_media</v-icon>
+                  <span class="subheading font-weight-bold" v-html="photo.sharedGroups"/>
+                </span>
+                <span>Groups added</span>
+              </v-tooltip>
+              <span class="mr-1">·</span>
+              <v-tooltip bottom lazy>
+                <span slot="activator">
+                  <v-icon class="mr-1" v-html="star"/>
+                  <span class="subheading font-weight-bold" v-html="photo.totalFavs"/>
+                </span>
+                <span>Favorites</span>
+              </v-tooltip>
+            </v-layout>
           </v-list-tile-sub-title>
         </template>
         <template v-slot:action>

@@ -21,7 +21,6 @@
                     slot="activator"
                     :disabled="loading || photo.preventTrigger"
                     :loading="loading"
-                    flat
                     class="mx-1"
                     icon
                     @click="mutate()">

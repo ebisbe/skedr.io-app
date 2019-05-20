@@ -50,7 +50,7 @@
                     slot="action"
                     :mutation="require('@/graphql/mutations/joinGroup.gql')"
                     :variables="{
-                      groupId: group.groupId,
+                      groupId: group.id,
                       acceptRules: true
                     }"
                     tag=""

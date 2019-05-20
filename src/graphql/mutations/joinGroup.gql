@@ -13,7 +13,8 @@ mutation joinGroup($groupId: String!, $acceptRules: Boolean, $message: String) {
     isMember
     rules
     groupTag {
-      id
+      userId
+      groupId
       tags
     }
   }

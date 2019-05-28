@@ -2,19 +2,20 @@ const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const SentryPlugin = require('@sentry/webpack-plugin')
 
-const plugins = [
-  new ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
-  new SentryPlugin({
-    release: process.env.COMMIT_REF,
-    include: './dist'
-  })
-]
+const plugins = [new ContextReplacementPlugin(/moment[/\\]locale$/, /en/)]
 
-if (process.env.npm_config_report) {
+const { NODE_ENV, npm_config_report, COMMIT_REF } = process.env
+if (npm_config_report) {
   plugins.push(new BundleAnalyzerPlugin())
 }
-if (process.env.COMMIT_REF) {
-  process.env.VUE_APP_REVISION = process.env.COMMIT_REF
+if (NODE_ENV === 'production' && COMMIT_REF) {
+  plugins.push(
+    new SentryPlugin({
+      release: COMMIT_REF,
+      include: './dist'
+    })
+  )
+  process.env.VUE_APP_REVISION = COMMIT_REF
 }
 
 const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')

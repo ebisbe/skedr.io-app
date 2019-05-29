@@ -170,9 +170,12 @@ export default {
   },
   created() {
     this.queryString = this.$route.query
-    this.userId = localStorage.getItemDef('userId', '')
+    this.userId = this.getItemDef('userId', '')
   },
   methods: {
+    getItemDef(key, def) {
+      return localStorage.getItem(key) ? localStorage.getItem(key) : def
+    },
     handleSubmit: async function() {
       this.protectedUI = true
       try {

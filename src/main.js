@@ -10,9 +10,8 @@ import aws_exports from './plugins/aws-exports'
 import App from './App'
 import router from './router'
 import store from './store'
-import './libs/storage'
 import VueAnalytics from 'vue-analytics'
-import Amplify from '@aws-amplify/core';
+import Amplify from '@aws-amplify/core'
 
 Amplify.configure(aws_exports)
 Vue.config.productionTip = false
@@ -29,8 +28,5 @@ new Vue({
   router,
   store,
   apolloProvider,
-  beforeCreate() {
-    store.dispatch('pool/load', localStorage.getObject('pool.photos'))
-  },
   render: h => h(App)
 }).$mount('#app')

@@ -31,8 +31,8 @@
             <v-flex
               v-for="photo in data.userPhotos.photos"
               :key="photo.id"
-              md4
-              sm6
+              md3
+              sm4
               xs12>
               <photo :photo="photo"/>
             </v-flex>
@@ -68,7 +68,7 @@
 import Photo from '@/components/photo/Photo'
 import QEmpty from '@/components/ui/QEmpty'
 import AppObserver from '@/components/common/AppObserver'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'Photos',
@@ -85,16 +85,21 @@ export default {
         case this.$vuetify.breakpoint.xs:
           return 3
         case this.$vuetify.breakpoint.sm:
-          return 8
-        case this.$vuetify.breakpoint.md:
-          return 15
-        case this.$vuetify.breakpoint.lgAndUp:
-          return 15
+          return 9
+        case this.$vuetify.breakpoint.mdAndUp:
+          return 16
       }
     },
     ...mapState({ search: ({ search }) => search })
   },
+  beforeDestroy() {
+    this.clearPool()
+    return true
+  },
   methods: {
+    ...mapMutations({
+      clearPool: 'pool/clear'
+    }),
     showMore(query) {
       //Fetch more data and transform the original result
       query.fetchMore({

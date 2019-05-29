@@ -1,196 +1,70 @@
-import { getters, mutations, actions } from '@/store/modules/pool'
+import { state as baseState, getters, mutations } from '../pool'
 
-describe('Store pool.js', () => {
+describe('Pool', () => {
+  let state
+  beforeEach(() => {
+    state = baseState
+  })
+
   describe('getters', () => {
-    it('the pool is empty', () => {
-      const state = { photos: [] }
-      expect(getters.length(state)).toBe(0)
-      expect(getters.isEmpty(state)).toBe(true)
+    it('returns the length of the pool', () => {
+      const relGetters = { ids: ['groupId1', 'groupId2'] }
+      expect(getters.total(state, relGetters)).toBe(2)
     })
 
-    it('the pool is not empty', () => {
-      const state = {
-        photos: [1, 2, 3]
-      }
-      expect(getters.length(state)).toBe(3)
-      expect(getters.isEmpty(state)).toBe(false)
+    it('gets the ordered array of groups by title', () => {
+      state.pool = { g1: { title: 'Aca' }, g2: { title: 'abc' }, g3: { title: 'aba' }, g4: { noTitle: 'noTitle' } }
+      expect(getters.orderByTitle(state)).toMatchObject([
+        { noTitle: 'noTitle' },
+        { title: 'aba' },
+        { title: 'abc' },
+        { title: 'Aca' }
+      ])
     })
 
-    it('finds element in pool', () => {
-      const state = {
-        photos: [{ photoId: 1 }, { photoId: 2 }]
-      }
-      const wrapper = getters.inPool(state)
-      expect(wrapper(2)).toBe(true)
+    it('checks if there are items in the pool', () => {
+      expect(getters.hasItems(state, { total: 1 })).toBe(true)
     })
 
-    it("don't finds element in pool", () => {
-      const state = {
-        photos: [{ photoId: 1 }, { photoId: 3 }]
+    it('gets a ordered list of groups by title', () => {
+      const relGetters = {
+        orderByTitle: [{ title: 'aba' }, { title: 'abc' }, { title: 'Aca' }, { noTitle: 'noTitle' }]
       }
-      const wrapper = getters.inPool(state)
-      expect(wrapper(2)).toBe(false)
+      expect(getters.list(state, relGetters)).toBe('aba, abc, Aca')
     })
 
-    it('has a backup in pool', () => {
-      const state = {
-        backup: [{ photoId: 1 }, { photoId: 2 }]
-      }
-      const wrapper = getters.hasBackup(state)
-      expect(wrapper).toBe(true)
+    it('checks if a group is already added', () => {
+      state.pool = { g1: {} }
+      expect(getters.inPool(state)('g1')).toBe(true)
+      expect(getters.inPool(state)('g2')).toBe(false)
     })
 
-    it('backup is empty', () => {
-      const state = {
-        backup: []
-      }
-      const wrapper = getters.hasBackup(state)
-      expect(wrapper).toBe(false)
+    it('gets the id lists', () => {
+      state.pool = { g1: {}, g2: {} }
+      expect(getters.ids(state)).toMatchObject(['g1', 'g2'])
+    })
+
+    it('gets the items lists', () => {
+      state.pool = { g1: { id: 'g1' }, g2: { id: 'g2' } }
+      expect(getters.items(state)).toMatchObject([{ id: 'g1' }, { id: 'g2' }])
     })
   })
-
   describe('mutations', () => {
-    it('adds element to pool', () => {
-      const state = {
-        photos: []
-      }
-      expect(state.photos.length).toBe(0)
-      mutations.add(state, { photoId: 1 })
-      expect(state.photos.length).toBe(1)
+    it('adds a group', () => {
+      mutations.add(state, { id: 'g1', item: { id: 'g1' } })
+      expect(state.pool['g1']).toMatchObject({ id: 'g1' })
     })
 
-    it('removes element from pool', () => {
-      const state = {
-        photos: [{ photoId: 1 }]
-      }
-      expect(state.photos.length).toBe(1)
-      mutations.remove(state, 1)
-      expect(state.photos.length).toBe(0)
+    it('removes a group', () => {
+      state.pool.g1 = { id: 'g1' }
+      mutations.remove(state, 'sg1')
+      expect(state.pool).toMatchObject({})
     })
 
-    it('removes all elements from pool', () => {
-      const state = {
-        photos: [{ photoId: 1 }, { photoId: 2 }]
-      }
-
-      expect(state.photos.length).toBe(2)
+    it('clears the pool', () => {
+      state.pool.g1 = { id: 'g1' }
       mutations.clear(state)
-      expect(state.photos.length).toBe(0)
-    })
-
-    it('saves current pool as backup', () => {
-      const state = {
-        photos: [{ photoId: 1 }, { photoId: 2 }],
-        backup: []
-      }
-      expect(state.backup.length).toBe(0)
-      mutations.backup(state)
-      expect(state.backup.length).toBe(2)
-    })
-
-    it('clears the current backup', () => {
-      const state = {
-        backup: [{ photoId: 1 }, { photoId: 2 }]
-      }
-      expect(state.backup.length).toBe(2)
-      mutations.clearBackup(state)
-      expect(state.backup.length).toBe(0)
-    })
-  })
-
-  describe('actions', () => {
-    it('loads 2 photos', () => {
-      const store = {
-        commit: jest.fn()
-      }
-      const photosToLoad = [{ photoId: 1 }, { photoId: 2 }]
-
-      actions.load(store, photosToLoad)
-      expect(store.commit).toHaveBeenCalledTimes(2)
-    })
-
-    it('adds 1 photo to pool', () => {
-      const store = {
-        commit: jest.fn(),
-        dispatch: jest.fn(),
-        getters: {
-          inPool: photoId => photoId === 1
-        }
-      }
-
-      actions.add(store, { photoId: 2 })
-      expect(store.commit).toHaveBeenCalledWith('add', { photoId: 2 })
-      expect(store.commit).toHaveBeenCalledWith('clearBackup')
-      expect(store.dispatch).toHaveBeenCalledWith('savePool')
-    })
-
-    it("don't add the same photo to pool", () => {
-      const store = {
-        commit: jest.fn(),
-        dispatch: jest.fn(),
-        getters: {
-          inPool: photoId => photoId === 1
-        }
-      }
-
-      actions.add(store, { photoId: 1 })
-      expect(store.commit).not.toHaveBeenCalledWith('add', { photoId: 1 })
-      expect(store.dispatch).not.toHaveBeenCalledWith('savePool')
-    })
-
-    it('removes 1 photo from pool', () => {
-      const store = {
-        commit: jest.fn(),
-        dispatch: jest.fn(),
-        getters: {
-          inPool: photoId => photoId === 1
-        }
-      }
-
-      actions.remove(store, 1)
-      expect(store.commit).toHaveBeenCalledWith('remove', 1)
-      expect(store.dispatch).toHaveBeenCalledWith('savePool')
-    })
-
-    it("can't remove photo from pool", () => {
-      const store = {
-        commit: jest.fn(),
-        dispatch: jest.fn(),
-        getters: {
-          inPool: photoId => photoId === 1
-        }
-      }
-
-      actions.remove(store, 2)
-      expect(store.commit).not.toHaveBeenCalled()
-      expect(store.dispatch).not.toHaveBeenCalled()
-    })
-
-    it('clears pool', () => {
-      const store = {
-        commit: jest.fn(),
-        dispatch: jest.fn()
-      }
-
-      actions.clearPool(store)
-
-      expect(store.commit).toHaveBeenCalledWith('backup')
-      expect(store.commit).toHaveBeenCalledWith('clear')
-      expect(store.dispatch).toHaveBeenCalledWith('savePool')
-    })
-
-    it('restores the backup', () => {
-      const store = {
-        dispatch: jest.fn(),
-        commit: jest.fn(),
-        state: {
-          backup: [{ photoId: 1 }]
-        }
-      }
-
-      actions.restoreBackup(store)
-      expect(store.dispatch).toHaveBeenCalledWith('load', store.state.backup)
-      expect(store.commit).toHaveBeenCalledWith('clearBackup')
+      expect(state.pool).toMatchObject({})
     })
   })
 })

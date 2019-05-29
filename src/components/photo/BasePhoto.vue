@@ -1,19 +1,21 @@
 <template>
   <v-sheet
     v-bind="$attrs"
+    :class="{'photostream': selectable, 'unselectable': !selectable}"
     class="grey lighten-2"
-    @mouseover="hover = externalLink !== '' ? true : false"
+    @mouseover="selectable ? hover = true : null"
     @mouseleave="hover = false"
     v-on="$listeners">
+    <app-observer v-if="showObserver" @intersect="showObserver = false"/>
     <slot name="header"/>
     <external-link-badge
-      :hover="hover"
+      :hover="hover && externalLink !== '' ? true : false"
       :href="externalLink"
       style="display:block !important;">
       <v-img
-        :height="height"
-        :src="url"
-        :lazy-src="url"
+        :height="realHeight"
+        :src="bigImg"
+        :lazy-src="lazyUrl"
         aspect-ratio="1"
         class="img">
         <v-layout
@@ -37,18 +39,27 @@
         class="warning--text">lock</v-icon>
       <span>Private image</span>
     </v-tooltip>
+    <v-icon
+      v-if="isSelected"
+      class="checkCircle"
+      color="accent">check_circle</v-icon>
+    <v-icon
+      v-else-if="hover"
+      class="checkCircle white--text">check_circle</v-icon>
+    <v-icon v-else-if="isUserSelecting" class="checkCircle white--text">radio_button_unchecked</v-icon>
     <slot name="footer"/>
   </v-sheet>
 </template>
 <script>
 import ExternalLinkBadge from '@/components/common/ExternalLinkBadge'
+import AppObserver from '@/components/common/AppObserver.vue'
 
 export default {
-  components: { ExternalLinkBadge },
+  components: { ExternalLinkBadge, AppObserver },
   props: {
     height: {
       type: Number,
-      default: 205
+      default: 250
     },
     url: {
       type: String,
@@ -65,9 +76,29 @@ export default {
     externalLink: {
       type: String,
       default: ''
+    },
+    selectable: {
+      type: Boolean,
+      default: false
+    },
+    isSelected: {
+      type: Boolean,
+      default: false
+    },
+    isUserSelecting: {
+      type: Boolean,
+      default: false
     }
   },
-  data: () => ({ hover: false })
+  data: () => ({ hover: false, showObserver: true }),
+  computed: {
+    bigImg() {
+      return !this.showObserver ? this.url : ''
+    },
+    realHeight() {
+      return !this.isSelected ? this.height : this.height - 32
+    }
+  }
 }
 </script>
 <style scoped>
@@ -77,11 +108,28 @@ export default {
   transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.checkCircle {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
+
 .non-public {
   position: absolute;
   top: 8px;
   right: 8px;
 }
+
+.photostream {
+  padding: 0;
+  transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.photostream :hover {
+  cursor: pointer;
+}
+
+.unselectable :hover {
+  cursor: default;
+}
 </style>
-
-

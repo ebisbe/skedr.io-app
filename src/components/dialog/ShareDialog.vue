@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    v-model="sharePhoto"
+    v-model="showDialog"
     :fullscreen="$vuetify.breakpoint.xsOnly"
     persistent
     lazy
@@ -8,8 +8,8 @@
     scrollable
   >
     <v-card max-width="500">
-      <v-toolbar dark color="primary">
-        <v-btn icon @click.native="closeDialog">
+      <v-toolbar dark color="accent">
+        <v-btn icon @click.native="closeDialog(false)">
           <v-icon>close</v-icon>
         </v-btn>
         <v-toolbar-title v-html="toolbarTitle"/>
@@ -18,7 +18,7 @@
           slot="extension"
           class="pa-1">
           <q-filter
-            v-if="sharePhoto"
+            v-if="showDialog"
             placeholder="Search group..."
             @enter="val => {
               search = val.toLowerCase()
@@ -69,7 +69,7 @@
                     :group="group"
                     :already-in-group="data.photoGroups.findIndex(({id}) => group.id===id) > -1"
                     :selected="inPool(group.id)"
-                    @select="add(group)"
+                    @select="add({id: group.id, item: group})"
                     @remove="remove(group.id)"/>
                 </div>
               </transition-group>
@@ -121,7 +121,7 @@
           </div>
         </v-list>
         <ApolloQuery
-          v-if="sharesOneImage"
+          v-else-if="sharesOneImage"
           :query="require('@/graphql/photoGroups.gql')"
           :variables="{
             photoId: photos[0],
@@ -174,7 +174,7 @@
       <v-toolbar
         v-if="hasItemsSelected"
         dark
-        color="primary"
+        color="accent"
         style="position: absolute; bottom:0">
         <div
           style="overflow: hidden;"
@@ -186,7 +186,7 @@
             :variables="{ input: publishPhoto }"
             :update="updateAfterMutation"
             tag=""
-            @done="closeDialog"
+            @done="closeDialog(true)"
           >
             <template slot-scope="{ mutate, loading, error }">
               <v-btn
@@ -198,7 +198,7 @@
                 top
                 right
                 fab
-                color="primary lighten-2"
+                color="accent lighten-2"
                 @click="mutate()">
                 <v-icon>send</v-icon>
               </v-btn>
@@ -222,6 +222,12 @@ import AppObserver from '@/components/common/AppObserver.vue'
 
 export default {
   components: { QFilter, ShareDialogList, QEmpty, AppObserver },
+  props: {
+    showDialog: {
+      type: Boolean,
+      required: true
+    }
+  },
   data: () => ({
     search: '',
     page: 1,
@@ -232,12 +238,11 @@ export default {
   }),
   computed: {
     ...mapState({
-      userId: state => state.user.username,
-      photoList: state => state.sharedPool.photos
+      userId: state => state.user.username
     }),
     ...mapGetters({
-      sharePhoto: 'sharedPool/hasItems',
-      photos: 'sharedPool/photoIds',
+      photos: 'pool/ids',
+      photoList: 'pool/items',
       totalSelectedGroups: 'groupsPool/total',
       orderedSelectedGroups: 'groupsPool/orderByTitle',
       hasItemsSelected: 'groupsPool/hasItems',
@@ -265,12 +270,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      clearSharedPool: 'sharedPool/clear'
-    }),
     ...mapMutations({
       add: 'groupsPool/add',
       remove: 'groupsPool/remove',
+      clearSharedPool: 'pool/clear',
       clearGroupPool: 'groupsPool/clear'
     }),
     updateAfterMutation(
@@ -288,10 +291,13 @@ export default {
       // Write our data back to the cache.
       store.writeQuery(query)
     },
-    closeDialog() {
-      this.clearSharedPool()
-      this.clearGroupPool()
+    closeDialog(clearPool = false) {
+      if (clearPool) {
+        this.clearSharedPool()
+        this.clearGroupPool()
+      }
       this.search = ''
+      this.$emit('close')
     },
     showMore(query) {
       //Fetch more data and transform the original result

@@ -1,0 +1,7 @@
+mutation payService($name: String!, $email: String!, $source: String, $coupon: String) {
+  payService(name: $name, email: $email, source: $source, coupon: $coupon) {
+    id
+    status
+    error
+  }
+}

@@ -91,7 +91,7 @@
                       :variables="{
                         groupId: group.id,
                         tags: [tag.name],
-                        preventTrigger: false
+                        preventTrigger: true
                       }"
                       tag=""
                       @done="$emit('close')"

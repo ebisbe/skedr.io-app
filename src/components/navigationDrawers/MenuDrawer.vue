@@ -68,7 +68,7 @@
   </v-navigation-drawer>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 export default {
   data: () => ({
     lists: [
@@ -83,6 +83,10 @@ export default {
       {
         icon: 'access_time',
         name: 'Scheduled photos'
+      },
+      {
+        icon: 'person',
+        name: 'Profile'
       }
     ],
     articles: [
@@ -119,15 +123,21 @@ export default {
     ...mapMutations({
       setDrawer: 'menuDrawer/set'
     }),
+    ...mapActions({
+      signOut: 'user/signOut'
+    }),
     openBeacon() {
       Beacon('toggle')
     },
     logout: async function() {
       try {
-        await Auth.signOut()
+        await this.signOut()
         this.$router.push({ name: 'Login' })
       } catch (err) {
         this.$store.dispatch('message/add', err.message)
+        if (err.name === 'VerifyEmailError') {
+          this.$router.push({ name: 'Profile' })
+        }
       }
     }
   }

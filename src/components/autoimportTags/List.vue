@@ -107,7 +107,7 @@ export default {
   },
   apollo: {
     groupTagsList: {
-      query: require('@/graphql/groupTagsList.gql'),
+      query: require('@/graphql/groupTags.gql'),
       variables() {
         return {
           count: this.count

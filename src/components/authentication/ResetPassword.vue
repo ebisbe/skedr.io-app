@@ -45,7 +45,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer/>
-      <v-btn :to="{name:'Login'}">cancel</v-btn>
+      <v-btn :to="{name:'Login'}" flat>cancel</v-btn>
       <v-btn
         :disabled="!formIsValid || protectedUI"
         text-xs-right
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import Auth from '@aws-amplify/auth';
+import Auth from '@aws-amplify/auth'
 import { validations } from '@/mixins'
 
 export default {

@@ -1,4 +1,3 @@
-import API from '@aws-amplify/api'
 import Auth from '@aws-amplify/auth'
 import LogRocket from 'logrocket'
 
@@ -18,10 +17,12 @@ export const mutations = {
     state.user = user
     if (user !== null) {
       state.username = decodeURIComponent(user.username)
-      //state.username = '69663264@N03'
     } else {
       state.username = null
     }
+  },
+  setUserAttributes(state, attributes) {
+    state.user.attributes = Object.assign({}, state.user.attributes, attributes)
   },
   setUserId: (state, userId) => (state.userId = userId),
   setUserVerification: (state, data) => {
@@ -41,11 +42,11 @@ export const actions = {
     const payload = {
       body: { userId: state.username, email: username }
     }
-    return Object.keys(data.verified).length !== 0 ? true : false
+    return Object.keys(data.verified).length !== 0
   },
   currentAuthenticatedUser: async ({ commit, state }) => {
     try {
-      const user = await Auth.currentAuthenticatedUser()
+      const user = await Auth.currentAuthenticatedUser({ bypassCache: true })
       const credentials = await Auth.currentCredentials()
       commit('setUser', user)
       commit('setUserId', credentials.identityId)
@@ -65,6 +66,23 @@ export const actions = {
       commit('setUser', null)
       return false
     }
+    return true
+  },
+  updateUserAttributes: async ({ commit, state }) => {
+    await Auth.updateUserAttributes(state.user, state.user.attributes)
+    const user = await Auth.currentAuthenticatedUser({ bypassCache: true })
+    commit('setUser', user)
+  },
+  confirmEmailCode: async ({ commit }, code) => {
+    await Auth.verifyCurrentUserAttributeSubmit('email', code)
+    const user = await Auth.currentAuthenticatedUser({ bypassCache: true })
+    commit('setUser', user)
+  },
+  signOut: async ({ state }) => {
+    if (state.user.attributes.email_verified === false) {
+      throw { name: 'VerifyEmailError', message: 'To sign out first verify your email' }
+    }
+    await Auth.signOut()
     return true
   }
 }

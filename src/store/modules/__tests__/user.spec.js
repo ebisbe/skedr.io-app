@@ -1,22 +1,36 @@
 import { getters, mutations, actions } from '@/store/modules/user'
 import Auth from '@aws-amplify/auth'
 
-jest.mock('@aws-amplify/auth', () => ({
-  error: true,
-  signIn(email, password) {
-    return Promise.resolve({ user: `User-${email}`, password })
-  },
-  verifiedContact(user) {
-    return Promise.resolve({ verified: { email: `Verified-${user.user}` } })
-  },
-  currentAuthenticatedUser() {
-    if (this.error) throw new Error('Not authenticated')
-    else return Promise.resolve({ user: 'enric', attributes: { name: 'name', email: 'email' } })
-  },
-  currentCredentials() {
-    return Promise.resolve({ identityId: '12345' })
+jest.mock('@aws-amplify/auth', () => {
+  let attributes = { name: 'name', email: 'email' }
+  return {
+    error: true,
+    signIn(email, password) {
+      return Promise.resolve({ user: `User-${email}`, password })
+    },
+    verifiedContact(user) {
+      return Promise.resolve({ verified: { email: `Verified-${user.user}` } })
+    },
+    currentAuthenticatedUser() {
+      if (this.error) throw new Error('Not authenticated')
+      else return Promise.resolve({ user: 'enric', attributes })
+    },
+    currentCredentials() {
+      return Promise.resolve({ identityId: '12345' })
+    },
+    updateUserAttributes(user, newAttributes) {
+      attributes = newAttributes
+    },
+    verifyCurrentUserAttributeSubmit(attribute, value) {
+      if (value === '123456') {
+        attributes = { email_verified: true }
+      }
+    },
+    signOut() {
+      return true
+    }
   }
-}))
+})
 jest.mock('@aws-amplify/api', () => ({
   post() {}
 }))
@@ -46,6 +60,19 @@ describe('Store user.js', () => {
       expect(state.username).toBe('144521588@N08')
     })
 
+    it('user is undefined', () => {
+      const state = {
+        user: null,
+        username: null
+      }
+
+      const user = null
+
+      mutations.setUser(state, user)
+      expect(state.user).toEqual(user)
+      expect(state.username).toBe(null)
+    })
+
     it('triggers setUserId mutation', () => {
       const state = {
         userId: null
@@ -61,6 +88,15 @@ describe('Store user.js', () => {
       const verification = { verification: 'something' }
       mutations.setUserVerification(state, verification)
       expect(state.userVerification).toEqual(verification)
+    })
+
+    it('updates user attributes', () => {
+      const state = {
+        user: {}
+      }
+      const newAttributes = { name: 'Enric', family_name: 'Bisbe Gil' }
+      mutations.setUserAttributes(state, newAttributes)
+      expect(state.user.attributes).toMatchObject(newAttributes)
     })
   })
 
@@ -110,6 +146,82 @@ describe('Store user.js', () => {
       })
       expect(store.commit).toHaveBeenNthCalledWith(2, 'setUserId', '12345')
       expect(response).toBe(true)
+    })
+
+    it('updates user attributes from AWS', async () => {
+      const commit = jest.fn()
+      const store = {
+        commit,
+        state: {
+          user: {
+            id: 'someId',
+            attributes: {
+              name: 'Enric',
+              family_name: 'Bisbe Gil'
+            }
+          }
+        }
+      }
+
+      await actions.updateUserAttributes(store)
+      expect(commit).toHaveBeenCalledTimes(1)
+      expect(commit).toHaveBeenCalledWith('setUser', {
+        user: 'enric',
+        attributes: { name: 'Enric', family_name: 'Bisbe Gil' }
+      })
+    })
+
+    it('confirms the email with a code', async () => {
+      const commit = jest.fn()
+      const store = {
+        commit,
+        state: {
+          user: {
+            id: 'someId',
+            attributes: {
+              email_verified: false
+            }
+          }
+        }
+      }
+
+      await actions.confirmEmailCode(store, '123456')
+      expect(commit).toHaveBeenCalledTimes(1)
+      expect(commit).toHaveBeenCalledWith('setUser', {
+        user: 'enric',
+        attributes: { email_verified: true }
+      })
+    })
+
+    if('confirms the email with a wrong code', () => {
+      const commit = jest.fn()
+      const store = {
+        commit,
+        state: {
+          user: {
+            id: 'someId',
+            attributes: {}
+          }
+        }
+      }
+    })
+
+    it('signs out if email is verified', async () => {
+      const store = {
+        state: { user: { attributes: { email_verified: true } } }
+      }
+      const response = await actions.signOut(store)
+      expect(response).toBe(true)
+    })
+
+    it('does not allows to sign out when email is not verified', async () => {
+      const store = {
+        state: { user: { attributes: { email_verified: false } } }
+      }
+      return expect(actions.signOut(store)).rejects.toMatchObject({
+        name: 'VerifyEmailError',
+        message: 'To sign out first verify your email'
+      })
     })
   })
 })

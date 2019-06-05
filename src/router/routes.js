@@ -1,5 +1,6 @@
 const toolbar = () => import(/* webpackChunkName: "bar" */ '@/components/layout/AppToolbar.vue')
-const shareImage = () => import(/* webpackChunkName: "bar" */ '@/components/navigationDrawers/ShareImage.vue')
+//const shareImage = () => import(/* webpackChunkName: "bar" */ '@/components/navigationDrawers/ShareImage.vue')
+const menu = () => import(/* webpackChunkName: "bar" */ '@/components/navigationDrawers/MenuDrawer.vue')
 const tagList = () => import(/* webpackChunkName: "bar" */ '@/components/navigationDrawers/TagList.vue')
 
 const AutoimporTags = () => import(/* webpackChunkName: "autoimportTags" */ '../pages/AutoimportTagsPage.vue')
@@ -26,6 +27,7 @@ export default [
     components: {
       default: AutoimporTags,
       toolbar,
+      leftDrawer: menu,
       rightBar: tagList
     },
     redirect: { name: 'AutoimportTagsList' },
@@ -57,7 +59,8 @@ export default [
     components: {
       default: Scheduled,
       toolbar,
-      rightBar: shareImage
+      leftDrawer: menu,
+      rightBar: null
     },
     meta: {
       requiresAuth: true
@@ -69,7 +72,8 @@ export default [
     components: {
       default: Photostream,
       toolbar,
-      rightBar: shareImage
+      leftDrawer: menu,
+      rightBar: null
     },
     meta: {
       requiresAuth: true
@@ -102,6 +106,7 @@ export default [
     redirect: { name: 'Login' },
     components: {
       default: LoginPage,
+      leftDrawer: null,
       toolbar: null
     }
   },

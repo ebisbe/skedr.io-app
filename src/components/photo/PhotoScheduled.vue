@@ -1,40 +1,26 @@
 <template>
   <base-photo
-    :height="height"
     :url="url"
-    :lazy-url="url_sq"
-    :is-private="!photo.photo.isPublic">
+    :lazy-url="url_q"
+    :is-private="!photo.photo.isPublic"
+    :class="{'pa-3 selected': inPool(payload.id)}"
+    :is-selected="inPool(payload.id)"
+    :is-user-selecting="hasItems && deleted !== true"
+    :selectable="!deleted"
+    @click.native="!inPool(payload.id) && deleted !== true ? addToPool(payload) : removeFromPool(payload.id)">
     <template v-slot:footer>
-      <footer-photo :title="photo.photo.title">
-        <template v-slot:action>
-          <v-list-tile-action>
-            <ApolloMutation
-              :mutation="require('@/graphql/mutations/deleteScheduledPhoto.gql')"
-              :variables="{ groupId: photo.groupId, photoId: photo.photoId }"
-              tag=""
-            >
-              <template slot-scope="{ mutate, loading, error }">
-                <v-tooltip
-                  top
-                  lazy>
-                  <v-btn
-                    slot="activator"
-                    :disabled="loading || photo.preventTrigger"
-                    :loading="loading"
-                    class="mx-1"
-                    icon
-                    @click="mutate()">
-                    <v-icon>delete</v-icon>
-                  </v-btn>
-                  <span v-if="photo.preventTrigger">Deleting from queue</span>
-                  <span v-else-if="error" class="error--text">Some error occured!</span>
-                  <span v-else>Remove from queue</span>
-                </v-tooltip>
-              </template>
-            </ApolloMutation>
-          </v-list-tile-action>
-        </template>
-      </footer-photo>
+      <v-tooltip
+        v-if="deleted"
+        class="deleted"
+        lazy
+        left>
+        <v-icon
+          slot="activator"
+          large
+          class="warning--text">delete</v-icon>
+        <span>Scheduled to delete</span>
+      </v-tooltip>
+      <footer-photo :title="photo.photo.title"/>
     </template>
   </base-photo>
 </template>
@@ -42,6 +28,7 @@
 import BasePhoto from './BasePhoto.vue'
 import FooterPhoto from './FooterPhoto.vue'
 import { scheduledAt } from '@/mixins'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   components: { BasePhoto, FooterPhoto },
@@ -50,20 +37,28 @@ export default {
     photo: {
       type: Object,
       required: true
-    },
-    height: {
-      type: Number,
-      required: false,
-      default: 205
     }
   },
   computed: {
     url() {
       return this.composeUrl()
     },
-    url_sq() {
-      return this.composeUrl('_sq')
-    }
+    url_q() {
+      return this.composeUrl('_q')
+    },
+    deleted() {
+      return this.photo.preventTrigger
+    },
+    payload() {
+      return {
+        id: `${this.photo.groupId}-${this.photo.photoId}`,
+        item: this.photo
+      }
+    },
+    ...mapGetters({
+      inPool: 'schedulerPool/inPool',
+      hasItems: 'schedulerPool/hasItems'
+    })
   },
   methods: {
     composeUrl(size = '') {
@@ -72,7 +67,19 @@ export default {
         photo: { server, farm, secret }
       } = this.photo
       return `https://farm${farm}.staticflickr.com/${server}/${photoId}_${secret}${size}.jpg`
-    }
+    },
+    ...mapMutations({
+      addToPool: 'schedulerPool/add',
+      removeFromPool: 'schedulerPool/remove'
+    })
   }
 }
 </script>
+<style scoped>
+.deleted {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+</style>
+

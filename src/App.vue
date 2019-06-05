@@ -6,6 +6,7 @@
 
     <q-message multi-line bottom/>
 
+    <router-view name="leftDrawer"/>
     <router-view name="toolbar"/>
     <transition name="component-fade" mode="out-in">
       <router-view/>

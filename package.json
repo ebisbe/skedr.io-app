@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "test:watch": "vue-cli-service test:unit --watch --coverage"
+    "test:watch": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
     "@aws-amplify/api": "^1.0.30",

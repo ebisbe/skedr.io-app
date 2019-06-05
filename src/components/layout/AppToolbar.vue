@@ -1,98 +1,67 @@
 <template>
   <div>
-    <v-navigation-drawer
-      v-model="drawer"
-      clipped
-      fixed
-      app
-    >
-      <v-list>
-        <v-list-tile
-          v-for="item in lists"
-          :to="{name: item.name}"
-          :key="item.name"
-          exact
-          ripple>
-          <v-list-tile-action>
-            <v-icon v-html="item.icon"/>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title v-html="item.name"/>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-divider/>
-        <v-subheader>Articles</v-subheader>
-        <v-list-tile
-          v-for="article in articles"
-          :key="article.name"
-          :href="article.link"
-          ripple
-          target="_blank">
-          <v-list-tile-action>
-            <v-icon>link</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content >
-            <v-list-tile-title v-html="article.name"/>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-divider/>
-        <v-list-tile ripple @click="openBeacon">
-          <v-list-tile-action>
-            <v-icon>announcement</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Send feedback</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile
-          ripple
-          class="triggerChangelog"
-          @click.stop
-        >
-          <v-list-tile-action>
-            <v-icon class="changelog" >notification_important</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Changelog</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-divider/>
-        <v-list-tile ripple @click.stop="logout">
-          <v-list-tile-action>
-            <v-icon>input</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Sign out</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
     <v-toolbar
       :dense="false"
+      :color="alternativeBar ? 'accent' : 'primary'"
       app
       fixed
-      color="primary"
       dark
       style="z-index:3;"
       clipped-left
       clipped-right>
-      <v-toolbar-side-icon @click.stop="toggle"/>
-      <v-toolbar-title v-text="pageTitle" />
-      <v-spacer/>
-      <v-text-field
-        v-model="search"
-        :loading="loading"
-        prepend-inner-icon="search"
-        solo-inverted
-        flat
-        hide-details
-        clearable
-        label="Search"
-        @keyup.enter="$router.push({name: 'AutoimportTagsSearch'})"
-        @click:clear="$router.push({name: 'AutoimportTagsList'})"
-      />
-      <v-spacer/>
+      <v-toolbar-side-icon v-if="!alternativeBar" @click.stop="toggle"/>
       <v-btn
+        v-else
+        icon
+        @click="clearPool"
+      >
+        <v-icon>close</v-icon>
+      </v-btn>
+
+      <v-toolbar-title v-text="toolbarTitle" />
+      <v-spacer/>
+      <v-scale-transition>
+        <v-text-field
+          v-if="!alternativeBar"
+          v-model="search"
+          :loading="loading"
+          prepend-inner-icon="search"
+          solo-inverted
+          flat
+          hide-details
+          clearable
+          label="Search"
+          @keyup.enter="$router.push({name: 'AutoimportTagsSearch'})"
+          @click:clear="$router.push({name: 'AutoimportTagsList'})"
+        />
+      </v-scale-transition>
+      <v-spacer/>
+      <v-tooltip
+        v-if="poolHasItems"
+        bottom
+        lazy>
+        <v-btn
+          slot="activator"
+          icon
+          @click.stop="showShareDialog = true">
+          <v-icon>share</v-icon>
+        </v-btn>
+        <span>Sked photos</span>
+      </v-tooltip>
+      <v-tooltip
+        v-else-if="schedulerPoolHasItems"
+        bottom
+        lazy>
+        <v-btn
+          slot="activator"
+          icon
+          @click.stop="deleteSchedulerPhotos">
+          <v-icon>delete</v-icon>
+        </v-btn>
+        <span>Clear photos from queue</span>
+      </v-tooltip>
+      <v-btn
+        v-else
         color="primary"
         icon
         @click="() => {
@@ -112,54 +81,49 @@
           </v-icon>
         </v-badge>
       </v-btn>
-      <app-pool-btn/>
     </v-toolbar>
     <app-notification-list :drawer="notificationDrawer" @updated="notificationDrawer = $event"/>
+    <share-dialog :show-dialog="showShareDialog" @close="showShareDialog = false" />
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import AppPoolBtn from './AppPoolBtn.vue'
+import { mapState, mapMutations, mapGetters, mapActions } from 'vuex'
 import AppNotificationList from './AppNotificationList'
+import ShareDialog from '@/components/dialog/ShareDialog.vue'
 
 import Auth from '@aws-amplify/auth'
 
 export default {
   name: 'Toolbar',
-  components: { AppPoolBtn, AppNotificationList },
+  components: { AppNotificationList, ShareDialog },
   data: () => {
     return {
       title: 'Layout',
-      drawer: false,
       showBadge: false,
       notificationDrawer: false,
-      lists: [
-        {
-          icon: 'perm_media',
-          name: 'AutoimportTags'
-        },
-        {
-          icon: 'photo',
-          name: 'Photostream'
-        },
-        {
-          icon: 'access_time',
-          name: 'Scheduled photos'
-        }
-      ],
-      articles: [
-        {
-          name: 'Sharing an existing photo',
-          link: 'https://skedr.io/articles/share-single-photo'
-        },
-        {
-          name: 'Group tagging',
-          link: 'https://skedr.io/articles/group-tagging'
-        }
-      ]
+      showShareDialog: false
     }
   },
   computed: {
+    toolbarTitle() {
+      if (this.poolHasItems) {
+        return `${this.poolLength} selected`
+      } else if (this.schedulerPoolHasItems) {
+        return `${this.schedulerPoolLength} selected`
+      } else {
+        return this.pageTitle
+      }
+    },
+    alternativeBar() {
+      return this.poolHasItems || this.schedulerPoolHasItems
+    },
+    ...mapGetters({
+      poolHasItems: 'pool/hasItems',
+      poolLength: 'pool/total',
+      schedulerPoolHasItems: 'schedulerPool/hasItems',
+      schedulerPoolLength: 'schedulerPool/total',
+      schedulerPhotos: 'schedulerPool/items'
+    }),
     ...mapState({
       pageTitle: state => state.pageTitle,
       loading: state => (state.loading > 0 ? 'accent' : false)
@@ -176,29 +140,25 @@ export default {
       }
     }
   },
-  mounted() {
-    this.drawer = this.$vuetify.breakpoint.lgAndpUp
-    const config = {
-      selector: '.changelog', // CSS selector where to inject the badge
-      account: 'yZ6Dpy',
-      trigger: '.triggerChangelog .v-list__tile'
-    }
-    Headway.init(config)
-  },
   methods: {
-    openBeacon() {
-      Beacon('toggle')
+    clearPool() {
+      this.clearPhotoPool()
+      this.clearSchedulerPool()
     },
-    toggle() {
-      this.drawer = !this.drawer
-    },
-    logout: async function() {
-      try {
-        await Auth.signOut()
-        this.$router.push({ name: 'Login' })
-      } catch (err) {
-        this.$store.dispatch('message/add', err.message)
-      }
+    ...mapMutations({
+      toggle: 'menuDrawer/toggle',
+      clearPhotoPool: 'pool/clear',
+      clearSchedulerPool: 'schedulerPool/clear',
+      scheduledPhotos: 'schedulerPool/items'
+    }),
+    deleteSchedulerPhotos: async function() {
+      for (const { groupId, photoId } of this.schedulerPhotos)
+        await this.$apollo.mutate({
+          mutation: require('@/graphql/mutations/deleteScheduledPhoto.gql'),
+          variables: { groupId: groupId, photoId: photoId }
+        })
+
+      this.clearSchedulerPool()
     }
   }
 }

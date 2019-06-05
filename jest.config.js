@@ -12,5 +12,11 @@ module.exports = {
   snapshotSerializers: ['jest-serializer-vue'],
   testMatch: ['<rootDir>/(tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx))'],
   collectCoverage: process.env.CIRCLECI === 'true',
-  collectCoverageFrom: ['src/**/*.{js,vue}', '!**/node_modules/**']
+  collectCoverageFrom: [
+    'src/**/*.{js,vue}',
+    '!**/node_modules/**',
+    // Ignore Symlink files
+    '!src/store/modules/schedulerPool.js',
+    '!src/store/modules/groupsPool.js'
+  ]
 }

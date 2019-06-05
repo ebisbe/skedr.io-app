@@ -54,8 +54,8 @@
                     :key="title+iteration+photo.photoId"
                     :xs6="group.length !== 1"
                     :xs12="group.length === 1"
-                    sm4>
-                    <photo-scheduled :photo="photo" :height="150" />
+                    sm3>
+                    <photo-scheduled :photo="photo" />
                   </v-flex>
                 </v-layout>
               </template>
@@ -94,6 +94,7 @@ import _groupBy from 'lodash/groupBy'
 import { scheduledAt } from '@/mixins'
 import Moment from 'moment'
 import * as Sentry from '@sentry/browser'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'Scheduled',
@@ -105,7 +106,14 @@ export default {
       showMoreEnabled: true
     }
   },
+  beforeDestroy() {
+    this.clearPool()
+    return true
+  },
   methods: {
+    ...mapMutations({
+      clearPool: 'pool/clear'
+    }),
     scheduled(data) {
       const format = 'D <br> ddd'
       const mappedData = data.map(photo => {
@@ -130,6 +138,10 @@ export default {
       return _groupBy(data, 'group.title')
     },
     showMore(query, nextToken) {
+      if (nextToken === null) {
+        this.showMoreEnabled = false
+        return
+      }
       //Fetch more data and transform the original result
       query.fetchMore({
         variables: {

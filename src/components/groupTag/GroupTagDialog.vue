@@ -205,7 +205,7 @@ export default {
   },
   data: () => ({
     comboTagsReal: [],
-    preventTrigger: false,
+    preventTrigger: true,
     openedPanel: null,
     perPage: 18,
     page: 1,

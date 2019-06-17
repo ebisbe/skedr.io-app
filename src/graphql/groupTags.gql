@@ -1,0 +1,23 @@
+query autoimportTagList($count: Int, $nextToken: String) {
+  groupTagsList(count: $count, nextToken: $nextToken) {
+    groupTags {
+      groupId
+      userId
+      tags
+      group {
+        id
+        groupId
+        title
+        icon
+        poolCount
+        photoLimitOptOut
+        members
+        isMember
+        throttleMode
+        throttleCount
+        throttleRemaining
+      }
+    }
+    nextToken
+  }
+}

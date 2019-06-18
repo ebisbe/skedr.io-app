@@ -69,6 +69,7 @@
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex'
+import Auth from '@aws-amplify/auth';
 export default {
   data: () => ({
     lists: [

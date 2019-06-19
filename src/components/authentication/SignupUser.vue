@@ -105,9 +105,8 @@
 
 <script>
 import API from '@aws-amplify/api'
-import { validations } from '@/mixins'
-
 import Auth from '@aws-amplify/auth'
+import { validations } from '@/mixins'
 
 export default {
   mixins: [validations],
@@ -150,11 +149,7 @@ export default {
         }
       }
       try {
-        const { userId, firstName = '', lastName = '', email } = await API.post(
-          process.env.VUE_APP_API_NAME,
-          '/oauth/callback',
-          payload
-        )
+        const { userId, firstName = '', lastName = '', email } = await API.post('skedr-api', '/oauth/callback', payload)
         this.userId = userId
         this.firstName = firstName
         this.lastName = lastName
@@ -179,7 +174,7 @@ export default {
     handleSubmit: async function() {
       this.protectedUI = true
       try {
-        const { userId, redirectUrl } = await API.get(process.env.VUE_APP_API_NAME, '/oauth')
+        const { userId, redirectUrl } = await API.get('skedr-api', '/oauth')
         this.userId = userId
         localStorage.setItem('userId', userId)
         window.location.href = redirectUrl

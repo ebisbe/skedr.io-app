@@ -1,10 +1,10 @@
 <template>
   <div>
     <v-toolbar dark color="primary">
-      <v-toolbar-title>Confirm email</v-toolbar-title>
+      <v-toolbar-title>Confirm account</v-toolbar-title>
     </v-toolbar>
     <v-card-text>
-      <p v-show="!firstPart">To confirm your email we need your Flickr ID. You can go to <a href="https://www.flickr.com/services/api/explore/flickr.people.getInfo" target="_blank">https://www.flickr.com/services/api/explore/flickr.people.getInfo</a> and copy the value under 'Your user ID:'. <br>If you have any issue send us and email at <a href="mailto:info@skedr.io">info@skedr.io</a></p>
+      <p v-show="!firstPart">To confirm your account we need your Flickr ID. You can go to <a href="https://www.flickr.com/services/api/explore/flickr.people.getInfo" target="_blank">https://www.flickr.com/services/api/explore/flickr.people.getInfo</a> and copy the value under 'Your user ID:'. <br>If you have any issue send us and email at <a href="mailto:info@skedr.io">info@skedr.io</a></p>
       <v-text-field
         v-model="form.username"
         :disabled="protectedUI || firstPart"
@@ -34,7 +34,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer/>
-      <v-btn :to="{name:'Signup'}">cancel</v-btn>
+      <v-btn :to="{name:'Signup'}" flat>cancel</v-btn>
       <v-btn
         :disabled="!formIsValid || protectedUI"
         text-xs-right
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import Auth from '@aws-amplify/auth';
+import Auth from '@aws-amplify/auth'
 import { validations } from '@/mixins'
 
 export default {

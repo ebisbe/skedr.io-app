@@ -13,10 +13,11 @@ const LoginUser = () => import(/* webpackChunkName: "signin" */ '../components/a
 const ResetPassword = () =>
   import(/* webpackChunkName: "resetPassword" */ '../components/authentication/ResetPassword.vue')
 const SignupUser = () => import(/* webpackChunkName: "signup" */ '../components/authentication/SignupUser.vue')
-const ConfirmEmail = () =>
-  import(/* webpackChunkName: "confirmEmail" */ '../components/authentication/ConfirmEmail.vue')
+const ConfirmAccount = () =>
+  import(/* webpackChunkName: "confirmaccount" */ '../components/authentication/ConfirmAccount.vue')
 
 const Scheduled = () => import(/* webpackChunkName: "scheduled" */ '../pages/ScheduledPage.vue')
+const Profile = () => import(/* webpackChunkName: "profile" */ '../pages/ProfilePage.vue')
 
 const Photostream = () => import(/* webpackChunkName: "photostream" */ '../pages/PhotostreamPage.vue')
 
@@ -80,6 +81,19 @@ export default [
     }
   },
   {
+    path: '/profile',
+    name: 'Profile',
+    components: {
+      default: Profile,
+      toolbar,
+      leftDrawer: menu,
+      rightBar: null
+    },
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/auth',
     children: [
       {
@@ -98,9 +112,9 @@ export default [
         component: SignupUser
       },
       {
-        path: 'confirm-email',
-        name: 'ConfirmEmail',
-        component: ConfirmEmail
+        path: 'confirm-account',
+        name: 'ConfirmAccount',
+        component: ConfirmAccount
       }
     ],
     redirect: { name: 'Login' },

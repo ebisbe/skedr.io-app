@@ -97,7 +97,7 @@
         </v-stepper-content>
       </v-stepper>
     </div>
-    <p v-show="step === 1" class="text-xs-center mb-0 grey--text subheading pb-2"><router-link :to="{name: 'ConfirmEmail'}">Confirm Email</router-link> | Try our <router-link :to="{name:'Login', params: {demo: true}}">Demo Account</router-link></p>
+    <p v-show="step === 1" class="text-xs-center mb-0 grey--text subheading pb-2"><router-link :to="{name: 'ConfirmAccount'}">Confirm Account</router-link> | Try our <router-link :to="{name:'Login', params: {demo: true}}">Demo Account</router-link></p>
     <p v-show="step === 1" class="text-xs-center mb-0 grey--text subheading">Already have an account? <router-link :to="{name: 'Login'}">Log in</router-link></p>
   </div>
 

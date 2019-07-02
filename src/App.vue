@@ -31,7 +31,7 @@ export default {
   computed: {
     notLogged() {
       return (
-        ['Login', 'Signup', 'ResetPassword', 'ConfirmEmail'].filter(routeName => this.$route.name === routeName)
+        ['Login', 'Signup', 'ResetPassword', 'ConfirmAccount'].filter(routeName => this.$route.name === routeName)
           .length > 0
       )
     }

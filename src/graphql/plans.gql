@@ -1,0 +1,26 @@
+query profile {
+  plans {
+    id
+    object
+    active
+    aggregate_usage
+    amount
+    billing_scheme
+    created
+    currency
+    interval
+    interval_count
+    livemode
+    nickname
+    product
+    tiers
+    tiers_mode
+    trial_period_days
+    usage_type
+  }
+  userSubscription {
+    id
+    status
+    error
+  }
+}

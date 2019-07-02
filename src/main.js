@@ -13,6 +13,8 @@ import store from './store'
 import VueAnalytics from 'vue-analytics'
 import Amplify from '@aws-amplify/core'
 
+// import API so Amplify can configure it on load
+import API from '@aws-amplify/api'
 Amplify.configure(aws_exports)
 Vue.config.productionTip = false
 Vue.use(VueAnalytics, {

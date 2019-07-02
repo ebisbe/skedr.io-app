@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserProfile tests the snapshot with email verified 1`] = `
+<v-card-stub tag="div" class="mb-4">
+  <v-form-stub>
+    <v-container-stub tag="div">
+      <h1>Profile</h1>
+      <v-text-field-stub label="First name" value="Enric"></v-text-field-stub>
+      <v-text-field-stub label="Family name" value="Bisbe Gil"></v-text-field-stub>
+      <v-text-field-stub error-messages="" label="E-mail" value="email@domain.com"></v-text-field-stub>
+      <v-card-actions-stub class="px-4">
+        <v-spacer-stub></v-spacer-stub>
+        <!---->
+        <v-btn-stub color="primary" activeclass="v-btn--active" disabled="true" tag="button" type="button">Update</v-btn-stub>
+      </v-card-actions-stub>
+    </v-container-stub>
+    <v-dialog-stub contentclass="" persistent="true" maxwidth="500" origin="center center" width="auto" transition="dialog-transition">
+      <v-card-stub tag="div" class="elevation-12">
+        <v-toolbar-stub color="primary" dark="true" scrollthreshold="300">
+          <v-toolbar-title-stub>Verify email</v-toolbar-title-stub>
+        </v-toolbar-stub>
+        <v-card-text-stub class="px-4 pb-4 pt-3">
+          A code has been sent to your new email address. Confirm your new email address.
+          <v-text-field-stub label="Confirmation code" counter="6" value=""></v-text-field-stub>
+          <v-card-actions-stub class="px-4">
+            <v-spacer-stub></v-spacer-stub>
+            <v-btn-stub activeclass="v-btn--active" tag="button" flat="true" type="button">Change email</v-btn-stub>
+            <v-btn-stub color="primary" activeclass="v-btn--active" disabled="true" tag="button" type="button">Confirm</v-btn-stub>
+          </v-card-actions-stub>
+        </v-card-text-stub>
+      </v-card-stub>
+    </v-dialog-stub>
+  </v-form-stub>
+</v-card-stub>
+`;
+
+exports[`UserProfile tests the snapshot without the email verified 1`] = `
+<v-card-stub tag="div" class="mb-4">
+  <v-form-stub>
+    <v-container-stub tag="div">
+      <h1>Profile</h1>
+      <v-text-field-stub label="First name" value="Enric"></v-text-field-stub>
+      <v-text-field-stub label="Family name" value="Bisbe Gil"></v-text-field-stub>
+      <v-text-field-stub error-messages="Email needs verification." label="E-mail" value="email@domain.com"></v-text-field-stub>
+      <v-card-actions-stub class="px-4">
+        <v-spacer-stub></v-spacer-stub>
+        <v-btn-stub color="primary" activeclass="v-btn--active" tag="button" type="button">Verify email</v-btn-stub>
+        <v-btn-stub color="primary" activeclass="v-btn--active" disabled="true" tag="button" type="button">Update</v-btn-stub>
+      </v-card-actions-stub>
+    </v-container-stub>
+    <v-dialog-stub contentclass="" value="true" persistent="true" maxwidth="500" origin="center center" width="auto" transition="dialog-transition">
+      <v-card-stub tag="div" class="elevation-12">
+        <v-toolbar-stub color="primary" dark="true" scrollthreshold="300">
+          <v-toolbar-title-stub>Verify email</v-toolbar-title-stub>
+        </v-toolbar-stub>
+        <v-card-text-stub class="px-4 pb-4 pt-3">
+          A code has been sent to your new email address. Confirm your new email address.
+          <v-text-field-stub label="Confirmation code" counter="6" value=""></v-text-field-stub>
+          <v-card-actions-stub class="px-4">
+            <v-spacer-stub></v-spacer-stub>
+            <v-btn-stub activeclass="v-btn--active" tag="button" flat="true" type="button">Change email</v-btn-stub>
+            <v-btn-stub color="primary" activeclass="v-btn--active" disabled="true" tag="button" type="button">Confirm</v-btn-stub>
+          </v-card-actions-stub>
+        </v-card-text-stub>
+      </v-card-stub>
+    </v-dialog-stub>
+  </v-form-stub>
+</v-card-stub>
+`;

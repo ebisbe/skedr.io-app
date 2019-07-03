@@ -15,7 +15,7 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth === true) {
     const isAuthenticated = await Store.dispatch('user/currentAuthenticatedUser', to)
     if (!isAuthenticated) {
-      next({ name: 'Login' })
+      next({ name: 'Login', query: { redirect: to.fullPath } })
     } else {
       next()
     }

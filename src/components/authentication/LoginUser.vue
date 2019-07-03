@@ -88,8 +88,12 @@ export default {
     handleSubmit: async function() {
       this.protectedUI = true
       try {
-        const path = (await this.loginUser(this.form)) ? '/' : '/verify'
         this.$store.dispatch('message/add', 'You have been logged in')
+        let path = (await this.loginUser(this.form)) ? '/' : '/verify'
+        if (this.$route.query.redirect !== '') {
+          path = this.$route.query.redirect
+        }
+        console.log(path)
         this.$router.push(path)
       } catch (err) {
         this.$store.dispatch('message/add', err.message)

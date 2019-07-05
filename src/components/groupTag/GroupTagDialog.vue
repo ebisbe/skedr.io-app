@@ -22,9 +22,11 @@
         <v-combobox
           v-model="comboTags"
           :items="suggestedTags"
+          :menu-props="{ maxHeight:200 }"
           item-text="name"
           hide-selected
           persistent-hint
+          dense
           multiple
           label="Tags"
           hint="Use lowercase letters and numbers."
@@ -214,12 +216,8 @@ export default {
   computed: {
     hint() {
       return this.preventTrigger
-        ? `Only your new photos from your photostream with the selected tags will be added. If you want to add all your current photos matching <strong>[${
-            this.comboTags
-          }]</strong> disable this option.`
-        : `All photos matching <strong>[${
-            this.comboTags
-          }]</strong> will be added. You can review which photos will be added below.`
+        ? `Only your new photos from your photostream with the selected tags will be added. If you want to add all your current photos matching <strong>[${this.comboTags}]</strong> disable this option.`
+        : `All photos matching <strong>[${this.comboTags}]</strong> will be added. You can review which photos will be added below.`
     },
     comboTags: {
       set(value) {

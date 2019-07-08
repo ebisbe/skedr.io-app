@@ -224,7 +224,7 @@ export default {
           body: { userId: this.userId, email: this.form.email.toLowerCase() }
         }
         message = 'Code validated'
-        this.$router.push({ name: 'Photostream' })
+        this.$router.push({ name: 'AutoimportTagsList' })
       } catch (err) {
         this.protectedUI = false
         message = err.message

@@ -10,22 +10,22 @@
           <template slot-scope="{ result: { error, data, loading }, query }">
             <v-container v-if="error">{{ error }}</v-container>
             <v-container v-else>
-              <h1>Subscription</h1>
+              <h1 v-t="'Profile.title'"/>
               <div v-if="data && data.userSubscription && data.userSubscription.status">
-                <p>Thanks for subscribing! Your support means a lot.</p>
+                <p v-t="'Profile.subscribed'"/>
               </div>
               <div v-else>
-                <p>You are not subscribed to Skedr.io. Please consider supporting the project. We are offering a special discount for all early adopters. Benefit from a 50% discount on a monthly payment.</p>
+                <p v-t="'Profile.not_subscribed'"/>
               </div>
               <div v-if="data && data.plans">
-                <h2>Plan</h2>
+                <h2 v-t="'Profile.subtitle'"/>
                 <v-list>
                   <v-list-tile
                     v-for="plan in data.plans"
                     :key="plan.id">
                     <v-list-tile-content>
                       <v-list-tile-title>{{ plan.nickname }}: {{ parseInt(plan.amount) / 100 }}&euro; </v-list-tile-title>
-                      <v-list-tile-sub-title>Payment every {{ plan.interval_count === 1 ? '' : plan.interval_count }} {{ plan.interval }} ( {{ plan.trial_period_days }} days trial period )</v-list-tile-sub-title>
+                      <v-list-tile-sub-title>{{ $tc('Profile.plan_info', plan.interval, {period: plan.interval, count: plan.interval_count, trialDays: plan.trial_period_days}) }}</v-list-tile-sub-title>
                     </v-list-tile-content>
 
                     <v-list-tile-action>
@@ -36,7 +36,7 @@
               </div>
               <div v-if="data && data.userSubscription.status === false">
                 <v-form>
-                  <h2>Payment details:</h2>
+                  <h2 v-t="'Profile.payment_details'"/>
                   <v-layout row wrap>
                     <v-flex xs12 sm8>
                       <card
@@ -52,13 +52,12 @@
                       sm3
                       offset-sm1>
                       <v-btn
+                        v-t="'btn.submit_payment'"
                         :disabled="!complete"
                         :loading="loading"
                         block
                         color="primary"
-                        @click="pay">
-                        Submit payment
-                      </v-btn>
+                        @click="pay"/>
                     </v-flex>
                     <v-flex
                       xs12
@@ -122,7 +121,7 @@ export default {
   methods: {
     pay: async function() {
       if (this.user.email_verified === false) {
-        this.$store.dispatch('message/add', 'Verify your email before submiting the payment.')
+        this.$store.dispatch('message/add', this.$i18n.t('Profile.verify_email'))
         return false
       }
 

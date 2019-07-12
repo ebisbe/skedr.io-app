@@ -18,5 +18,6 @@ module.exports = {
     // Ignore Symlink files
     '!src/store/modules/schedulerPool.js',
     '!src/store/modules/groupsPool.js'
-  ]
+  ],
+  setupFiles: ["<rootDir>/src/plugins/i18n_test.js"]
 }

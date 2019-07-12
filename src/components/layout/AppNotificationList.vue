@@ -14,12 +14,13 @@
         <v-container fluid pa-0>
           <!-- Loading -->
           <v-btn
+            v-t="'loading'"
             v-if="isLoading && data === null"
             :loading="isLoading === 1"
             block
             small
             class="ma-0"
-            outline>Loading</v-btn>
+            outline/>
 
           <!-- Error -->
           <div v-else-if="error" class="error apollo">An error occured: [{{ gqlError }}]</div>
@@ -32,12 +33,13 @@
               px-3>
               <v-flex>
                 <v-btn
+                  v-t="'btn.update'"
                   :loading="isLoading === 1"
                   block
                   small
                   class="ma-0"
                   outline
-                  @click="query.refetch()">Update</v-btn>
+                  @click="query.refetch()"/>
                 <app-observer
                   @intersect="() => {
                     query.refetch()
@@ -74,13 +76,14 @@
               px-3>
               <v-flex>
                 <v-btn
+                  v-t="'btn.load_more'"
                   :loading="isLoading === 1"
                   :disabled="data.notifications.nextToken === null"
                   block
                   small
                   outline
                   class="px-0 ma-0"
-                  @click="showMore(query, data.notifications.nextToken)">Load more</v-btn>
+                  @click="showMore(query, data.notifications.nextToken)"/>
                   <!-- <app-observer v-if="showMoreEnabled" @intersect="showMore(query, data.notifications.nextToken)"/> -->
               </v-flex>
             </v-layout>
@@ -88,9 +91,7 @@
 
           <!-- No result -->
           <v-list v-else class="no-result apollo">
-            <v-list-tile>
-              You don't have new notifications.
-            </v-list-tile>
+            <v-list-tile v-t="'Layout.no_notifications'"/>
           </v-list>
         </v-container>
       </template>

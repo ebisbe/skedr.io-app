@@ -48,7 +48,7 @@
                   indeterminate
                   color="grey"/>
                 <span v-else>
-                  &nbsp;Load more photos
+                  &nbsp;{{ $t('btn.load_more_photos') }}
                 </span>
               </v-btn>
             </v-flex>
@@ -58,7 +58,7 @@
         <!-- No result -->
         <q-empty
           v-else
-          description="Your Photostream is empty. Upload some photos in Flickr"
+          :description="$t('Layout.photostream_empty')"
           icon="photo"/>
       </template>
     </ApolloQuery>

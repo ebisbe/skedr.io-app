@@ -80,8 +80,7 @@
                     small
                     class="ma-0"
                     @click="getSuggestTagsData"
-                  ><v-icon>highlight</v-icon>&nbsp;suggest tags</v-btn>
-                </template>
+                ><v-icon>highlight</v-icon>{{ $t('GroupTag.suggest_tags') }}</v-btn></template>
                 <div>
                   <v-list v-if="suggestedTags && suggestedTags.length">
                     <ApolloMutation
@@ -98,7 +97,7 @@
                     >
                       <template slot-scope="{ mutate, loading, error }">
                         <v-list-tile v-if="error">
-                          <v-list-tile-title>Error saving the tag</v-list-tile-title>
+                          <v-list-tile-title v-t="'GroupTag.error_saving_tag'"/>
                         </v-list-tile>
                         <v-list-tile
                           v-else
@@ -120,12 +119,8 @@
                   <v-list v-else>
                     <v-list-tile>
                       <v-list-tile-content>
-                        <v-list-tile-title>
-                          Not enought data
-                        </v-list-tile-title>
-                        <v-list-tile-sub-title>
-                          Add more tags to photos from this group
-                        </v-list-tile-sub-title>
+                        <v-list-tile-title v-t="'GroupTag.not_enought_data'"/>
+                        <v-list-tile-sub-title v-t="'GroupTag.not_enought_data_suggestion'"/>
                       </v-list-tile-content>
                     </v-list-tile>
                   </v-list>
@@ -149,7 +144,7 @@
                 slot="activator"
                 @click="manageTags = true"
               >settings</v-icon>
-              <span>Manage tags</span>
+              <span v-t="'GroupTag.title'"/>
             </v-tooltip>
           </v-btn>
         </slot>

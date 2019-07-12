@@ -21,9 +21,9 @@
               outline
               @click="$store.commit('tagsFilter/clear')"
             >
-              <v-icon>delete</v-icon>&nbsp;Clear
+              <v-icon>delete</v-icon>&nbsp;{{ $t('btn.clear') }}
             </v-btn>
-            <span>Clear filter</span>
+            <span v-t="'Layout.clear_filter'"/>
           </v-tooltip>
         </v-flex>
       </v-layout>

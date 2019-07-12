@@ -3,8 +3,8 @@
     <v-container pb-0>
       <v-switch
         v-model="joinedGroups"
+        :label="$t('AutoimportTags.joined_groups')"
         color="primary"
-        label="Show joined groups only"
         hide-details
       />
     </v-container>
@@ -68,7 +68,7 @@
                           <v-icon
                             slot="activator"
                             color="accent">create_new_folder</v-icon>
-                          <span>Join Flickr group</span>
+                          <span v-t="'AutoimportTags.title'"/>
                         </v-tooltip>
                       </v-btn>
 
@@ -97,7 +97,7 @@
                   indeterminate
                   color="grey"/>
                 <span v-else>
-                  &nbsp;Load more groups
+                  &nbsp;{{ $t('btn.load_more_groups') }}
                 </span>
               </v-btn>
             </v-card-actions>
@@ -108,11 +108,11 @@
         <v-container v-else>
           <q-empty
             v-if="joinedGroups"
-            :description="`You don't belong to any group named <strong>'${search}'</strong>.<br>Try searching groups you are not joined.`"
+            :description="$t('AutoimportTags.belonged_groups_not_found', { search })"
             icon="search"/>
           <q-empty
             v-else
-            :description="`There are no results for <strong>'${search}'</strong>`"
+            :description="$t('groups_not_found', { search })"
             icon="search"/>
         </v-container>
       </template>

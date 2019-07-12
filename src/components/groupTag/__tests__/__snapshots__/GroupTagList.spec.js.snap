@@ -42,7 +42,7 @@ exports[`GroupTagList.vue shows a group 1`] = `
     <v-list-tile-action-stub>
       <v-btn-stub activeclass="v-btn--active" ripple="true" tag="button" icon="true" type="button">
         <v-tooltip-stub opendelay="200" closedelay="200" lazy="true" contentclass="" fixed="true" left="true" maxwidth="auto" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" debounce="0" tag="span">
-          <v-icon-stub>settings</v-icon-stub> <span>Manage tags</span>
+          <v-icon-stub>settings</v-icon-stub> <span></span>
         </v-tooltip-stub>
       </v-btn-stub>
     </v-list-tile-action-stub>

@@ -18,7 +18,7 @@
           slot="activator"
           large
           class="warning--text">delete</v-icon>
-        <span>Scheduled to delete</span>
+        <span v-t="'Layout.scheduled_to_delete'"/>
       </v-tooltip>
       <footer-photo :title="photo.photo.title"/>
     </template>

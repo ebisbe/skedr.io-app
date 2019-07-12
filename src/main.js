@@ -6,6 +6,7 @@ import './plugins/vuetify'
 import './plugins/errorLoggin'
 import apolloProvider from './plugins/apolloProvider'
 import aws_exports from './plugins/aws-exports'
+import i18n from './plugins/i18n'
 
 import App from './App'
 import router from './router'
@@ -29,6 +30,7 @@ Vue.use(VueAnalytics, {
 new Vue({
   router,
   store,
+  i18n,
   apolloProvider,
   render: h => h(App)
 }).$mount('#app')

@@ -27,7 +27,7 @@
                   <v-icon class="mr-1">visibility</v-icon>
                   <span class="subheading mr-2 font-weight-bold" v-html="photo.views"/>
                 </a>
-                <span>Views</span>
+                <span v-t="'Layout.views'"/>
               </v-tooltip>
               <span class="mr-1">·</span>
               <v-tooltip bottom lazy>
@@ -35,7 +35,7 @@
                   <v-icon class="mr-1">perm_media</v-icon>
                   <span class="subheading font-weight-bold" v-html="photo.sharedGroups"/>
                 </span>
-                <span>Groups added</span>
+                <span v-t="'Layout.groups_added'"/>
               </v-tooltip>
               <span class="mr-1">·</span>
               <v-tooltip bottom lazy>
@@ -43,7 +43,7 @@
                   <v-icon class="mr-1" v-html="star"/>
                   <span class="subheading font-weight-bold" v-html="photo.totalFavs"/>
                 </span>
-                <span>Favorites</span>
+                <span v-t="'Layout.favorites'"/>
               </v-tooltip>
             </v-layout>
           </v-list-tile-sub-title>

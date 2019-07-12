@@ -4,7 +4,18 @@ import Vuetify from 'vuetify'
 import Vue from 'vue'
 
 Vue.use(Vuetify)
-const createComp = propsData => shallowMount(component, { propsData, stubs: ['ApolloQuery', 'ApolloMutation'] })
+Vue.directive('t', key => key)
+const createComp = propsData =>
+  shallowMount(component, {
+    propsData,
+    stubs: ['ApolloQuery', 'ApolloMutation'],
+    mocks: {
+      $i18n: {
+        t: key => key
+      },
+      $t: key => key
+    }
+  })
 describe('GroupTagDialog component', () => {
   describe('Computed properties', () => {
     it('has no new tag', () => {

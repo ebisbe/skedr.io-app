@@ -11,7 +11,7 @@ exports[`BasePhoto component prints base component 1`] = `
     </v-img-stub>
   </external-link-badge-stub>
   <v-tooltip-stub opendelay="200" closedelay="200" lazy="true" contentclass="" fixed="true" left="true" maxwidth="auto" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" debounce="0" tag="span" class="non-public">
-    <v-icon-stub large="" class="warning--text">lock</v-icon-stub> <span>Private image</span>
+    <v-icon-stub large="" class="warning--text">lock</v-icon-stub> <span></span>
   </v-tooltip-stub>
   <!----> <span>footer slot</span>
 </v-sheet-stub>

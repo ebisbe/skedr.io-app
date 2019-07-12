@@ -2,9 +2,4 @@
 
 exports[`PhotoLimitOptOutMessage does not show the message 1`] = ``;
 
-exports[`PhotoLimitOptOutMessage shows the message 1`] = `
-<span><v-tooltip-stub opendelay="200" closedelay="200" lazy="true" contentclass="" fixed="true" right="true" maxwidth="auto" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" debounce="0" tag="span"><v-icon-stub color="red">error_outline</v-icon-stub> <span>This group will count toward the photo's limit
-      <br>(60 for Pro members, 30 for free members).
-      <br>Ask the administrator to change this setting.
-    </span></v-tooltip-stub></span>
-`;
+exports[`PhotoLimitOptOutMessage shows the message 1`] = `<span><v-tooltip-stub opendelay="200" closedelay="200" lazy="true" contentclass="" fixed="true" right="true" maxwidth="auto" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" debounce="0" tag="span"><v-icon-stub color="red">error_outline</v-icon-stub> <span></span></v-tooltip-stub></span>`;

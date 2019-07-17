@@ -10,7 +10,6 @@
         :rules="[rules.required, rules.email]"
         label="Enter your email"
         autocomplete="username"
-        class="data-hj-whitelist"
         required
         @update:error="hasError('Username', $event)"
       />
@@ -24,7 +23,6 @@
             label="Enter your code"
             autocomplete="code"
             counter="6"
-            class="data-hj-whitelist"
             required
             @update:error="hasError('Code', $event)"
           />
@@ -44,15 +42,14 @@
       </transition>
     </v-card-text>
     <v-card-actions>
-      <v-spacer/>
+      <v-spacer />
       <v-btn :to="{name:'Login'}" flat>cancel</v-btn>
       <v-btn
         :disabled="!formIsValid || protectedUI"
         text-xs-right
         color="primary"
-        @click="submit">
-        Reset
-      </v-btn>
+        @click="submit"
+      >Reset</v-btn>
     </v-card-actions>
   </div>
 </template>

@@ -1,38 +1,31 @@
 <template>
   <div>
-    <v-progress-linear
-      v-show="protectedUI"
-      :indeterminate="true"
-      height="3"
-      class="my-0 topFloat"/>
+    <v-progress-linear 
+      v-show="protectedUI" 
+      :indeterminate="true" 
+      height="3" 
+      class="my-0 topFloat" />
     <v-toolbar dark color="primary">
       <v-toolbar-title>Create a Skedr.io account</v-toolbar-title>
     </v-toolbar>
     <div :class="{'pa-0': $vuetify.breakpoint.xs, 'px-5 pt-3': $vuetify.breakpoint.smAndUp}">
-      <v-stepper
-        v-model="step"
-        class="elevation-0"
+      <v-stepper 
+        v-model="step" 
+        class="elevation-0" 
         vertical>
-        <v-stepper-step
-          :complete="step > 1"
-          step="1">
-          Sign up with Flickr
-        </v-stepper-step>
+        <v-stepper-step :complete="step > 1" step="1">Sign up with Flickr</v-stepper-step>
         <v-stepper-content step="1">
-          <small>First we need to connect to you flickr account. Upon pressing Connect button you will
-          be redirected to your flickr account to grant us access.
+          <small>
+            First we need to connect to you flickr account. Upon pressing Connect button you will
+            be redirected to your flickr account to grant us access.
           </small>
-          <br>
-          <v-btn
-            :disabled="protectedUI"
-            color="primary"
-            @click="handleSubmit">{{ button }}
-          </v-btn>
+          <br >
+          <v-btn 
+            :disabled="protectedUI" 
+            color="primary" 
+            @click="handleSubmit">{{ button }}</v-btn>
         </v-stepper-content>
-        <v-stepper-step
-          :complete="step > 2"
-          step="2">Create your account
-        </v-stepper-step>
+        <v-stepper-step :complete="step > 2" step="2">Create your account</v-stepper-step>
         <v-stepper-content step="2">
           <v-form method="post" @submit.stop.prevent="signupUser">
             <v-text-field
@@ -44,7 +37,6 @@
               autocomplete="username"
               prepend-icon="person"
               min="1"
-              class="data-hj-whitelist"
               required
             />
             <v-text-field
@@ -59,21 +51,16 @@
               prepend-icon="lock"
               @click:append="() => (passVisibility = !passVisibility)"
             />
-            <v-btn
-              :disabled="protectedUI || disableAllInputs"
-              type="submit"
-              color="primary">
-              Signup
-            </v-btn>
+            <v-btn 
+              :disabled="protectedUI || disableAllInputs" 
+              type="submit" 
+              color="primary">Signup</v-btn>
           </v-form>
         </v-stepper-content>
-        <v-stepper-step
-          :complete="step > 3"
-          step="3">Validate your email
-        </v-stepper-step>
+        <v-stepper-step :complete="step > 3" step="3">Validate your email</v-stepper-step>
         <v-stepper-content step="3">
           <small>We have sent you an email with a validation code. Please paste the code here to validate your email. If you haven't received it in a few minutes check your spam folder.</small>
-          <br>
+          <br >
           <v-form @submit.stop.prevent="validateCode">
             <v-text-field
               v-model="code"
@@ -81,26 +68,28 @@
               :rules="[rules.numeric]"
               label="Code"
               counter="6"
-              class="data-hj-whitelist"
             />
-            <v-btn
-              flat
-              color="primary"
+            <v-btn 
+              flat 
+              color="primary" 
               @click.stop.prevent="resendCode">Resend</v-btn>
-            <v-btn
-              :disabled="protectedUI || disableAllInputs"
-              type="submit"
-              color="primary">
-              Confirm
-            </v-btn>
+            <v-btn 
+              :disabled="protectedUI || disableAllInputs" 
+              type="submit" 
+              color="primary">Confirm</v-btn>
           </v-form>
         </v-stepper-content>
       </v-stepper>
     </div>
-    <p v-show="step === 1" class="text-xs-center mb-0 grey--text subheading pb-2"><router-link :to="{name: 'ConfirmAccount'}">Confirm Account</router-link> | Try our <router-link :to="{name:'Login', params: {demo: true}}">Demo Account</router-link></p>
-    <p v-show="step === 1" class="text-xs-center mb-0 grey--text subheading">Already have an account? <router-link :to="{name: 'Login'}">Log in</router-link></p>
+    <p v-show="step === 1" class="text-xs-center mb-0 grey--text subheading pb-2">
+      <router-link :to="{name: 'ConfirmAccount'}">Confirm Account</router-link>| Try our
+      <router-link :to="{name:'Login', params: {demo: true}}">Demo Account</router-link>
+    </p>
+    <p v-show="step === 1" class="text-xs-center mb-0 grey--text subheading">
+      Already have an account?
+      <router-link :to="{name: 'Login'}">Log in</router-link>
+    </p>
   </div>
-
 </template>
 
 <script>

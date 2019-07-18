@@ -90,8 +90,9 @@ export default {
       try {
         this.$store.dispatch('message/add', 'You have been logged in')
         let path = (await this.loginUser(this.form)) ? '/' : '/verify'
-        if (this.$route.query.redirect !== '') {
-          path = this.$route.query.redirect
+        const { redirect = '' } = this.$route.query
+        if (redirect !== '') {
+          path = redirect
         }
         console.log(path)
         this.$router.push(path)

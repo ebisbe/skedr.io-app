@@ -6,7 +6,8 @@
       :indeterminate="true"
       color="accent"
       height="3"
-      class="my-0 topFloat"/>
+      class="my-0 topFloat"
+    />
     <v-toolbar dark color="primary">
       <v-toolbar-title>Log in to Skedr.io</v-toolbar-title>
     </v-toolbar>
@@ -17,7 +18,6 @@
         :rules="[rules.required, rules.email]"
         label="Enter your email "
         autocomplete="username"
-        class="data-hj-whitelist"
         required
         @update:error="username"
       />
@@ -32,21 +32,26 @@
         autocomplete="current-password"
         label="Enter your password "
         @click:append="() => (passVisibility = !passVisibility)"
-        @update:error="password"/>
-
+        @update:error="password"
+      />
     </v-card-text>
     <v-card-actions class="px-4">
-      <v-spacer/>
+      <v-spacer />
       <v-btn
         :disabled="!formIsValid || protectedUI"
         text-xs-right
         color="primary"
-        @click="handleSubmit">
-        continue
-      </v-btn>
+        @click="handleSubmit"
+      >continue</v-btn>
     </v-card-actions>
-    <p class="text-xs-center mb-0 grey--text subheading pb-2"><router-link :to="{name: 'ResetPassword'}">Reset Password</router-link> | Try our <a href="#" @click.prevent="setDemoAccount()">Demo Account</a></p>
-    <p class="text-xs-center mb-0 grey--text subheading">Don’t have an account yet? <router-link :to="{name: 'Signup'}">Sign up</router-link></p>
+    <p class="text-xs-center mb-0 grey--text subheading pb-2">
+      <router-link :to="{name: 'ResetPassword'}">Reset Password</router-link>| Try our
+      <a href="#" @click.prevent="setDemoAccount()">Demo Account</a>
+    </p>
+    <p class="text-xs-center mb-0 grey--text subheading">
+      Don’t have an account yet?
+      <router-link :to="{name: 'Signup'}">Sign up</router-link>
+    </p>
   </div>
 </template>
 

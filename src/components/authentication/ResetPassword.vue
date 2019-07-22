@@ -10,7 +10,6 @@
         :rules="[rules.required, rules.email]"
         :label="$t('label.email')"
         autocomplete="username"
-        class="data-hj-whitelist"
         required
         @update:error="hasError('Username', $event)"
       />
@@ -24,7 +23,6 @@
             :label="$t('label.code')"
             autocomplete="code"
             counter="6"
-            class="data-hj-whitelist"
             required
             @update:error="hasError('Code', $event)"
           />

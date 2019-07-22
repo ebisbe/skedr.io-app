@@ -6,7 +6,8 @@
       :indeterminate="true"
       color="accent"
       height="3"
-      class="my-0 topFloat"/>
+      class="my-0 topFloat"
+    />
     <v-toolbar dark color="primary">
       <v-toolbar-title v-t="'LoginUser.login'"/>
       <v-spacer/>
@@ -37,10 +38,9 @@
           @click:append="() => (passVisibility = !passVisibility)"
           @update:error="password"/>
       </form>
-
     </v-card-text>
     <v-card-actions class="px-4">
-      <v-spacer/>
+      <v-spacer />
       <v-btn
         :disabled="!formIsValid || protectedUI"
         text-xs-right

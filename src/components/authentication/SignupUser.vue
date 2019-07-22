@@ -1,19 +1,19 @@
 <template>
   <div>
-    <v-progress-linear
-      v-show="protectedUI"
-      :indeterminate="true"
-      height="3"
-      class="my-0 topFloat"/>
+    <v-progress-linear 
+      v-show="protectedUI" 
+      :indeterminate="true" 
+      height="3" 
+      class="my-0 topFloat" />
     <v-toolbar dark color="primary">
       <v-toolbar-title v-t="'SignupUser.title'"/>
       <v-spacer/>
       <language-selector/>
     </v-toolbar>
     <div :class="{'pa-0': $vuetify.breakpoint.xs, 'px-5 pt-3': $vuetify.breakpoint.smAndUp}">
-      <v-stepper
-        v-model="step"
-        class="elevation-0"
+      <v-stepper 
+        v-model="step" 
+        class="elevation-0" 
         vertical>
         <v-stepper-step
           :complete="step > 1"
@@ -41,7 +41,6 @@
               autocomplete="username"
               prepend-icon="person"
               min="1"
-              class="data-hj-whitelist"
               required
             />
             <v-text-field
@@ -77,7 +76,6 @@
               :rules="[rules.numeric]"
               :label="$t('label.code')"
               counter="6"
-              class="data-hj-whitelist"
             />
             <v-btn
               v-t="'btn.resend'"
@@ -106,7 +104,6 @@
       </p>
     </div>
   </div>
-
 </template>
 
 <script>

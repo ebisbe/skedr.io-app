@@ -1,3 +1,4 @@
+/* eslint-disable vue/html-indent */
 <template>
   <div>
     <v-toolbar dark color="primary">
@@ -11,7 +12,6 @@
         :rules="[rules.required, rules.flickrId]"
         :label="$t('ConfirmAccount.label1')"
         autocomplete="username"
-        class="data-hj-whitelist"
         required
         @update:error="hasError('Username', $event)"
       />
@@ -25,7 +25,6 @@
             :label="$t('ConfirmAccount.label2')"
             autocomplete="code"
             counter="6"
-            class="data-hj-whitelist"
             required
             @update:error="hasError('Code', $event)"
           />

@@ -5,32 +5,24 @@
       <v-toolbar-title>Confirm account</v-toolbar-title>
     </v-toolbar>
     <v-card-text>
-      <p v-show="!firstPart">
-        To confirm your account we need your Flickr ID. You can go to
-        <a
-          href="https://www.flickr.com/services/api/explore/flickr.people.getInfo"
-          target="_blank"
-        >https://www.flickr.com/services/api/explore/flickr.people.getInfo</a> and copy the value under 'Your user ID:'.
-        <br >If you have any issue send us and email at
-        <a href="mailto:info@skedr.io">info@skedr.io</a>
-      </p>
+      <p v-show="!firstPart" v-html="$t('ConfirmAccount.step1')"/>
       <v-text-field
         v-model="form.username"
         :disabled="protectedUI || firstPart"
         :rules="[rules.required, rules.flickrId]"
-        label="Enter your flickr ID"
+        :label="$t('ConfirmAccount.label1')"
         autocomplete="username"
         required
         @update:error="hasError('Username', $event)"
       />
       <transition name="fade">
         <div v-show="firstPart">
-          <p>We have sent you an email with a validation code. Please paste the code here to confirm your account. If you haven't received in a few minutes check your spam folder.</p>
+          <p v-t="'ConfirmAccount.step2'"/>
           <v-text-field
             v-model="form.code"
             :disabled="protectedUI"
             :rules="[rules.required, rules.numeric]"
-            label="Enter your code"
+            :label="$t('ConfirmAccount.label2')"
             autocomplete="code"
             counter="6"
             required
@@ -40,15 +32,18 @@
       </transition>
     </v-card-text>
     <v-card-actions>
-      <v-spacer />
-      <v-btn :to="{name:'Signup'}" flat>cancel</v-btn>
-      <v-btn 
-        :disabled="!formIsValid || protectedUI" 
-        text-xs-right 
-        color="primary" 
+      <v-spacer/>
+      <v-btn
+        v-t="'btn.cancel'"
+        :to="{name:'Signup'}"
+        flat/>
+      <v-btn
+        :disabled="!formIsValid || protectedUI"
+        text-xs-right
+        color="primary"
         @click="submit">
-        <span v-if="!firstPart">Send</span>
-        <span v-else>Confirm</span>
+        <span v-t="'btn.send'" v-if="!firstPart"/>
+        <span v-t="'btn.confirm'" v-else/>
       </v-btn>
     </v-card-actions>
   </div>

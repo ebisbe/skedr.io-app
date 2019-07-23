@@ -47,6 +47,7 @@ describe('GroupTagList.vue', () => {
           }
         }
       }),
+
       propsData: { group: { id: 'groupId', title: 'Group Title', photoLimitOptOut: true, icon: '' } }
     })
     wrapper.vm.manageTags = true
@@ -57,7 +58,15 @@ describe('GroupTagList.vue', () => {
 
   it('hovers over the element to show the link', done => {
     const wrapper = mount(Comp, {
-      propsData: { group: { id: 'groupId', title: 'Group Title', photoLimitOptOut: true, icon: '' } }
+      propsData: { group: { id: 'groupId', title: 'Group Title', photoLimitOptOut: true, icon: '' } },
+      // Mocks is needed due to use mount() https://github.com/kazupon/vue-i18n/issues/323
+      // otherwise should be handled by i18n_test.js configs
+      mocks: {
+        $i18n: {
+          t: key => key
+        },
+        $t: key => key
+      }
     })
     expect(wrapper.vm.hover).toBe(false)
     wrapper.find('div > div').trigger('mouseover')

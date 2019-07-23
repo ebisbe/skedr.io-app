@@ -19,11 +19,10 @@
       </v-list-tile-title>
       <v-list-tile-sub-title>
         <v-layout
+          v-t="'ShareDialog.already_in_group'"
           v-if="alreadyInGroup"
           row
-          wrap>
-          Photo already in this group
-        </v-layout>
+          wrap/>
         <v-layout
           v-else
           row
@@ -57,7 +56,7 @@
         @click.stop="$emit('remove')">
         <v-tooltip left>
           <v-icon slot="activator" color="grey lighten-1">clear</v-icon>
-          <span>Remove from list</span>
+          <span v-t="'ShareDialog.remove'"/>
         </v-tooltip>
       </v-btn>
     </v-list-tile-action>

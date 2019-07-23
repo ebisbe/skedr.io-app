@@ -50,7 +50,7 @@
             indeterminate
             color="grey"/>
           <span v-else>
-            &nbsp;Load more groups
+            &nbsp;{{ $t('btn.load_more_groups') }}
           </span>
         </v-btn>
       </v-card-actions>

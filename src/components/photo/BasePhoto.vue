@@ -37,7 +37,7 @@
         slot="activator"
         large
         class="warning--text">lock</v-icon>
-      <span>Private image</span>
+      <span v-t="'Layout.private_image'"/>
     </v-tooltip>
     <v-icon
       v-if="isSelected"

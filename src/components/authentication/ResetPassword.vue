@@ -1,26 +1,26 @@
 <template>
   <div>
     <v-toolbar dark color="primary">
-      <v-toolbar-title>Reset password</v-toolbar-title>
+      <v-toolbar-title v-t="'ResetPassword.title'"/>
     </v-toolbar>
     <v-card-text>
       <v-text-field
         v-model="form.username"
         :disabled="protectedUI || firstPart"
         :rules="[rules.required, rules.email]"
-        label="Enter your email"
+        :label="$t('label.email')"
         autocomplete="username"
         required
         @update:error="hasError('Username', $event)"
       />
       <transition name="fade">
         <div v-show="firstPart">
-          <p>We have sent you an email with a validation code. Please paste the code here to change your password. If you haven't received in a few minutes check your spam folder.</p>
+          <p v-t="'ResetPassword.message'"/>
           <v-text-field
             v-model="form.code"
             :disabled="protectedUI"
             :rules="[rules.required, rules.numeric]"
-            label="Enter your code"
+            :label="$t('label.code')"
             autocomplete="code"
             counter="6"
             required
@@ -32,8 +32,8 @@
             :rules="[rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
             :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
             :type="passVisibility ? 'password' : 'text'"
+            :label="$t('label.new_password')"
             autocomplete="password"
-            label="Enter your new password"
             required
             @click:append="() => (passVisibility = !passVisibility)"
             @update:error="hasError('Password', $event)"
@@ -42,14 +42,17 @@
       </transition>
     </v-card-text>
     <v-card-actions>
-      <v-spacer />
-      <v-btn :to="{name:'Login'}" flat>cancel</v-btn>
+      <v-spacer/>
       <v-btn
+        v-t="'btn.cancel'"
+        :to="{name:'Login'}"
+        flat/>
+      <v-btn
+        v-t="'btn.reset'"
         :disabled="!formIsValid || protectedUI"
         text-xs-right
         color="primary"
-        @click="submit"
-      >Reset</v-btn>
+        @click="submit"/>
     </v-card-actions>
   </div>
 </template>
@@ -97,7 +100,7 @@ export default {
       let message
       try {
         await Auth.forgotPassword(this.form.username)
-        message = 'Code sent to your email'
+        message = this.$i18n.t('ResetPassword.code_sent')
         this.firstPart = true
       } catch (err) {
         message = err.message
@@ -108,7 +111,7 @@ export default {
       let message
       try {
         await Auth.forgotPasswordSubmit(this.form.username, this.form.code, this.form.password)
-        message = 'Password updated successfuly'
+        message = this.$i18n.t('ResetPassword.password_updated')
         this.$router.push({ name: 'Login' })
       } catch (err) {
         message = err.message

@@ -25,12 +25,12 @@
           v-if="!alternativeBar"
           v-model="search"
           :loading="loading"
+          :label="$t('label.search')"
           prepend-inner-icon="search"
           solo-inverted
           flat
           hide-details
           clearable
-          label="Search"
           @keyup.enter="$router.push({name: 'AutoimportTagsSearch'})"
           @click:clear="$router.push({name: 'AutoimportTagsList'})"
         />
@@ -46,7 +46,7 @@
           @click.stop="showShareDialog = true">
           <v-icon>share</v-icon>
         </v-btn>
-        <span>Sked photos</span>
+        <span v-t="'Layout.sked_photos'"/>
       </v-tooltip>
       <v-tooltip
         v-else-if="schedulerPoolHasItems"
@@ -58,7 +58,7 @@
           @click.stop="deleteSchedulerPhotos">
           <v-icon>delete</v-icon>
         </v-btn>
-        <span>Clear photos from queue</span>
+        <span v-t="'Layout.clear_queue'"/>
       </v-tooltip>
       <v-btn
         v-else

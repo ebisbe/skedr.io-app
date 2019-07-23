@@ -16,14 +16,12 @@
         <v-icon
           slot="activator"
           color="accent">create_new_folder</v-icon>
-        <span>Join Flickr group</span>
+        <span v-t="$('AutoimportTags.title')"/>
       </v-tooltip>
     </v-btn>
     <v-card>
       <v-toolbar dark color="primary">
-        <v-toolbar-title>
-          Accept group rules ?
-        </v-toolbar-title>
+        <v-toolbar-title v-t="$t('AutoimportTags.accept_rules')"/>
         <v-spacer/>
       </v-toolbar>
       <v-card-text style="white-space: pre-line;" v-html="rules"/>
@@ -32,21 +30,19 @@
       <v-card-actions>
         <v-spacer/>
         <v-btn
+          v-t="$t('btn.not_accept')"
           color="primary"
           flat
           @click="modal = false"
-        >
-          do not accept
-        </v-btn>
+        />
         <v-btn
+          v-t="$t('AutoimportTags.accept')"
           color="primary"
           @click="() => {
             modal = false
             $emit('mutate')
           }"
-        >
-          accept
-        </v-btn>
+        />
       </v-card-actions>
     </v-card>
   </v-dialog>

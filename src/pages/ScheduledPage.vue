@@ -73,15 +73,15 @@
                 indeterminate
                 color="grey"/>
               <span v-else>
-                &nbsp;Load future dates
+                &nbsp;{{ $t('btn.load_future_dates') }}
               </span>
             </v-btn>
           </v-flex>
         </v-container>
         <q-empty
           v-else
-          icon="access_time"
-          description="You don't have any photos scheduled"/>
+          :description="$t('no_photos_scheduled')"
+          icon="access_time"/>
       </template>
     </ApolloQuery>
   </v-content>

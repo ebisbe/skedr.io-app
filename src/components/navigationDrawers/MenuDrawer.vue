@@ -8,7 +8,7 @@
     <v-list>
       <v-list-tile
         v-for="item in lists"
-        :to="{name: item.name}"
+        :to="{name: item.pathName}"
         :key="item.name"
         exact
         ripple>
@@ -16,11 +16,11 @@
           <v-icon v-html="item.icon"/>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title v-html="item.name"/>
+          <v-list-tile-title v-t="item.name"/>
         </v-list-tile-content>
       </v-list-tile>
       <v-divider/>
-      <v-subheader>Articles</v-subheader>
+      <v-subheader v-t="'Layout.articles'"/>
       <v-list-tile
         v-for="article in articles"
         :key="article.name"
@@ -30,8 +30,10 @@
         <v-list-tile-action>
           <v-icon>link</v-icon>
         </v-list-tile-action>
-        <v-list-tile-content >
-          <v-list-tile-title v-html="article.name"/>
+        <v-list-tile-content>
+          <v-list-tile-title>
+            {{ $t(article.name) }}
+          </v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-divider/>
@@ -40,7 +42,7 @@
           <v-icon>announcement</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>Send feedback</v-list-tile-title>
+          <v-list-tile-title v-t="'Layout.feedback'"/>
         </v-list-tile-content>
       </v-list-tile>
       <v-list-tile
@@ -52,7 +54,19 @@
           <v-icon class="changelog" >notification_important</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>Changelog</v-list-tile-title>
+          <v-list-tile-title v-t="'Layout.changelog'"/>
+        </v-list-tile-content>
+      </v-list-tile>
+      <v-list-tile
+        ripple
+      >
+        <v-list-tile-action>
+          <v-icon>language</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>
+            <language-selector />
+          </v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
       <v-divider/>
@@ -61,7 +75,7 @@
           <v-icon>input</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>Sign out</v-list-tile-title>
+          <v-list-tile-title v-t="'Layout.sign_out'"/>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
@@ -69,37 +83,46 @@
 </template>
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
+import LanguageSelector from '@/components/layout/LanguageSelector'
+
 export default {
-  data: () => ({
-    lists: [
-      {
-        icon: 'perm_media',
-        name: 'AutoimportTags'
-      },
-      {
-        icon: 'photo',
-        name: 'Photostream'
-      },
-      {
-        icon: 'access_time',
-        name: 'Scheduled photos'
-      },
-      {
-        icon: 'person',
-        name: 'Profile'
-      }
-    ],
-    articles: [
-      {
-        name: 'Sharing an existing photo',
-        link: 'https://skedr.io/articles/share-single-photo'
-      },
-      {
-        name: 'Group tagging',
-        link: 'https://skedr.io/articles/group-tagging'
-      }
-    ]
-  }),
+  components: { LanguageSelector },
+  data: function() {
+    return {
+      lists: [
+        {
+          icon: 'perm_media',
+          pathName: 'AutoimportTags',
+          name: 'Layout.autoimport_tags'
+        },
+        {
+          icon: 'photo',
+          pathName: 'Photostream',
+          name: 'Layout.photostream'
+        },
+        {
+          icon: 'access_time',
+          pathName: 'Scheduled photos',
+          name: 'Layout.scheduled_photos'
+        },
+        {
+          icon: 'person',
+          pathName: 'Profile',
+          name: 'Layout.profile'
+        }
+      ],
+      articles: [
+        {
+          name: 'Layout.article1',
+          link: 'https://skedr.io/articles/share-single-photo'
+        },
+        {
+          name: 'Layout.article2',
+          link: 'https://skedr.io/articles/group-tagging'
+        }
+      ]
+    }
+  },
   computed: {
     menuDrawer: {
       get() {

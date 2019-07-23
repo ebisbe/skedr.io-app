@@ -12,9 +12,7 @@
         <v-btn icon @click.native="$emit('close')">
           <v-icon>close</v-icon>
         </v-btn>
-        <v-toolbar-title>
-          Manage Tags
-        </v-toolbar-title>
+        <v-toolbar-title v-t="'GroupTag.title'"/>
         <v-spacer/>
       </v-toolbar>
       <div class="pa-3">
@@ -52,7 +50,7 @@
                   </v-btn>
                 </template>
                 <span>
-                  {{ item.count }} / {{ item.total }} photos have the '{{ item.name }}' tag.
+                  {{ $t('GroupTag.count_tags', item) }}
                 </span>
               </v-tooltip>
             </v-list-tile-action>
@@ -61,7 +59,7 @@
             <v-list-tile>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  We couldn't suggest tags. Press <kbd>enter</kbd> to add one.
+                  {{ $t('GroupTag.no_data') }}
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
@@ -70,8 +68,8 @@
         <v-switch
           v-model="preventTrigger"
           :hint="hint"
+          :label="$t('GroupTag.only_new_photos')"
           color="primary"
-          label="Import only new photos"
           persistent-hint
         />
       </div>
@@ -98,10 +96,16 @@
                       fluid
                       pa-0>
                       <!-- Loading -->
-                      <div v-if="loading && data === undefined" class="loading apollo">Loading...</div>
+                      <div
+                        v-t="'loading'"
+                        v-if="loading && data === undefined"
+                        class="loading apollo"/>
 
                       <!-- Error -->
-                      <div v-else-if="error" class="error apollo">We couldn't fetch your data.</div>
+                      <div
+                        v-t="'GroupTag.error'"
+                        v-else-if="error"
+                        class="error apollo"/>
 
                       <!-- Result -->
                       <v-layout
@@ -132,7 +136,10 @@
                       </v-layout>
 
                       <!-- No result -->
-                      <div v-else class="no-result apollo">You don't have photos with '{{ tag }}' tag.</div>
+                      <div
+                        v-t="{ path: 'GroupTag.no_photos_cound', args: {tag}}"
+                        v-else
+                        class="no-result apollo"/>
                     </v-container>
                   </v-card-text>
                 </v-card>
@@ -146,12 +153,11 @@
       <v-card-actions>
         <v-spacer/>
         <v-btn
+          v-t="'btn.cancel'"
           color="primary"
           flat
           @click="$emit('close')"
-        >
-          cancel
-        </v-btn>
+        />
         <ApolloMutation
           :mutation="require('@/graphql/mutations/updateGroupTagsList.gql')"
           :variables="{
@@ -164,18 +170,16 @@
         >
           <template slot-scope="{ mutate, loading, error }">
             <v-btn
+              v-t="'btn.save'"
               ref="saveBtn"
               :disabled="!canSave || loading"
               :loading="loading"
               color="primary"
               @click="mutate()"
-            >
-              save
-            </v-btn>
-            <p v-if="error">We couldn't fetch your data.</p>
+            />
+            <p v-t="'GroupTag.error'" v-if="error"/>
           </template>
         </ApolloMutation>
-
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -216,8 +220,8 @@ export default {
   computed: {
     hint() {
       return this.preventTrigger
-        ? `Only your new photos from your photostream with the selected tags will be added. If you want to add all your current photos matching <strong>[${this.comboTags}]</strong> disable this option.`
-        : `All photos matching <strong>[${this.comboTags}]</strong> will be added. You can review which photos will be added below.`
+        ? this.$i18n.t('GroupTag.only_new_photos_hint1', { comboTags: this.comboTags })
+        : this.$i18n.t('GroupTag.only_new_photos_hint2', { comboTags: this.comboTags })
     },
     comboTags: {
       set(value) {

@@ -2,33 +2,35 @@
   <v-card class="mb-4">
     <v-form >
       <v-container>
-        <h1>Profile</h1>
+        <h1 v-t="'UserProfile.title'"/>
         <v-text-field
           v-model="name"
-          label="First name"
+          :label="$t('label.first_name')"
         />
 
         <v-text-field
           v-model="family_name"
-          label="Family name"
+          :label="$t('label.family_name')"
         />
 
         <v-text-field
           v-model="email"
-          :error-messages="email_verified ? '' : 'Email needs verification.'"
-          label="E-mail"
+          :error-messages="email_verified ? '' : $t('UserProfile.error_verify_email')"
+          :label="$t('label.email')"
         />
         <v-card-actions class="px-4">
           <v-spacer/>
           <v-btn
+            v-t="'UserProfile.verify_email'"
             v-if="user.email_verified === false"
             color="primary"
-            @click="closeDialog = false">Verify email</v-btn>
+            @click="closeDialog = false"/>
           <v-btn
+            v-t="'btn.update'"
             :disabled="disableUploadBtn"
             :loading="loadingBtn"
             color="primary"
-            @click="updateUser">Update</v-btn>
+            @click="updateUser"/>
         </v-card-actions>
       </v-container>
       <v-dialog
@@ -37,24 +39,28 @@
         max-width="500">
         <v-card class="elevation-12">
           <v-toolbar dark color="primary">
-            <v-toolbar-title>Verify email</v-toolbar-title>
+            <v-toolbar-title v-t="'UserProfile.verify_email'"/>
           </v-toolbar>
           <v-card-text class="px-4 pb-4 pt-3">
-            A code has been sent to your new email address. Confirm your new email address.
+            {{ $t('UserProfile.code_sent') }}
             <v-text-field
               v-model="code"
-              label="Confirmation code"
+              :label="$t('UserProfile.confirmation_code')"
               counter="6"
             />
 
             <v-card-actions class="px-4">
               <v-spacer/>
-              <v-btn flat @click="closeDialog = true">Change email</v-btn>
               <v-btn
+                v-t="'btn.change_email'"
+                flat
+                @click="closeDialog = true"/>
+              <v-btn
+                v-t="'btn.confirm'"
                 :loading="loadingBtn"
                 :disabled="!isCodeValid"
                 color="primary"
-                @click="confirmEmail">Confirm</v-btn>
+                @click="confirmEmail"/>
             </v-card-actions>
           </v-card-text>
         </v-card>

@@ -19,7 +19,7 @@
           class="pa-1">
           <q-filter
             v-if="showDialog"
-            placeholder="Search group..."
+            :placeholder="$t('ShareDialog.placeholder')"
             @enter="val => {
               search = val.toLowerCase()
               showMoreEnabled = true
@@ -52,7 +52,7 @@
             <!-- Error -->
             <q-empty
               v-else-if="error"
-              description="No results found..."
+              :description="$t('ShareDialog.no_results')"
               icon="search"/>
 
             <!-- Result -->
@@ -85,7 +85,7 @@
                     indeterminate
                     color="grey"/>
                   <span v-else>
-                    &nbsp;Load more groups
+                    &nbsp;{{ $t('btn.load_more_groups') }}
                   </span>
                 </v-btn>
               </v-flex>
@@ -94,7 +94,7 @@
             <!-- No result -->
             <q-empty
               v-else
-              :description="`There are no results for '${search}'`"
+              :description="$t('groups_not_found', { search })"
               icon="search"/>
           </template>
         </ApolloQuery>
@@ -108,7 +108,7 @@
           v-if="totalSelectedGroups"
           subheader
           two-line>
-          <v-subheader>{{ totalSelectedGroups }} {{ totalSelectedGroups > 1 ? 'groups' : 'group' }} selected</v-subheader>
+          <v-subheader>{{ $tc('ShareDialog.selected_groups', totalSelectedGroups, { count: totalSelectedGroups }) }} </v-subheader>
           <div
             v-for="(group, index) in orderedSelectedGroups"
             :key="group.id">
@@ -138,7 +138,7 @@
             <!-- Error -->
             <q-empty
               v-else-if="error"
-              description="No results found..."
+              :description="$t('ShareDialog.no_results')"
               icon="search"/>
 
             <!-- Result -->
@@ -146,7 +146,7 @@
               v-else-if="data"
               :style="style"
               two-line>
-              <v-subheader>Shared in {{ data.photoGroups.length }} {{ data.photoGroups.length > 1 ? 'groups' : 'group' }}</v-subheader>
+              <v-subheader>{{ $tc('ShareDialog.selected_groups', data.photoGroups.length, { count: data.photoGroups.length }) }}</v-subheader>
               <div
                 v-for="(group, index) in data.photoGroups"
                 :key="group.id">
@@ -161,13 +161,13 @@
             <!-- No result -->
             <q-empty
               v-else
-              description="No results found..."
+              :description="$t('ShareDialog.no_results')"
               icon="search"/>
           </template>
         </ApolloQuery>
         <q-empty
           v-else
-          description="Search groups to share your images"
+          :description="$t('ShareDialog.search_groups')"
           icon="search"/>
       </v-card-text>
 

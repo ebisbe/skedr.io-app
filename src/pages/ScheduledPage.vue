@@ -80,7 +80,7 @@
         </v-container>
         <q-empty
           v-else
-          :description="$t('no_photos_scheduled')"
+          :description="$t('Layout.no_photos_scheduled')"
           icon="access_time"/>
       </template>
     </ApolloQuery>

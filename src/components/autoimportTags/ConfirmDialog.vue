@@ -36,7 +36,7 @@
           @click="modal = false"
         />
         <v-btn
-          v-t="$t('AutoimportTags.accept')"
+          v-t="'btn.accept'"
           color="primary"
           @click="() => {
             modal = false

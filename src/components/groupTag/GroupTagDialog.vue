@@ -137,7 +137,7 @@
 
                       <!-- No result -->
                       <div
-                        v-t="{ path: 'GroupTag.no_photos_cound', args: {tag}}"
+                        v-t="{ path: 'GroupTag.no_photos_count', args: {tag}}"
                         v-else
                         class="no-result apollo"/>
                     </v-container>

@@ -1,149 +1,149 @@
 {
-	"AuthenticationFooter": {
-		"already_account": "¿Ya tienes una cuenta?",
-		"demo_account": "Cuenta de prueba",
-		"login": "Iniciar sesión",
-		"not_account": "¿Aun no tiene una cuenta?",
-		"reset_or_try_demo": "{reset_password} | Prueba nuestra {demo_account}",
-		"sign_up": "Regístrate"
-	},
-	"AutoimportTags": {
-		"accept_rules": "¿Aceptar las reglas del grupo?",
-		"belonged_groups_not_found": "No perteneces a ningún grupo llamado <strong>{search}</strong>.<br>Intenta buscar grupos a los que no pertenezcas.",
-		"joined_groups": "Mostrar solo grupos a los que perteneces",
-		"title": "Únete al grupo de Flickr"
-	},
-	"ConfirmAccount": {
-		"label1": "Ingrese su ID de flickr",
-		"label2": "Ingrese su código",
-		"step1": "Para confirmar su cuenta necesitamos su ID de Flickr. Puede ir a <a href=\"https://www.flickr.com/services/api/explore/flickr.people.getInfo\" target=\"_blank\">https://www.flickr.com/services/api/explore/flickr.people.getInfo</a> y copiar el valor en 'Su ID de usuario:'. <br>Si tiene algún problema, envíenos un correo electrónico a <a href=\"mailto:info@skedr.io\">info@skedr.io</a>",
-		"step2": "Te hemos enviado un correo electrónico con un código de validación. Por favor, pegue el código aquí para confirmar su cuenta. Si no ha recibido en unos minutos, compruebe su carpeta de spam.",
-		"title": "Confirmar cuenta"
-	},
-	"GroupTag": {
-		"count_tags": "{count} / {total} fotos tienen la etiqueta '{name}'",
-		"error": "No pudimos recuperar tus datos.",
-		"error_saving_tag": "Error al guardar la etiqueta",
-		"no_data": "No pudimos sugerir etiquetas. Oprima <kbd>enter</kbd> para agregar uno.",
-		"no_photos_found": "No tienes fotos con la etiqueta '{tag}'",
-		"not_enought_data": "No hay suficientes datos",
-		"not_enought_data_suggestion": "Agrega más etiquetas a tus fotos de este grupo",
-		"only_new_photos": "Importar solo nuevas fotos",
-		"only_new_photos_hint1": "Solo se agregarán sus nuevas fotos de su galería de fotos con las etiquetas seleccionadas. Si desea agregar todas sus fotos actuales que coincidan con <strong>[{comboTags}]</strong> deshabilite esta opción.",
-		"only_new_photos_hint2": "Se agregarán todas las fotos que coincidan con <strong>[{comboTags}]</strong> . Puedes revisar cuales fotos serán agregadas abajo.",
-		"photo_limit": "Este grupo contará hacia el límite de fotos <br>(60 para miembros Pro, 30 para miembros gratuitos). <br>Pídale al administrador que cambie esta configuración.",
-		"suggest_tags": "Sugerir etiquetas",
-		"tags": "Etiquetas",
-		"tags_hint": "Usa letras minúsculas y números.",
-		"title": "Administrar etiquetas"
-	},
-	"Layout": {
-		"article1": "Compartir una foto existente",
-		"article2": "Etiquetado de grupo",
-		"articles": "Artículos",
-		"autoimport_tags": "Etiquetas para auto importar",
-		"changelog": "Registro de cambios",
-		"clear_filter": "Limpiar filtros",
-		"clear_queue": "Borrar fotos de la cola",
-		"favorites": "Favoritos",
-		"feedback": "Enviar comentarios",
-		"groups_added": "Grupos añadidos",
-		"no_notifications": "No tienes notificaciones.",
-		"no_photos_scheduled": "No tienes ninguna foto programada para compartir",
-		"photostream": "Galería",
-		"photostream_empty": "Tu galería de fotos está vacía. Sube algunas fotos en Flickr",
-		"private_image": "Imagen privada",
-		"profile": "Perfil",
-		"scheduled_photos": "Fotos programadas",
-		"scheduled_to_delete": "Programado para eliminar",
-		"sign_out": "Desconectar",
-		"sked_photos": "Fotos de sked",
-		"views": "Visitas"
-	},
-	"LoginUser": {
-		"login": "Inicia sesión en Skedr.io",
-		"login_successful": "Has iniciado sesión"
-	},
-	"Profile": {
-		"not_subscribed": "No estás suscrito a Skedr.io. Por favor considere apoyar el proyecto. Estamos ofreciendo un descuento especial para todos los usuarios pioneros. Beneficiase de un descuento del 50% en un pago mensual.",
-		"payment_details": "Detalles del pago:",
-		"plan_info": "Pago cada {period} ({trialDays} días período de prueba) | Pago cada {count} {period} ({trialDays} días de período de prueba)",
-		"subscribed": "¡Gracias por suscribirte! Su apoyo significa mucho.",
-		"subtitle": "plan",
-		"title": "Suscripción",
-		"verify_email": "Verifique su correo electrónico antes de enviar el pago."
-	},
-	"ResetPassword": {
-		"code_sent": "Código enviado a su correo electrónico",
-		"message": "Te hemos enviado un correo electrónico con un código de validación. Por favor, pegue el código aquí para cambiar su contraseña. Si no ha recibido en unos minutos, compruebe su carpeta de spam.",
-		"password_updated": "Contraseña actualizada correctamente",
-		"title": "Restablecer la contraseña"
-	},
-	"ShareDialog": {
-		"already_in_group": "La foto ya está en este grupo",
-		"no_results": "No se han encontrado resultados ...",
-		"placeholder": "Buscar grupos ...",
-		"remove": "Quitar de la lista",
-		"search_groups": "Busca grupos para compartir tus imágenes",
-		"selected_groups": "ningún grupo seleccionado | 1 grupo seleccionado | {count} grupos seleccionados",
-		"shared_groups": "Foto no compartida en grupos | Compartido en 1 grupo | Compartido en {count} grupos"
-	},
-	"SignupUser": {
-		"account_created": "Cuenta creada exitosamente",
-		"code_sent": "El código de confirmación ha sido enviado exitosamente.",
-		"code_validate": "Código validado",
-		"step1": "Registrarse en Flickr",
-		"step1_desc": "Primero necesitamos conectarnos a tu cuenta de Flickr. Al presionar el botón Conectar, será redirigido a su cuenta de Flickr para permitirnos el acceso.",
-		"step2": "Crea tu cuenta",
-		"step3": "Valida tu correo electrónico",
-		"step3_desc": "Te hemos enviado un correo electrónico con un código de validación. Por favor, pegue el código aquí para validar su correo electrónico. Si no lo ha recibido en unos minutos, revise su carpeta de correo no deseado.",
-		"title": "Crear una cuenta de Skedr.io"
-	},
-	"UserProfile": {
-		"code_sent": "Se ha enviado un código a su nueva dirección de correo electrónico. Confirme su nueva dirección de correo electrónico.",
-		"confirmation_code": "Código de confirmación",
-		"error_verify_email": "Correo electrónico necesita verificación.",
-		"title": "Perfil",
-		"verify_email": "Verificar correo electrónico"
-	},
-	"btn": {
-		"accept": "Aceptar",
-		"cancel": "Cancelar",
-		"change_email": "Cambiar e-mail",
-		"clear": "limpiar",
-		"confirm": "Confirmar",
-		"connect": "Conectar",
-		"continue": "Continuar",
-		"load_future_dates": "Cargar próximas fechas",
-		"load_more": "Carga más",
-		"load_more_groups": "@: btn.load_more grupos",
-		"load_more_photos": "@: btn.load_more fotos",
-		"not_accept": "No acepto",
-		"resend": "Reenviar",
-		"reset": "Reiniciar",
-		"save": "guardar",
-		"send": "Enviar",
-		"signup": "Registrarse",
-		"submit_payment": "Enviar pago",
-		"update": "Actualizar",
-		"validating_account": "validando cuenta"
-	},
-	"groups_not_found": "No hay resultados para <strong>{search}</strong>",
-	"label": {
-		"code": "Introduzca el código",
-		"email": "Introduce tu correo electrónico",
-		"family_name": "Ingrese su apellido",
-		"first_name": "Ponga su primer nombre",
-		"new_password": "Introduzca su nueva contraseña",
-		"password": "Ingresa tu contraseña",
-		"search": "Buscar"
-	},
-	"loading": "Cargando ...",
-	"validation": {
-		"incorrect_flickr_id": "ID de Flickr incorrecto. Debería ser como: 123456789@N01",
-		"invalid_email": "Correo electrónico inválido.",
-		"message": "Use por lo menos 8 caracteres. Incluya letras mayúsculas y minúsculas, un número y un carácter especial.",
-		"required": "Necesario.",
-		"use_numbers": "Números de usuario solamente"
-	}
+  "AuthenticationFooter": {
+    "already_account": "¿Ya tienes una cuenta?",
+    "demo_account": "Cuenta de prueba",
+    "login": "Iniciar sesión",
+    "not_account": "¿Aun no tiene una cuenta?",
+    "reset_or_try_demo": "{reset_password} | Prueba nuestra {demo_account}",
+    "sign_up": "Regístrate"
+  },
+  "AutoimportTags": {
+    "accept_rules": "¿Aceptar las reglas del grupo?",
+    "belonged_groups_not_found": "No perteneces a ningún grupo llamado <strong>{search}</strong>.<br>Intenta buscar grupos a los que no pertenezcas.",
+    "joined_groups": "Mostrar solo grupos a los que perteneces",
+    "title": "Únete al grupo de Flickr"
+  },
+  "ConfirmAccount": {
+    "label1": "Ingrese su ID de flickr",
+    "label2": "Ingrese su código",
+    "step1": "Para confirmar su cuenta necesitamos su ID de Flickr. Puede ir a <a href=\"https://www.flickr.com/services/api/explore/flickr.people.getInfo\" target=\"_blank\">https://www.flickr.com/services/api/explore/flickr.people.getInfo</a> y copiar el valor en 'Su ID de usuario:'. <br>Si tiene algún problema, envíenos un correo electrónico a <a href=\"mailto:info@skedr.io\">info@skedr.io</a>",
+    "step2": "Te hemos enviado un correo electrónico con un código de validación. Por favor, pegue el código aquí para confirmar su cuenta. Si no ha recibido en unos minutos, compruebe su carpeta de spam.",
+    "title": "Confirmar cuenta"
+  },
+  "GroupTag": {
+    "count_tags": "{count} / {total} fotos tienen la etiqueta '{name}'",
+    "error": "No pudimos recuperar tus datos.",
+    "error_saving_tag": "Error al guardar la etiqueta",
+    "no_data": "No pudimos sugerir etiquetas. Oprima <kbd>enter</kbd> para agregar uno.",
+    "no_photos_found": "No tienes fotos con la etiqueta '{tag}'",
+    "not_enought_data": "No hay suficientes datos",
+    "not_enought_data_suggestion": "Agrega más etiquetas a tus fotos de este grupo",
+    "only_new_photos": "Importar solo nuevas fotos",
+    "only_new_photos_hint1": "Solo se agregarán sus nuevas fotos de su galería de fotos con las etiquetas seleccionadas. Si desea agregar todas sus fotos actuales que coincidan con <strong>[{comboTags}]</strong> deshabilite esta opción.",
+    "only_new_photos_hint2": "Se agregarán todas las fotos que coincidan con <strong>[{comboTags}]</strong> . Puedes revisar cuales fotos serán agregadas abajo.",
+    "photo_limit": "Este grupo contará hacia el límite de fotos <br>(60 para miembros Pro, 30 para miembros gratuitos). <br>Pídale al administrador que cambie esta configuración.",
+    "suggest_tags": "Sugerir etiquetas",
+    "tags": "Etiquetas",
+    "tags_hint": "Usa letras minúsculas y números.",
+    "title": "Administrar etiquetas"
+  },
+  "Layout": {
+    "article1": "Compartir una foto existente",
+    "article2": "Etiquetado de grupo",
+    "articles": "Artículos",
+    "autoimport_tags": "Etiquetas para auto importar",
+    "changelog": "Registro de cambios",
+    "clear_filter": "Limpiar filtros",
+    "clear_queue": "Borrar fotos de la cola",
+    "favorites": "Favoritos",
+    "feedback": "Enviar comentarios",
+    "groups_added": "Grupos añadidos",
+    "no_notifications": "No tienes notificaciones.",
+    "no_photos_scheduled": "No tienes ninguna foto programada para compartir",
+    "photostream": "Galería",
+    "photostream_empty": "Tu galería de fotos está vacía. Sube algunas fotos en Flickr",
+    "private_image": "Imagen privada",
+    "profile": "Perfil",
+    "scheduled_photos": "Fotos programadas",
+    "scheduled_to_delete": "Programado para eliminar",
+    "sign_out": "Desconectar",
+    "sked_photos": "Fotos de sked",
+    "views": "Visitas"
+  },
+  "LoginUser": {
+    "login": "Inicia sesión en Skedr.io",
+    "login_successful": "Has iniciado sesión"
+  },
+  "Profile": {
+    "not_subscribed": "No estás suscrito a Skedr.io. Por favor considere apoyar el proyecto. Estamos ofreciendo un descuento especial para todos los usuarios pioneros. Beneficiase de un descuento del 50% en un pago mensual.",
+    "payment_details": "Detalles del pago:",
+    "plan_info": "Pago cada {period} ({trialDays} días período de prueba) | Pago cada {count} {period} ({trialDays} días de período de prueba)",
+    "subscribed": "¡Gracias por suscribirte! Su apoyo significa mucho.",
+    "subtitle": "plan",
+    "title": "Suscripción",
+    "verify_email": "Verifique su correo electrónico antes de enviar el pago."
+  },
+  "ResetPassword": {
+    "code_sent": "Código enviado a su correo electrónico",
+    "message": "Te hemos enviado un correo electrónico con un código de validación. Por favor, pegue el código aquí para cambiar su contraseña. Si no ha recibido en unos minutos, compruebe su carpeta de spam.",
+    "password_updated": "Contraseña actualizada correctamente",
+    "title": "Restablecer la contraseña"
+  },
+  "ShareDialog": {
+    "already_in_group": "La foto ya está en este grupo",
+    "no_results": "No se han encontrado resultados ...",
+    "placeholder": "Buscar grupos ...",
+    "remove": "Quitar de la lista",
+    "search_groups": "Busca grupos para compartir tus imágenes",
+    "selected_groups": "ningún grupo seleccionado | 1 grupo seleccionado | {count} grupos seleccionados",
+    "shared_groups": "Foto no compartida en grupos | Compartido en 1 grupo | Compartido en {count} grupos"
+  },
+  "SignupUser": {
+    "account_created": "Cuenta creada exitosamente",
+    "code_sent": "El código de confirmación ha sido enviado exitosamente.",
+    "code_validate": "Código validado",
+    "step1": "Registrarse en Flickr",
+    "step1_desc": "Primero necesitamos conectarnos a tu cuenta de Flickr. Al presionar el botón Conectar, será redirigido a su cuenta de Flickr para permitirnos el acceso.",
+    "step2": "Crea tu cuenta",
+    "step3": "Valida tu correo electrónico",
+    "step3_desc": "Te hemos enviado un correo electrónico con un código de validación. Por favor, pegue el código aquí para validar su correo electrónico. Si no lo ha recibido en unos minutos, revise su carpeta de correo no deseado.",
+    "title": "Crear una cuenta de Skedr.io"
+  },
+  "UserProfile": {
+    "code_sent": "Se ha enviado un código a su nueva dirección de correo electrónico. Confirme su nueva dirección de correo electrónico.",
+    "confirmation_code": "Código de confirmación",
+    "error_verify_email": "Correo electrónico necesita verificación.",
+    "title": "Perfil",
+    "verify_email": "Verificar correo electrónico"
+  },
+  "btn": {
+    "accept": "Aceptar",
+    "cancel": "Cancelar",
+    "change_email": "Cambiar e-mail",
+    "clear": "limpiar",
+    "confirm": "Confirmar",
+    "connect": "Conectar",
+    "continue": "Continuar",
+    "load_future_dates": "Cargar próximas fechas",
+    "load_more": "Carga más",
+    "load_more_groups": "@:btn.load_more grupos",
+    "load_more_photos": "@:btn.load_more fotos",
+    "not_accept": "No acepto",
+    "resend": "Reenviar",
+    "reset": "Reiniciar",
+    "save": "guardar",
+    "send": "Enviar",
+    "signup": "Registrarse",
+    "submit_payment": "Enviar pago",
+    "update": "Actualizar",
+    "validating_account": "validando cuenta"
+  },
+  "groups_not_found": "No hay resultados para <strong>{search}</strong>",
+  "label": {
+    "code": "Introduzca el código",
+    "email": "Introduce tu correo electrónico",
+    "family_name": "Ingrese su apellido",
+    "first_name": "Ponga su primer nombre",
+    "new_password": "Introduzca su nueva contraseña",
+    "password": "Ingresa tu contraseña",
+    "search": "Buscar"
+  },
+  "loading": "Cargando ...",
+  "validation": {
+    "incorrect_flickr_id": "ID de Flickr incorrecto. Debería ser como: 123456789@N01",
+    "invalid_email": "Correo electrónico inválido.",
+    "message": "Use por lo menos 8 caracteres. Incluya letras mayúsculas y minúsculas, un número y un carácter especial.",
+    "required": "Necesario.",
+    "use_numbers": "Números de usuario solamente"
+  }
 }

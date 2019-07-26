@@ -1,6 +1,7 @@
-mutation payService($name: String!, $email: String!, $source: String, $coupon: String) {
-  payService(name: $name, email: $email, source: $source, coupon: $coupon) {
+mutation payService($name: String!, $email: String!, $source: String!, $coupon: String, $planId: String!) {
+  payService(name: $name, email: $email, source: $source, coupon: $coupon, planId: $planId) {
     id
+    planId
     status
     error
   }

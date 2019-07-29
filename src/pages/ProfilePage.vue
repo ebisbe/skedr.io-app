@@ -19,19 +19,15 @@
                     <template
                       v-for="plan in data.plans.filter( ({ id }) => id === data.userSubscription.planId)"
                     >
-                      <v-list-tile
-                        :key="plan.id"
-                        ripple
-                        @click="selectedPlan = plan.id">
+                      <v-list-tile :key="plan.id">
                         <v-list-tile-content>
                           <v-list-tile-title>{{ plan.nickname }}: {{ parseInt(plan.amount) / 100 }}&euro; </v-list-tile-title>
                           <v-list-tile-sub-title>{{ $tc('Profile.plan_info', plan.interval, {period: plan.interval, count: plan.interval_count, trialDays: plan.trial_period_days}) }}</v-list-tile-sub-title>
                         </v-list-tile-content>
 
                         <v-list-tile-action>
-                          <v-btn icon @click="selectedPlan = plan.id">
-                            <v-icon v-if="selectedPlan === plan.id" color="green">check</v-icon>
-                            <v-icon v-else>check</v-icon>
+                          <v-btn icon >
+                            <v-icon color="green">check</v-icon>
                           </v-btn>
                         </v-list-tile-action>
                       </v-list-tile>

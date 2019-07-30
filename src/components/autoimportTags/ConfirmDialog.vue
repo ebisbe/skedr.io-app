@@ -16,7 +16,7 @@
         <v-icon
           slot="activator"
           color="accent">create_new_folder</v-icon>
-        <span v-t="$('AutoimportTags.title')"/>
+        <span v-t="'AutoimportTags.title'"/>
       </v-tooltip>
     </v-btn>
     <v-card>

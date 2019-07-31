@@ -1,5 +1,5 @@
-query autoimportTagList($count: Int, $nextToken: String) {
-  groupTagsList(count: $count, nextToken: $nextToken) {
+query autoimportTagList($tags: [String], $count: Int, $nextToken: String) {
+  groupTagsList(tags: $tags, count: $count, nextToken: $nextToken) {
     groupTags {
       groupId
       userId

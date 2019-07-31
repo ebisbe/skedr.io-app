@@ -25,7 +25,6 @@
             v-for="( {group, tags, groupId}, index ) in groupTagsList.groupTags"
           >
             <group-tag-list
-              v-show="filteredTags.some(tag => tags.indexOf(tag) > -1) || isEmpty"
               :key="groupId"
               :group="group"
               :use-divider="index!==0"
@@ -38,7 +37,9 @@
         </v-list>
       </v-card>
 
-      <v-card-actions v-if="showMoreEnabled">
+      <v-flex
+        v-if="showMoreEnabled"
+        class="px-0">
         <v-btn
           :disabled="$apollo.queries.groupTagsList.loading "
           block
@@ -53,7 +54,7 @@
             &nbsp;{{ $t('btn.load_more_groups') }}
           </span>
         </v-btn>
-      </v-card-actions>
+      </v-flex>
     </v-container>
 
     <!-- No result -->
@@ -109,8 +110,18 @@ export default {
     groupTagsList: {
       query: require('@/graphql/groupTags.gql'),
       variables() {
-        return {
-          count: this.count
+        if (this.filteredTags.length) {
+          return { tags: this.filteredTags }
+        } else
+          return {
+            count: this.count
+          }
+      },
+      result({ data: { groupTagsList: { nextToken } } = { groupTagsList: { nextToken: null } } }, key) {
+        if (nextToken === null) {
+          this.showMoreEnabled = false
+        } else {
+          this.showMoreEnabled = true
         }
       },
       error(error) {
@@ -123,6 +134,7 @@ export default {
       const nextToken = this.groupTagsList.nextToken
       this.$apollo.queries.groupTagsList.fetchMore({
         variables: {
+          tags: this.filteredTags,
           count: this.count,
           nextToken
         },

@@ -169,15 +169,16 @@
           @done="$emit('close')"
         >
           <template slot-scope="{ mutate, loading, error }">
+            <p v-t="'GroupTag.error_saving_tag'" v-if="error"/>
             <v-btn
               v-t="'btn.save'"
+              v-else
               ref="saveBtn"
               :disabled="!canSave || loading"
               :loading="loading"
               color="primary"
               @click="mutate()"
             />
-            <p v-t="'GroupTag.error'" v-if="error"/>
           </template>
         </ApolloMutation>
       </v-card-actions>

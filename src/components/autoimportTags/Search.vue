@@ -84,24 +84,23 @@
                 </group-tag-list>
               </v-list>
             </v-card-text>
-            <v-divider />
-            <v-card-actions>
-              <v-btn
-                :disabled="!showMoreEnabled || loading"
-                block
-                color="accent"
-                @click="fetchMore(query)">
-                <app-observer @intersect="fetchMore(query)"/>
-                <v-progress-circular
-                  v-if="loading"
-                  indeterminate
-                  color="grey"/>
-                <span v-else>
-                  &nbsp;{{ $t('btn.load_more_groups') }}
-                </span>
-              </v-btn>
-            </v-card-actions>
           </v-card>
+          <v-flex class="px-0">
+            <v-btn
+              :disabled="!showMoreEnabled || loading"
+              block
+              color="accent"
+              @click="fetchMore(query)">
+              <app-observer @intersect="fetchMore(query)"/>
+              <v-progress-circular
+                v-if="loading"
+                indeterminate
+                color="grey"/>
+              <span v-else>
+                &nbsp;{{ $t('btn.load_more_groups') }}
+              </span>
+            </v-btn>
+          </v-flex>
         </v-container>
 
         <!-- No result -->
@@ -154,7 +153,7 @@ export default {
         },
         // Transform the previous result with new data
         updateQuery: ({ searchGroups: { groups: prev } }, { fetchMoreResult: { searchGroups } }) => {
-          this.showMoreEnabled = searchGroups.page !== searchGroups.pages
+          this.showMoreEnabled = searchGroups.pages !== null && searchGroups.page >= searchGroups.pages
           searchGroups.groups = [...prev, ...searchGroups.groups]
           return {
             __typename: searchGroups.__typename,

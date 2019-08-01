@@ -5,7 +5,7 @@
 		"login": "Login",
 		"not_account": "Do not have an account yet?",
 		"reset_or_try_demo": "{reset_password} | Try our {demo_account}",
-		"sign_up": "Sign up"
+		"sign_up": "Signup"
 	},
 	"AutoimportTags": {
 		"accept_rules": "Accept group rules?",
@@ -24,12 +24,12 @@
 		"count_tags": "{count} / {total} photos have the '{name}' tag",
 		"error": "We could not fetch your data",
 		"error_saving_tag": "Error saving the tag",
-		"no_data": "We could not suggest tags. Press <kbd>enter</kbd> to add one.",
+		"no_data": "We could not suggest tags. Press <kbd>Enter</kbd> to add one.",
 		"no_photos_found": "You do not have photos with '{tag}' tag",
-		"not_enought_data": "Not enought data",
+		"not_enought_data": "Not enough data",
 		"not_enought_data_suggestion": "Add more tags to your photos from this group",
 		"only_new_photos": "Import only new photos",
-		"only_new_photos_hint1": "Only your new photos from your photostream with the selected tags will be added. If you want to add all your current photos matching <strong>[{comboTags}]</strong> disable this option.",
+		"only_new_photos_hint1": "Only your new photos from your photostream with the selected tags will be added. <br>If you want to add all your current photos matching <strong>[{comboTags}]</strong> disable this option.",
 		"only_new_photos_hint2": "All photos matching <strong>[{comboTags}]</strong> will be added. You can review which photos will be added below.",
 		"photo_limit": "This group will count toward the photos limit <br>(60 for Pro members, 30 for free members). <br>Ask the administrator to change this setting.",
 		"suggest_tags": "Suggest tags",
@@ -90,7 +90,7 @@
 	},
 	"SignupUser": {
 		"account_created": "Account created successfully",
-		"code_sent": "Confirmation code has been successfuly sent",
+		"code_sent": "Confirmation code has been successfully sent",
 		"code_validate": "Code validated",
 		"step1": "Sign up with Flickr",
 		"step1_desc": "First we need to connect to you Flickr account. Upon pressing Connect button you will  be redirected to your Flickr account to grant us access.",
@@ -123,7 +123,7 @@
 		"reset": "reset",
 		"save": "save",
 		"send": "send",
-		"signup": "signup",
+		"signup": "sign up",
 		"submit_payment": "submit payment",
 		"update": "update",
 		"validating_account": "validating account"

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-progress-linear 
-      v-show="protectedUI" 
-      :indeterminate="true" 
-      height="3" 
+    <v-progress-linear
+      v-show="protectedUI"
+      :indeterminate="true"
+      height="3"
       class="my-0 topFloat" />
     <v-toolbar dark color="primary">
       <v-toolbar-title v-t="'SignupUser.title'"/>
@@ -11,14 +11,15 @@
       <language-selector/>
     </v-toolbar>
     <div :class="{'pa-0': $vuetify.breakpoint.xs, 'px-5 pt-3': $vuetify.breakpoint.smAndUp}">
-      <v-stepper 
-        v-model="step" 
-        class="elevation-0" 
+      <v-stepper
+        v-model="step"
+        class="elevation-0"
         vertical>
         <v-stepper-step
           :complete="step > 1"
           step="1">{{ $t('SignupUser.step1') }}</v-stepper-step>
         <v-stepper-content step="1">
+
           <small v-t="'SignupUser.step1_desc'"/>
           <br>
           <v-btn
@@ -26,6 +27,7 @@
             color="primary"
             @click="handleSubmit">{{ this.$i18n.t(button) }}
           </v-btn>
+
         </v-stepper-content>
         <v-stepper-step
           :complete="step > 2"
@@ -56,6 +58,7 @@
               @click:append="() => (passVisibility = !passVisibility)"
             />
             <v-btn
+
               v-t="'btn.signup'"
               :disabled="protectedUI || disableAllInputs"
               type="submit"
@@ -78,6 +81,7 @@
               counter="6"
             />
             <v-btn
+
               v-t="'btn.resend'"
               flat
               color="primary"

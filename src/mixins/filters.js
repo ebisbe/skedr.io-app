@@ -1,6 +1,6 @@
 export default {
   methods: {
-    sanitize: tag => tag.toLowerCase().replace(/[\W_]/g, '')
+    sanitize: tag => tag.toLowerCase().replace(/[^a-zA-Z0-9À-ÿ]/g, '')
   },
   filters: {
     parseNumber(value) {

@@ -2,7 +2,7 @@ import { filters } from '@/mixins'
 
 describe('Filters.js', () => {
   it('sanitizes the text', () => {
-    expect(filters.methods.sanitize('ABC$#@% 123_-')).toBe('abc123')
+    expect(filters.methods.sanitize('ABCÅ$#@% 123_-')).toBe('abcå123')
   })
   it('parses a < 1000 number', () => {
     expect(filters.filters.parseNumber(999)).toBe(999)

@@ -2,7 +2,7 @@
   <v-content>
     <v-container>
       <user-profile />
-      <v-card class="mb-4">
+      <v-card class="mb-6">
         <ApolloQuery
           :query="require('@/graphql/plans.gql')"
           tag=""
@@ -35,40 +35,26 @@
                   </v-list>
                 </div>
               </div>
-              <template v-else>
-                <div>
-                  <p v-t="'Profile.not_subscribed'"/>
-                </div>
-                <div v-if="data && data.plans">
-                  <h2 v-t="'Profile.subtitle'"/>
-                  <v-list>
-                    <template
-                      v-for="(plan, index) in data.plans"
-                    >
-                      <v-list-tile
-                        :key="plan.id"
-                        ripple
-                        @click="selectedPlan = plan.id">
-                        <v-list-tile-content>
-                          <v-list-tile-title>{{ plan.nickname }}: {{ parseInt(plan.amount) / 100 }}&euro; </v-list-tile-title>
-                          <v-list-tile-sub-title>{{ $tc('Profile.plan_info', plan.interval, {period: plan.interval, count: plan.interval_count, trialDays: plan.trial_period_days}) }}</v-list-tile-sub-title>
-                        </v-list-tile-content>
+              <div v-else>
+                <p v-t="'Profile.not_subscribed'"/>
+              </div>
+              <div v-if="data && data.plans">
+                <h2 v-t="'Profile.subtitle'"/>
+                <v-list>
+                  <v-list-item
+                    v-for="plan in data.plans"
+                    :key="plan.id">
+                    <v-list-item-content>
+                      <v-list-item-title>{{ plan.nickname }}: {{ parseInt(plan.amount) / 100 }}&euro; </v-list-item-title>
+                      <v-list-item-subtitle>{{ $tc('Profile.plan_info', plan.interval, {period: plan.interval, count: plan.interval_count, trialDays: plan.trial_period_days}) }}</v-list-item-subtitle>
+                    </v-list-item-content>
 
-                        <v-list-tile-action>
-                          <v-btn icon @click="selectedPlan = plan.id">
-                            <v-icon v-if="selectedPlan === plan.id" color="green">check</v-icon>
-                            <v-icon v-else>check</v-icon>
-                          </v-btn>
-                        </v-list-tile-action>
-                      </v-list-tile>
-                      <v-divider
-                        v-if="index + 1 < data.plans.length"
-                        :key="index"
-                      />
-                    </template>
-                  </v-list>
-                </div>
-              </template>
+                    <v-list-item-action>
+                      <v-icon color="green">check</v-icon>
+                    </v-list-item-action>
+                  </v-list-item>
+                </v-list>
+              </div>
               <div v-if="data && data.userSubscription.status === false">
                 <v-form>
                   <h2 v-t="'Profile.payment_details'"/>

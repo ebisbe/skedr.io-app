@@ -5,79 +5,79 @@
     fixed
     app
   >
-    <v-list>
-      <v-list-tile
+    <v-list shaped>
+      <v-list-item
         v-for="item in lists"
         :to="{name: item.pathName}"
         :key="item.name"
         exact
         ripple>
-        <v-list-tile-action>
+        <v-list-item-action>
           <v-icon v-html="item.icon"/>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title v-t="item.name"/>
-        </v-list-tile-content>
-      </v-list-tile>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title v-t="item.name"/>
+        </v-list-item-content>
+      </v-list-item>
       <v-divider/>
       <v-subheader v-t="'Layout.articles'"/>
-      <v-list-tile
+      <v-list-item
         v-for="article in articles"
         :key="article.name"
         :href="article.link"
         ripple
         target="_blank">
-        <v-list-tile-action>
+        <v-list-item-action>
           <v-icon>link</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>
             {{ $t(article.name) }}
-          </v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
       <v-divider/>
-      <v-list-tile ripple @click="openBeacon">
-        <v-list-tile-action>
+      <v-list-item ripple @click="openBeacon">
+        <v-list-item-action>
           <v-icon>announcement</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title v-t="'Layout.feedback'"/>
-        </v-list-tile-content>
-      </v-list-tile>
-      <v-list-tile
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title v-t="'Layout.feedback'"/>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
         ripple
         class="triggerChangelog"
         @click.stop
       >
-        <v-list-tile-action>
+        <v-list-item-action>
           <v-icon class="changelog" >notification_important</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title v-t="'Layout.changelog'"/>
-        </v-list-tile-content>
-      </v-list-tile>
-      <v-list-tile
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title v-t="'Layout.changelog'"/>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
         ripple
       >
-        <v-list-tile-action>
+        <v-list-item-action>
           <v-icon>language</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>
             <language-selector />
-          </v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
       <v-divider/>
-      <v-list-tile ripple @click.stop="logout">
-        <v-list-tile-action>
+      <v-list-item ripple @click.stop="logout">
+        <v-list-item-action>
           <v-icon>input</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title v-t="'Layout.sign_out'"/>
-        </v-list-tile-content>
-      </v-list-tile>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title v-t="'Layout.sign_out'"/>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -138,7 +138,7 @@ export default {
     const config = {
       selector: '.changelog', // CSS selector where to inject the badge
       account: 'yZ6Dpy',
-      trigger: '.triggerChangelog .v-list__tile'
+      trigger: '.triggerChangelog'
     }
     Headway.init(config)
   },

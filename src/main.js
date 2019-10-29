@@ -2,7 +2,7 @@ require('intersection-observer')
 import Vue from 'vue'
 const isProd = process.env.NODE_ENV === 'production'
 
-import './plugins/vuetify'
+import vuetify from './plugins/vuetify'
 import './plugins/errorLoggin'
 import apolloProvider from './plugins/apolloProvider'
 import aws_exports from './plugins/aws-exports'
@@ -30,6 +30,7 @@ Vue.use(VueAnalytics, {
 new Vue({
   router,
   store,
+  vuetify,
   i18n,
   apolloProvider,
   render: h => h(App)

@@ -1,7 +1,7 @@
 /* eslint-disable vue/html-indent */
 <template>
   <div>
-    <v-toolbar dark color="primary">
+    <v-toolbar color="primary" dark>
       <v-toolbar-title>Confirm account</v-toolbar-title>
     </v-toolbar>
     <v-card-text>
@@ -36,10 +36,10 @@
       <v-btn
         v-t="'btn.cancel'"
         :to="{name:'Signup'}"
-        flat/>
+        text/>
       <v-btn
         :disabled="!formIsValid || protectedUI"
-        text-xs-right
+        text-right
         color="primary"
         @click="submit">
         <span v-t="'btn.send'" v-if="!firstPart"/>

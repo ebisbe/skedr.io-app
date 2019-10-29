@@ -1,30 +1,32 @@
 <template>
   <v-dialog
     v-model="manageTags"
-    lazy
     persistent
+    transition="dialog-bottom-transition"
     width="500"
     scrollable
     no-click-animation
   >
     <v-card>
-      <v-toolbar dark color="primary">
-        <v-btn icon @click.native="$emit('close')">
+      <v-toolbar color="primary">
+        <v-btn
+          icon
+          color="white"
+          @click.native="$emit('close')">
           <v-icon>close</v-icon>
         </v-btn>
-        <v-toolbar-title v-t="'GroupTag.title'"/>
-        <v-spacer/>
+        <v-toolbar-title v-t="'GroupTag.title'" class="white--text"/>
       </v-toolbar>
-      <div class="pa-3">
+      <div class="pa-4">
         <div class="xs12 flex headline" v-html="title"/>
         <v-combobox
           v-model="comboTags"
           :items="suggestedTags"
-          :menu-props="{ maxHeight:200 }"
           item-text="name"
           hide-selected
           persistent-hint
           dense
+          clearable
           multiple
           label="Tags"
           hint="Use lowercase letters and numbers."
@@ -37,11 +39,11 @@
             @click="remove(item)"
           />
           <template v-slot:item="{ index, item }">
-            <v-list-tile-content>
+            <v-list-item-content>
               {{ item.name | ucFirst }}
-            </v-list-tile-content>
-            <v-list-tile-action>
-              <v-tooltip left lazy>
+            </v-list-item-content>
+            <v-list-item-action>
+              <v-tooltip left >
                 <template v-slot:activator="{ on }">
                   <v-btn
                     icon
@@ -53,16 +55,14 @@
                   {{ $t('GroupTag.count_tags', item) }}
                 </span>
               </v-tooltip>
-            </v-list-tile-action>
+            </v-list-item-action>
           </template>
           <template v-slot:no-data>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ $t('GroupTag.no_data') }}
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title v-html="$t('GroupTag.no_data')"/>
+              </v-list-item-content>
+            </v-list-item>
           </template>
         </v-combobox>
         <v-switch
@@ -74,7 +74,7 @@
         />
       </div>
       <v-card-text v-if="comboTags">
-        <v-expansion-panel v-model="openedPanel">
+        <v-expansion-panels v-model="openedPanel">
           <ApolloQuery
             v-for="tag in comboTags"
             :key="tag"
@@ -87,66 +87,64 @@
             tag=""
           >
             <template slot-scope="{ result: { loading, error, data } }">
-              <v-expansion-panel-content>
-                <div slot="header">{{ tag }} <span v-if="data">[{{ data.searchPhotos.total }}]</span></div>
-                <v-card>
-                  <v-card-text class="grey lighten-4">
-                    <v-container
-                      grid-list-xs
-                      fluid
-                      pa-0>
-                      <!-- Loading -->
-                      <div
-                        v-t="'loading'"
-                        v-if="loading && data === undefined"
-                        class="loading apollo"/>
+              <v-expansion-panel>
+                <v-expansion-panel-header>{{ tag }}&nbsp;<span v-if="data">[{{ data.searchPhotos.total }}]</span></v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-container
+                    grid-list-xs
+                    fluid
+                    pa-0>
+                    <!-- Loading -->
+                    <div
+                      v-t="'loading'"
+                      v-if="loading && data === undefined"
+                      class="loading apollo"/>
 
-                      <!-- Error -->
-                      <div
-                        v-t="'GroupTag.error'"
-                        v-else-if="error"
-                        class="error apollo"/>
+                    <!-- Error -->
+                    <div
+                      v-t="'GroupTag.error'"
+                      v-else-if="error"
+                      class="error apollo"/>
 
-                      <!-- Result -->
-                      <v-layout
-                        v-else-if="data && data.searchPhotos.photos.length"
-                        row
-                        wrap
+                    <!-- Result -->
+                    <v-layout
+                      v-else-if="data && data.searchPhotos.photos.length"
+                      row
+                      wrap
+                    >
+                      <v-flex
+                        v-for="{photoId, secret, farm, server} in data.searchPhotos.photos"
+                        :key="secret"
+                        xs2
                       >
-                        <v-flex
-                          v-for="{photoId, secret, farm, server} in data.searchPhotos.photos"
-                          :key="secret"
-                          xs2
-                        >
-                          <v-card flat tile>
-                            <group-tag-dialog-image
-                              :photo-id="photoId"
-                              :secret="secret"
-                              :farm="farm"
-                              :server="server"/>
-                          </v-card>
-                        </v-flex>
-                        <v-flex class="text-xs-center xs12">
-                          <v-pagination
-                            v-model="page"
-                            :length="Math.ceil(data.searchPhotos.total / perPage)"
-                            total-visible="6"
-                          />
-                        </v-flex>
-                      </v-layout>
+                        <v-card text tile>
+                          <group-tag-dialog-image
+                            :photo-id="photoId"
+                            :secret="secret"
+                            :farm="farm"
+                            :server="server"/>
+                        </v-card>
+                      </v-flex>
+                      <v-flex v-if="data.searchPhotos.total > 18" class="text-center xs12">
+                        <v-pagination
+                          v-model="page"
+                          :length="Math.ceil(data.searchPhotos.total / perPage)"
+                          total-visible="6"
+                        />
+                      </v-flex>
+                    </v-layout>
 
-                      <!-- No result -->
-                      <div
-                        v-t="{ path: 'GroupTag.no_photos_found', args: {tag}}"
-                        v-else
-                        class="no-result apollo"/>
-                    </v-container>
-                  </v-card-text>
-                </v-card>
-              </v-expansion-panel-content>
+                    <!-- No result -->
+                    <div
+                      v-t="{ path: 'GroupTag.no_photos_found', args: {tag}}"
+                      v-else
+                      class="no-result apollo"/>
+                  </v-container>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
             </template>
           </ApolloQuery>
-        </v-expansion-panel>
+        </v-expansion-panels>
       </v-card-text>
       <v-divider/>
 
@@ -155,7 +153,7 @@
         <v-btn
           v-t="'btn.cancel'"
           color="primary"
-          flat
+          text
           @click="$emit('close')"
         />
         <ApolloMutation

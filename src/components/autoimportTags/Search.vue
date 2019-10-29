@@ -61,13 +61,14 @@
                         :disabled="loading"
                         :loading="loading"
                         ripple
-                        color="grey lighten-3"
                         icon
                         @click="mutate()">
-                        <v-tooltip top lazy>
-                          <v-icon
-                            slot="activator"
-                            color="accent">create_new_folder</v-icon>
+                        <v-tooltip top>
+                          <template v-slot:activator="{ on }">
+                            <v-icon
+                              slot="activator"
+                              color="accent">create_new_folder</v-icon>
+                          </template>
                           <span v-t="'AutoimportTags.title'"/>
                         </v-tooltip>
                       </v-btn>

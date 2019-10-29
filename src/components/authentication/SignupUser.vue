@@ -5,12 +5,14 @@
       :indeterminate="true"
       height="3"
       class="my-0 topFloat" />
-    <v-toolbar dark color="primary">
+    <v-toolbar color="primary" dark>
       <v-toolbar-title v-t="'SignupUser.title'"/>
       <v-spacer/>
-      <language-selector/>
+      <v-flex xs3>
+        <language-selector/>
+      </v-flex>
     </v-toolbar>
-    <div :class="{'pa-0': $vuetify.breakpoint.xs, 'px-5 pt-3': $vuetify.breakpoint.smAndUp}">
+    <div :class="{'pa-0': $vuetify.breakpoint.xs, 'px-5 pt-4': $vuetify.breakpoint.smAndUp}">
       <v-stepper
         v-model="step"
         class="elevation-0"
@@ -83,7 +85,7 @@
             <v-btn
 
               v-t="'btn.resend'"
-              flat
+              text
               color="primary"
               @click.stop.prevent="resendCode"/>
             <v-btn
@@ -99,11 +101,11 @@
       <i18n
         path="AuthenticationFooter.reset_or_try_demo"
         tag="p"
-        class="text-xs-center mb-0 grey--text subheading pb-2">
+        class="text-center mb-0 grey--text subtitle-1 pb-2">
         <router-link :to="{name: 'ResetPassword'}" place="reset_password">{{ $t('ResetPassword.title') }}</router-link>
         <router-link :to="{name:'Login', params: {demo: true}}" place="demo_account">Demo Account</router-link>
       </i18n>
-      <p class="text-xs-center mb-0 grey--text subheading">
+      <p class="text-center mb-0 grey--text subtitle-1">
         {{ $t('AuthenticationFooter.already_account') }} <router-link :to="{name: 'Login'}">{{ $t('AuthenticationFooter.login') }}</router-link>
       </p>
     </div>

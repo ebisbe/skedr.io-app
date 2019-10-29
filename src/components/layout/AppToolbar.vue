@@ -1,24 +1,27 @@
 <template>
   <div>
-    <v-toolbar
+    <v-app-bar
       :dense="false"
       :color="alternativeBar ? 'accent' : 'primary'"
       app
       fixed
-      dark
       style="z-index:3;"
       clipped-left
       clipped-right>
-      <v-toolbar-side-icon v-if="!alternativeBar" @click.stop="toggle"/>
+      <v-app-bar-nav-icon
+        v-if="!alternativeBar"
+        color="white"
+        @click.stop="toggle"/>
       <v-btn
         v-else
         icon
+        color="white"
         @click="clearPool"
       >
         <v-icon>close</v-icon>
       </v-btn>
 
-      <v-toolbar-title v-text="toolbarTitle" />
+      <v-toolbar-title class="white--text" v-text="toolbarTitle" />
       <v-spacer/>
       <v-scale-transition>
         <v-text-field
@@ -27,9 +30,10 @@
           :loading="loading"
           :label="$t('label.search')"
           prepend-inner-icon="search"
-          solo-inverted
-          flat
+          solo
+          color="primary"
           hide-details
+          dense
           clearable
           @keyup.enter="$router.push({name: 'AutoimportTagsSearch'})"
           @click:clear="$router.push({name: 'AutoimportTagsList'})"
@@ -39,30 +43,36 @@
       <v-tooltip
         v-if="poolHasItems"
         bottom
-        lazy>
-        <v-btn
-          slot="activator"
-          icon
-          @click.stop="showShareDialog = true">
-          <v-icon>share</v-icon>
-        </v-btn>
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn
+            icon
+            color="white"
+            v-on="on"
+            @click.stop="showShareDialog = true">
+            <v-icon>share</v-icon>
+          </v-btn>
+        </template>
         <span v-t="'Layout.sked_photos'"/>
       </v-tooltip>
       <v-tooltip
         v-else-if="schedulerPoolHasItems"
         bottom
-        lazy>
-        <v-btn
-          slot="activator"
-          icon
-          @click.stop="deleteSchedulerPhotos">
-          <v-icon>delete</v-icon>
-        </v-btn>
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn
+            icon
+            color="white"
+            v-on="on"
+            @click.stop="deleteSchedulerPhotos">
+            <v-icon>delete</v-icon>
+          </v-btn>
+        </template>
         <span v-t="'Layout.clear_queue'"/>
       </v-tooltip>
       <v-btn
         v-else
-        color="primary"
+        color="white"
         icon
         @click="() => {
           notificationDrawer = true
@@ -81,7 +91,7 @@
           </v-icon>
         </v-badge>
       </v-btn>
-    </v-toolbar>
+    </v-app-bar>
     <app-notification-list :drawer="notificationDrawer" @updated="notificationDrawer = $event"/>
     <share-dialog :show-dialog="showShareDialog" @close="showShareDialog = false" />
   </div>

@@ -1,31 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UserProfile tests the snapshot with email verified 1`] = `
-<v-card-stub tag="div" class="mb-4">
+<v-card-stub loaderheight="4" tag="div" class="mb-6">
   <v-form-stub>
     <v-container-stub tag="div">
       <h1></h1>
-      <v-text-field-stub label="label.first_name" value="Enric"></v-text-field-stub>
-      <v-text-field-stub label="label.family_name" value="Bisbe Gil"></v-text-field-stub>
-      <v-text-field-stub error-messages="" label="label.email" value="email@domain.com"></v-text-field-stub>
-      <v-card-actions-stub class="px-4">
+      <v-text-field-stub errorcount="1" errormessages="" messages="" rules="" successmessages="" value="Enric" backgroundcolor="" label="label.first_name" loaderheight="2" clearicon="$clear" type="text"></v-text-field-stub>
+      <v-text-field-stub errorcount="1" errormessages="" messages="" rules="" successmessages="" value="Bisbe Gil" backgroundcolor="" label="label.family_name" loaderheight="2" clearicon="$clear" type="text"></v-text-field-stub>
+      <v-text-field-stub errorcount="1" errormessages="" messages="" rules="" successmessages="" value="email@domain.com" backgroundcolor="" label="label.email" loaderheight="2" clearicon="$clear" type="text"></v-text-field-stub>
+      <v-card-actions-stub class="px-6">
         <v-spacer-stub></v-spacer-stub>
         <!---->
-        <v-btn-stub color="primary" activeclass="v-btn--active" disabled="true" tag="button" type="button"></v-btn-stub>
+        <v-btn-stub color="primary" tag="button" activeclass="" disabled="true" type="button"></v-btn-stub>
       </v-card-actions-stub>
     </v-container-stub>
-    <v-dialog-stub contentclass="" persistent="true" maxwidth="500" origin="center center" width="auto" transition="dialog-transition">
-      <v-card-stub tag="div" class="elevation-12">
-        <v-toolbar-stub color="primary" dark="true" scrollthreshold="300">
+    <v-dialog-stub opendelay="0" closedelay="0" contentclass="" maxwidth="500" origin="center center" persistent="true" retainfocus="true" transition="dialog-transition" width="auto">
+      <v-card-stub loaderheight="4" tag="div" class="elevation-12">
+        <v-toolbar-stub color="primary" tag="header" tile="true" extensionheight="48" src="">
           <v-toolbar-title-stub></v-toolbar-title-stub>
         </v-toolbar-stub>
-        <v-card-text-stub class="px-4 pb-4 pt-3">
+        <v-card-text-stub class="px-6 pb-6 pt-4">
           UserProfile.code_sent
-          <v-text-field-stub label="UserProfile.confirmation_code" counter="6" value=""></v-text-field-stub>
-          <v-card-actions-stub class="px-4">
+          <v-text-field-stub errorcount="1" errormessages="" messages="" rules="" successmessages="" value="" backgroundcolor="" label="UserProfile.confirmation_code" loaderheight="2" clearicon="$clear" counter="6" type="text"></v-text-field-stub>
+          <v-card-actions-stub class="px-6">
             <v-spacer-stub></v-spacer-stub>
-            <v-btn-stub activeclass="v-btn--active" tag="button" flat="true" type="button"></v-btn-stub>
-            <v-btn-stub color="primary" activeclass="v-btn--active" disabled="true" tag="button" type="button"></v-btn-stub>
+            <v-btn-stub tag="button" activeclass="" text="true" type="button"></v-btn-stub>
+            <v-btn-stub color="primary" tag="button" activeclass="" disabled="true" type="button"></v-btn-stub>
           </v-card-actions-stub>
         </v-card-text-stub>
       </v-card-stub>
@@ -35,31 +35,31 @@ exports[`UserProfile tests the snapshot with email verified 1`] = `
 `;
 
 exports[`UserProfile tests the snapshot without the email verified 1`] = `
-<v-card-stub tag="div" class="mb-4">
+<v-card-stub loaderheight="4" tag="div" class="mb-6">
   <v-form-stub>
     <v-container-stub tag="div">
       <h1></h1>
-      <v-text-field-stub label="label.first_name" value="Enric"></v-text-field-stub>
-      <v-text-field-stub label="label.family_name" value="Bisbe Gil"></v-text-field-stub>
-      <v-text-field-stub error-messages="UserProfile.error_verify_email" label="label.email" value="email@domain.com"></v-text-field-stub>
-      <v-card-actions-stub class="px-4">
+      <v-text-field-stub errorcount="1" errormessages="" messages="" rules="" successmessages="" value="Enric" backgroundcolor="" label="label.first_name" loaderheight="2" clearicon="$clear" type="text"></v-text-field-stub>
+      <v-text-field-stub errorcount="1" errormessages="" messages="" rules="" successmessages="" value="Bisbe Gil" backgroundcolor="" label="label.family_name" loaderheight="2" clearicon="$clear" type="text"></v-text-field-stub>
+      <v-text-field-stub errorcount="1" errormessages="UserProfile.error_verify_email" messages="" rules="" successmessages="" value="email@domain.com" backgroundcolor="" label="label.email" loaderheight="2" clearicon="$clear" type="text"></v-text-field-stub>
+      <v-card-actions-stub class="px-6">
         <v-spacer-stub></v-spacer-stub>
-        <v-btn-stub color="primary" activeclass="v-btn--active" tag="button" type="button"></v-btn-stub>
-        <v-btn-stub color="primary" activeclass="v-btn--active" disabled="true" tag="button" type="button"></v-btn-stub>
+        <v-btn-stub color="primary" tag="button" activeclass="" type="button"></v-btn-stub>
+        <v-btn-stub color="primary" tag="button" activeclass="" disabled="true" type="button"></v-btn-stub>
       </v-card-actions-stub>
     </v-container-stub>
-    <v-dialog-stub contentclass="" value="true" persistent="true" maxwidth="500" origin="center center" width="auto" transition="dialog-transition">
-      <v-card-stub tag="div" class="elevation-12">
-        <v-toolbar-stub color="primary" dark="true" scrollthreshold="300">
+    <v-dialog-stub opendelay="0" closedelay="0" value="true" contentclass="" maxwidth="500" origin="center center" persistent="true" retainfocus="true" transition="dialog-transition" width="auto">
+      <v-card-stub loaderheight="4" tag="div" class="elevation-12">
+        <v-toolbar-stub color="primary" tag="header" tile="true" extensionheight="48" src="">
           <v-toolbar-title-stub></v-toolbar-title-stub>
         </v-toolbar-stub>
-        <v-card-text-stub class="px-4 pb-4 pt-3">
+        <v-card-text-stub class="px-6 pb-6 pt-4">
           UserProfile.code_sent
-          <v-text-field-stub label="UserProfile.confirmation_code" counter="6" value=""></v-text-field-stub>
-          <v-card-actions-stub class="px-4">
+          <v-text-field-stub errorcount="1" errormessages="" messages="" rules="" successmessages="" value="" backgroundcolor="" label="UserProfile.confirmation_code" loaderheight="2" clearicon="$clear" counter="6" type="text"></v-text-field-stub>
+          <v-card-actions-stub class="px-6">
             <v-spacer-stub></v-spacer-stub>
-            <v-btn-stub activeclass="v-btn--active" tag="button" flat="true" type="button"></v-btn-stub>
-            <v-btn-stub color="primary" activeclass="v-btn--active" disabled="true" tag="button" type="button"></v-btn-stub>
+            <v-btn-stub tag="button" activeclass="" text="true" type="button"></v-btn-stub>
+            <v-btn-stub color="primary" tag="button" activeclass="" disabled="true" type="button"></v-btn-stub>
           </v-card-actions-stub>
         </v-card-text-stub>
       </v-card-stub>

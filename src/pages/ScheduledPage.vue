@@ -28,7 +28,7 @@
           <v-layout
             v-for="(item, index) in scheduled(data.scheduledPhotos.scheduledPhotos)"
             :key="index+item"
-            class="pb-3">
+            class="pb-4">
             <v-flex
               xs2
               sm1

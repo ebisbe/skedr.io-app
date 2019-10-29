@@ -20,7 +20,7 @@
             block
             small
             class="ma-0"
-            outline/>
+            outlined/>
 
           <!-- Error -->
           <div v-else-if="error" class="error apollo">An error occured: [{{ gqlError }}]</div>
@@ -30,7 +30,7 @@
             <v-layout
               v-if="refetchData"
               py-2
-              px-3>
+              px-4>
               <v-flex>
                 <v-btn
                   v-t="'btn.update'"
@@ -38,7 +38,7 @@
                   block
                   small
                   class="ma-0"
-                  outline
+                  outlined
                   @click="query.refetch()"/>
                 <app-observer
                   @intersect="() => {
@@ -55,25 +55,25 @@
                   v-if="index !== 0"
                   :key="`${index}-divider`"
                 />
-                <v-list-tile
+                <v-list-item
                   :key="index"
                   @click.stop
                 >
-                  <v-list-tile-avatar>
+                  <v-list-item-avatar>
                     <img :src="composeUrl(item.photo)" :alt="item.photo.title">
-                  </v-list-tile-avatar>
+                  </v-list-item-avatar>
 
-                  <v-list-tile-content>
-                    <v-list-tile-title v-html="item.message"/>
-                    <v-list-tile-sub-title>{{ item.group.title }} <br> {{ createdAt(item.createdAt) }}</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
+                  <v-list-item-content>
+                    <v-list-item-title v-html="item.message"/>
+                    <v-list-item-subtitle>{{ item.group.title }} <br> {{ createdAt(item.createdAt) }}</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
               </template>
             </v-list>
             <v-layout
               v-if="showMoreEnabled"
               py-2
-              px-3>
+              px-4>
               <v-flex>
                 <v-btn
                   v-t="'btn.load_more'"
@@ -81,7 +81,7 @@
                   :disabled="data.notifications.nextToken === null"
                   block
                   small
-                  outline
+                  outlined
                   class="px-0 ma-0"
                   @click="showMore(query, data.notifications.nextToken)"/>
                   <!-- <app-observer v-if="showMoreEnabled" @intersect="showMore(query, data.notifications.nextToken)"/> -->
@@ -91,7 +91,7 @@
 
           <!-- No result -->
           <v-list v-else class="no-result apollo">
-            <v-list-tile v-t="'Layout.no_notifications'"/>
+            <v-list-item v-t="'Layout.no_notifications'"/>
           </v-list>
         </v-container>
       </template>

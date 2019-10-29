@@ -8,12 +8,14 @@
       height="3"
       class="my-0 topFloat"
     />
-    <v-toolbar dark color="primary">
+    <v-toolbar color="primary" dark>
       <v-toolbar-title v-t="'LoginUser.login'"/>
       <v-spacer/>
-      <language-selector/>
+      <v-flex xs3>
+        <language-selector/>
+      </v-flex>
     </v-toolbar>
-    <v-card-text class="px-4 pb-4 pt-3">
+    <v-card-text class="px-6 pb-6 pt-4">
       <form>
         <v-text-field
           v-model="form.username"
@@ -39,11 +41,11 @@
           @update:error="password"/>
       </form>
     </v-card-text>
-    <v-card-actions class="px-4">
+    <v-card-actions class="px-6">
       <v-spacer />
       <v-btn
         :disabled="!formIsValid || protectedUI"
-        text-xs-right
+        text-right
         color="primary"
         @click="handleSubmit">
         {{ $t('btn.continue') }}
@@ -53,14 +55,14 @@
     <i18n
       path="AuthenticationFooter.reset_or_try_demo"
       tag="p"
-      class="text-xs-center mb-0 grey--text subheading pb-2">
+      class="text-center mb-0 grey--text subtitle-1 pb-2">
       <router-link :to="{name: 'ResetPassword'}" place="reset_password">{{ $t('ResetPassword.title') }}</router-link>
       <a
         place="demo_account"
         href="#"
         @click.prevent="setDemoAccount">Demo Account</a>
     </i18n>
-    <p class="text-xs-center mb-0 grey--text subheading">
+    <p class="text-center mb-0 grey--text subtitle-1">
       {{ $t('AuthenticationFooter.not_account') }} <router-link :to="{name: 'Signup'}">{{ $t('AuthenticationFooter.sign_up') }}</router-link>
     </p>
   </div>

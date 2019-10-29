@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mb-4">
+  <v-card class="mb-6">
     <v-form >
       <v-container>
         <h1 v-t="'UserProfile.title'"/>
@@ -18,7 +18,7 @@
           :error-messages="email_verified ? '' : $t('UserProfile.error_verify_email')"
           :label="$t('label.email')"
         />
-        <v-card-actions class="px-4">
+        <v-card-actions class="px-6">
           <v-spacer/>
           <v-btn
             v-t="'UserProfile.verify_email'"
@@ -38,10 +38,10 @@
         persistent
         max-width="500">
         <v-card class="elevation-12">
-          <v-toolbar dark color="primary">
+          <v-toolbar color="primary">
             <v-toolbar-title v-t="'UserProfile.verify_email'"/>
           </v-toolbar>
-          <v-card-text class="px-4 pb-4 pt-3">
+          <v-card-text class="px-6 pb-6 pt-4">
             {{ $t('UserProfile.code_sent') }}
             <v-text-field
               v-model="code"
@@ -49,11 +49,11 @@
               counter="6"
             />
 
-            <v-card-actions class="px-4">
+            <v-card-actions class="px-6">
               <v-spacer/>
               <v-btn
                 v-t="'btn.change_email'"
-                flat
+                text
                 @click="closeDialog = true"/>
               <v-btn
                 v-t="'btn.confirm'"

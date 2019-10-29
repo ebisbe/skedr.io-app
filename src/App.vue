@@ -1,8 +1,7 @@
 <template>
   <v-app
     v-resize="resize"
-    :class="{'background': notLogged}"
-    light>
+    :class="{'background': notLogged}">
 
     <q-message multi-line bottom/>
 

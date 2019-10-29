@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import Comp from '../ShareDialog'
@@ -9,6 +9,8 @@ import { getters as userGet } from '@/store/modules/user'
 
 Vue.use(Vuetify)
 Vue.use(Vuex)
+
+const localVue = createLocalVue()
 
 const createStore = (photos = [], groups = {}) =>
   new Vuex.Store({
@@ -37,9 +39,10 @@ const createStore = (photos = [], groups = {}) =>
 
 const createCmp = (propsData, store) =>
   shallowMount(Comp, {
+    localVue,
     propsData,
+    vuetify: new Vuetify(),
     store,
-    mocks: { $vuetify: { breakpoint: { xsOnly: true } } },
     stubs: ['ApolloQuery', 'ApolloMutation']
   })
 describe('ShareDialog', () => {

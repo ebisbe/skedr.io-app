@@ -1,4 +1,4 @@
-import { shallowMount, mount } from '@vue/test-utils'
+import { createLocalVue, shallowMount, mount } from '@vue/test-utils'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
@@ -6,10 +6,13 @@ import Comp from '../GroupTagList.vue'
 
 Vue.use(Vuetify)
 Vue.use(Vuex)
+const localVue = createLocalVue()
 
 describe('GroupTagList.vue', () => {
   it('shows a group', () => {
     const wrapper = shallowMount(Comp, {
+      localVue,
+      vuetify: new Vuetify(),
       store: new Vuex.Store({
         modules: {
           tagsFilter: {
@@ -37,6 +40,8 @@ describe('GroupTagList.vue', () => {
 
   it('tags watch must change manageTags to false', () => {
     const wrapper = shallowMount(Comp, {
+      localVue,
+      vuetify: new Vuetify(),
       store: new Vuex.Store({
         modules: {
           tagsFilter: {
@@ -58,6 +63,8 @@ describe('GroupTagList.vue', () => {
 
   it('hovers over the element to show the link', done => {
     const wrapper = mount(Comp, {
+      localVue,
+      vuetify: new Vuetify(),
       propsData: { group: { id: 'groupId', title: 'Group Title', photoLimitOptOut: true, icon: '' } },
       // Mocks is needed due to use mount() https://github.com/kazupon/vue-i18n/issues/323
       // otherwise should be handled by i18n_test.js configs

@@ -1,7 +1,9 @@
 <template>
   <span v-if="!optOut">
-    <v-tooltip right lazy >
-      <v-icon slot="activator" color="red" >error_outline</v-icon>
+    <v-tooltip right >
+      <template v-slot:activator="{ on }">
+        <v-icon color="red" v-on="on" >error_outline</v-icon>
+      </template>
       <span v-t="'GroupTag.photo_limit'"/>
     </v-tooltip>
   </span>

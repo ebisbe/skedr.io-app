@@ -2,13 +2,17 @@
   <v-text-field
     ref="input"
     v-model="search"
-    :placeholder="placeholder"
-    v-bind="$listeners"
-    solo-inverted
+    :label="placeholder"
+    v-bind="$attrs"
+    type="search"
+    color="accent"
+    solo
+    hide-details
     clearable
     class="mx-auto"
     style="max-width: 500px; min-width: 128px"
     prepend-inner-icon="search"
+    v-on="$listeners"
     @click:append="clearText"
     @keyup.exact.esc="clearText"
     @keyup.enter="enter"

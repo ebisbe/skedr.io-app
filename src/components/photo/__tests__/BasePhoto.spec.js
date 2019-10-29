@@ -34,6 +34,6 @@ describe('BasePhoto component', () => {
 
   it('returns less height of the image when photo is selected', () => {
     const wrapper = createCmp({ url: '', lazyUrl: '', isSelected: true })
-    expect(wrapper.vm.realHeight).toBe(218)
+    expect(wrapper.vm.realHeight).toBe(226)
   })
 })

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar dark color="primary">
+    <v-toolbar color="primary" dark>
       <v-toolbar-title v-t="'ResetPassword.title'"/>
     </v-toolbar>
     <v-card-text>
@@ -46,11 +46,11 @@
       <v-btn
         v-t="'btn.cancel'"
         :to="{name:'Login'}"
-        flat/>
+        text/>
       <v-btn
         v-t="'btn.reset'"
         :disabled="!formIsValid || protectedUI"
-        text-xs-right
+        text-right
         color="primary"
         @click="submit"/>
     </v-card-actions>

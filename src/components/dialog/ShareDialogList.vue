@@ -1,74 +1,75 @@
 <template>
-  <v-list-tile
+  <v-list-item
     :class="{ selected, alreadyInGroup, disabled }"
-    avatar
+
     @mouseover="hover = true"
     @mouseleave="hover = false"
     v-on="clickable ? { click: selectGroup } : { click: () => ({})}">
-    <v-list-tile-avatar>
+    <v-list-item-avatar>
       <external-link-badge
         :hover="hover"
         :href="`https://www.flickr.com/groups/${group.id}`">
         <img :src="group.icon">
       </external-link-badge>
-    </v-list-tile-avatar>
-    <v-list-tile-content>
-      <v-list-tile-title >
+    </v-list-item-avatar>
+    <v-list-item-content>
+      <v-list-item-title >
         <photo-limit-opt-out-message v-if="group.photoLimitOptOut !== undefined" :opt-out="group.photoLimitOptOut"/>
         <strong v-html="group.title"/>
-      </v-list-tile-title>
-      <v-list-tile-sub-title>
+      </v-list-item-title>
+      <v-list-item-subtitle>
         <v-layout
           v-t="'ShareDialog.already_in_group'"
           v-if="alreadyInGroup"
-          row
-          wrap/>
-        <v-layout
-          v-else
-          row
-          wrap>
+        />
+        <v-layout v-else>
           <v-flex
-            class="text-xs-left"
+            class="text-left"
             xs4
           >
             <v-icon>photo</v-icon>
             {{ group.poolCount | parseNumber }}
           </v-flex>
           <v-flex
-            class="text-xs-left"
+            class="text-left"
             xs4
           >
             <v-icon>group</v-icon>
             {{ group.members | parseNumber }}
           </v-flex>
           <v-flex
-            class="text-xs-left pt-1"
+            class="text-left pt-1"
             xs4
             v-html="throttleText(group)"
           />
         </v-layout>
-      </v-list-tile-sub-title>
-    </v-list-tile-content>
-    <v-list-tile-action v-if="allowRemoveAction || ( selected && hover ) ">
+      </v-list-item-subtitle>
+    </v-list-item-content>
+    <v-list-item-action v-if="allowRemoveAction || ( selected && hover ) ">
       <v-btn
-        icon
+        fab
+        x-small
+        depressed
         ripple
         @click.stop="$emit('remove')">
-        <v-tooltip left>
-          <v-icon slot="activator" color="grey lighten-1">clear</v-icon>
+        <v-tooltip left >
+          <template v-slot:activator="{ on }">
+            <v-icon color="grey lighten-1" v-on="on">clear</v-icon>
+          </template>
           <span v-t="'ShareDialog.remove'"/>
         </v-tooltip>
       </v-btn>
-    </v-list-tile-action>
-    <v-list-tile-action v-else-if="useBadge">
+    </v-list-item-action>
+    <v-list-item-action v-else-if="useBadge">
       <v-btn
         :color="badgeColor"
-        icon
-        ripple>
+        x-small
+        depressed
+        fab>
         <v-icon color="white">{{ badgeType }}</v-icon>
       </v-btn>
-    </v-list-tile-action>
-  </v-list-tile>
+    </v-list-item-action>
+  </v-list-item>
 </template>
 
 <script>

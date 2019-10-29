@@ -7,7 +7,7 @@
     transition="dialog-bottom-transition"
     max-width="550px">
     <v-card>
-      <v-toolbar dark color="primary">
+      <v-toolbar color="primary">
         <v-btn icon @click.native="closePopUp">
           <v-icon>close</v-icon>
         </v-btn>
@@ -36,21 +36,21 @@
                 v-for="item in filteredData"
                 :item="item"
                 name="list">
-                <v-list-tile>
-                  <v-list-tile-content>
+                <v-list-item>
+                  <v-list-item-content>
                     {{ item[itemText] }}
-                  </v-list-tile-content>
-                </v-list-tile>
+                  </v-list-item-content>
+                </v-list-item>
               </slot>
             </transition-group>
           </v-list>
         </v-layout>
         <q-empty
           v-else-if="loading"
-          class="py-5 my-5"
+          class="py-12 my-12"
           loading/>
         <v-layout v-else class="grey lighten-2">
-          <v-flex class="text-xs-center headline py-5 my-5" v-html="noDataText"/>
+          <v-flex class="text-center headline py-12 my-12" v-html="noDataText"/>
         </v-layout>
       </v-card-text>
       <slot
@@ -62,18 +62,18 @@
       <transition name="footer">
         <v-toolbar
           v-show="hasItemsSelected"
-          dark
+          
           color="primary"
           style="position: absolute; bottom:0">
           <div
             style="overflow: hidden;"
-            class="ellipsis mx-3"
+            class="text-truncate mx-4"
             v-html="selectedDataList"/>
           <v-fab-transition>
             <v-btn
               v-show="hasItemsSelected"
               :disabled="!showList"
-              dark
+              
               absolute
               top
               right

@@ -1,21 +1,21 @@
 <template>
   <v-container class="footer">
-    <v-list two-line dark>
-      <v-list-tile>
-        <v-list-tile-content>
-          <v-list-tile-title >
+    <v-list two-line >
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="white--text">
             <slot name="title">
               {{ title }}
             </slot>
-          </v-list-tile-title>
+          </v-list-item-title>
           <slot name="subtitle">
-            <v-list-tile-sub-title>
+            <v-list-item-subtitle>
               {{ subtitle }}
-            </v-list-tile-sub-title>
+            </v-list-item-subtitle>
           </slot>
-        </v-list-tile-content>
+        </v-list-item-content>
         <slot name="action"/>
-      </v-list-tile>
+      </v-list-item>
     </v-list>
   </v-container>
 </template>
@@ -42,8 +42,7 @@ export default {
 }
 .footer .v-list {
   padding: 0;
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
+  border-radius:0px;
   background-color: rgba(66, 66, 66, 0.5) !important;
 }
 </style>

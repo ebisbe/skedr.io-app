@@ -2,6 +2,8 @@
   <v-sheet
     v-bind="$attrs"
     :class="{'photostream': selectable, 'unselectable': !selectable}"
+    tile
+    style="position:relative;"
     class="grey lighten-2"
     @mouseover="selectable ? hover = true : null"
     @mouseleave="hover = false"
@@ -30,13 +32,13 @@
     </external-link-badge>
     <v-tooltip
       v-if="isPrivate"
-      class="non-public"
-      lazy
       left>
-      <v-icon
-        slot="activator"
-        large
-        class="warning--text">lock</v-icon>
+      <template v-slot:activator="{ on }">
+        <v-icon
+          large
+          class="warning--text non-public"
+          v-on="on">lock</v-icon>
+      </template>
       <span v-t="'Layout.private_image'"/>
     </v-tooltip>
     <v-icon
@@ -96,15 +98,13 @@ export default {
       return !this.showObserver ? this.url : ''
     },
     realHeight() {
-      return !this.isSelected ? this.height : this.height - 32
+      return !this.isSelected ? this.height : this.height - 24
     }
   }
 }
 </script>
 <style scoped>
 .img {
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
   transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

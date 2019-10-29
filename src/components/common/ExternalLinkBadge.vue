@@ -29,6 +29,9 @@ export default {
 }
 </script>
 <style scoped>
+.external-link {
+  border-radius: inherit;
+}
 .external-link:hover {
   cursor: pointer;
 }

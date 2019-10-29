@@ -1,7 +1,7 @@
 
 <template>
   <v-chip
-    :selected="selected"
+    :input-value="inputValue"
     label
     small
   >
@@ -25,7 +25,7 @@ export default {
       type: String,
       required: true
     },
-    selected: {
+    inputValue: {
       type: Boolean,
       default: false
     }

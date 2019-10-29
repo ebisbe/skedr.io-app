@@ -1,12 +1,10 @@
 <template>
-  <v-flex xs3>
-    <v-select
-      v-model="locale"
-      :items="items"
-      :hide-details="true"
-      class="pt-0 mt-0"
-    />
-  </v-flex>
+  <v-select
+    v-model="locale"
+    :items="items"
+    :hide-details="true"
+    class="pt-0 mt-0"
+  />
 </template>
 
 <script>

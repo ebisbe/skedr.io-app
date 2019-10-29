@@ -12,7 +12,7 @@
       <v-tooltip
         v-if="deleted"
         class="deleted"
-        lazy
+        
         left>
         <v-icon
           slot="activator"

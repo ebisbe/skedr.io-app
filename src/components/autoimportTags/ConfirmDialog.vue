@@ -1,30 +1,33 @@
 <template>
   <v-dialog
     v-model="modal"
-    lazy
+
     width="500"
     scrollable
   >
-    <v-btn
-      slot="activator"
-      :disabled="loading"
-      :loading="loading"
-      ripple
-      color="grey lighten-3"
-      icon>
-      <v-tooltip top lazy>
-        <v-icon
-          slot="activator"
-          color="accent">create_new_folder</v-icon>
-        <span v-t="'AutoimportTags.title'"/>
-      </v-tooltip>
-    </v-btn>
+    <template v-slot:activator="{ on }">
+      <v-btn
+        :disabled="loading"
+        :loading="loading"
+        ripple
+        icon
+        v-on="on">
+        <v-tooltip top>
+          <template v-slot:activator="{ on }">
+            <v-icon
+              slot="activator"
+              color="accent">create_new_folder</v-icon>
+          </template>
+          <span v-t="'AutoimportTags.title'"/>
+        </v-tooltip>
+      </v-btn>
+    </template>
     <v-card>
-      <v-toolbar dark color="primary">
-        <v-toolbar-title v-t="$t('AutoimportTags.accept_rules')"/>
+      <v-toolbar color="primary">
+        <v-toolbar-title v-t="$t('AutoimportTags.accept_rules')" class="white--text"/>
         <v-spacer/>
       </v-toolbar>
-      <v-card-text style="white-space: pre-line;" v-html="rules"/>
+      <v-card-text class="pt-5 black--text" v-html="rules"/>
       <v-divider/>
 
       <v-card-actions>
@@ -32,7 +35,7 @@
         <v-btn
           v-t="$t('btn.not_accept')"
           color="primary"
-          flat
+          text
           @click="modal = false"
         />
         <v-btn

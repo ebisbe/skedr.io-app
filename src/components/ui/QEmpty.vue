@@ -2,16 +2,16 @@
   <v-container fill-height>
     <v-layout align-center>
       <v-flex v-if="!loading || error" xs12>
-        <div class="text-xs-center">
+        <div class="text-center">
           <v-icon
             size="120"
-            class="text-xs-center"
+            class="text-center"
             v-html="icon"/>
         </div>
-        <h1 class="text-xs-center headline" v-html="desc"/>
+        <h1 class="text-center headline" v-html="desc"/>
       </v-flex>
       <v-flex v-else xs12>
-        <div class="text-xs-center">
+        <div class="text-center">
           <v-progress-circular
             size="50"
             indeterminate

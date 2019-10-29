@@ -3,26 +3,27 @@
     @mouseover="hover = true"
     @mouseleave="hover = false">
     <v-divider v-if="useDivider" />
-    <v-list-tile
+    <v-list-item
       :key="group.id"
-      avatar
-      @click.stop>
-      <v-list-tile-avatar>
+      :ripple="false"
+      link
+    >
+      <v-list-item-avatar>
         <external-link-badge
           :hover="hover"
           :href="`https://www.flickr.com/groups/${group.id}`">
           <img :src="group.icon">
         </external-link-badge>
-      </v-list-tile-avatar>
-      <v-list-tile-content>
-        <v-list-tile-title>
+      </v-list-item-avatar>
+      <v-list-item-content>
+        <v-list-item-title>
           <photo-limit-opt-out-message :opt-out="group.photoLimitOptOut"/>
           <strong v-html="group.title" />
-        </v-list-tile-title>
-        <v-list-tile-sub-title>
-          <v-layout row wrap>
+        </v-list-item-title>
+        <v-list-item-subtitle>
+          <v-layout wrap>
             <v-flex
-              class="text-xs-left"
+              class="text-left"
               xs4
               sm2
             >
@@ -30,7 +31,7 @@
               {{ group.poolCount | parseNumber }}
             </v-flex>
             <v-flex
-              class="text-xs-left"
+              class="text-left"
               xs4
               sm2
             >
@@ -38,7 +39,7 @@
               {{ group.members | parseNumber }}
             </v-flex>
             <v-flex
-              class="text-xs-left pt-1"
+              class="text-left pt-1"
               xs4
               sm2
               v-html="throttleText(group)"
@@ -47,13 +48,14 @@
               v-if="tags.length"
               xs12
               sm6
-              class="text-xs-right">
+              class="text-right">
               <v-chip
                 v-for="tag in tags"
                 :key="tag"
-                :selected="tagsFilter[tag]"
+                :input-value="tagsFilter[tag]"
                 small
                 label
+                class="mx-1"
                 @click="$store.commit('tagsFilter/upsert', tag)"
               >
                 <v-icon
@@ -71,16 +73,16 @@
                 offset-y
                 max-height="300"
                 max-width="285"
-                lazy>
+              >
                 <template v-slot:activator="data">
                   <v-btn
                     v-show="hover || suggestedTagsMenu"
                     :loading="$apolloData.queries.suggestedTags.loading"
-                    flat
-                    small
-                    class="ma-0"
-                    @click="getSuggestTagsData"
-                ><v-icon>highlight</v-icon>{{ $t('GroupTag.suggest_tags') }}</v-btn></template>
+                    text
+                    x-small
+                    outlined
+                    @click.stop="getSuggestTagsData"
+                >{{ $t('GroupTag.suggest_tags') }}</v-btn></template>
                 <div>
                   <v-list v-if="suggestedTags && suggestedTags.length">
                     <ApolloMutation
@@ -96,66 +98,66 @@
                       @done="$emit('close')"
                     >
                       <template slot-scope="{ mutate, loading, error }">
-                        <v-list-tile v-if="error">
-                          <v-list-tile-title v-t="'GroupTag.error_saving_tag'"/>
-                        </v-list-tile>
-                        <v-list-tile
+                        <v-list-item v-if="error">
+                          <v-list-item-title v-t="'GroupTag.error_saving_tag'"/>
+                        </v-list-item>
+                        <v-list-item
                           v-else
                           @click="mutate()">
-                          <v-list-tile-avatar><v-icon>label</v-icon></v-list-tile-avatar>
-                          <v-list-tile-title>{{ tag.name }}</v-list-tile-title>
-                          <v-list-tile-action>
-                            <v-list-tile-action-text>
+                          <v-list-item-avatar><v-icon>label</v-icon></v-list-item-avatar>
+                          <v-list-item-title>{{ tag.name }}</v-list-item-title>
+                          <v-list-item-action>
+                            <v-list-item-action-text>
                               {{ parseInt(tag.count / tag.total * 100) }}%
-                            </v-list-tile-action-text>
-                            <v-list-tile-action-text>
+                            </v-list-item-action-text>
+                            <v-list-item-action-text>
                               {{ tag.count }} / {{ tag.total }}
-                            </v-list-tile-action-text>
-                          </v-list-tile-action>
-                        </v-list-tile>
+                            </v-list-item-action-text>
+                          </v-list-item-action>
+                        </v-list-item>
                       </template>
                     </ApolloMutation>
                   </v-list>
                   <v-list v-else>
-                    <v-list-tile>
-                      <v-list-tile-content>
-                        <v-list-tile-title v-t="'GroupTag.not_enought_data'"/>
-                        <v-list-tile-sub-title v-t="'GroupTag.not_enought_data_suggestion'"/>
-                      </v-list-tile-content>
-                    </v-list-tile>
+                    <v-list-item>
+                      <v-list-item-content>
+                        <v-list-item-title v-t="'GroupTag.not_enought_data'"/>
+                        <v-list-item-subtitle v-t="'GroupTag.not_enought_data_suggestion'"/>
+                      </v-list-item-content>
+                    </v-list-item>
                   </v-list>
                 </div>
               </v-menu>
             </v-flex>
           </v-layout>
-        </v-list-tile-sub-title>
-      </v-list-tile-content>
-      <v-list-tile-action>
+        </v-list-item-subtitle>
+      </v-list-item-content>
+      <v-list-item-action>
         <slot name="action">
-          <v-btn
-            ripple
-            icon
-          >
-            <v-tooltip
-              left
-              lazy
-            >
-              <v-icon
-                slot="activator"
-                @click="manageTags = true"
-              >settings</v-icon>
-              <span v-t="'GroupTag.title'"/>
-            </v-tooltip>
-          </v-btn>
+          <v-tooltip left>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                ripple
+                icon
+                small
+                v-on="on"
+              >
+                <v-icon
+                  @click="manageTags = true"
+                >settings</v-icon>
+              </v-btn>
+            </template>
+            <span v-t="'GroupTag.title'"/>
+          </v-tooltip>
         </slot>
-      </v-list-tile-action>
+      </v-list-item-action>
       <group-tag-dialog
         :title="group.title"
         :manage-tags="manageTags"
         :group-id="group.id"
         :tags="tags"
         @close="manageTags = false"/>
-    </v-list-tile>
+    </v-list-item>
   </div>
 </template>
 <script>
@@ -224,3 +226,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.v-list-item--link {
+  cursor: default !important;
+}
+</style>

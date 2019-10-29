@@ -3,29 +3,32 @@
     v-model="showDialog"
     :fullscreen="$vuetify.breakpoint.xsOnly"
     persistent
-    lazy
     width="500"
     scrollable
   >
     <v-card max-width="500">
-      <v-toolbar dark color="accent">
-        <v-btn icon @click.native="closeDialog(false)">
+      <v-toolbar
+        color="accent"
+        extension-height="60">
+        <v-btn
+          icon
+          color="white"
+          @click.native="closeDialog(false)">
           <v-icon>close</v-icon>
         </v-btn>
-        <v-toolbar-title v-html="toolbarTitle"/>
+        <v-toolbar-title class="white--text" v-html="toolbarTitle"/>
         <v-spacer/>
-        <v-flex
-          slot="extension"
-          class="pa-1">
+        <template #extension>
           <q-filter
             v-if="showDialog"
             :placeholder="$t('ShareDialog.placeholder')"
+            dense
             @enter="val => {
               search = val.toLowerCase()
               showMoreEnabled = true
               page= 1 }"
             @clear="search = ''"/>
-        </v-flex>
+        </template>
       </v-toolbar>
       <v-card-text
         v-if="search !== ''"
@@ -46,7 +49,7 @@
             <!-- Loading -->
             <q-empty
               v-if="isLoading === 1 && !fetchingMore"
-              class="py-5 my-5"
+              class="py-12 my-12"
               loading/>
 
             <!-- Error -->
@@ -132,7 +135,7 @@
             <!-- Loading -->
             <q-empty
               v-if="isLoading === 1 && !fetchingMore"
-              class="py-5 my-5"
+              class="py-12 my-12"
               loading/>
 
             <!-- Error -->
@@ -173,12 +176,12 @@
 
       <v-toolbar
         v-if="hasItemsSelected"
-        dark
+
         color="accent"
-        style="position: absolute; bottom:0">
+        style="position: absolute; bottom:0; width:100%;">
         <div
           style="overflow: hidden;"
-          class="ellipsis mx-3"
+          class="text-truncate mx-4"
           v-html="groupTagList"/>
         <v-fab-transition>
           <ApolloMutation
@@ -193,7 +196,7 @@
                 v-show="hasItemsSelected"
                 :disabled="loading"
                 :loading="loading"
-                dark
+
                 absolute
                 top
                 right

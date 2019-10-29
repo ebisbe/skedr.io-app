@@ -12,41 +12,50 @@
     <template v-slot:footer>
       <footer-photo :title="photo.title">
         <template v-slot:subtitle>
-          <v-list-tile-sub-title style="display:flex;">
+          <v-list-item-subtitle style="display:flex;" class="white--text">
             <v-layout
               align-center
               class="pl-1 my-1"
             >
-              <v-tooltip bottom lazy>
-                <a
-                  slot="activator"
-                  :href="photoLink"
-                  target="_blank"
-                  class="white--text"
-                  @click.stop>
-                  <v-icon class="mr-1">visibility</v-icon>
-                  <span class="subheading mr-2 font-weight-bold" v-html="photo.views"/>
-                </a>
+              <v-tooltip bottom >
+                <template v-slot:activator="{on}">
+                  <a
+                    :href="photoLink"
+                    target="_blank"
+                    class="white--text"
+                    v-on="on"
+                    @click.stop>
+                    <v-icon class="mr-1" color="white">visibility</v-icon>
+                    <span class="subtitle-1 mr-2 font-weight-bold" v-html="photo.views"/>
+                  </a>
+                </template>
                 <span v-t="'Layout.views'"/>
               </v-tooltip>
               <span class="mr-1">·</span>
-              <v-tooltip bottom lazy>
-                <span slot="activator">
-                  <v-icon class="mr-1">perm_media</v-icon>
-                  <span class="subheading font-weight-bold" v-html="photo.sharedGroups"/>
-                </span>
+              <v-tooltip bottom >
+                <template v-slot:activator="{ on }">
+                  <span v-on="on">
+                    <v-icon class="mr-1" color="white">perm_media</v-icon>
+                    <span class="subtitle-1 font-weight-bold" v-html="photo.sharedGroups"/>
+                  </span>
+                </template>
                 <span v-t="'Layout.groups_added'"/>
               </v-tooltip>
               <span class="mr-1">·</span>
-              <v-tooltip bottom lazy>
-                <span slot="activator">
-                  <v-icon class="mr-1" v-html="star"/>
-                  <span class="subheading font-weight-bold" v-html="photo.totalFavs"/>
-                </span>
+              <v-tooltip bottom >
+                <template v-slot:activator="{ on }">
+                  <span v-on="on">
+                    <v-icon
+                      class="mr-1"
+                      color="white"
+                      v-html="star"/>
+                    <span class="subtitle-1 font-weight-bold" v-html="photo.totalFavs"/>
+                  </span>
+                </template>
                 <span v-t="'Layout.favorites'"/>
               </v-tooltip>
             </v-layout>
-          </v-list-tile-sub-title>
+          </v-list-item-subtitle>
         </template>
       </footer-photo>
     </template>

@@ -72,7 +72,7 @@
         </li>
         <li>Once the tag/s has been linked to the group all your previous photos with that tag will be shared to that group automatically. New photos you upload will be added too.</li>
       </ol>
-      <v-flex xs12 class="pt-5">
+      <v-flex xs12 class="pt-12">
         <h3>How it works?</h3>
         <video
           src="/video/autoimport/Video MP4 (1180x808).mp4"

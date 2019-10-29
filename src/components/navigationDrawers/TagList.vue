@@ -11,36 +11,43 @@
         <v-flex class="py-0">
           <v-tooltip
             top
-            lazy>
-            <v-btn
-              slot="activator"
-              :disabled="isEmpty"
-              block
-              color="error"
-              small
-              outline
-              @click="$store.commit('tagsFilter/clear')"
-            >
-              <v-icon>delete</v-icon>&nbsp;{{ $t('btn.clear') }}
-            </v-btn>
+          >
+            <template v-slot:activator="{ on }">
+              <v-btn
+                :disabled="isEmpty"
+                block
+                color="error"
+                small
+                outlined
+                v-on="on"
+                @click="$store.commit('tagsFilter/clear')"
+              >
+                <v-icon>delete</v-icon>&nbsp;{{ $t('btn.clear') }}
+              </v-btn>
+            </template>
             <span v-t="'Layout.clear_filter'"/>
           </v-tooltip>
         </v-flex>
       </v-layout>
-      <v-chip
-        v-for="(groups,tag) in tagsName"
-        :key="tag"
-        :selected="tagsFilter[tag]"
-        small
-        label
-        @click="$store.commit('tagsFilter/upsert', tag)">
-        <v-icon
-          :color="tagsFilter[tag] ? 'accent' : undefined"
-          small
-          left
-          class="mr-1">label</v-icon>
-        {{ tag }}&nbsp;[{{ groups.length }}]
-      </v-chip>
+      <v-chip-group
+        multiple
+        column
+        active-class="primary--text"
+      >
+        <v-chip
+          v-for="(groups,tag) in tagsName"
+          :key="tag"
+          :input-value="tagsFilter[tag]"
+          label
+          @click="$store.commit('tagsFilter/upsert', tag)">
+          <v-icon
+            :color="tagsFilter[tag] ? 'accent' : undefined"
+            small
+            left
+            class="mr-1">label</v-icon>
+          {{ tag }}&nbsp;[{{ groups.length }}]
+        </v-chip>
+      </v-chip-group>
     </v-container>
   </v-navigation-drawer>
 </template>

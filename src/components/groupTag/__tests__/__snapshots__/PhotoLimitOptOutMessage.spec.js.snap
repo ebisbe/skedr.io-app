@@ -2,4 +2,4 @@
 
 exports[`PhotoLimitOptOutMessage does not show the message 1`] = ``;
 
-exports[`PhotoLimitOptOutMessage shows the message 1`] = `<span><v-tooltip-stub opendelay="0" closedelay="0" contentclass="" fixed="true" right="true" openonhover="true" maxwidth="auto" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" tag="span"> <span></span></v-tooltip-stub></span>`;
+exports[`PhotoLimitOptOutMessage shows the message 1`] = `<span><v-tooltip-stub opendelay="0" closedelay="0" contentclass="" fixed="true" right="true" openonhover="true" maxwidth="auto" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" tag="span"> <span>GroupTag.photo_limit</span></v-tooltip-stub></span>`;

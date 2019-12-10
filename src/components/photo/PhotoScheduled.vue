@@ -11,13 +11,13 @@
     <template v-slot:footer>
       <v-tooltip
         v-if="deleted"
-        class="deleted"
-        
         left>
-        <v-icon
-          slot="activator"
-          large
-          class="warning--text">delete</v-icon>
+        <template v-slot:activator="{ on }">
+          <v-icon
+            large
+            class="warning--text deleted"
+            v-on="on">delete</v-icon>
+        </template>
         <span v-t="'Layout.scheduled_to_delete'"/>
       </v-tooltip>
       <footer-photo :title="photo.photo.title"/>

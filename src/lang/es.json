@@ -91,7 +91,7 @@
 	"SignupUser": {
 		"account_created": "Cuenta creada con éxito",
 		"code_sent": "El código de confirmación ha sido enviado con éxito.",
-		"code_validate": "Código validado",
+		"code_validated": "Código validado",
 		"step1": "Registrarse en Flickr",
 		"step1_desc": "Primero necesitamos conectarnos a tu cuenta de Flickr. Al presionar el botón Conectar, serás redirigido a tu cuenta de Flickr para permitirnos el acceso.",
 		"step2": "Crea tu cuenta",
@@ -135,7 +135,7 @@
 		"family_name": "Apellido",
 		"first_name": "Nombre",
 		"new_password": "Introduce la nueva contraseña",
-		"password": "Introduce tu ID de flickr",
+		"password": "Introduce la contraseña",
 		"search": "Buscar"
 	},
 	"loading": "Cargando ...",

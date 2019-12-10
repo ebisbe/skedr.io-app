@@ -91,7 +91,7 @@
 	"SignupUser": {
 		"account_created": "Compte créé avec succès",
 		"code_sent": "Le code de confirmation a été envoyé avec succès",
-		"code_validate": "Code validé",
+		"code_validated": "Code validé",
 		"step1": "Inscrivez-vous avec Flickr",
 		"step1_desc": "Nous devons d’abord nous connecter à votre compte Flickr. En appuyant sur le bouton Connecter, vous serez redirigé vers votre compte Flickr pour nous permettre d'y accéder.",
 		"step2": "Créez votre compte",

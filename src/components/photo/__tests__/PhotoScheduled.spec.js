@@ -20,7 +20,11 @@ const createStore = (photos = {}) =>
       }
     }
   })
-const createComp = (propsData, photos = {}) => shallowMount(comp, { propsData, store: createStore(photos) })
+const createComp = (propsData, photos = {}) =>
+  shallowMount(comp, {
+    propsData,
+    store: createStore(photos)
+  })
 
 describe('PhotoScheduled.vue', () => {
   const photo = {
@@ -51,7 +55,10 @@ describe('PhotoScheduled.vue', () => {
 
     it('checks the payload', () => {
       const wrapper = createComp({ photo })
-      expect(wrapper.vm.payload).toMatchObject({ id: 'groupId-photoId', item: photo })
+      expect(wrapper.vm.payload).toMatchObject({
+        id: 'groupId-photoId',
+        item: photo
+      })
     })
   })
 

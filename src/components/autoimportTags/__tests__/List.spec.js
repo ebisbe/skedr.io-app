@@ -7,7 +7,12 @@ import { getters } from '@/store/modules/tagsFilter'
 Vue.use(Vuetify)
 Vue.use(Vuex)
 
-const createCmp = ({ propsData, mocks, store }) => shallowMount(Component, { propsData, mocks, store })
+const createCmp = ({ propsData, mocks, store }) =>
+  shallowMount(Component, {
+    propsData,
+    mocks,
+    store
+  })
 const createStore = items =>
   new Vuex.Store({
     modules: {

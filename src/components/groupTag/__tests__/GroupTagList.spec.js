@@ -53,7 +53,14 @@ describe('GroupTagList.vue', () => {
         }
       }),
 
-      propsData: { group: { id: 'groupId', title: 'Group Title', photoLimitOptOut: true, icon: '' } }
+      propsData: {
+        group: {
+          id: 'groupId',
+          title: 'Group Title',
+          photoLimitOptOut: true,
+          icon: ''
+        }
+      }
     })
     wrapper.vm.manageTags = true
     expect(wrapper.vm.manageTags).toBe(true)
@@ -65,7 +72,14 @@ describe('GroupTagList.vue', () => {
     const wrapper = mount(Comp, {
       localVue,
       vuetify: new Vuetify(),
-      propsData: { group: { id: 'groupId', title: 'Group Title', photoLimitOptOut: true, icon: '' } },
+      propsData: {
+        group: {
+          id: 'groupId',
+          title: 'Group Title',
+          photoLimitOptOut: true,
+          icon: ''
+        }
+      },
       // Mocks is needed due to use mount() https://github.com/kazupon/vue-i18n/issues/323
       // otherwise should be handled by i18n_test.js configs
       mocks: {

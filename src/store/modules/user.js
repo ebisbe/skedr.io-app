@@ -32,7 +32,7 @@ export const mutations = {
 
 export const actions = {
   loginUser: async function({ state, commit }, { username, password }) {
-    //the value of `username` is really an `email`
+    // the value of `username` is really an `email`
     const user = await Auth.signIn(username.toLowerCase(), password)
     commit('setUser', user)
 
@@ -80,7 +80,10 @@ export const actions = {
   },
   signOut: async ({ state }) => {
     if (state.user.attributes.email_verified === false) {
-      throw { name: 'VerifyEmailError', message: 'To sign out first verify your email' }
+      throw {
+        name: 'VerifyEmailError',
+        message: 'To sign out first verify your email'
+      }
     }
     await Auth.signOut()
     return true

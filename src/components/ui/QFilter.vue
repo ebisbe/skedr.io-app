@@ -21,58 +21,57 @@
   />
 </template>
 <script>
-export default {
-  name: 'QFilter',
-  props: {
-    placeholder: {
-      type: String,
-      default: 'Search'
-    },
-    dontFocus: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data() {
-    return {
-      search: '',
-      searches: []
-    }
-  },
-  computed: {
-    icon() {
-      return this.search.length === 0 ? 'search' : 'clear'
-    }
-  },
-  watch: {
-    search(value) {
-      if (value === null || value === '') {
-        this.$emit('clear')
+  export default {
+    name: 'QFilter',
+    props: {
+      placeholder: {
+        type: String,
+        default: 'Search'
+      },
+      dontFocus: {
+        type: Boolean,
+        default: false
       }
-      this.$emit('search', value === null ? '' : value)
-    }
-  },
-  mounted() {
-    if (!this.dontFocus) {
-      this.$refs.input.focus()
-    }
-    this.search = ''
-  },
-  methods: {
-    clearText() {
+    },
+    data() {
+      return {
+        search: '',
+        searches: []
+      }
+    },
+    computed: {
+      icon() {
+        return this.search.length === 0 ? 'search' : 'clear'
+      }
+    },
+    watch: {
+      search(value) {
+        if (value === null || value === '') {
+          this.$emit('clear')
+        }
+        this.$emit('search', value === null ? '' : value)
+      }
+    },
+    mounted() {
+      if (!this.dontFocus) {
+        this.$refs.input.focus()
+      }
       this.search = ''
-      this.$emit('clear')
     },
-    enter() {
-      this.$emit('enter', this.search)
-    },
-    ctrlEnter() {
-      this.$emit('ctrlEnter')
-    },
-    ctrlEsc() {
-      this.$emit('ctrlEsc')
+    methods: {
+      clearText() {
+        this.search = ''
+        this.$emit('clear')
+      },
+      enter() {
+        this.$emit('enter', this.search)
+      },
+      ctrlEnter() {
+        this.$emit('ctrlEnter')
+      },
+      ctrlEsc() {
+        this.$emit('ctrlEsc')
+      }
     }
   }
-}
 </script>
-

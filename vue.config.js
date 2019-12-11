@@ -18,9 +18,6 @@ if (NODE_ENV === 'production' && COMMIT_REF) {
   process.env.VUE_APP_REVISION = COMMIT_REF
 }
 
-const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
-plugins.push(new VuetifyLoaderPlugin())
-
 module.exports = {
   chainWebpack: config => {
     config.module

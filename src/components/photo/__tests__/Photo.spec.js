@@ -27,7 +27,11 @@ const createStore = (photos = []) =>
       }
     }
   })
-const createCmp = (propsData, photos = []) => shallowMount(comp, { propsData, store: createStore(photos) })
+const createCmp = (propsData, photos = []) =>
+  shallowMount(comp, {
+    propsData,
+    store: createStore(photos)
+  })
 const photo = { id: 'myId', urlSq: '', urlM: 'something' }
 describe('Photo.vue', () => {
   describe('Computed Properties', () => {

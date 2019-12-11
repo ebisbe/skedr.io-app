@@ -112,7 +112,10 @@ describe('Store user.js', () => {
 
       const response = await actions.loginUser(store, user)
       expect(store.commit).toHaveBeenCalledTimes(2)
-      expect(store.commit).toHaveBeenNthCalledWith(1, 'setUser', { user: 'User-test@mail.com', password: '123456' })
+      expect(store.commit).toHaveBeenNthCalledWith(1, 'setUser', {
+        user: 'User-test@mail.com',
+        password: '123456'
+      })
       expect(store.commit).toHaveBeenNthCalledWith(2, 'setUserVerification', {
         verified: { email: 'Verified-User-test@mail.com' }
       })
@@ -193,26 +196,29 @@ describe('Store user.js', () => {
       })
     })
 
-    if('confirms the email with a wrong code', () => {
-      const commit = jest.fn()
-      const store = {
-        commit,
-        state: {
-          user: {
-            id: 'someId',
-            attributes: {}
+    if (
+      ('confirms the email with a wrong code',
+      () => {
+        const commit = jest.fn()
+        const store = {
+          commit,
+          state: {
+            user: {
+              id: 'someId',
+              attributes: {}
+            }
           }
         }
-      }
-    })
-
-    it('signs out if email is verified', async () => {
-      const store = {
-        state: { user: { attributes: { email_verified: true } } }
-      }
-      const response = await actions.signOut(store)
-      expect(response).toBe(true)
-    })
+      })
+    ) {
+      it('signs out if email is verified', async () => {
+        const store = {
+          state: { user: { attributes: { email_verified: true } } }
+        }
+        const response = await actions.signOut(store)
+        expect(response).toBe(true)
+      })
+    }
 
     it('does not allows to sign out when email is not verified', async () => {
       const store = {

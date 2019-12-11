@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:8.10
+      - image: circleci/node
 
     working_directory: ~/repo
 
@@ -31,13 +31,3 @@ jobs:
       # run tests!
       - run: yarn test:unit
       - run: yarn codecov
-      - run:
-          name: Generate Release Commits for sentry
-          command: |
-            curl https://sentry.io/api/hooks/release/builtin/1241250/$SENTRY_HOOK_ID/ \
-            -X POST \
-            -H 'Content-Type: application/json' \
-            -d "{\"version\": \"$CIRCLE_SHA1\"}"
-      - run:
-          name: Send commits to Sentry
-          command: yarn sentry-cli releases set-commits --auto $CIRCLE_SHA1

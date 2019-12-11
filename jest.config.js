@@ -19,5 +19,5 @@ module.exports = {
     '!src/store/modules/schedulerPool.js',
     '!src/store/modules/groupsPool.js'
   ],
-  setupFiles: ["<rootDir>/src/plugins/i18n_test.js"]
+  setupFiles: ['<rootDir>/src/plugins/i18n_test.js']
 }

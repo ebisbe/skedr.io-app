@@ -29,7 +29,10 @@ const createStore = ({ email_verified = true, actions = {} } = {}) =>
     }
   })
 
-const createComp = dataStore => shallowMount(comp, { store: createStore(dataStore) })
+const createComp = dataStore =>
+  shallowMount(comp, {
+    store: createStore(dataStore)
+  })
 
 describe('UserProfile', () => {
   it('tests the snapshot with email verified', () => {

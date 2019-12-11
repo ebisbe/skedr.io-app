@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar color="primary" dark>
-      <v-toolbar-title v-t="'ResetPassword.title'"/>
+      <v-toolbar-title v-t="'ResetPassword.title'" />
     </v-toolbar>
     <v-card-text>
       <v-text-field
@@ -15,7 +15,7 @@
       />
       <transition name="fade">
         <div v-show="firstPart">
-          <p v-t="'ResetPassword.message'"/>
+          <p v-t="'ResetPassword.message'" />
           <v-text-field
             v-model="form.code"
             :disabled="protectedUI"
@@ -29,7 +29,13 @@
           <v-text-field
             v-model="form.password"
             :disabled="protectedUI"
-            :rules="[rules.lowerCaseLetters, rules.upperCaseLetters, rules.numbers, rules.specialCharacters, rules.length]"
+            :rules="[
+              rules.lowerCaseLetters,
+              rules.upperCaseLetters,
+              rules.numbers,
+              rules.specialCharacters,
+              rules.length
+            ]"
             :append-icon="passVisibility ? 'visibility' : 'visibility_off'"
             :type="passVisibility ? 'password' : 'text'"
             :label="$t('label.new_password')"
@@ -42,88 +48,86 @@
       </transition>
     </v-card-text>
     <v-card-actions>
-      <v-spacer/>
-      <v-btn
-        v-t="'btn.cancel'"
-        :to="{name:'Login'}"
-        text/>
+      <v-spacer />
+      <v-btn v-t="'btn.cancel'" :to="{ name: 'Login' }" text />
       <v-btn
         v-t="'btn.reset'"
         :disabled="!formIsValid || protectedUI"
         text-right
         color="primary"
-        @click="submit"/>
+        @click="submit"
+      />
     </v-card-actions>
   </div>
 </template>
 
 <script>
-import Auth from '@aws-amplify/auth'
-import { validations } from '@/mixins'
+  import Auth from '@aws-amplify/auth'
+  import { validations } from '@/mixins'
 
-export default {
-  mixins: [validations],
-  data: () => {
-    const defaultForm = Object.freeze({
-      username: '',
-      validUsername: false,
-      password: '',
-      validPassword: false,
-      code: '',
-      validCode: false
-    })
+  export default {
+    mixins: [validations],
+    data: () => {
+      const defaultForm = Object.freeze({
+        username: '',
+        validUsername: false,
+        password: '',
+        validPassword: false,
+        code: '',
+        validCode: false
+      })
 
-    return {
-      form: Object.assign({}, defaultForm),
-      protectedUI: false,
-      firstPart: false,
-      passVisibility: true
-    }
-  },
-  computed: {
-    formIsValid() {
-      return (
-        (!this.firstPart && this.form.validUsername) ||
-        (this.firstPart && this.form.validPassword && this.form.validCode)
-      )
-    }
-  },
-  methods: {
-    submit() {
-      if (this.firstPart) {
-        this.changePassword()
-      } else {
-        this.resetCode()
+      return {
+        form: Object.assign({}, defaultForm),
+        protectedUI: false,
+        firstPart: false,
+        passVisibility: true
       }
     },
-    resetCode: async function() {
-      let message
-      try {
-        await Auth.forgotPassword(this.form.username)
-        message = this.$i18n.t('ResetPassword.code_sent')
-        this.firstPart = true
-      } catch (err) {
-        message = err.message
+    computed: {
+      formIsValid() {
+        return (
+          (!this.firstPart && this.form.validUsername) ||
+          (this.firstPart && this.form.validPassword && this.form.validCode)
+        )
       }
-      this.$store.dispatch('message/add', message)
     },
-    changePassword: async function() {
-      let message
-      try {
-        await Auth.forgotPasswordSubmit(this.form.username, this.form.code, this.form.password)
-        message = this.$i18n.t('ResetPassword.password_updated')
-        this.$router.push({ name: 'Login' })
-      } catch (err) {
-        message = err.message
-        if (err.code === 'ExpiredCodeException') {
-          this.firstPart = false
+    methods: {
+      submit() {
+        if (this.firstPart) {
+          this.changePassword()
+        } else {
+          this.resetCode()
         }
+      },
+      resetCode: async function() {
+        let message
+        try {
+          await Auth.forgotPassword(this.form.username)
+          message = this.$i18n.t('ResetPassword.code_sent')
+          this.firstPart = true
+        } catch (err) {
+          message = err.message
+        }
+        this.$store.dispatch('message/add', message)
+      },
+      changePassword: async function() {
+        let message
+        try {
+          await Auth.forgotPasswordSubmit(this.form.username, this.form.code, this.form.password)
+          message = this.$i18n.t('ResetPassword.password_updated')
+          this.$router.push({ name: 'Login' })
+        } catch (err) {
+          message = err.message
+          if (err.code === 'ExpiredCodeException') {
+            this.firstPart = false
+          }
+        }
+        this.$store.dispatch('message/add', message)
+      },
+      hasError(param, hasError) {
+        this.form[`valid${param}`] = !hasError
       }
-      this.$store.dispatch('message/add', message)
-    },
-    hasError(param, hasError) {
-      this.form[`valid${param}`] = !hasError
     }
   }
-}
 </script>

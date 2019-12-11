@@ -11,9 +11,11 @@ export default {
         upperCaseLetters: value => /[A-Z]+/.test(value) || this.$i18n.t('validation.message'),
         numbers: value => /[0-9]+/.test(value) || this.$i18n.t('validation.message'),
         numeric: value => /^[0-9]+$/.test(value) || this.$i18n.t('validation.use_numbers'),
-        specialCharacters: value => /[!@#$%^&*()_+={}[\]\\;:.,|]+/.test(value) || this.$i18n.t('validation.message'),
+        specialCharacters: value =>
+          /[!@#$%^&*()_+={}[\]\\;:.,|]+/.test(value) || this.$i18n.t('validation.message'),
         length: value => value.length >= 8 || this.$i18n.t('validation.message'),
-        flickrId: value => /[0-9]+@N[0-9]{2}/.test(value) || this.$i18n.t('validation.incorrect_flickr_id')
+        flickrId: value =>
+          /[0-9]+@N[0-9]{2}/.test(value) || this.$i18n.t('validation.incorrect_flickr_id')
       }
     }
   }

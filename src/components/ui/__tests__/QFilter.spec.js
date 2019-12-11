@@ -6,8 +6,12 @@ import Vuetify from 'vuetify'
 describe('QFilter.vue', () => {
   Vue.use(Vuetify)
 
-  const createCmp = (propsData, stubs = { 'v-text-field': { methods: { focus: () => {} }, render: () => {} } }) =>
-    shallowMount(comp, { propsData, stubs })
+  const createCmp = (
+    propsData,
+    stubs = {
+      'v-text-field': { methods: { focus: () => {} }, render: () => {} }
+    }
+  ) => shallowMount(comp, { propsData, stubs })
 
   describe('Properties', () => {
     it("has a placeholder property with default to 'Search'", () => {
@@ -16,7 +20,12 @@ describe('QFilter.vue', () => {
     })
     it('has a dontFocus property with default to false', () => {
       const focus = jest.fn()
-      const wrapper = createCmp({}, { 'v-text-field': { methods: { focus }, render: () => {} } })
+      const wrapper = createCmp(
+        {},
+        {
+          'v-text-field': { methods: { focus }, render: () => {} }
+        }
+      )
       expect(focus).toHaveBeenCalledTimes(1)
     })
   })

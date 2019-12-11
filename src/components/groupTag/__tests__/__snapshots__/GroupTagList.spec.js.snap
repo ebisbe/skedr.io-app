@@ -21,18 +21,26 @@ exports[`GroupTagList.vue shows a group 1`] = `
             <v-icon-stub>group</v-icon-stub>
             200
           </v-flex-stub>
-          <v-flex-stub tag="div" xs4="" sm2="" class="text-left pt-1"></v-flex-stub>
+          <v-flex-stub tag="div" xs4="" sm2="" class="text-left pt-1">
+
+          </v-flex-stub>
           <v-flex-stub tag="div" xs12="" sm6="" class="text-right">
             <v-chip-stub small="true" activeclass="" tag="span" inputvalue="true" active="true" closeicon="$delete" filtericon="$complete" label="true" class="mx-1">
-              <v-icon-stub color="accent" small="" left="" class="mr-1">label</v-icon-stub>
+              <v-icon-stub color="accent" small="" left="" class="mr-1">
+                label
+              </v-icon-stub>
               tag1
             </v-chip-stub>
             <v-chip-stub small="true" activeclass="" tag="span" active="true" closeicon="$delete" filtericon="$complete" label="true" class="mx-1">
-              <v-icon-stub small="" left="" class="mr-1">label</v-icon-stub>
+              <v-icon-stub small="" left="" class="mr-1">
+                label
+              </v-icon-stub>
               tag2
             </v-chip-stub>
             <v-chip-stub small="true" activeclass="" tag="span" active="true" closeicon="$delete" filtericon="$complete" label="true" class="mx-1">
-              <v-icon-stub small="" left="" class="mr-1">label</v-icon-stub>
+              <v-icon-stub small="" left="" class="mr-1">
+                label
+              </v-icon-stub>
               tag3
             </v-chip-stub>
           </v-flex-stub>

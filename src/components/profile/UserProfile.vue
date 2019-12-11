@@ -1,17 +1,11 @@
 <template>
   <v-card class="mb-6">
-    <v-form >
+    <v-form>
       <v-container>
-        <h1 v-t="'UserProfile.title'"/>
-        <v-text-field
-          v-model="name"
-          :label="$t('label.first_name')"
-        />
+        <h1 v-t="'UserProfile.title'" />
+        <v-text-field v-model="name" :label="$t('label.first_name')" />
 
-        <v-text-field
-          v-model="family_name"
-          :label="$t('label.family_name')"
-        />
+        <v-text-field v-model="family_name" :label="$t('label.family_name')" />
 
         <v-text-field
           v-model="email"
@@ -19,48 +13,41 @@
           :label="$t('label.email')"
         />
         <v-card-actions class="px-6">
-          <v-spacer/>
+          <v-spacer />
           <v-btn
-            v-t="'UserProfile.verify_email'"
             v-if="user.email_verified === false"
+            v-t="'UserProfile.verify_email'"
             color="primary"
-            @click="closeDialog = false"/>
+            @click="closeDialog = false"
+          />
           <v-btn
             v-t="'btn.update'"
             :disabled="disableUploadBtn"
             :loading="loadingBtn"
             color="primary"
-            @click="updateUser"/>
+            @click="updateUser"
+          />
         </v-card-actions>
       </v-container>
-      <v-dialog
-        v-model="openDialog"
-        persistent
-        max-width="500">
+      <v-dialog v-model="openDialog" persistent max-width="500">
         <v-card class="elevation-12">
           <v-toolbar color="primary">
-            <v-toolbar-title v-t="'UserProfile.verify_email'"/>
+            <v-toolbar-title v-t="'UserProfile.verify_email'" />
           </v-toolbar>
           <v-card-text class="px-6 pb-6 pt-4">
             {{ $t('UserProfile.code_sent') }}
-            <v-text-field
-              v-model="code"
-              :label="$t('UserProfile.confirmation_code')"
-              counter="6"
-            />
+            <v-text-field v-model="code" :label="$t('UserProfile.confirmation_code')" counter="6" />
 
             <v-card-actions class="px-6">
-              <v-spacer/>
-              <v-btn
-                v-t="'btn.change_email'"
-                text
-                @click="closeDialog = true"/>
+              <v-spacer />
+              <v-btn v-t="'btn.change_email'" text @click="closeDialog = true" />
               <v-btn
                 v-t="'btn.confirm'"
                 :loading="loadingBtn"
                 :disabled="!isCodeValid"
                 color="primary"
-                @click="confirmEmail"/>
+                @click="confirmEmail"
+              />
             </v-card-actions>
           </v-card-text>
         </v-card>
@@ -69,76 +56,75 @@
   </v-card>
 </template>
 <script>
-import { mapActions, mapState } from 'vuex'
-import { isNumber } from 'util'
-export default {
-  data: () => ({
-    code: '',
-    closeDialog: false,
-    loadingBtn: false,
-    disableUploadBtn: true
-  }),
-  computed: {
-    ...mapState({
-      user: state => state.user.user.attributes,
-      email_verified: state => state.user.user.attributes.email_verified
+  import { mapActions, mapState } from 'vuex'
+  import { isNumber } from 'util'
+  export default {
+    data: () => ({
+      code: '',
+      closeDialog: false,
+      loadingBtn: false,
+      disableUploadBtn: true
     }),
-    name: {
-      set(name) {
-        this.disableUploadBtn = false
-        this.$store.commit('user/setUserAttributes', { name })
+    computed: {
+      ...mapState({
+        user: state => state.user.user.attributes,
+        email_verified: state => state.user.user.attributes.email_verified
+      }),
+      name: {
+        set(name) {
+          this.disableUploadBtn = false
+          this.$store.commit('user/setUserAttributes', { name })
+        },
+        get() {
+          return this.user.name
+        }
       },
-      get() {
-        return this.user.name
-      }
-    },
-    family_name: {
-      set(family_name) {
-        this.disableUploadBtn = false
-        this.$store.commit('user/setUserAttributes', { family_name })
+      family_name: {
+        set(family_name) {
+          this.disableUploadBtn = false
+          this.$store.commit('user/setUserAttributes', { family_name })
+        },
+        get() {
+          return this.user.family_name
+        }
       },
-      get() {
-        return this.user.family_name
-      }
-    },
-    email: {
-      set(email) {
-        this.disableUploadBtn = false
-        this.$store.commit('user/setUserAttributes', { email })
+      email: {
+        set(email) {
+          this.disableUploadBtn = false
+          this.$store.commit('user/setUserAttributes', { email })
+        },
+        get() {
+          return this.user.email
+        }
       },
-      get() {
-        return this.user.email
+      openDialog() {
+        return !this.email_verified && this.closeDialog === false
+      },
+      isCodeValid() {
+        return this.code.length === 6 && typeof Number.parseInt(this.code, 2) === 'number'
       }
     },
-    openDialog() {
-      return !this.email_verified && this.closeDialog === false
-    },
-    isCodeValid() {
-      return this.code.length === 6 && typeof Number.parseInt(this.code, 2) === 'number'
-    }
-  },
-  methods: {
-    ...mapActions({
-      updateUserAttributes: 'user/updateUserAttributes',
-      confirmEmailCode: 'user/confirmEmailCode'
-    }),
-    updateUser: async function() {
-      this.loadingBtn = true
-      await this.updateUserAttributes()
-      this.disableUploadBtn = true
-      this.code = ''
-      this.loadingBtn = this.closeDialog = false
-    },
-    confirmEmail: async function() {
-      this.loadingBtn = true
-      try {
-        await this.confirmEmailCode(this.code)
-      } catch (err) {
-        this.$store.dispatch('message/add', err.message)
+    methods: {
+      ...mapActions({
+        updateUserAttributes: 'user/updateUserAttributes',
+        confirmEmailCode: 'user/confirmEmailCode'
+      }),
+      updateUser: async function() {
+        this.loadingBtn = true
+        await this.updateUserAttributes()
+        this.disableUploadBtn = true
+        this.code = ''
+        this.loadingBtn = this.closeDialog = false
+      },
+      confirmEmail: async function() {
+        this.loadingBtn = true
+        try {
+          await this.confirmEmailCode(this.code)
+        } catch (err) {
+          this.$store.dispatch('message/add', err.message)
+        }
+        this.loadingBtn = this.closeDialog = false
       }
-      this.loadingBtn = this.closeDialog = false
     }
   }
-}
 </script>
-

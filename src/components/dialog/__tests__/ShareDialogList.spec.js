@@ -10,11 +10,15 @@ const baseGroup = { id: 'groupId', icon: 'icon' }
 describe('ShareDialogList component', () => {
   describe('Computed properties', () => {
     it('is disabled', () => {
-      const wrapper = createCmp({ group: { throttleMode: 'disabled', ...baseGroup } })
+      const wrapper = createCmp({
+        group: { throttleMode: 'disabled', ...baseGroup }
+      })
       expect(wrapper.vm.disabled).toBe(true)
     })
     it('is not disabled', () => {
-      const wrapper = createCmp({ group: { throttleMode: 'day', ...baseGroup } })
+      const wrapper = createCmp({
+        group: { throttleMode: 'day', ...baseGroup }
+      })
       expect(wrapper.vm.disabled).toBe(false)
     })
     it('shows a green badge', () => {
@@ -26,11 +30,15 @@ describe('ShareDialogList component', () => {
       expect(wrapper.vm.badgeColor).toBe('grey')
     })
     it('shows a CLEAR icon badge', () => {
-      const wrapper = createCmp({ group: { throttleMode: 'disabled', ...baseGroup } })
+      const wrapper = createCmp({
+        group: { throttleMode: 'disabled', ...baseGroup }
+      })
       expect(wrapper.vm.badgeType).toBe('clear')
     })
     it('shows a CHECK icon badge', () => {
-      const wrapper = createCmp({ group: { throttleMode: 'day', ...baseGroup } })
+      const wrapper = createCmp({
+        group: { throttleMode: 'day', ...baseGroup }
+      })
       expect(wrapper.vm.badgeType).toBe('check')
     })
     it('uses the badge when is selected', () => {
@@ -38,15 +46,22 @@ describe('ShareDialogList component', () => {
       expect(wrapper.vm.useBadge).toBe(true)
     })
     it('uses the badge when is disabled', () => {
-      const wrapper = createCmp({ group: { throttleMode: 'disabled', ...baseGroup } })
+      const wrapper = createCmp({
+        group: { throttleMode: 'disabled', ...baseGroup }
+      })
       expect(wrapper.vm.useBadge).toBe(true)
     })
     it('uses the badge when is alreadyInGroup', () => {
-      const wrapper = createCmp({ alreadyInGroup: true, group: { ...baseGroup } })
+      const wrapper = createCmp({
+        alreadyInGroup: true,
+        group: { ...baseGroup }
+      })
       expect(wrapper.vm.useBadge).toBe(true)
     })
     it('is clickable', () => {
-      const wrapper = createCmp({ group: { throttleMode: 'day', ...baseGroup } })
+      const wrapper = createCmp({
+        group: { throttleMode: 'day', ...baseGroup }
+      })
       expect(wrapper.vm.clickable).toBe(true)
     })
   })

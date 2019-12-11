@@ -6,7 +6,12 @@ import comp from '../QPopup'
 Vue.use(Vuetify)
 const localVue = createLocalVue()
 
-const createCmp = propsData => shallowMount(comp, { localVue, vuetify: new Vuetify(), propsData })
+const createCmp = propsData =>
+  shallowMount(comp, {
+    localVue,
+    vuetify: new Vuetify(),
+    propsData
+  })
 describe('QPopup.vue', () => {
   describe('Properties', () => {
     it('requires data array', () => {
@@ -25,7 +30,9 @@ describe('QPopup.vue', () => {
 
   describe('Computed Properties', () => {
     it('filters data by title', () => {
-      const wrapper = createCmp({ data: [{ title: 'Title1' }, { title: 'Dog' }] })
+      const wrapper = createCmp({
+        data: [{ title: 'Title1' }, { title: 'Dog' }]
+      })
       expect(wrapper.vm.filteredData.length).toBe(2)
       wrapper.setData({ filterWord: 'title' })
       expect(wrapper.vm.filteredData.length).toBe(1)
@@ -34,37 +41,66 @@ describe('QPopup.vue', () => {
 
     it("filters data by ':sel'", () => {
       const wrapper = createCmp({
-        data: [{ title: 'Title 1', selected: false }, { title: 'Dog', selected: true }]
+        data: [
+          {
+            title: 'Title 1',
+            selected: false
+          },
+          {
+            title: 'Dog',
+            selected: true
+          }
+        ]
       })
       wrapper.setData({
         filterWord: ':sel'
       })
 
       expect(wrapper.vm.filteredData.length).toBe(1)
-      expect(wrapper.vm.filteredData[0]).toEqual({ title: 'Dog', selected: true })
+      expect(wrapper.vm.filteredData[0]).toEqual({
+        title: 'Dog',
+        selected: true
+      })
     })
 
     it("filters data by ':inpool'", () => {
       const wrapper = createCmp({
-        data: [{ title: 'Title 1', alreadyInGroup: false }, { title: 'Dog', alreadyInGroup: true }]
+        data: [
+          {
+            title: 'Title 1',
+            alreadyInGroup: false
+          },
+          {
+            title: 'Dog',
+            alreadyInGroup: true
+          }
+        ]
       })
       wrapper.setData({
         filterWord: ':inpool'
       })
 
       expect(wrapper.vm.filteredData.length).toBe(1)
-      expect(wrapper.vm.filteredData[0]).toEqual({ title: 'Dog', alreadyInGroup: true })
+      expect(wrapper.vm.filteredData[0]).toEqual({
+        title: 'Dog',
+        alreadyInGroup: true
+      })
     })
 
     it('returns selected elements only', () => {
-      const wrapper = createCmp({ data: [{ title: '1', selected: false }, { title: '2', selected: true }] })
+      const wrapper = createCmp({
+        data: [
+          { title: '1', selected: false },
+          { title: '2', selected: true }
+        ]
+      })
       expect(wrapper.vm.selectedData.length).toBe(1)
       expect(wrapper.vm.selectedData[0].title).toBe('2')
     })
   })
 
   describe('Methods', () => {
-    //TODO Update both tests to
+    // TODO Update both tests to
     // expect(wrapper.vm.selectedData.length).toBe(0)
     // when v2.6 of VUE is release
     it('clear selected data', () => {

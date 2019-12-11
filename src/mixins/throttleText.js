@@ -1,7 +1,11 @@
 export default {
   methods: {
     throttleText({ throttleMode, throttleCount, throttleRemaining, isMember = true }) {
-      if (throttleMode === undefined && throttleCount === undefined && throttleRemaining === undefined) {
+      if (
+        throttleMode === undefined &&
+        throttleCount === undefined &&
+        throttleRemaining === undefined
+      ) {
         return ''
       }
       var text = ''

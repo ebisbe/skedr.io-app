@@ -9,16 +9,15 @@
   >
     <v-card>
       <v-toolbar color="primary">
-        <v-btn
-          icon
-          color="white"
-          @click.native="$emit('close')">
+        <v-btn icon color="white" @click.native="$emit('close')">
           <v-icon>close</v-icon>
         </v-btn>
-        <v-toolbar-title v-t="'GroupTag.title'" class="white--text"/>
+        <v-toolbar-title v-t="'GroupTag.title'" class="white--text" />
       </v-toolbar>
       <div class="pa-4">
-        <div class="xs12 flex headline" v-html="title"/>
+        <div class="xs12 flex headline">
+          {{ title }}
+        </div>
         <v-combobox
           v-model="comboTags"
           :items="suggestedTags"
@@ -30,7 +29,13 @@
           multiple
           label="Tags"
           hint="Use lowercase letters and numbers."
-          @keyup.shift.enter="() => { if(canSave) { $refs.saveBtn.click({}) } }"
+          @keyup.shift.enter="
+            () => {
+              if (canSave) {
+                $refs.saveBtn.click({})
+              }
+            }
+          "
         >
           <group-tag-dialog-chip
             slot="selection"
@@ -43,13 +48,9 @@
               {{ item.name | ucFirst }}
             </v-list-item-content>
             <v-list-item-action>
-              <v-tooltip left >
+              <v-tooltip left>
                 <template v-slot:activator="{ on }">
-                  <v-btn
-                    icon
-                    v-on="on">
-                    {{ parseInt(item.count / item.total * 100) }}%
-                  </v-btn>
+                  <v-btn icon v-on="on"> {{ parseInt((item.count / item.total) * 100) }}% </v-btn>
                 </template>
                 <span>
                   {{ $t('GroupTag.count_tags', item) }}
@@ -60,7 +61,7 @@
           <template v-slot:no-data>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title v-html="$t('GroupTag.no_data')"/>
+                <v-list-item-title>{{ $t('GroupTag.no_data') }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </template>
@@ -88,32 +89,27 @@
           >
             <template slot-scope="{ result: { loading, error, data } }">
               <v-expansion-panel>
-                <v-expansion-panel-header>{{ tag }}&nbsp;<span v-if="data">[{{ data.searchPhotos.total }}]</span></v-expansion-panel-header>
+                <v-expansion-panel-header
+                  >{{ tag }}&nbsp;<span v-if="data"
+                    >[{{ data.searchPhotos.total }}]</span
+                  ></v-expansion-panel-header
+                >
                 <v-expansion-panel-content>
-                  <v-container
-                    grid-list-xs
-                    fluid
-                    pa-0>
+                  <v-container grid-list-xs fluid pa-0>
                     <!-- Loading -->
                     <div
-                      v-t="'loading'"
                       v-if="loading && data === undefined"
-                      class="loading apollo"/>
+                      v-t="'loading'"
+                      class="loading apollo"
+                    />
 
                     <!-- Error -->
-                    <div
-                      v-t="'GroupTag.error'"
-                      v-else-if="error"
-                      class="error apollo"/>
+                    <div v-else-if="error" v-t="'GroupTag.error'" class="error apollo" />
 
                     <!-- Result -->
-                    <v-layout
-                      v-else-if="data && data.searchPhotos.photos.length"
-                      row
-                      wrap
-                    >
+                    <v-layout v-else-if="data && data.searchPhotos.photos.length" row wrap>
                       <v-flex
-                        v-for="{photoId, secret, farm, server} in data.searchPhotos.photos"
+                        v-for="{ photoId, secret, farm, server } in data.searchPhotos.photos"
                         :key="secret"
                         xs2
                       >
@@ -122,7 +118,8 @@
                             :photo-id="photoId"
                             :secret="secret"
                             :farm="farm"
-                            :server="server"/>
+                            :server="server"
+                          />
                         </v-card>
                       </v-flex>
                       <v-flex v-if="data.searchPhotos.total > 18" class="text-center xs12">
@@ -136,9 +133,10 @@
 
                     <!-- No result -->
                     <div
-                      v-t="{ path: 'GroupTag.no_photos_found', args: {tag}}"
                       v-else
-                      class="no-result apollo"/>
+                      v-t="{ path: 'GroupTag.no_photos_found', args: { tag } }"
+                      class="no-result apollo"
+                    />
                   </v-container>
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -146,16 +144,11 @@
           </ApolloQuery>
         </v-expansion-panels>
       </v-card-text>
-      <v-divider/>
+      <v-divider />
 
       <v-card-actions>
-        <v-spacer/>
-        <v-btn
-          v-t="'btn.cancel'"
-          color="primary"
-          text
-          @click="$emit('close')"
-        />
+        <v-spacer />
+        <v-btn v-t="'btn.cancel'" color="primary" text @click="$emit('close')" />
         <ApolloMutation
           :mutation="require('@/graphql/mutations/updateGroupTagsList.gql')"
           :variables="{
@@ -167,11 +160,11 @@
           @done="$emit('close')"
         >
           <template slot-scope="{ mutate, loading, error }">
-            <p v-t="'GroupTag.error_saving_tag'" v-if="error"/>
+            <p v-if="error" v-t="'GroupTag.error_saving_tag'" />
             <v-btn
-              v-t="'btn.save'"
               v-else
               ref="saveBtn"
+              v-t="'btn.save'"
               :disabled="!canSave || loading"
               :loading="loading"
               color="primary"
@@ -184,92 +177,96 @@
   </v-dialog>
 </template>
 <script>
-import { GroupTagDialogChip, GroupTagDialogImage } from '@/components/groupTag'
-import { filters } from '@/mixins'
+  import { GroupTagDialogChip, GroupTagDialogImage } from '@/components/groupTag'
+  import { filters } from '@/mixins'
 
-export default {
-  components: { GroupTagDialogChip, GroupTagDialogImage },
-  mixins: [filters],
-  props: {
-    groupId: {
-      type: String,
-      required: true
-    },
-    title: {
-      type: String,
-      required: true
-    },
-    manageTags: {
-      type: Boolean,
-      required: true
-    },
-    tags: {
-      type: Array,
-      required: true
-    }
-  },
-  data: () => ({
-    comboTagsReal: [],
-    preventTrigger: true,
-    openedPanel: null,
-    perPage: 18,
-    page: 1,
-    suggestedTags: []
-  }),
-  computed: {
-    hint() {
-      return this.preventTrigger
-        ? this.$i18n.t('GroupTag.only_new_photos_hint1', { comboTags: this.comboTags })
-        : this.$i18n.t('GroupTag.only_new_photos_hint2', { comboTags: this.comboTags })
-    },
-    comboTags: {
-      set(value) {
-        this.comboTagsReal = value
-          .map(val => (typeof val === 'object' ? val.name : val))
-          .map(val => this.sanitize(val))
-          .slice()
+  export default {
+    components: { GroupTagDialogChip, GroupTagDialogImage },
+    mixins: [filters],
+    props: {
+      groupId: {
+        type: String,
+        required: true
       },
-      get() {
-        return this.comboTagsReal
+      title: {
+        type: String,
+        required: true
+      },
+      manageTags: {
+        type: Boolean,
+        required: true
+      },
+      tags: {
+        type: Array,
+        required: true
       }
     },
-    canSave() {
-      const set = new Set(this.tags.map(tag => this.sanitize(tag)))
-      this.comboTags.forEach(tag => {
-        const sanitizedTag = this.sanitize(tag)
-        !set.has(sanitizedTag) ? set.add(sanitizedTag) : null
-      })
-      return (
-        this.comboTags.length !== this.tags.length ||
-        (this.comboTags.length === this.tags.length && set.size > this.comboTags.length)
-      )
-    }
-  },
-  watch: {
-    tags(tags) {
-      this.comboTagsReal = tags
-    }
-  },
-  created() {
-    this.comboTags = this.tags.slice()
-  },
-  apollo: {
-    suggestedTags: {
-      query: require('@/graphql/suggestedTags.gql'),
-      variables() {
-        return {
-          groupId: this.groupId
+    data: () => ({
+      comboTagsReal: [],
+      preventTrigger: true,
+      openedPanel: null,
+      perPage: 18,
+      page: 1,
+      suggestedTags: []
+    }),
+    computed: {
+      hint() {
+        return this.preventTrigger
+          ? this.$i18n.t('GroupTag.only_new_photos_hint1', {
+              comboTags: this.comboTags
+            })
+          : this.$i18n.t('GroupTag.only_new_photos_hint2', {
+              comboTags: this.comboTags
+            })
+      },
+      comboTags: {
+        set(value) {
+          this.comboTagsReal = value
+            .map(val => (typeof val === 'object' ? val.name : val))
+            .map(val => this.sanitize(val))
+            .slice()
+        },
+        get() {
+          return this.comboTagsReal
         }
       },
-      skip() {
-        return !this.manageTags
+      canSave() {
+        const set = new Set(this.tags.map(tag => this.sanitize(tag)))
+        this.comboTags.forEach(tag => {
+          const sanitizedTag = this.sanitize(tag)
+          !set.has(sanitizedTag) ? set.add(sanitizedTag) : null
+        })
+        return (
+          this.comboTags.length !== this.tags.length ||
+          (this.comboTags.length === this.tags.length && set.size > this.comboTags.length)
+        )
+      }
+    },
+    watch: {
+      tags(tags) {
+        this.comboTagsReal = tags
+      }
+    },
+    created() {
+      this.comboTags = this.tags.slice()
+    },
+    apollo: {
+      suggestedTags: {
+        query: require('@/graphql/suggestedTags.gql'),
+        variables() {
+          return {
+            groupId: this.groupId
+          }
+        },
+        skip() {
+          return !this.manageTags
+        }
+      }
+    },
+    methods: {
+      remove(tagToRemove) {
+        this.comboTags = this.comboTags.filter(tags => tags !== tagToRemove)
       }
     }
-  },
-  methods: {
-    remove(tagToRemove) {
-      this.comboTags = this.comboTags.filter(tags => tags !== tagToRemove)
-    }
   }
-}
 </script>

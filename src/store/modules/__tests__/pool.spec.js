@@ -13,7 +13,12 @@ describe('Pool', () => {
     })
 
     it('gets the ordered array of groups by title', () => {
-      state.pool = { g1: { title: 'Aca' }, g2: { title: 'abc' }, g3: { title: 'aba' }, g4: { noTitle: 'noTitle' } }
+      state.pool = {
+        g1: { title: 'Aca' },
+        g2: { title: 'abc' },
+        g3: { title: 'aba' },
+        g4: { noTitle: 'noTitle' }
+      }
       expect(getters.orderByTitle(state)).toMatchObject([
         { noTitle: 'noTitle' },
         { title: 'aba' },
@@ -28,7 +33,20 @@ describe('Pool', () => {
 
     it('gets a ordered list of groups by title', () => {
       const relGetters = {
-        orderByTitle: [{ title: 'aba' }, { title: 'abc' }, { title: 'Aca' }, { noTitle: 'noTitle' }]
+        orderByTitle: [
+          {
+            title: 'aba'
+          },
+          {
+            title: 'abc'
+          },
+          {
+            title: 'Aca'
+          },
+          {
+            noTitle: 'noTitle'
+          }
+        ]
       }
       expect(getters.list(state, relGetters)).toBe('aba, abc, Aca')
     })

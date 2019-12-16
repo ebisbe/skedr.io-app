@@ -59,7 +59,7 @@
     },
     computed: {
       perPage() {
-        const value = 3
+        let value = 3
         switch (true) {
           case this.$vuetify.breakpoint.xs:
             value = 3

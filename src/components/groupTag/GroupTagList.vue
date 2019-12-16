@@ -22,9 +22,7 @@
               <v-icon>group</v-icon>
               {{ group.members | parseNumber }}
             </v-flex>
-            <v-flex class="text-left pt-1" xs4 sm2>
-              {{ throttleText(group) }}
-            </v-flex>
+            <v-flex class="text-left pt-1" xs4 sm2 v-html="throttleText(group)" />
             <v-flex v-if="tags.length" xs12 sm6 class="text-right">
               <v-chip
                 v-for="tag in tags"

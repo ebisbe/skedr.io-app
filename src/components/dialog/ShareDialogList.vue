@@ -29,9 +29,7 @@
             <v-icon>group</v-icon>
             {{ group.members | parseNumber }}
           </v-flex>
-          <v-flex class="text-left pt-1" xs4>
-            {{ throttleText(group) }}
-          </v-flex>
+          <v-flex class="text-left pt-1" xs4 v-html="throttleText(group)" />
         </v-layout>
       </v-list-item-subtitle>
     </v-list-item-content>

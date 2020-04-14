@@ -1,3 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PhotoScheduled.vue matches snapshot 1`] = `<base-photo-stub height="250" url="https://farmfarm.staticflickr.com/server/photoId_secret.jpg" lazyurl="https://farmfarm.staticflickr.com/server/photoId_secret_q.jpg" isprivate="true" externallink="" selectable="true" class=""></base-photo-stub>`;
+exports[`PhotoScheduled.vue matches snapshot 1`] = `
+<base-photo-stub height="250" url="https://farmfarm.staticflickr.com/server/photoId_secret.jpg" lazyurl="https://farmfarm.staticflickr.com/server/photoId_secret_q.jpg" isprivate="true" selectable="true" class="">
+  <!---->
+  <footer-photo-stub title="Some title" subtitle=""></footer-photo-stub>
+</base-photo-stub>
+`;

@@ -3,9 +3,7 @@
     <v-divider v-if="useDivider" />
     <v-list-item :key="group.id" :ripple="false" link>
       <v-list-item-avatar>
-        <external-link-badge :hover="hover" :href="`https://www.flickr.com/groups/${group.id}`">
-          <img :src="group.icon" />
-        </external-link-badge>
+        <img :src="group.icon" />
       </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title>
@@ -128,12 +126,11 @@
   import { throttleText, filters } from '@/mixins'
   import GroupTagDialog from '@/components/groupTag/GroupTagDialog'
   import PhotoLimitOptOutMessage from '@/components/groupTag/PhotoLimitOptOutMessage'
-  import ExternalLinkBadge from '@/components/common/ExternalLinkBadge'
   import { mapState } from 'vuex'
   import { clearTimeout } from 'timers'
 
   export default {
-    components: { GroupTagDialog, PhotoLimitOptOutMessage, ExternalLinkBadge },
+    components: { GroupTagDialog, PhotoLimitOptOutMessage },
     mixins: [throttleText, filters],
     props: {
       group: {

@@ -3,13 +3,6 @@
 exports[`BasePhoto component prints base component 1`] = `
 <v-sheet-stub tag="div" tile="true" class="grey lighten-2 unselectable" style="position: relative;">
   <app-observer-stub options="[object Object]"></app-observer-stub> <span>header slot</span>
-  <external-link-badge-stub href="" style="display: block;">
-    <v-img-stub height="250" aspectratio="1" lazysrc="lazyUrl" options="[object Object]" position="center center" src="" transition="fade-transition" class="img">
-      <v-layout-stub tag="div" fill-height="" align-center="" justify-center="" ma-0="">
-        <v-progress-circular-stub color="grey lighten-5" indeterminate="true" rotate="0" size="32" width="4" value="0"></v-progress-circular-stub>
-      </v-layout-stub>
-    </v-img-stub>
-  </external-link-badge-stub>
   <v-tooltip-stub opendelay="0" closedelay="0" contentclass="" fixed="true" left="true" openonhover="true" maxwidth="auto" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" tag="span"> <span></span></v-tooltip-stub>
   <!----> <span>footer slot</span>
 </v-sheet-stub>

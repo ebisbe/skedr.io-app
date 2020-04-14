@@ -11,17 +11,6 @@
   >
     <app-observer v-if="showObserver" @intersect="showObserver = false" />
     <slot name="header" />
-    <external-link-badge
-      :hover="hover && externalLink !== '' ? true : false"
-      :href="externalLink"
-      style="display:block !important;"
-    >
-      <v-img :height="realHeight" :src="bigImg" :lazy-src="lazyUrl" aspect-ratio="1" class="img">
-        <v-layout slot="placeholder" fill-height align-center justify-center ma-0>
-          <v-progress-circular indeterminate color="grey lighten-5" />
-        </v-layout>
-      </v-img>
-    </external-link-badge>
     <v-tooltip v-if="isPrivate" left>
       <template v-slot:activator="{ on }">
         <v-icon large class="warning--text non-public" v-on="on">
@@ -43,11 +32,10 @@
   </v-sheet>
 </template>
 <script>
-  import ExternalLinkBadge from '@/components/common/ExternalLinkBadge'
   import AppObserver from '@/components/common/AppObserver.vue'
 
   export default {
-    components: { ExternalLinkBadge, AppObserver },
+    components: { AppObserver },
     props: {
       height: {
         type: Number,
@@ -64,10 +52,6 @@
       isPrivate: {
         type: Boolean,
         default: false
-      },
-      externalLink: {
-        type: String,
-        default: ''
       },
       selectable: {
         type: Boolean,

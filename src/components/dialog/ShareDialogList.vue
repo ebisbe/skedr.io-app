@@ -6,9 +6,7 @@
     v-on="clickable ? { click: selectGroup } : { click: () => ({}) }"
   >
     <v-list-item-avatar>
-      <external-link-badge :hover="hover" :href="`https://www.flickr.com/groups/${group.id}`">
-        <img :src="group.icon" />
-      </external-link-badge>
+      <img :src="group.icon" />
     </v-list-item-avatar>
     <v-list-item-content>
       <v-list-item-title>
@@ -58,10 +56,9 @@
 <script>
   import { throttleText, filters } from '@/mixins/'
   import PhotoLimitOptOutMessage from '@/components/groupTag/PhotoLimitOptOutMessage'
-  import ExternalLinkBadge from '@/components/common/ExternalLinkBadge'
 
   export default {
-    components: { PhotoLimitOptOutMessage, ExternalLinkBadge },
+    components: { PhotoLimitOptOutMessage },
     mixins: [throttleText, filters],
     props: {
       group: {

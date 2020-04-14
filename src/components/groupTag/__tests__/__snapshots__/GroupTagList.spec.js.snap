@@ -4,9 +4,7 @@ exports[`GroupTagList.vue shows a group 1`] = `
 <div>
   <!---->
   <v-list-item-stub activeclass="" link="true" tag="div">
-    <v-list-item-avatar-stub size="40">
-      <external-link-badge-stub href="https://www.flickr.com/groups/groupId"><img src=""></external-link-badge-stub>
-    </v-list-item-avatar-stub>
+    <v-list-item-avatar-stub size="40"><img src=""></v-list-item-avatar-stub>
     <v-list-item-content-stub>
       <v-list-item-title-stub>
         <photo-limit-opt-out-message-stub optout="true"></photo-limit-opt-out-message-stub> <strong>Group Title</strong>

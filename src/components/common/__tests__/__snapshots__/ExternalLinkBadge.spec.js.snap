@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`ExternalLinkBadge component has a snapshot 1`] = `<span class="v-badge external-link v-badge--overlap"> Default icon text<span class="v-badge__badge grey" style="display: none;"><a href="https://www.flickr.com/groups/groupId" target="_blank" style="text-decoration: none;"><i aria-hidden="true" class="v-icon notranslate material-icons theme--light white--text">open_in_new</i></a></span></span>`;

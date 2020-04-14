@@ -38,7 +38,7 @@ describe('GroupTagList.vue', () => {
     expect(wrapper).toMatchSnapshot()
   })
 
-  it('tags watch must change manageTags to false', () => {
+  it('tags watch must change manageTags to false', async () => {
     const wrapper = shallowMount(Comp, {
       localVue,
       vuetify: new Vuetify(),
@@ -64,7 +64,7 @@ describe('GroupTagList.vue', () => {
     })
     wrapper.vm.manageTags = true
     expect(wrapper.vm.manageTags).toBe(true)
-    wrapper.setProps({ tags: ['tag1'] })
+    await wrapper.setProps({ tags: ['tag1'] })
     expect(wrapper.vm.manageTags).toBe(false)
   })
 

@@ -44,18 +44,18 @@ describe('QFilter.vue', () => {
   })
 
   describe('Watchers', () => {
-    it("emits 'search' event while typing", () => {
+    it("emits 'search' event while typing", async () => {
       const wrapper = createCmp()
-      wrapper.setData({ search: 'text' })
+      await wrapper.setData({ search: 'text' })
       wrapper.vm.clearText()
       expect(wrapper.emitted().search[0][0]).toBe('text')
     })
-    it("emits '' event when value is null", () => {
+    it("emits '' event when value is null", async () => {
       const wrapper = createCmp()
-      wrapper.setData({ search: null })
+      await wrapper.setData({ search: null })
       expect(wrapper.emitted().search[0][0]).toBe('')
       expect(wrapper.emitted().clear).toBeTruthy()
-      wrapper.setData({ search: '' })
+      await wrapper.setData({ search: '' })
       expect(wrapper.emitted().search[1][0]).toBe('')
       expect(wrapper.emitted().clear).toBeTruthy()
     })

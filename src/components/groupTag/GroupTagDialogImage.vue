@@ -1,10 +1,5 @@
 <template>
-  <base-photo
-    :url="urlQ"
-    :external-link="`https://www.flickr.com/photos/${userId}/${photoId}`"
-    :lazy-url="urlS"
-    :height="75"
-  />
+  <base-photo :url="urlQ" :lazy-url="urlS" :height="75" />
 </template>
 <script>
   import BasePhoto from '@/components/photo/BasePhoto.vue'

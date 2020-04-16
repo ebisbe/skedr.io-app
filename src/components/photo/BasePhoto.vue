@@ -11,6 +11,11 @@
   >
     <app-observer v-if="showObserver" @intersect="showObserver = false" />
     <slot name="header" />
+    <v-img :height="realHeight" :src="bigImg" :lazy-src="lazyUrl" aspect-ratio="1" class="img">
+      <v-layout slot="placeholder" fill-height align-center justify-center ma-0>
+        <v-progress-circular indeterminate color="grey lighten-5" />
+      </v-layout>
+    </v-img>
     <v-tooltip v-if="isPrivate" left>
       <template v-slot:activator="{ on }">
         <v-icon large class="warning--text non-public" v-on="on">

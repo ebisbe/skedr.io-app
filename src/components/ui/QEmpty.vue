@@ -7,9 +7,7 @@
             {{ icon }}
           </v-icon>
         </div>
-        <h1 class="text-center headline">
-          {{ desc }}
-        </h1>
+        <h1 class="text-center headline" v-html="desc" />
       </v-flex>
       <v-flex v-else xs12>
         <div class="text-center">

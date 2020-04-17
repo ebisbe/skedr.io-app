@@ -84,7 +84,7 @@
               </v-list>
             </v-card-text>
           </v-card>
-          <v-flex class="px-0">
+          <v-flex class="mt-3">
             <v-btn
               :disabled="!showMoreEnabled || loading"
               block

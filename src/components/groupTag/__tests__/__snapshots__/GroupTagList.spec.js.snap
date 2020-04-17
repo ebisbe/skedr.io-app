@@ -46,7 +46,7 @@ exports[`GroupTagList.vue shows a group 1`] = `
     <v-list-item-action-stub>
       <v-tooltip-stub opendelay="0" closedelay="0" contentclass="" fixed="true" left="true" openonhover="true" maxwidth="auto" nudgebottom="0" nudgeleft="0" nudgeright="0" nudgetop="0" nudgewidth="0" tag="span"> <span></span></v-tooltip-stub>
     </v-list-item-action-stub>
-    <group-tag-dialog-stub groupid="groupId" title="Group Title" tags="tag1,tag2,tag3"></group-tag-dialog-stub>
+    <group-tag-dialog-stub grouptag="[object Object]" group="[object Object]"></group-tag-dialog-stub>
   </v-list-item-stub>
 </div>
 `;

@@ -15,7 +15,7 @@
         <v-toolbar-title v-t="'GroupTag.title'" class="white--text" />
       </v-toolbar>
       <div class="pa-4">
-        <div class="xs12 flex headline">
+        <div class="xs12 flex headline mb-3">
           {{ title }}
         </div>
         <v-combobox
@@ -67,9 +67,16 @@
           </template>
         </v-combobox>
         <v-switch
-          v-model="preventTrigger"
+          v-model="groupTag.preventTrigger"
           :hint="hint"
           :label="$t('GroupTag.only_new_photos')"
+          color="primary"
+          persistent-hint
+        />
+        <v-switch
+          v-model="groupTag.useAnd"
+          :hint="useAndHint"
+          :label="$t('GroupTag.use_and')"
           color="primary"
           persistent-hint
         />
@@ -77,23 +84,23 @@
       <v-card-text v-if="comboTags">
         <v-expansion-panels v-model="openedPanel">
           <ApolloQuery
-            v-for="tag in comboTags"
+            v-for="tag in tagsForSearch"
             :key="tag"
             :query="require('@/graphql/searchPhotos.gql')"
             :variables="{
               tags: tag,
               perPage,
-              page
+              page,
+              useAnd: groupTag.useAnd
             }"
             tag=""
           >
             <template slot-scope="{ result: { loading, error, data } }">
               <v-expansion-panel>
-                <v-expansion-panel-header
-                  >{{ tag }}&nbsp;<span v-if="data"
-                    >[{{ data.searchPhotos.total }}]</span
-                  ></v-expansion-panel-header
-                >
+                <v-expansion-panel-header>
+                  {{ tag }}
+                  <template v-if="data"> &nbsp;[{{ data.searchPhotos.total }}] </template>
+                </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-container grid-list-xs fluid pa-0>
                     <!-- Loading -->
@@ -154,7 +161,8 @@
           :variables="{
             groupId: groupId,
             tags: comboTags,
-            preventTrigger
+            preventTrigger: groupTag.preventTrigger,
+            useAnd: groupTag.useAnd
           }"
           tag=""
           @done="$emit('close')"
@@ -184,40 +192,56 @@
     components: { GroupTagDialogChip, GroupTagDialogImage },
     mixins: [filters],
     props: {
-      groupId: {
-        type: String,
-        required: true
+      groupTag: {
+        type: Object,
+        default: function() {
+          return { tags: [], preventTrigger: true, useAnd: false }
+        }
       },
-      title: {
-        type: String,
+      group: {
+        type: Object,
         required: true
       },
       manageTags: {
         type: Boolean,
         required: true
-      },
-      tags: {
-        type: Array,
-        required: true
       }
     },
     data: () => ({
       comboTagsReal: [],
-      preventTrigger: true,
       openedPanel: null,
       perPage: 18,
       page: 1,
       suggestedTags: []
     }),
     computed: {
+      groupId() {
+        return this.group.groupId
+      },
+      title() {
+        return this.group.title
+      },
+      tags() {
+        return this.groupTag.tags
+      },
       hint() {
-        return this.preventTrigger
+        return this.groupTag.preventTrigger
           ? this.$i18n.t('GroupTag.only_new_photos_hint1', {
               comboTags: this.comboTags
             })
           : this.$i18n.t('GroupTag.only_new_photos_hint2', {
               comboTags: this.comboTags
             })
+      },
+      useAndHint() {
+        return this.groupTag.useAnd
+          ? this.$i18n.t('GroupTag.use_and_hint1')
+          : this.$i18n.t('GroupTag.use_and_hint2')
+      },
+      tagsForSearch() {
+        return this.groupTag.useAnd && this.comboTags.length
+          ? [this.comboTags.join(', ')]
+          : this.comboTags
       },
       comboTags: {
         set(value) {

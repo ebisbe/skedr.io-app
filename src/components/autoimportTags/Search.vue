@@ -39,8 +39,8 @@
                   v-for="(group, index) in data.searchGroups.groups"
                   :key="group.groupId"
                   :group="group"
+                  :group-tag="group.groupTag !== null ? group.groupTag : undefined"
                   :use-divider="index !== 0"
-                  :tags="group.groupTag !== null ? group.groupTag.tags : []"
                 >
                   <ApolloMutation
                     v-if="!group.isMember"

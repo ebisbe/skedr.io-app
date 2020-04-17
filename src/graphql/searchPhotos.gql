@@ -1,5 +1,5 @@
-query searchPhotos($perPage: Int!, $page: Int!, $tags: String) {
-  searchPhotos(perPage: $perPage, page: $page, tags: $tags) {
+query searchPhotos($perPage: Int!, $page: Int!, $tags: String, $useAnd: Boolean) {
+  searchPhotos(perPage: $perPage, page: $page, tags: $tags, useAnd: $useAnd) {
     total
     photos {
       photoId

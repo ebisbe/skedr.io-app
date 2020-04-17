@@ -28,7 +28,7 @@
           hide-details
           dense
           clearable
-          @keyup.enter="$router.push({ name: 'AutoimportTagsSearch' })"
+          @keyup.enter="$router.push({ name: 'AutoimportTagsSearch' }).catch(err => {})"
           @click:clear="$router.push({ name: 'AutoimportTagsList' })"
         />
       </v-scale-transition>

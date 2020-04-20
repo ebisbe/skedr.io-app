@@ -24,7 +24,6 @@ describe('GroupTagList.vue', () => {
         }
       }),
       propsData: {
-        tags: ['tag1', 'tag2', 'tag3'],
         group: {
           id: 'groupId',
           title: 'Group Title',
@@ -32,6 +31,9 @@ describe('GroupTagList.vue', () => {
           members: 200,
           icon: '',
           photoLimitOptOut: true
+        },
+        groupTag: {
+          tags: ['tag1', 'tag2', 'tag3']
         }
       }
     })
@@ -59,12 +61,15 @@ describe('GroupTagList.vue', () => {
           title: 'Group Title',
           photoLimitOptOut: true,
           icon: ''
+        },
+        groupTag: {
+          tags: []
         }
       }
     })
     wrapper.vm.manageTags = true
     expect(wrapper.vm.manageTags).toBe(true)
-    await wrapper.setProps({ tags: ['tag1'] })
+    await wrapper.setProps({ groupTag: { tags: ['tag1'] } })
     expect(wrapper.vm.manageTags).toBe(false)
   })
 
@@ -78,6 +83,9 @@ describe('GroupTagList.vue', () => {
           title: 'Group Title',
           photoLimitOptOut: true,
           icon: ''
+        },
+        groupTag: {
+          tags: []
         }
       },
       // Mocks is needed due to use mount() https://github.com/kazupon/vue-i18n/issues/323

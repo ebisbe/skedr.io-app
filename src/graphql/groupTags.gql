@@ -4,6 +4,8 @@ query autoimportTagList($tags: [String], $count: Int, $nextToken: String) {
       groupId
       userId
       tags
+      preventTrigger
+      useAnd
       group {
         id
         groupId

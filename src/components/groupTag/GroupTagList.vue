@@ -113,10 +113,9 @@
         </slot>
       </v-list-item-action>
       <group-tag-dialog
-        :title="group.title"
         :manage-tags="manageTags"
-        :group-id="group.id"
-        :tags="tags"
+        :group-tag="groupTag"
+        :group="group"
         @close="manageTags = false"
       />
     </v-list-item>
@@ -133,13 +132,13 @@
     components: { GroupTagDialog, PhotoLimitOptOutMessage },
     mixins: [throttleText, filters],
     props: {
-      group: {
+      groupTag: {
         type: Object,
         required: true
       },
-      tags: {
-        type: Array,
-        default: () => []
+      group: {
+        type: Object,
+        required: true
       },
       useDivider: {
         type: Boolean,
@@ -156,7 +155,10 @@
     computed: {
       ...mapState('tagsFilter', {
         tagsFilter: state => state.items
-      })
+      }),
+      tags() {
+        return this.groupTag.tags
+      }
     },
     apollo: {
       suggestedTags: {

@@ -19,11 +19,16 @@
           :two-line="$vuetify.breakpoint.name !== 'xs'"
           class="py-0"
         >
-          <template v-for="({ group, tags, groupId }, index) in groupTagsList.groupTags">
-            <group-tag-list :key="groupId" :group="group" :use-divider="index !== 0" :tags="tags" />
+          <template v-for="(groupTag, index) in groupTagsList.groupTags">
+            <group-tag-list
+              :key="groupTag.groupId"
+              :group-tag="groupTag"
+              :group="groupTag.group"
+              :use-divider="index !== 0"
+            />
             <app-observer
               v-if="showMoreEnabled && groupTagsList.groupTags.length - 10 === index"
-              :key="`observer-${groupId}`"
+              :key="`observer-${groupTag.groupId}`"
               @intersect="fetchMore()"
             />
           </template>
@@ -114,7 +119,7 @@
       groupTagsList: undefined,
       error: null,
       count: 25,
-      showMoreEnabled: true
+      showMoreEnabled: false
     }),
     computed: {
       ...mapState({ tagsFilter: state => state.tagsFilter.items }),

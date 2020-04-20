@@ -19,6 +19,8 @@ query searchGroups($text: String!, $page: Int!, $perPage: Int!, $userId: String,
         userId
         groupId
         tags
+        preventTrigger
+        useAnd
       }
     }
   }

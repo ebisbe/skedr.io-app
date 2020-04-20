@@ -35,5 +35,8 @@ module.exports = {
         chunks: 'all'
       }
     }
+  },
+  devServer: {
+    host: 'localhost'
   }
 }

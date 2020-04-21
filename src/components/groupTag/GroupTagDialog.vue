@@ -67,14 +67,14 @@
           </template>
         </v-combobox>
         <v-switch
-          v-model="groupTag.preventTrigger"
+          v-model="preventTrigger"
           :hint="hint"
           :label="$t('GroupTag.only_new_photos')"
           color="primary"
           persistent-hint
         />
         <v-switch
-          v-model="groupTag.useAnd"
+          v-model="useAnd"
           :hint="useAndHint"
           :label="$t('GroupTag.use_and')"
           color="primary"
@@ -91,7 +91,7 @@
               tags: tag,
               perPage,
               page,
-              useAnd: groupTag.useAnd
+              useAnd
             }"
             tag=""
           >
@@ -161,8 +161,8 @@
           :variables="{
             groupId: groupId,
             tags: comboTags,
-            preventTrigger: groupTag.preventTrigger,
-            useAnd: groupTag.useAnd
+            preventTrigger,
+            useAnd
           }"
           tag=""
           @done="$emit('close')"
@@ -225,7 +225,7 @@
         return this.groupTag.tags
       },
       hint() {
-        return this.groupTag.preventTrigger
+        return this.preventTrigger
           ? this.$i18n.t('GroupTag.only_new_photos_hint1', {
               comboTags: this.comboTags
             })
@@ -233,15 +233,29 @@
               comboTags: this.comboTags
             })
       },
+      preventTrigger: {
+        set(value) {
+          this.groupTag.preventTrigger = value
+        },
+        get() {
+          return this.groupTag.preventTrigger !== null ? this.groupTag.preventTrigger : true
+        }
+      },
+      useAnd: {
+        set(value) {
+          this.groupTag.useAnd = value
+        },
+        get() {
+          return this.groupTag.useAnd !== null ? this.groupTag.useAnd : false
+        }
+      },
       useAndHint() {
         return this.groupTag.useAnd
           ? this.$i18n.t('GroupTag.use_and_hint1')
           : this.$i18n.t('GroupTag.use_and_hint2')
       },
       tagsForSearch() {
-        return this.groupTag.useAnd && this.comboTags.length
-          ? [this.comboTags.join(', ')]
-          : this.comboTags
+        return this.useAnd && this.comboTags.length ? [this.comboTags.join(', ')] : this.comboTags
       },
       comboTags: {
         set(value) {

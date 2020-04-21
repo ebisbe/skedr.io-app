@@ -3,6 +3,8 @@ mutation updateGroupTagsList($groupId: String!, $tags: [String!], $preventTrigge
     userId
     groupId
     tags
+    preventTrigger
+    useAnd
     group {
       id
       title

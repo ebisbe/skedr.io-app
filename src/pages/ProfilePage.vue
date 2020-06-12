@@ -54,7 +54,12 @@
               <div v-if="data && data.plans">
                 <h2 v-t="'Profile.subtitle'" />
                 <v-list>
-                  <v-list-item v-for="plan in data.plans" :key="plan.id">
+                  <v-list-item
+                    v-for="plan in data.plans"
+                    :key="plan.id"
+                    ripple
+                    @click="selectedPlan = plan.id"
+                  >
                     <v-list-item-content>
                       <v-list-item-title>
                         {{ plan.nickname }}: {{ parseInt(plan.amount) / 100 }}&euro;
@@ -71,9 +76,12 @@
                     </v-list-item-content>
 
                     <v-list-item-action>
-                      <v-icon color="green">
-                        check
-                      </v-icon>
+                      <v-btn icon @click="selectedPlan = plan.id">
+                        <v-icon v-if="selectedPlan === plan.id" color="green">
+                          check_circle
+                        </v-icon>
+                        <v-icon v-else>check_circle</v-icon>
+                      </v-btn>
                     </v-list-item-action>
                   </v-list-item>
                 </v-list>

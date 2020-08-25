@@ -156,8 +156,8 @@
       <v-card-actions>
         <v-spacer />
         <v-btn v-t="'btn.cancel'" color="primary" text @click="$emit('close')" />
-        <check-subscription v-slot:default="{ data: { loading: loadingSubscription, hasAccess } }">
-          <v-btn v-if="!hasAccess" :to="{ name: 'Profile' }" color="primary">
+        <check-subscription v-slot:default="{ data: { loading: loadingSubscription, noAccess } }">
+          <v-btn v-if="noAccess" :to="{ name: 'Profile' }" color="primary">
             Support skedr
           </v-btn>
           <ApolloMutation
@@ -179,7 +179,7 @@
                 v-else
                 ref="saveBtn"
                 v-t="'btn.save'"
-                :disabled="!canSave || loading || loadingSubscription || !hasAccess"
+                :disabled="!canSave || loading || loadingSubscription"
                 :loading="loading"
                 color="primary"
                 @click="mutate()"
@@ -317,11 +317,15 @@
         const query = {
           query: require('@/graphql/paymentBanner.gql')
         }
-        // Read the query from cache
         const data = store.readQuery(query)
-        // Mutate cache result
-        data.groupTagsList.groupTags.push(updateGroupTagsList)
-        // Write back to the cache
+        if (
+          data.groupTagsList.groupTags.filter(
+            ({ userId, groupId }) =>
+              userId === updateGroupTagsList.userId && groupId === updateGroupTagsList.groupId
+          ).length === 0
+        ) {
+          data.groupTagsList.groupTags.push(updateGroupTagsList)
+        }
         store.writeQuery({
           ...query,
           data

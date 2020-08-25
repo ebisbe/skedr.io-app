@@ -8,10 +8,12 @@
         loading,
         hasSubscription: data && data.userSubscription ? data.userSubscription.planId !== '' : null,
         configuredGroups: data && data.groupTagsList ? configuredGroups(data.groupTagsList) : null,
-        hasAccess:
-          data && data.userSubscription && data.groupTagsList
-            ? data.userSubscription.planId !== '' || configuredGroups(data.groupTagsList) < 10
-            : false
+        noAccess:
+          data &&
+          data.userSubscription &&
+          data.groupTagsList &&
+          data.userSubscription.planId === '' &&
+          configuredGroups(data.groupTagsList) > 9
       }"
     />
   </ApolloQuery>

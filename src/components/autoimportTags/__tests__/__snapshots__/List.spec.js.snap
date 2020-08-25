@@ -2,6 +2,7 @@
 
 exports[`List.vue has 3 results one is filtered 1`] = `
 <v-content-stub tag="main">
+  <payment-banner-stub></payment-banner-stub>
   <v-container-stub tag="div">
     <ol>
       <li>
@@ -46,6 +47,7 @@ exports[`List.vue has 3 results one is filtered 1`] = `
 
 exports[`List.vue has an error 1`] = `
 <v-content-stub tag="main">
+  <payment-banner-stub></payment-banner-stub>
   <v-container-stub tag="div">
     <ol>
       <li>
@@ -90,6 +92,7 @@ exports[`List.vue has an error 1`] = `
 
 exports[`List.vue has no results 1`] = `
 <v-content-stub tag="main">
+  <payment-banner-stub></payment-banner-stub>
   <v-container-stub tag="div">
     <ol>
       <li>
@@ -134,6 +137,7 @@ exports[`List.vue has no results 1`] = `
 
 exports[`List.vue is loading 1`] = `
 <v-content-stub tag="main">
+  <payment-banner-stub></payment-banner-stub>
   <q-empty-stub icon="" description="" loading="true"></q-empty-stub>
 </v-content-stub>
 `;

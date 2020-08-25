@@ -1,0 +1,13 @@
+query paymentBanner {
+  groupTagsList(count: 11) {
+    groupTags {
+      groupId
+      userId
+      hasTags
+    }
+  }
+  userSubscription {
+    id
+    planId
+  }
+}

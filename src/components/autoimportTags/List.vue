@@ -1,5 +1,6 @@
 <template>
   <v-content>
+    <payment-banner />
     <!-- Loading -->
     <q-empty
       v-if="$apollo.queries.groupTagsList.loading && groupTagsList === undefined"
@@ -108,12 +109,13 @@
   import QEmpty from '@/components/ui/QEmpty'
   import AppObserver from '@/components/common/AppObserver'
   import GroupTagDialogChip from '@/components/groupTag/GroupTagDialogChip'
+  import PaymentBanner from '@/components/layout/PaymentBanner'
   import _sortBy from 'lodash/sortBy'
   import { mapState, mapGetters } from 'vuex'
   import { filters } from '@/mixins'
 
   export default {
-    components: { GroupTagList, QEmpty, GroupTagDialogChip, AppObserver },
+    components: { GroupTagList, QEmpty, GroupTagDialogChip, AppObserver, PaymentBanner },
     mixins: [filters],
     data: () => ({
       groupTagsList: undefined,

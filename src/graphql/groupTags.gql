@@ -3,6 +3,7 @@ query autoimportTagList($tags: [String], $count: Int, $nextToken: String) {
     groupTags {
       groupId
       userId
+      hasTags
       tags
       preventTrigger
       useAnd

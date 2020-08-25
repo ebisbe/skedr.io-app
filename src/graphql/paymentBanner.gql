@@ -3,7 +3,7 @@ query paymentBanner {
     groupTags {
       groupId
       userId
-      tags
+      hasTags
     }
   }
   userSubscription {

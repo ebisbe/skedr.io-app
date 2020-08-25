@@ -156,30 +156,37 @@
       <v-card-actions>
         <v-spacer />
         <v-btn v-t="'btn.cancel'" color="primary" text @click="$emit('close')" />
-        <ApolloMutation
-          :mutation="require('@/graphql/mutations/updateGroupTagsList.gql')"
-          :variables="{
-            groupId: groupId,
-            tags: comboTags,
-            preventTrigger,
-            useAnd
-          }"
-          tag=""
-          @done="$emit('close')"
-        >
-          <template slot-scope="{ mutate, loading, error }">
-            <p v-if="error" v-t="'GroupTag.error_saving_tag'" />
-            <v-btn
-              v-else
-              ref="saveBtn"
-              v-t="'btn.save'"
-              :disabled="!canSave || loading"
-              :loading="loading"
-              color="primary"
-              @click="mutate()"
-            />
-          </template>
-        </ApolloMutation>
+        <check-subscription v-slot:default="{ data: { loading: loadingSubscription, hasAccess } }">
+          <v-btn v-if="!hasAccess" :to="{ name: 'Profile' }" color="primary">
+            Support skedr
+          </v-btn>
+          <ApolloMutation
+            v-else
+            :mutation="require('@/graphql/mutations/updateGroupTagsList.gql')"
+            :variables="{
+              groupId: groupId,
+              tags: comboTags,
+              preventTrigger,
+              useAnd
+            }"
+            tag=""
+            :update="updateCache"
+            @done="$emit('close')"
+          >
+            <template slot-scope="{ mutate, loading, error }">
+              <p v-if="error" v-t="'GroupTag.error_saving_tag'" />
+              <v-btn
+                v-else
+                ref="saveBtn"
+                v-t="'btn.save'"
+                :disabled="!canSave || loading || loadingSubscription || !hasAccess"
+                :loading="loading"
+                color="primary"
+                @click="mutate()"
+              />
+            </template>
+          </ApolloMutation>
+        </check-subscription>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -187,9 +194,10 @@
 <script>
   import { GroupTagDialogChip, GroupTagDialogImage } from '@/components/groupTag'
   import { filters } from '@/mixins'
+  import CheckSubscription from '@/components/common/CheckSubscription'
 
   export default {
-    components: { GroupTagDialogChip, GroupTagDialogImage },
+    components: { GroupTagDialogChip, GroupTagDialogImage, CheckSubscription },
     mixins: [filters],
     props: {
       groupTag: {
@@ -304,6 +312,20 @@
     methods: {
       remove(tagToRemove) {
         this.comboTags = this.comboTags.filter(tags => tags !== tagToRemove)
+      },
+      updateCache(store, { data: { updateGroupTagsList } }) {
+        const query = {
+          query: require('@/graphql/paymentBanner.gql')
+        }
+        // Read the query from cache
+        const data = store.readQuery(query)
+        // Mutate cache result
+        data.groupTagsList.groupTags.push(updateGroupTagsList)
+        // Write back to the cache
+        store.writeQuery({
+          ...query,
+          data
+        })
       }
     }
   }

@@ -12,7 +12,7 @@
           <v-icon>close</v-icon>
         </v-btn>
         <v-toolbar-title class="white--text">
-          {{ toolbarTitle } }
+          {{ toolbarTitle }}
         </v-toolbar-title>
         <v-spacer />
         <template #extension>

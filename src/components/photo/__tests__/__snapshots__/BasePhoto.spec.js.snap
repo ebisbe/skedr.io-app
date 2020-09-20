@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BasePhoto component prints base component 1`] = `
-<v-sheet-stub tag="div" tile="true" class="grey lighten-2 unselectable" style="position: relative;">
+<v-sheet-stub tile="true" tag="div" class="grey lighten-2 unselectable" style="position: relative;">
   <app-observer-stub options="[object Object]"></app-observer-stub> <span>header slot</span>
   <v-img-stub height="250" aspectratio="1" lazysrc="lazyUrl" options="[object Object]" position="center center" src="" transition="fade-transition" class="img">
     <v-layout-stub tag="div" fill-height="" align-center="" justify-center="" ma-0="">

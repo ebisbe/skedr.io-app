@@ -2,7 +2,7 @@
 
 exports[`FooterPhoto renders title and subtitle properties 1`] = `
 <v-container-stub tag="div" class="footer">
-  <v-list-stub tag="div" tile="true" twoline="true">
+  <v-list-stub tag="div" twoline="true">
     <v-list-item-stub activeclass="" tag="div">
       <v-list-item-content-stub>
         <v-list-item-title-stub class="white--text">
@@ -19,7 +19,7 @@ exports[`FooterPhoto renders title and subtitle properties 1`] = `
 
 exports[`FooterPhoto renders title and subtitle slots 1`] = `
 <v-container-stub tag="div" class="footer">
-  <v-list-stub tag="div" tile="true" twoline="true">
+  <v-list-stub tag="div" twoline="true">
     <v-list-item-stub activeclass="" tag="div">
       <v-list-item-content-stub>
         <v-list-item-title-stub class="white--text"><span>Slot title</span></v-list-item-title-stub> <span>Slot subtitle</span>

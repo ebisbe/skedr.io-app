@@ -16,7 +16,7 @@ exports[`UserProfile tests the snapshot with email verified 1`] = `
     </v-container-stub>
     <v-dialog-stub opendelay="0" closedelay="0" contentclass="" maxwidth="500" origin="center center" persistent="true" retainfocus="true" transition="dialog-transition" width="auto">
       <v-card-stub loaderheight="4" tag="div" class="elevation-12">
-        <v-toolbar-stub color="primary" tag="header" tile="true" extensionheight="48" src="">
+        <v-toolbar-stub color="primary" tag="header" extensionheight="48" src="">
           <v-toolbar-title-stub></v-toolbar-title-stub>
         </v-toolbar-stub>
         <v-card-text-stub class="px-6 pb-6 pt-4">
@@ -50,7 +50,7 @@ exports[`UserProfile tests the snapshot without the email verified 1`] = `
     </v-container-stub>
     <v-dialog-stub opendelay="0" closedelay="0" value="true" contentclass="" maxwidth="500" origin="center center" persistent="true" retainfocus="true" transition="dialog-transition" width="auto">
       <v-card-stub loaderheight="4" tag="div" class="elevation-12">
-        <v-toolbar-stub color="primary" tag="header" tile="true" extensionheight="48" src="">
+        <v-toolbar-stub color="primary" tag="header" extensionheight="48" src="">
           <v-toolbar-title-stub></v-toolbar-title-stub>
         </v-toolbar-stub>
         <v-card-text-stub class="px-6 pb-6 pt-4">

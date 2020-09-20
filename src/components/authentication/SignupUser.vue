@@ -106,9 +106,6 @@
         <router-link :to="{ name: 'ResetPassword' }" place="reset_password">
           {{ $t('ResetPassword.title') }}
         </router-link>
-        <router-link :to="{ name: 'Login', params: { demo: true } }" place="demo_account">
-          Demo Account
-        </router-link>
       </i18n>
       <p class="text-center mb-0 grey--text subtitle-1">
         {{ $t('AuthenticationFooter.already_account') }}

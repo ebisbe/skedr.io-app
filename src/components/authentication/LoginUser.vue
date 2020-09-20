@@ -61,14 +61,13 @@
     </v-card-actions>
 
     <i18n
-      path="AuthenticationFooter.reset_or_try_demo"
+      path="AuthenticationFooter.reset"
       tag="p"
       class="text-center mb-0 grey--text subtitle-1 pb-2"
     >
       <router-link :to="{ name: 'ResetPassword' }" place="reset_password">
         {{ $t('ResetPassword.title') }}
       </router-link>
-      <a place="demo_account" href="#" @click.prevent="setDemoAccount">Demo Account</a>
     </i18n>
     <p class="text-center mb-0 grey--text subtitle-1">
       {{ $t('AuthenticationFooter.not_account') }}
@@ -106,12 +105,6 @@
         return this.form.validUsername && this.form.validPassword
       }
     },
-    mounted() {
-      const { demo = false } = this.$route.params
-      if (demo === true) {
-        this.setDemoAccount()
-      }
-    },
     methods: {
       ...mapActions({
         loginUser: 'user/loginUser'
@@ -136,10 +129,6 @@
       },
       password(hasError) {
         this.form.validPassword = !hasError
-      },
-      setDemoAccount() {
-        this.form.username = 'info@skedr.io'
-        this.form.password = 'Passw0rd!'
       }
     }
   }

@@ -1,10 +1,9 @@
 {
   "AuthenticationFooter": {
     "already_account": "Already have an account?",
-    "demo_account": "Demo Account",
     "login": "Login",
     "not_account": "Do not have an account yet?",
-    "reset_or_try_demo": "{reset_password} | Try our {demo_account}",
+    "reset": "{reset_password}",
     "sign_up": "Signup"
   },
   "AutoimportTags": {

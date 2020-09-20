@@ -4,7 +4,7 @@
     "demo_account": "Cuenta de prueba",
     "login": "Iniciar sesión",
     "not_account": "¿Aun no tienes una cuenta?",
-    "reset_or_try_demo": "{reset_password} | Prueba nuestra {demo_account}",
+    "reset": "{reset_password}",
     "sign_up": "Regístrate"
   },
   "AutoimportTags": {

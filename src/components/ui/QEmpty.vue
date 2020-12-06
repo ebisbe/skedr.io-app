@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import * as Sentry from '@sentry/browser'
+  import * as Sentry from '@sentry/vue'
 
   export default {
     name: 'Empty',

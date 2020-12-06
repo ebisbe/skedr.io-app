@@ -13,7 +13,7 @@
         <q-empty v-if="loading && data === undefined" :loading="true" />
 
         <!-- Error -->
-        <q-empty v-else-if="error" :error="true" icon="photo" />
+        <q-empty v-else-if="error" :description="error" :error="true" icon="photo" />
 
         <!-- Result -->
         <v-container v-else-if="data" fluid grid-list-md>

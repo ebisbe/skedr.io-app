@@ -48,7 +48,7 @@
             <q-empty v-if="isLoading === 1 && !fetchingMore" class="py-12 my-12" loading />
 
             <!-- Error -->
-            <q-empty v-else-if="error" :description="$t('ShareDialog.no_results')" icon="search" />
+            <q-empty v-else-if="error" :description="error" icon="search" />
 
             <!-- Result -->
             <v-list v-else-if="data && data.searchGroups.groups.length > 0" :style="style" two-line>
@@ -109,7 +109,7 @@
             <q-empty v-if="isLoading === 1 && !fetchingMore" class="py-12 my-12" loading />
 
             <!-- Error -->
-            <q-empty v-else-if="error" :description="$t('ShareDialog.no_results')" icon="search" />
+            <q-empty v-else-if="error" :description="error" icon="search" />
 
             <!-- Result -->
             <v-list v-else-if="data" :style="style" two-line>

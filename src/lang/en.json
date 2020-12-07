@@ -125,6 +125,8 @@
     "reset": "reset",
     "save": "save",
     "send": "send",
+    "next": "next",
+    "previous":"previous",
     "signup": "sign up",
     "submit_payment": "submit payment",
     "update": "update",

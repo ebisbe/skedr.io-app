@@ -125,6 +125,8 @@
     "resend": "Renvoyer",
     "reset": "Réinitialiser",
     "save": "sauvegarder",
+    "next": "suivant",
+    "previous":"précédent",
     "send": "Envoyer",
     "signup": "S'inscrire",
     "submit_payment": "soumettre le paiement",

@@ -1,6 +1,6 @@
 <template>
   <check-subscription v-slot:default="{ data: { loading, hasSubscription, configuredGroups } }">
-    <v-banner v-if="!loading && !hasSubscription">
+    <v-banner v-if="!loading && !hasSubscription" single-line>
       <template v-if="configuredGroups > 9">
         You reached your maximum configured groups for the free tier.
       </template>

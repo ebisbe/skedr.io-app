@@ -1,53 +1,58 @@
-import { InMemoryCache } from 'apollo-cache-inmemory/lib/index'
-import { HttpLink } from 'apollo-link-http/lib/index'
-import { setContext } from 'apollo-link-context'
-import { ApolloClient } from 'apollo-client/index'
-import VueApollo from 'vue-apollo'
-import Vue from 'vue'
-import Auth from '@aws-amplify/auth'
 import exports from './aws-exports'
 const uri = exports.aws_appsync_graphqlEndpoint
 
-const httpLink = new HttpLink({
-  // You should use an absolute URL here
-  uri
-})
+import Vue from 'vue'
 
-const authLink = setContext(async (_, { headers }) => {
-  const token = (await Auth.currentAuthenticatedUser()).signInUserSession.accessToken.jwtToken
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? token : ''
-    }
+import AWSAppSyncClient from 'aws-appsync'
+import { createAppSyncLink } from 'aws-appsync'
+import VueApollo from 'vue-apollo'
+import { Auth } from 'aws-amplify'
+import { createHttpLink } from 'apollo-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory/lib/index'
+
+const fetcher = (...args) => {
+  return window.fetch(...args)
+}
+
+const config = {
+  //Solves doble update on mutations
+  disableOffline: true,
+  region: 'eu-west-1',
+  auth: {
+    type: 'AMAZON_COGNITO_USER_POOLS',
+    jwtToken: async () => (await Auth.currentSession()).getIdToken().getJwtToken()
+  },
+  complexObjectsCredentials: async () => await Auth.currentCredentials(),
+  resultsFetcherLink: createHttpLink({
+    uri: uri,
+    fetch: fetcher
+  })
+}
+
+const client = new AWSAppSyncClient(
+  {},
+  {
+    link: createAppSyncLink(config)
+    // cache: new InMemoryCache({
+    //   dataIdFromObject: object => {
+    //     switch (object.__typename) {
+    //       case 'GroupTag':
+    //         return `${object.userId}-${object.groupId}`
+    //       case 'ScheduledPhoto':
+    //         return `${object.groupId}-${object.photoId}`
+    //       default:
+    //         return object.id || object._id
+    //     }
+    //   }
+    // })
   }
-})
-
-// Create the apollo client
-const apolloClient = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache({
-    dataIdFromObject: object => {
-      switch (object.__typename) {
-        case 'GroupTag':
-          return `${object.userId}-${object.groupId}`
-        case 'ScheduledPhoto':
-          return `${object.groupId}-${object.photoId}`
-        default:
-          return object.id || object._id
-      }
-    }
-  }),
-  connectToDevTools: true
-})
+)
 
 const apolloProvider = new VueApollo({
-  defaultClient: apolloClient,
+  defaultClient: client,
   defaultOptions: {
     $query: {
-      loadingKey: 'loading',
-      fetchPolicy: 'cache-and-network',
-      errorPolicy: 'all'
+      fetchPolicy: 'cache-and-network'
     }
   }
 })

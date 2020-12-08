@@ -1,42 +1,33 @@
 <template>
   <v-content>
     <ApolloQuery
+      v-slot="{ result: { error, data, loading } }"
       :query="require('@/graphql/photostream.gql')"
       :variables="{
-        page: 1,
+        page,
         perPage
       }"
       tag=""
     >
-      <template slot-scope="{ result: { error, data, loading }, query }">
-        <!-- Loading -->
-        <q-empty v-if="loading && data === undefined" :loading="true" />
-
-        <!-- Error -->
+      <template>
+        <q-empty v-if="loading" :loading="true" />
         <q-empty v-else-if="error" :description="error" :error="true" icon="photo" />
 
-        <!-- Result -->
         <v-container v-else-if="data" fluid grid-list-md>
           <v-layout row wrap>
             <v-flex v-for="photo in data.userPhotos.photos" :key="photo.id" md3 sm4 xs12>
               <photo :photo="photo" />
             </v-flex>
-            <v-flex xs12>
-              <v-btn
-                :disabled="!showMoreEnabled || loading"
-                block
-                color="accent"
-                @click="showMore(query)"
-              >
-                <app-observer @intersect="showMore(query)" />
-                <v-progress-circular v-if="loading" indeterminate color="grey" />
-                <span v-else> &nbsp;{{ $t('btn.load_more_photos') }} </span>
-              </v-btn>
-            </v-flex>
+
+            <v-pagination
+              v-model="page"
+              class="mx-auto"
+              :length="data.userPhotos.pages"
+              total-visible="11"
+            ></v-pagination>
           </v-layout>
         </v-container>
 
-        <!-- No result -->
         <q-empty v-else :description="$t('Layout.photostream_empty')" icon="photo" />
       </template>
     </ApolloQuery>
@@ -45,12 +36,11 @@
 <script>
   import Photo from '@/components/photo/Photo'
   import QEmpty from '@/components/ui/QEmpty'
-  import AppObserver from '@/components/common/AppObserver'
   import { mapState, mapMutations } from 'vuex'
 
   export default {
     name: 'Photos',
-    components: { Photo, QEmpty, AppObserver },
+    components: { Photo, QEmpty },
     data() {
       return {
         page: 1,
@@ -66,7 +56,7 @@
           case this.$vuetify.breakpoint.sm:
             value = 9
           case this.$vuetify.breakpoint.mdAndUp:
-            value = 16
+            value = 12
         }
         return value
       },
@@ -79,27 +69,7 @@
     methods: {
       ...mapMutations({
         clearPool: 'pool/clear'
-      }),
-      showMore(query) {
-        // Fetch more data and transform the original result
-        query.fetchMore({
-          variables: {
-            page: ++this.page,
-            perPage: this.perPage
-          },
-          updateQuery: (
-            { userPhotos: { photos: prevPhotos } },
-            { fetchMoreResult: { userPhotos } }
-          ) => {
-            this.showMoreEnabled = userPhotos.page !== userPhotos.pages
-            userPhotos.photos = [...prevPhotos, ...userPhotos.photos]
-            return {
-              __typename: userPhotos.__typename,
-              userPhotos
-            }
-          }
-        })
-      }
+      })
     }
   }
 </script>

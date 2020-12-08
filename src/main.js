@@ -1,6 +1,5 @@
 require('intersection-observer')
 import Vue from 'vue'
-const isProd = process.env.NODE_ENV === 'production'
 
 import vuetify from './plugins/vuetify'
 import './plugins/errorLoggin'

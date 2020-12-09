@@ -21,6 +21,7 @@ query profile {
   userSubscription {
     id
     planId
+    planStatus
     status
     error
   }

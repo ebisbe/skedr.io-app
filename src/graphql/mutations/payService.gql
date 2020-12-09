@@ -2,6 +2,7 @@ mutation payService($name: String!, $email: String!, $source: String!, $coupon: 
   payService(name: $name, email: $email, source: $source, coupon: $coupon, planId: $planId) {
     id
     planId
+    planStatus
     status
     error
   }

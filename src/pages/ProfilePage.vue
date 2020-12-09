@@ -3,16 +3,36 @@
     <v-container>
       <user-profile />
       <v-card class="mb-6">
-        <ApolloQuery :query="require('@/graphql/plans.gql')" tag="">
-          <template slot-scope="{ result: { error, data, loading } }">
+        <ApolloQuery
+          v-slot="{
+            result: {
+              error,
+              data,
+              loading
+            }
+          }"
+          :query="require('@/graphql/plans.gql')"
+          tag=""
+        >
+          <template>
             <v-container v-if="error">
               {{ error }}
             </v-container>
-            <v-container v-else>
-              <h1 v-t="'Profile.title'" />
-              <div v-if="data && data.userSubscription && data.userSubscription.status">
+            <v-container v-else-if="data">
+              <h1>
+                {{ $t('Profile.title') }}
+                <span v-if="data.userSubscription.planStatus">
+                  [{{ data.userSubscription.planStatus }}]
+                </span>
+              </h1>
+              <div
+                v-if="
+                  data.userSubscription &&
+                    ['active', 'trialing'].includes(data.userSubscription.planStatus)
+                "
+              >
                 <p v-t="'Profile.subscribed'" />
-                <div v-if="data.userSubscription.planId">
+                <div>
                   <h2 v-t="'Profile.subtitle'" />
                   <v-list>
                     <template
@@ -50,70 +70,74 @@
               </div>
               <div v-else>
                 <p v-t="'Profile.not_subscribed'" />
-              </div>
-              <div v-if="data && data.plans">
-                <h2 v-t="'Profile.subtitle'" />
-                <v-list>
-                  <v-list-item
-                    v-for="plan in data.plans"
-                    :key="plan.id"
-                    ripple
-                    @click="selectedPlan = plan.id"
-                  >
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        {{ plan.nickname }}: {{ parseInt(plan.amount) / 100 }}&euro;
-                      </v-list-item-title>
-                      <v-list-item-subtitle>
-                        {{
-                          $tc('Profile.plan_info', plan.interval, {
-                            period: plan.interval,
-                            count: plan.interval_count,
-                            trialDays: plan.trial_period_days
-                          })
-                        }}
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
+                <div v-if="data.plans">
+                  <h2 v-t="'Profile.subtitle'" />
+                  <v-list>
+                    <v-list-item
+                      v-for="plan in data.plans"
+                      :key="plan.id"
+                      ripple
+                      @click="selectedPlan = plan.id"
+                    >
+                      <v-list-item-content>
+                        <v-list-item-title>
+                          {{ plan.nickname }}: {{ parseInt(plan.amount) / 100 }}&euro;
+                        </v-list-item-title>
+                        <v-list-item-subtitle>
+                          {{
+                            $tc('Profile.plan_info', plan.interval, {
+                              period: plan.interval,
+                              count: plan.interval_count,
+                              trialDays: plan.trial_period_days
+                            })
+                          }}
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
 
-                    <v-list-item-action>
-                      <v-btn icon @click="selectedPlan = plan.id">
-                        <v-icon v-if="selectedPlan === plan.id" color="green">
-                          check_circle
-                        </v-icon>
-                        <v-icon v-else>check_circle</v-icon>
-                      </v-btn>
-                    </v-list-item-action>
-                  </v-list-item>
-                </v-list>
-              </div>
-              <div v-if="data && data.userSubscription.status === false">
-                <v-form>
-                  <h2 v-t="'Profile.payment_details'" />
-                  <v-layout row wrap>
-                    <v-flex xs12 sm8>
-                      <card
-                        :class="{ complete }"
-                        :options="stripeOptions"
-                        :stripe="stripe"
-                        class="stripe-card"
-                        @change="complete = $event.complete"
-                      />
-                    </v-flex>
-                    <v-flex xs12 sm3 offset-sm1>
-                      <v-btn
-                        v-t="'btn.submit_payment'"
-                        :disabled="!complete || !selectedPlan"
-                        :loading="loading"
-                        block
-                        color="primary"
-                        @click="pay"
-                      />
-                    </v-flex>
-                    <v-flex xs12 sm2 offset-sm10>
-                      <img src="/img/powered_by_stripe.png" class="right" alt="Powered by stripe" />
-                    </v-flex>
-                  </v-layout>
-                </v-form>
+                      <v-list-item-action>
+                        <v-btn icon @click="selectedPlan = plan.id">
+                          <v-icon v-if="selectedPlan === plan.id" color="green">
+                            check_circle
+                          </v-icon>
+                          <v-icon v-else>check_circle</v-icon>
+                        </v-btn>
+                      </v-list-item-action>
+                    </v-list-item>
+                  </v-list>
+                </div>
+                <div v-if="data.userSubscription && data.userSubscription.status === false">
+                  <v-form>
+                    <h2 v-t="'Profile.payment_details'" />
+                    <v-layout row wrap>
+                      <v-flex xs12 sm8>
+                        <card
+                          :class="{ complete }"
+                          :options="stripeOptions"
+                          :stripe="stripe"
+                          class="stripe-card"
+                          @change="complete = $event.complete"
+                        />
+                      </v-flex>
+                      <v-flex xs12 sm3 offset-sm1>
+                        <v-btn
+                          v-t="'btn.submit_payment'"
+                          :disabled="!complete || !selectedPlan"
+                          :loading="loading"
+                          block
+                          color="primary"
+                          @click="pay"
+                        />
+                      </v-flex>
+                      <v-flex xs12 sm2 offset-sm10>
+                        <img
+                          src="/img/powered_by_stripe.png"
+                          class="right"
+                          alt="Powered by stripe"
+                        />
+                      </v-flex>
+                    </v-layout>
+                  </v-form>
+                </div>
               </div>
             </v-container>
           </template>

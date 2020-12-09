@@ -6,13 +6,13 @@
     <slot
       :data="{
         loading,
-        hasSubscription: data && data.userSubscription ? data.userSubscription.planId !== '' : null,
+        hasSubscription: hasSubscription(data),
         configuredGroups: data && data.groupTagsList ? configuredGroups(data.groupTagsList) : null,
         noAccess:
           data &&
           data.userSubscription &&
           data.groupTagsList &&
-          data.userSubscription.planId === '' &&
+          !hasSubscription(data) &&
           configuredGroups(data.groupTagsList) > 9
       }"
     />
@@ -21,6 +21,13 @@
 <script>
   export default {
     methods: {
+      hasSubscription(data) {
+        return (
+          data &&
+          data.userSubscription &&
+          ['active', 'trialing'].includes(data.userSubscription.planStatus)
+        )
+      },
       configuredGroups(groupTagsList) {
         if (groupTagsList === undefined) {
           return undefined

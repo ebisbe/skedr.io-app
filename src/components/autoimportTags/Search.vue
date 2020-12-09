@@ -9,19 +9,20 @@
       />
     </v-container>
     <ApolloQuery
+      v-slot="{ result: { error, data, loading } }"
       :query="require('@/graphql/searchGroups.gql')"
       :variables="{
         text: search,
-        page: 1,
+        page,
         perPage,
         userId: joinedGroups ? userId : undefined,
         photoId: ''
       }"
       tag=""
     >
-      <template slot-scope="{ result: { error, data, loading }, query }">
+      <template>
         <!-- Loading -->
-        <q-empty v-if="loading && data === undefined" :loading="true" />
+        <q-empty v-if="loading" :loading="true" />
 
         <!-- Error -->
         <q-empty v-else-if="error" :description="error" :error="true" icon="photo" />
@@ -84,17 +85,49 @@
               </v-list>
             </v-card-text>
           </v-card>
-          <v-flex class="mt-3">
+          <v-flex v-if="data.searchGroups.pages" class="mt-3">
+            <v-pagination
+              v-model="page"
+              class="mx-auto"
+              :length="data.searchGroups.pages"
+              total-visible="11"
+            ></v-pagination>
+          </v-flex>
+          <v-flex v-else class="mt-3">
             <v-btn
-              :disabled="!showMoreEnabled || loading"
-              block
               color="accent"
-              @click="fetchMore(query)"
+              :disabled="page - 1 < 1"
+              class="relative items-center"
+              @click="page--"
             >
-              <app-observer @intersect="fetchMore(query)" />
-              <v-progress-circular v-if="loading" indeterminate color="grey" />
-              <span v-else> &nbsp;{{ $t('btn.load_more_groups') }} </span>
+              <span> &nbsp;{{ $t('btn.previous') }} </span>
             </v-btn>
+
+            <ApolloQuery
+              v-slot="{ result: { data: checkNext, loading: prefetchingData } }"
+              :query="require('@/graphql/searchGroups.gql')"
+              tag=""
+              :variables="{
+                text: search,
+                page: page + 1,
+                perPage,
+                userId: joinedGroups ? userId : undefined,
+                photoId: ''
+              }"
+            >
+              <v-btn
+                color="accent"
+                :disabled="
+                  prefetchingData === true ||
+                    checkNext === null ||
+                    !checkNext.searchGroups.groups.length
+                "
+                class="ml-3 relative items-center"
+                @click="page++"
+              >
+                <span> &nbsp;{{ $t('btn.next') }} </span>
+              </v-btn>
+            </ApolloQuery>
           </v-flex>
         </v-container>
 
@@ -117,15 +150,13 @@
   import ConfirmDialog from '@/components/autoimportTags/ConfirmDialog'
   import QEmpty from '@/components/ui/QEmpty'
   import { mapState, mapGetters } from 'vuex'
-  import AppObserver from '@/components/common/AppObserver.vue'
 
   export default {
-    components: { GroupTagList, QEmpty, ConfirmDialog, AppObserver },
+    components: { GroupTagList, QEmpty, ConfirmDialog },
     data: () => ({
       joinedGroups: true,
       page: 1,
-      perPage: 15,
-      showMoreEnabled: true
+      perPage: 10
     }),
     computed: {
       ...mapState({
@@ -133,29 +164,12 @@
         search: state => state.search
       })
     },
-    methods: {
-      fetchMore(query) {
-        query.fetchMore({
-          variables: {
-            page: ++this.page,
-            perPage: this.perPage,
-            text: this.search,
-            userId: this.joinedGroups ? this.userId : undefined
-          },
-          // Transform the previous result with new data
-          updateQuery: (
-            { searchGroups: { groups: prev } },
-            { fetchMoreResult: { searchGroups } }
-          ) => {
-            this.showMoreEnabled =
-              searchGroups.pages !== null && searchGroups.page >= searchGroups.pages
-            searchGroups.groups = [...prev, ...searchGroups.groups]
-            return {
-              __typename: searchGroups.__typename,
-              searchGroups
-            }
-          }
-        })
+    watch: {
+      search() {
+        this.page = 1
+      },
+      joinedGroups() {
+        this.page = 1
       }
     }
   }

@@ -1,6 +1,5 @@
 require('intersection-observer')
 import Vue from 'vue'
-const isProd = process.env.NODE_ENV === 'production'
 
 import vuetify from './plugins/vuetify'
 import './plugins/errorLoggin'
@@ -13,8 +12,6 @@ import router from './router'
 import store from './store'
 import Amplify from '@aws-amplify/core'
 
-// import API so Amplify can configure it on load
-import API from '@aws-amplify/api'
 Amplify.configure(aws_exports)
 Vue.config.productionTip = false
 

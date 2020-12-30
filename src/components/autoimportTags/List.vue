@@ -58,9 +58,7 @@
             >
               <v-btn
                 color="accent"
-                :disabled="
-                  prefetchingData === true || checkNext === null || !checkNext.groupTags.length
-                "
+                :disabled="prefetchingData === true || checkNext === null || !checkNext.nextToken"
                 class="ml-3 relative items-center"
                 @click="pageTokens.push(data.nextToken)"
               >
@@ -100,6 +98,11 @@
         return Object.entries(this.tagsFilter)
           .filter(object => object[1])
           .map(object => object[0])
+      }
+    },
+    watch: {
+      filteredTags() {
+        this.pageTokens = [null]
       }
     }
   }

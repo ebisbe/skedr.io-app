@@ -16,7 +16,7 @@
       <template>
         <q-empty v-if="loading" :loading="true" />
         <q-empty v-else-if="error" :description="error" :error="true" icon="photo" />
-        <v-container v-else>
+        <v-container v-else-if="data">
           <v-card>
             <v-list
               :three-line="$vuetify.breakpoint.name === 'xs'"

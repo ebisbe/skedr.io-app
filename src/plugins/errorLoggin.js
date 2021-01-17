@@ -13,10 +13,9 @@ if (isProd) {
   })
 
   LogRocket.init('zye3nm/skedrio-prod', { rootHostname: 'skedr.io' })
-  Sentry.configureScope(scope => {
-    scope.addEventProcessor(async event => {
-      event.extra.sessionURL = LogRocket.recordingURL
-      return event
+  LogRocket.getSessionURL(sessionURL => {
+    Sentry.configureScope(scope => {
+      scope.setExtra('sessionURL', sessionURL)
     })
   })
 }

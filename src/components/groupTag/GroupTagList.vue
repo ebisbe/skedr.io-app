@@ -3,12 +3,22 @@
     <v-divider v-if="useDivider" />
     <v-list-item :key="group.id" :ripple="false" link>
       <v-list-item-avatar>
-        <img :src="group.icon" />
+        <a :href="`https://www.flickr.com/groups/${group.id}`" target="_blank">
+          <img :src="group.icon" />
+        </a>
       </v-list-item-avatar>
       <v-list-item-content>
         <v-list-item-title>
           <photo-limit-opt-out-message :opt-out="group.photoLimitOptOut" />
-          <strong>{{ group.title }}</strong>
+          <strong>
+            <a
+              :href="`https://www.flickr.com/groups/${group.id}`"
+              target="_blank"
+              style="text-decoration:none;"
+            >
+              {{ group.title }}
+            </a>
+          </strong>
         </v-list-item-title>
         <v-list-item-subtitle>
           <v-layout wrap>

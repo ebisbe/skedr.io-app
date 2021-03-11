@@ -1,5 +1,5 @@
 query paymentBanner {
-  groupTagsList(count: 11) {
+  groupTagsList(count: 11, tags: []) {
     groupTags {
       groupId
       userId

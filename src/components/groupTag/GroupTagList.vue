@@ -70,7 +70,8 @@
                       :variables="{
                         groupId: group.id,
                         tags: [tag.name],
-                        preventTrigger: true
+                        preventTrigger: true,
+                        useAnd: false
                       }"
                       tag=""
                       @done="$emit('close')"
